@@ -1,0 +1,14 @@
+#header-wrap, #footer-wrap {
+	position: absolute;
+}
+
+#footer-wrap {
+	bottom: -1px;
+}
+
+#ie6-container-wrap {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color:#FFF;
+}
