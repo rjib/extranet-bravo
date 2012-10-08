@@ -1,0 +1,184 @@
+@charset "utf-8";
+/* CSS Document */
+
+.red {  background: red;    }
+
+
+.azul
+    { color:#005DB7;}
+
+body{
+    background:#fcfcfc;
+    font-family:'Trebuchet MS', sans-serif;
+}
+
+input
+    {
+    font-size: 11pt;
+	font-weight:normal;
+    }
+    
+#quadro-login{
+    margin-top:10px;
+    padding:10px;
+    background:#FFFFFF;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 1px 1px 7px 0px #e7e7e7;
+    -moz-box-shadow: 1px 1px 7px 0px #e7e7e7;
+    box-shadow: 1px 1px 7px 0px #e7e7e7;
+}
+
+.box-login{
+    margin-bottom:30px;
+    padding:50px 0px 20px 0px;
+    background:#fbfbfb;
+    border:solid 1px #f3f3f3;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.logoextra a{
+    display:block;
+    width:250px;
+    height:140px;
+	background:url(img/logo_bravo.jpg) no-repeat;
+    text-indent:-99999px;	
+}
+
+h1, h2, h3, p, span
+    {
+    color:#555;
+    }
+
+h3  {
+    text-align:right;
+    }
+
+
+.add-on
+    {
+    display: inline-block;
+    width: auto;
+    min-width: 16px;
+    height: 19px;
+    padding: 4px 4px;
+    font-weight:bold;
+    line-height: 18px;
+    text-align: center;
+    text-shadow: 0 1px 0 #ffffff;
+    vertical-align: middle;
+   /* background-color: #eeeeee; junior*/
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px 0 0 3px;
+    -moz-border-radius: 3px 0 0 3px;
+    border-radius: 3px 0 0 3px;
+    margin-right: -3px;
+    background-color:#0088dd;
+    border:solid 1px #0077cc;
+    color:#fff;
+    text-shadow:1px 1px 1px #003399;
+    }
+
+
+.table-login th,
+.table-login td
+    {
+    width: 80%;
+    border: none;
+    padding:5px 0px;
+    vertical-align: middle;
+    text-align: right;
+    }
+.table-login tbody tr:hover th,
+.table-login tbody tr:hover td
+    {/*background-color:#FBFBFB; junior*/}
+
+#quadro-cadastro p
+    {
+    text-align:center;
+    width:100%;
+    font-size:15px !important;
+    }
+
+
+form td.codmem input /*campo de Codigo de Membro*/
+    {
+    width: 200px;
+ 	height: 18px; 
+    float: right;
+    margin: 0px;
+    padding-top: 5px;
+    text-align: center;
+    background: #FFF;
+    font-size: 12pt;
+    border:solid 1px #babfca !important;
+   }
+
+form td.pwd input /*campo de senha*/
+    {
+    width: 200px;
+    height: 17px; 
+    padding: 5px;
+    float: right;
+    margin: 0px;
+    text-align: center;
+    border:solid 1px #babfca !important;
+    background: #FFF;
+    font-size: 12pt;
+    }	
+    
+div.digmem /*campo de Digito*/
+    {
+    width: 30px;
+    height:22px; 
+    float: left;
+    margin:6px 0px 4px 4px;
+    padding-top:4px;
+    font-weight: bold;
+    font-size: 12pt;
+    text-align: center;
+    border:solid 1px #babfca !important;
+    background: #FFF;
+    -webkit-border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    border-radius: 3px !important; 
+    }
+
+.table-login input:focus{
+    /*border-color:#0077cc !important; junior*/
+}
+
+.aleft
+    {
+    text-align: left;
+    }
+.fright
+    {
+    float: right;    
+    }
+
+.submit-off
+    {
+    /*background-color: #CCCCCC; junior*/
+    }
+
+.conectar{
+    margin-left:-10px !important;
+}
+
+.rodape{
+    margin-top:30px;
+}
+
+.rodape p{
+    font-weight:normal !important;
+    text-align:center;
+    color:#dd0000;
+    font-weight:bold;
+}
+
+.center {text-align: center;}
+    
