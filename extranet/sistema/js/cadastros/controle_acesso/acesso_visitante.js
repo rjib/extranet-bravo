@@ -6,6 +6,8 @@ $(document).ready(function(){
 	attrCallBack: 'rel',
 	identifier: 'pessoa'
 	},nomeVisitanteCallback);
+
+	
 });
 	
 function nomeVisitanteCallback(par){
@@ -29,8 +31,8 @@ $(function($) {
 		   
 	$("#formularioAcessoVisitante").dialog({
 		autoOpen: false,
-		height: 750,
-		width: 800,
+		height: 290,
+		width: 530,
 		modal: true,
 		resizable: false,
 		title: 'Adicionar novo Acesso Visitante',

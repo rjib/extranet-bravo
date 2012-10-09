@@ -31,7 +31,20 @@
 			  </script>";
 	}
 	
-	$sqlCartaoIdentificacao = mysql_query("SELECT CO_CARTAO_IDENTIFICACAO, NU_CARTAO_IDENTIFICACAO FROM tb_cartao_identificacao ORDER BY NU_CARTAO_IDENTIFICACAO")
+	$sqlCartaoIdentificacao = mysql_query("SELECT CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO,
+												  CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO
+											FROM
+    									   			tb_cartao_identificacao CARTAO_IDENTIFICACAO
+											WHERE
+    										NOT EXISTS(SELECT null 
+														FROM tb_acesso_visitante ACESSO_VISITANTE 
+														WHERE ACESSO_VISITANTE.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO 
+														AND ACESSO_VISITANTE.HR_SAIDA = '')
+											AND NOT EXISTS(SELECT null 
+														   FROM tb_acesso_consultor ACESSO_CONSULTOR
+        												   WHERE ACESSO_CONSULTOR.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
+               											   AND ACESSO_CONSULTOR.HR_SAIDA = '')
+											ORDER BY CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO")
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);
@@ -92,7 +105,7 @@
 	              <td>
                   <div id="formularioAcessoVisitante">
                             <form id="formularioAcessoVisitante" action="javascript:func()" method="post">
-		                    <table width="700" border="0" cellspacing="2" cellpadding="3">
+		                    <table width="490" border="0" cellspacing="2" cellpadding="3">
 		                        <tr>
 		                          <td width="142" align="left"><font class="FONT04"><b>Visitante:</b></font></td>
 		                          <td colspan="3" align="left">
@@ -108,12 +121,12 @@
 		                          <td align="left"><font class="FONT04"><b>Hora Entrada:</b></font></td>
 		                          <td colspan="3" align="left">
                                   <input title="Hora Entrada" type="text" name="horaEntrada" id="horaEntrada" class="INPUT03" size="4" maxlength="4" /></td>
-	                          </tr>                              
-		                        <tr>
+	                          </tr>                               
+							  <tr >
 		                          <td align="left"><font class="FONT04"><b>Tipo Veiculo:</b></font></td>
 		                          <td width="149" align="left">
                                   <select title="Tipo Veiculo" name="tipoVeiculo" id="tipoVeiculo" class="SELECT01">
-		                            <option value="0">Selecione...</option>
+		                            <option value="0">Selecione...</option>                                    
 		                            <?php
                                         while($rowTipoVeiculo=mysql_fetch_array($sqlTipoVeiculo)){ 	
                                             echo "<option value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
@@ -124,8 +137,8 @@
 		                          <td width="112" align="left"><font class="FONT04"><b>Placa Veiculo:</b></font></td>
 		                          <td width="263" align="left"><input title="Placa Veiculo" type="text" name="placaVeiculo" id="placaVeiculo" class="INPUT03" size="8" maxlength="8"/></td>
                               </tr>
-                              </div>
-		                        <tr>
+                              
+                              <tr>
 		                          <td align="left"><font class="FONT04"><b>N&uacute;mero Cart&atilde;o:</b></font></td>
 		                          <td colspan="3" align="left">
                                   <select title="N&uacute;mero Cart&atilde;o" name="numeroCartao" id="numeroCartao" class="SELECT01">
