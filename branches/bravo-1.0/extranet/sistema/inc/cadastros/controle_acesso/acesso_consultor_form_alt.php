@@ -79,6 +79,8 @@
 			  </script>";
 	}
 	
+	
+	
 ?>
 <script type="text/javascript" src="js/cadastros/controle_acesso/acesso_consultor.js"></script>
 <form id="formularioAlterarAcessoConsultor" action="javascript:func()" method="post">
@@ -93,19 +95,19 @@
 		                          <td colspan="3" align="left"><input title="Data/Hora" name="dataCadastro" type="text" class="INPUT01" size="20" value="<?php echo $rowAcessoConsultor['DT_CADAS']; ?>" disabled="disabled"/></td>
     </tr>
 		                        <tr>
-		                          <td width="231" align="left"><font class="FONT04"><b>Consultor:</b></font></td>
+		                          <td width="100" align="left"><font class="FONT04"><b>Consultor:</b></font></td>
 		                          <td colspan="3" align="left"><input title="Consultor" name="nomeConsultorAlterar" id="nomeConsultorAlterar" type="text" class="INPUT01" size="60" maxlength="80" value="<?php echo $rowAcessoConsultor['NOME_PESSOA']; ?>" disabled="disabled"/></td>
 	                          </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Hora Entrada:</b></font></td>
-		                          <td width="155" align="left"><input title="Hora Entrada" type="text" name="horaEntradaAlterar" id="horaEntradaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoConsultor['HR_ENTRADA']; ?>" /></td>
-		                          <td width="142" align="left"><font class="FONT04"><b>Hora Saída:</b></font></td>
-		                          <td width="768" align="left"><input title="Hora Saída" type="text" name="horaSaidaAlterar" id="horaSaidaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoConsultor['HR_SAIDA']; ?>" disabled="disabled"/></td>
+		                          <td width="114" align="left"><input title="Hora Entrada" type="text" name="horaEntradaAlterar" id="horaEntradaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoConsultor['HR_ENTRADA']; ?>" /></td>
+		                          <td width="104" align="left"><font class="FONT04"><b>Hora Saída:</b></font></td>
+		                          <td width="321" align="left"><input title="Hora Saída" type="text" name="horaSaidaAlterar" id="horaSaidaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoConsultor['HR_SAIDA']; ?>" disabled="disabled"/></td>
     </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Tipo Veiculo:</b></font></td>
 		                          <td align="left">
-                                  <select title="Tipo Veiculo" name="tipoVeiculoAlterar" id="tipoVeiculoAlterar" class="SELECT01">
+                                  <select title="Tipo Veiculo" onchange="desabilitaPlacaAlterar();" name="tipoVeiculoAlterar" id="tipoVeiculoAlterar" class="SELECT01">
 		                            <option value="0">Selecione...</option>
 		                            <?php
                                         while($rowTipoVeiculo=mysql_fetch_array($sqlTipoVeiculo)){ 	
@@ -118,7 +120,7 @@
                                     ?>
 	                              </select>
                                   </td>
-		                          <td align="left"><font class="FONT04"><b>Placa Veiculo:</b></font></td>
+		                          <td align="left"><font class="FONT04"><b id="placaVeiculoLabelAlterar">Placa Veiculo:</b></font></td>
 		                          <td align="left"><input title="Placa Veiculo" type="text" name="placaVeiculoAlterar" id="placaVeiculoAlterar" class="INPUT03" size="8" maxlength="8" value="<?php echo $rowAcessoConsultor['PL_VEICULO']; ?>"/></td>
     </tr>
 		                        <tr>

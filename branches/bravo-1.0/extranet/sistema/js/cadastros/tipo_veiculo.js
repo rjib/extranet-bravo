@@ -1,4 +1,12 @@
-$(function($) {  
+$(function($) { 
+
+	$("input[name='exigePlacaSim']").click(function(){				
+				$("#exigePlacaNao").attr('checked', false); 				
+	});
+		
+		$("input[name='exigePlacaNao']").click(function(){
+				$("#exigePlacaSim").attr('checked', false); 
+	}); 
 		   
 	$("#formularioTipoVeiculo").dialog({
 		autoOpen: false,
@@ -13,7 +21,14 @@ $(function($) {
 				var nomeTipoVeiculo      = $("#nomeTipoVeiculo").val();
 				var descricaoTipoVeiculo = $("#descricaoTipoVeiculo").val();
 				
-				$.post('inc/cadastros/tipo_veiculo_ins.php', {nomeTipoVeiculo: nomeTipoVeiculo, descricaoTipoVeiculo: descricaoTipoVeiculo}, function(resposta) {
+				if($('#exigePlacaSim').is(':checked')){
+		  			  exigePlaca = "S";
+				}								
+				if($('#exigePlacaNao').is(':checked')){
+					exigePlaca = "N";
+				}
+				
+				$.post('inc/cadastros/tipo_veiculo_ins.php', {exigePlaca: exigePlaca, nomeTipoVeiculo: nomeTipoVeiculo, descricaoTipoVeiculo: descricaoTipoVeiculo}, function(resposta) {
 																																																																																																				
 						if (resposta != false) {
 							$('<p>' + resposta + '</p>').dialog({
@@ -105,11 +120,12 @@ $(function($) {
 	});
 	
 	$("a[name=alterarTipoVeiculo]").click(function (event){
+		
 		event.preventDefault();
 		$("#formularioAlterarTipoVeiculo").load("inc/cadastros/tipo_veiculo_form_alt.php?codigoTipoVeiculo="+$(this).attr("id"));
 		$("#formularioAlterarTipoVeiculo").dialog({
 			autoOpen: true,
-			height: 380,
+			height: 400,
 			width: 600,
 			modal: true,
 			resizable: false,
@@ -120,8 +136,16 @@ $(function($) {
 					var codigoTipoVeiculo           = $("#codigoTipoVeiculo").val();
 					var nomeTipoVeiculoAlterar      = $("#nomeTipoVeiculoAlterar").val();
 					var descricaoTipoVeiculoAlterar = $("#descricaoTipoVeiculoAlterar").val();
+					
+					
+					if($('#exigePlacaSimAlterar').is(':checked')){
+		  			  	exigePlaca = "S";
+					}								
+					if($('#exigePlacaNaoAlterar').is(':checked')){
+						exigePlaca = "N";
+					}
 											
-					$.post("inc/cadastros/tipo_veiculo_alt.php", {codigoTipoVeiculo: codigoTipoVeiculo, nomeTipoVeiculoAlterar: nomeTipoVeiculoAlterar, descricaoTipoVeiculoAlterar: descricaoTipoVeiculoAlterar}, function(resposta) {
+					$.post("inc/cadastros/tipo_veiculo_alt.php", {exigePlaca: exigePlaca, codigoTipoVeiculo: codigoTipoVeiculo, nomeTipoVeiculoAlterar: nomeTipoVeiculoAlterar, descricaoTipoVeiculoAlterar: descricaoTipoVeiculoAlterar}, function(resposta) {
 																																																																																																											
 					if (resposta != false) {
 						$("<p>" + resposta + "</p>").dialog({
@@ -143,6 +167,7 @@ $(function($) {
 							Ok: function() {
 								$("#formularioAlterarTipoVeiculo").dialog("close");
 								$(this).dialog("close");
+								
 							}
 						}
 						});																											
@@ -155,7 +180,8 @@ $(function($) {
 			}
 			},
 			close: function() {
-				$("#grid").load("inc/cadastros/tipo_veiculo_grid.php");									
+				$("#grid").load("inc/cadastros/tipo_veiculo_grid.php");	
+												
 			}
 			});
 	});

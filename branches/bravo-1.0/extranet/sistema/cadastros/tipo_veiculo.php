@@ -48,9 +48,12 @@
                             <form id="formularioTipoVeiculo" action="javascript:func()" method="post">
 		                    <table width="100%" border="0" cellspacing="2" cellpadding="3">
 		                        <tr>
-		                          <td width="76" align="left"><font class="FONT04"><b>Nome:</b></font></td>
-		                          <td width="909" colspan="4" align="left"><input title="Nome" name="nomeTipoVeiculo" id="nomeTipoVeiculo" type="text" class="INPUT01" size="80" maxlength="80" /></td>
+		                          <td width="108" align="left"><font class="FONT04"><b>Nome:</b></font></td>
+		                          <td colspan="4" align="left"><input title="Nome" name="nomeTipoVeiculo" id="nomeTipoVeiculo" type="text" class="INPUT01" size="80" maxlength="80" /></td>
 	                          </tr>
+                                 <tr>
+		                          <td colspan="2" align="left"><font class="FONT04"><b>Exigir Placa do Veiculo?&nbsp;</b></font><input type="radio" name="exigePlacaNao" id="exigePlacaNao" value="N" checked="checked" />N&atilde;o<input type="radio" name="exigePlacaSim" id="exigePlacaSim" value="S" />Sim</td>		                           
+	                          </tr>                            
 		                        <tr>
 		                          <td align="left" valign="top"><font class="FONT04"><b>Descri&ccedil;&atilde;o:</b></font></td>
 		                          <td colspan="4" align="left"><textarea title="Descri&ccedil;&atilde;o" name="descricaoTipoVeiculo" id="descricaoTipoVeiculo" cols="77" rows="10" class="TEXTAREA01"></textarea></td>

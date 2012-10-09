@@ -28,7 +28,7 @@ $(function($) {
 		   
 	$("#formularioAcessoConsultor").dialog({
 		autoOpen: false,
-		height: 290,
+		height: 400,
 		width: 530,
 		modal: true,
 		resizable: false,
@@ -158,8 +158,8 @@ $(function($) {
 		$("#formularioAlterarAcessoConsultor").load("inc/cadastros/controle_acesso/acesso_consultor_form_alt.php?codigoAcessoConsultor="+$(this).attr("id"));
 		$("#formularioAlterarAcessoConsultor").dialog({
 			autoOpen: true,
-			height: 370,
-			width: 680,
+			height: 400,
+			width: 600,
 			modal: true,
 			resizable: false,
 			title: "Alterar Acesso Consultor",
