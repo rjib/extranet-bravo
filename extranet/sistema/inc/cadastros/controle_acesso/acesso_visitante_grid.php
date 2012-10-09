@@ -6,7 +6,7 @@
 	$searchfor = isset($_GET['searchfor']) ? $_GET['searchfor'] : '';
 	
 	$paging->table('tb_acesso_visitante ACESSO_VISITANTE');
-	$paging->where('ACESSO_VISITANTE.CO_PESSOA = "'.$searchfor.'" OR PESSOA_FISICA.CPF_PESSOA_FISICA LIKE "%'.$searchfor.'%"');
+	$paging->where('ACESSO_VISITANTE.CO_PESSOA = "'.$searchfor.'" OR PESSOA_FISICA.CPF_PESSOA_FISICA LIKE "%'.$searchfor.'%" OR PESSOA_JURIDICA.CNPJ_PESSOA_JURIDICA LIKE "%'.$searchfor.'%"');
 	$paging->labels('Código,Data Cadastro,Data Acesso,Hora Entrada,Hora Saída,Cartão,Visitante');
 	$paging->fields('ACESSO_VISITANTE.CO_ACESSO_VISITANTE,DT_CADAS,DT_ACESSO_VISITANTE,HR_ENTRADA,HR_SAIDA,NU_CARTAO_IDENTIFICACAO,NOME_PESSOA');
 	$paging->cols_width('60,110,90,85,70,60');

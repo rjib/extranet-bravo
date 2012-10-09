@@ -624,6 +624,7 @@ $(function($) {
 });
 
 </script>
+<script type="text/javascript" src="js/cadastros/pessoa.js"></script>
 <div id="header-wrap">
 <table width="100%"  border="0" cellpadding="0" cellspacing="0" background="img/bg_header.jpg">
     <tr>
@@ -728,9 +729,9 @@ $(function($) {
                                   <table width="970" border="0" cellspacing="2" cellpadding="3">
                                   <tr>
                                     <td width="75"><b>CPF:</b></td>
-                                    <td width="151" align="left"><input title="CPF" name="cpf" id="cpf" type="text" class="INPUT01" size="20" maxlength="180" value="<?php echo $rowPessoa['CPF_PESSOA_FISICA']; ?>"/></td>
+                                    <td width="151" align="left"><input title="CPF" name="cpf" id="cpf" type="text" class="INPUT01" size="20" maxlength="180" value="<?php echo $rowPessoa['CPF_PESSOA_FISICA']; ?>"  onblur="verificaCPF()"/></td>
                                     <td width="98" align="left"><b>RG:</b></td>
-                                    <td width="157" align="left"><input title="RG" name="rg" id="rg" type="text" class="INPUT01" size="12" maxlength="12" value="<?php echo $rowPessoa['RG_PESSOA_FISICA']; ?>"/></td>
+                                    <td width="157" align="left"><input title="RG" name="rg" id="rg" type="text" class="INPUT01" size="12" maxlength="12" value="<?php echo $rowPessoa['RG_PESSOA_FISICA']; ?>" onblur="verificaRG()"/></td>
                                     <td width="97" align="left"><b>Org&atilde;o Expedidor:</b></td>
                                     <td width="83" align="left"><input title="Org&atilde;o Expedidor" name="orgaoExpedidor" id="orgaoExpedidor" type="text" class="INPUT01" size="10" maxlength="180" value="<?php echo $rowPessoa['RG_ORGAO_PESSOA_FISICA']; ?>"/></td>
                                     <td width="76" align="left"><b>Data Emiss&atilde;o:</b></td>

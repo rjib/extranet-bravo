@@ -80,6 +80,7 @@
 	}
 	
 ?>
+
 <script type="text/javascript" src="js/cadastros/controle_acesso/acesso_visitante.js"></script>
 <form id="formularioAlterarAcessoVisitante" action="javascript:func()" method="post">
   <table width="100%" border="0" cellspacing="2" cellpadding="3">
@@ -101,7 +102,7 @@
 		                          <td width="155" align="left"><input title="Hora Entrada" type="text" name="horaEntradaAlterar" id="horaEntradaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoVisitante['HR_ENTRADA']; ?>" disabled="disabled" /></td>
 		                          <td width="142" align="left"><font class="FONT04"><b>Hora Saída:</b></font></td>
 		                          <td width="768" align="left"><input title="Hora Saída" type="text" name="horaSaidaAlterar" id="horaSaidaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoVisitante['HR_SAIDA']; ?>" disabled="disabled"/></td>
-    </tr>
+    </tr><div id="dadosVeiculo">
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Tipo Veiculo:</b></font></td>
 		                          <td align="left">
@@ -120,7 +121,7 @@
                                   </td>
 		                          <td align="left"><font class="FONT04"><b>Placa Veiculo:</b></font></td>
 		                          <td align="left"><input title="Placa Veiculo" type="text" name="placaVeiculoAlterar" id="placaVeiculoAlterar" class="INPUT03" size="8" maxlength="8" value="<?php echo $rowAcessoVisitante['PL_VEICULO']; ?>" disabled="disabled"/></td>
-    </tr>
+    </tr></div>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>N&uacute;mero Cart&atilde;o:</b></font></td>
 		                          <td colspan="3" align="left">
