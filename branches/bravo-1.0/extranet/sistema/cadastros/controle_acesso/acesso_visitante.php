@@ -92,9 +92,9 @@
 	              <td>
                   <div id="formularioAcessoVisitante">
                             <form id="formularioAcessoVisitante" action="javascript:func()" method="post">
-		                    <table width="490" border="0" cellspacing="2" cellpadding="3">
+		                    <table width="700" border="0" cellspacing="2" cellpadding="3">
 		                        <tr>
-		                          <td width="95" align="left"><font class="FONT04"><b>Visitante:</b></font></td>
+		                          <td width="142" align="left"><font class="FONT04"><b>Visitante:</b></font></td>
 		                          <td colspan="3" align="left">
                                   <input title="Visitante" name="nomeVisitante" id="nomeVisitante" type="text" class="INPUT01" size="55" maxlength="80" autocomplete="off"/>
                                   <input type="hidden" id="codigoVisitante" name="codigoVisitante"/>
@@ -108,10 +108,10 @@
 		                          <td align="left"><font class="FONT04"><b>Hora Entrada:</b></font></td>
 		                          <td colspan="3" align="left">
                                   <input title="Hora Entrada" type="text" name="horaEntrada" id="horaEntrada" class="INPUT03" size="4" maxlength="4" /></td>
-	                          </tr>
+	                          </tr>                              
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Tipo Veiculo:</b></font></td>
-		                          <td width="135" align="left">
+		                          <td width="149" align="left">
                                   <select title="Tipo Veiculo" name="tipoVeiculo" id="tipoVeiculo" class="SELECT01">
 		                            <option value="0">Selecione...</option>
 		                            <?php
@@ -121,9 +121,10 @@
                                     ?>
 	                              </select>
                                   </td>
-		                          <td width="80" align="left"><font class="FONT04"><b>Placa Veiculo:</b></font></td>
-		                          <td width="146" align="left"><input title="Placa Veiculo" type="text" name="placaVeiculo" id="placaVeiculo" class="INPUT03" size="8" maxlength="8"/></td>
+		                          <td width="112" align="left"><font class="FONT04"><b>Placa Veiculo:</b></font></td>
+		                          <td width="263" align="left"><input title="Placa Veiculo" type="text" name="placaVeiculo" id="placaVeiculo" class="INPUT03" size="8" maxlength="8"/></td>
                               </tr>
+                              </div>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>N&uacute;mero Cart&atilde;o:</b></font></td>
 		                          <td colspan="3" align="left">
@@ -150,7 +151,7 @@
 	              <td> 
                   <table width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA" >
 	                <tr>
-	                  <th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" /></td>
+	                  <td align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" /></td>
                     </tr>
                   </table>
                   </td>

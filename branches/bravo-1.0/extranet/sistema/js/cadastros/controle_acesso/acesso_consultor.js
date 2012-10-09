@@ -100,7 +100,7 @@ $(function($) {
 		$("#formularioInserirHoraSaidaAcessoConsultor").load("inc/cadastros/controle_acesso/acesso_consultor_form_hora_saida.php?codigoAcessoConsultor="+$(this).attr("id"));
 		$("#formularioInserirHoraSaidaAcessoConsultor").dialog({
 			autoOpen: true,
-			height: 370,
+			height: 400,
 			width: 680,
 			modal: true,
 			resizable: false,
@@ -110,8 +110,9 @@ $(function($) {
 																	
 					var codigoAcessoConsultor = $("#codigoAcessoConsultor").val();
 					var horaSaidaInserir      = $("#horaSaidaInserir").val();
+					var horaEntrada = $("#horarioEntrada").val();
 																
-					$.post("inc/cadastros/controle_acesso/acesso_consultor_hora_saida.php", {codigoAcessoConsultor: codigoAcessoConsultor, horaSaidaInserir: horaSaidaInserir}, function(resposta) {
+					$.post("inc/cadastros/controle_acesso/acesso_consultor_hora_saida.php", {horaEntrada:horaEntrada, codigoAcessoConsultor: codigoAcessoConsultor, horaSaidaInserir: horaSaidaInserir}, function(resposta) {
 																																																																																																											
 					if (resposta != false) {
 						$("<p>" + resposta + "</p>").dialog({

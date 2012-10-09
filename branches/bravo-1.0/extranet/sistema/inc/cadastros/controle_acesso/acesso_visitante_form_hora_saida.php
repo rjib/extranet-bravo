@@ -98,7 +98,8 @@
 	                          </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Hora Entrada:</b></font></td>
-		                          <td width="155" align="left"><input title="Hora Entrada" type="text" name="horaEntrada" id="horaEntrada" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoVisitante['HR_ENTRADA']; ?>" disabled="disabled" /></td>
+		                          <td width="155" align="left"><input title="Hora Entrada" type="text" name="horaEntrada" id="horaEntrada" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoVisitante['HR_ENTRADA']; ?>" disabled="disabled" />
+                                  <input type="hidden" name="horarioEntrada" id="horarioEntrada" value="<?php echo $rowAcessoVisitante['HR_ENTRADA']; ?>" /></td>
 		                          <td width="142" align="left"><font class="FONT04"><b>Hora Saída:</b></font></td>
 		                          <td width="768" align="left"><input title="Hora Saída" type="text" name="horaSaidaInserir" id="horaSaidaInserir" class="INPUT03" size="4" maxlength="5" /></td>
     </tr>

@@ -101,7 +101,7 @@
 		                          <td width="155" align="left"><input title="Hora Entrada" type="text" name="horaEntradaAlterar" id="horaEntradaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoVisitante['HR_ENTRADA']; ?>" /></td>
 		                          <td width="142" align="left"><font class="FONT04"><b>Hora Saída:</b></font></td>
 		                          <td width="768" align="left"><input title="Hora Saída" type="text" name="horaSaidaAlterar" id="horaSaidaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoVisitante['HR_SAIDA']; ?>" disabled="disabled"/></td>
-    </tr>
+    </tr> 
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Tipo Veiculo:</b></font></td>
 		                          <td align="left">

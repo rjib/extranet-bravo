@@ -1,4 +1,5 @@
-$(document).ready(function(){
+$(document).ready(function(){	
+	
     $('#nomeVisitante').simpleAutoComplete('inc/auto_completa_pessoa.php',{
 	autoCompleteClassName: 'autocomplete',
 	selectedClassName: 'sel',
@@ -17,7 +18,7 @@ function nomeVisitanteCallback(par){
 	$("#cpfVisitante").val( par[2] );
 }
 
-$(function($) {  
+$(function($) { 
 
 	$("#horaEntrada").mask("99:99");
 	$("#horaEntradaAlterar").mask("99:99");
@@ -28,8 +29,8 @@ $(function($) {
 		   
 	$("#formularioAcessoVisitante").dialog({
 		autoOpen: false,
-		height: 270,
-		width: 480,
+		height: 750,
+		width: 800,
 		modal: true,
 		resizable: false,
 		title: 'Adicionar novo Acesso Visitante',
@@ -110,8 +111,9 @@ $(function($) {
 																	
 					var codigoAcessoVisitante = $("#codigoAcessoVisitante").val();
 					var horaSaidaInserir      = $("#horaSaidaInserir").val();
+					var horaEntrada = $("#horarioEntrada").val();
 																
-					$.post("inc/cadastros/controle_acesso/acesso_visitante_hora_saida.php", {codigoAcessoVisitante: codigoAcessoVisitante, horaSaidaInserir: horaSaidaInserir}, function(resposta) {
+					$.post("inc/cadastros/controle_acesso/acesso_visitante_hora_saida.php", {horaEntrada:horaEntrada, codigoAcessoVisitante: codigoAcessoVisitante, horaSaidaInserir: horaSaidaInserir}, function(resposta) {
 																																																																																																											
 					if (resposta != false) {
 						$("<p>" + resposta + "</p>").dialog({

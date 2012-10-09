@@ -29,8 +29,14 @@
 					alert('[Erro 1] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 					history.back(-1);
 				</script>");
-		
-		if(mysql_num_rows($sqlAcessoVisitante) > 0){
+				
+		$sqlAcessoConsultor= mysql_query("SELECT null FROM tb_acesso_consultor ac WHERE HR_SAIDA = '' AND CO_CARTAO_IDENTIFICACAO = '".$numeroCartao."'")
+		or die("<script>
+					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
+					history.back(-1);
+				</script>");
+						
+		if(mysql_num_rows($sqlAcessoVisitante) > 0 || mysql_num_rows($sqlAcessoVisitante)>0){
 			echo "[Erro] - Já existe um Acesso com este Número de Cartão de Identificação.";
 		}else{
 			$sqlAcessoVisitante= mysql_query("SELECT null FROM tb_acesso_visitante WHERE HR_SAIDA = '' AND CO_PESSOA = '".$codigoVisitante."'")
@@ -39,7 +45,20 @@
 						history.back(-1);
 					</script>");
 			
-			if(mysql_num_rows($sqlAcessoVisitante) > 0){
+			$sqlAcessoConsultor = mysql_query("SELECT ac . * 
+												FROM tb_acesso_consultor ac
+												 WHERE ac.hr_saida = '' 
+												 AND ac.co_consultor = (SELECT c.co_consultor 
+												 						FROM tb_consultor c 
+																		INNER JOIN tb_acesso_visitante av 
+																		ON c.co_pessoa = av.co_pessoa
+																		WHERE av.co_pessoa = 28 LIMIT 1);")
+			or die("<script>
+						alert('[Erro 2] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
+						history.back(-1);
+					</script>");
+					
+			if(mysql_num_rows($sqlAcessoVisitante) > 0 || mysql_num_rows($sqlAcessoConsultor)>0){
 				echo "[Erro] - Já existe um Acesso para este Visitante em aberto.";
 			}else{
 				$query = mysql_query("INSERT INTO tb_acesso_visitante (DT_ACESSO_VISITANTE
