@@ -221,10 +221,11 @@
 				        ON PESSOA.CO_PESSOA = PESSOA_JURIDICA.CO_PESSOA
 					INNER JOIN tb_cartao_identificacao CARTAO_IDENTIFICACAO
 					    ON ACESSO_VISITANTE.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
+						
 				WHERE '.$this->s_where.'
 				ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
 				LIMIT '.$n.','.$this->i_rowsperpage;
-				
+			
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			

@@ -24,13 +24,19 @@
 		echo "A Placa do Veiculo deve ter 8 caracteres";
 	}else{
 		
-		$sqlAcessoConsultor= mysql_query("SELECT null FROM tb_acesso_consultor WHERE HR_SAIDA = '' AND CO_CARTAO_IDENTIFICACAO = '".$numeroCartao."'")
+		$sqlAcessoConsultor= mysql_query("SELECT null FROM tb_acesso_consultor ac WHERE HR_SAIDA = '' AND CO_CARTAO_IDENTIFICACAO = '".$numeroCartao."'")
 		or die("<script>
 					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 					history.back(-1);
 				</script>");
 		
-		if(mysql_num_rows($sqlAcessoConsultor) > 0){
+		$sqlAcessoVisitante= mysql_query("SELECT null FROM tb_acesso_visitante ac WHERE HR_SAIDA = '' AND CO_CARTAO_IDENTIFICACAO = '".$numeroCartao."'")
+		or die("<script>
+					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
+					history.back(-1);
+				</script>");
+		
+		if(mysql_num_rows($sqlAcessoConsultor) > 0 || mysql_num_rows($sqlAcessoVisitante)>0){
 			echo "[Erro] - Já existe um Acesso com este Número de Cartão de Identificação.";
 		}else{
 			$sqlAcessoConsultor= mysql_query("SELECT null FROM tb_acesso_consultor WHERE HR_SAIDA = '' AND CO_CONSULTOR = '".$codigoConsultor."'")
@@ -38,8 +44,21 @@
 						alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 						history.back(-1);
 					</script>");
-			
-			if(mysql_num_rows($sqlAcessoConsultor) > 0){
+			$sqlAcessoVisitante = mysql_query("SELECT 
+   												 av . *
+											  FROM
+    										  	tb_acesso_visitante av
+											  WHERE
+											    av.hr_saida = ''
+       										 AND av.co_pessoa = (select 
+           										p.co_pessoa
+        									 FROM
+            									tb_consultor c
+                							 INNER JOIN
+            									tb_pessoa p ON p.co_pessoa = c.co_pessoa
+        									 WHERE
+            									c.co_consultor = ".$codigoConsultor.");");
+			if(mysql_num_rows($sqlAcessoConsultor) > 0 || mysql_num_rows($sqlAcessoVisitante)>0){
 				echo "[Erro] - Já existe um Acesso para este Consultor em aberto.";
 			}else{
 				$query = mysql_query("INSERT INTO tb_acesso_consultor (DT_ACESSO_CONSULTOR
@@ -56,6 +75,7 @@
 										  , '".$placaVeiculo."'
 										  , '".$numeroCartao."'
 										  , '".$_SESSION['codigoUsuario']."')");
+										
 				if($query){
 					echo false;
 				}else{
