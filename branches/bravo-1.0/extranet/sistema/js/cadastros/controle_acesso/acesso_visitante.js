@@ -31,7 +31,7 @@ $(function($) {
 		   
 	$("#formularioAcessoVisitante").dialog({
 		autoOpen: false,
-		height: 290,
+		height: 400,
 		width: 530,
 		modal: true,
 		resizable: false,
@@ -95,6 +95,7 @@ $(function($) {
 		},
 		close: function() {
 		    $("#grid").load("inc/cadastros/controle_acesso/acesso_visitante_grid.php");
+			$(window.document.location).attr('href','inicio.php?pg=acesso_visitante');
 		}
 	});
 	
@@ -151,7 +152,8 @@ $(function($) {
 			}
 			},
 			close: function() {
-				$("#grid").load("inc/cadastros/controle_acesso/acesso_visitante_grid.php");									
+				$("#grid").load("inc/cadastros/controle_acesso/acesso_visitante_grid.php");
+				$(window.document.location).attr('href','inicio.php?pg=acesso_visitante');									
 			}
 			});
 	});
@@ -161,8 +163,8 @@ $(function($) {
 		$("#formularioAlterarAcessoVisitante").load("inc/cadastros/controle_acesso/acesso_visitante_form_alt.php?codigoAcessoVisitante="+$(this).attr("id"));
 		$("#formularioAlterarAcessoVisitante").dialog({
 			autoOpen: true,
-			height: 400,
-			width: 630,
+			height: 420,
+			width: 620,
 			modal: true,
 			resizable: false,
 			title: "Alterar Acesso Visitante",
@@ -214,7 +216,8 @@ $(function($) {
 			}
 			},
 			close: function() {
-				$("#grid").load("inc/cadastros/controle_acesso/acesso_visitante_grid.php");									
+				$("#grid").load("inc/cadastros/controle_acesso/acesso_visitante_grid.php");
+				$(window.document.location).attr('href','inicio.php?pg=acesso_visitante');									
 			}
 			});
 	});
@@ -224,8 +227,8 @@ $(function($) {
 		$("#formularioDetalhesAcessoVisitante").load("inc/cadastros/controle_acesso/acesso_visitante_form_detalhe.php?codigoAcessoVisitante="+$(this).attr("id"));
 		$("#formularioDetalhesAcessoVisitante").dialog({
 			autoOpen: true,
-			height: 400,
-			width: 630,
+			height: 420,
+			width: 620,
 			modal: true,
 			resizable: false,
 			title: "Detalhes Acesso Visitante",
@@ -240,7 +243,8 @@ $(function($) {
 			}
 			},
 			close: function() {
-				$("#grid").load("inc/cadastros/controle_acesso/acesso_visitante_grid.php");									
+				$("#grid").load("inc/cadastros/controle_acesso/acesso_visitante_grid.php");	
+				$(window.document.location).attr('href','inicio.php?pg=acesso_visitante');								
 			}
 			});
 	});
@@ -290,6 +294,8 @@ $(function($) {
 			},
 			close: function() {
 				$("#grid").load("inc/cadastros/usuario_grid.php");
+				$(window.document.location).attr('href','inicio.php?pg=acesso_visitante');
+				
 			}
 	});
 	
@@ -333,13 +339,27 @@ $(function($) {
 function desabilitaPlaca()
 {   
    var i = document.getElementById("tipoVeiculo").selectedIndex;
-   var v = 	document.getElementById("tipoVeiculo").options[i].text.toUpperCase();
+   var v = 	document.getElementById("tipoVeiculo").options[i].id;
    
-   if(v=='NENHUM'){		
+   if(v=='N'){		
 		$('#placaVeiculo').hide('fast');
 		$('#placaVeiculoLabel').hide('fast');
 	}else{
 		$('#placaVeiculo').show('fast');
 		$('#placaVeiculoLabel').show('fast');
+	}
+}
+
+function desabilitaPlacaAlterar()
+{   
+   var i = document.getElementById("tipoVeiculoAlterar").selectedIndex;
+   var v = 	document.getElementById("tipoVeiculoAlterar").options[i].id;
+  
+   if(v=='N'){		
+		$('#placaVeiculoAlterar').hide('fast');
+		$('#placaVeiculoLabelAlterar').hide('fast');
+	}else{
+		$('#placaVeiculoAlterar').show('fast');
+		$('#placaVeiculoLabelAlterar').show('fast');
 	}
 }

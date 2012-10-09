@@ -8,6 +8,7 @@
 	                                   , DATE_FORMAT(DT_CADAS, '%d/%m/%Y %H:%i:%S') AS DT_CADAS
 									   , NO_TIPO_VEICULO
 									   , DS_TIPO_VEICULO
+									   , NO_EXIGE_PLACA
  							       FROM tb_tipo_veiculo 
 								   WHERE CO_TIPO_VEICULO = '".$codigoTipoVeiculo."'",$conexaoERP)
 	or die("<script>
@@ -18,6 +19,11 @@
 	
 ?>
 <script type="text/javascript" src="js/cadastros/tipo_veiculo.js"></script>
+<script>
+$("input[name='exigePlacaSimAlterar']").click(function(){ $("#exigePlacaNaoAlterar").attr('checked', false); });
+$("input[name='exigePlacaNaoAlterar']").click(function(){ $("#exigePlacaSimAlterar").attr('checked', false); });
+</script>
+
 <form id="formularioAlterarTipoVeiculo" action="javascript:func()" method="post">
 <table width="100%" border="0" cellspacing="2" cellpadding="3">
 <tr>
@@ -33,6 +39,11 @@
   <td align="left"><font class="FONT04"><b>Nome:</b></font></td>
   <td colspan="4" align="left"><input title="Nome" name="nomeTipoVeiculoAlterar" id="nomeTipoVeiculoAlterar" type="text" class="INPUT01" size="80" maxlength="80" value="<?php echo $rowTipoVeiculo['NO_TIPO_VEICULO']; ?>"/></td>
 </tr>
+
+<tr>
+		                          <td colspan="2" align="left"><font class="FONT04"><b>Exigir Placa do Veiculo?&nbsp;</b></font><input type="radio" name="exigePlacaNaoAlterar" id="exigePlacaNaoAlterar" value="N" <?php if( $rowTipoVeiculo['NO_EXIGE_PLACA'] ==  'N'){echo("checked='checked'");}?> />N&atilde;o<input type="radio" name="exigePlacaSimAlterar" id="exigePlacaSimAlterar" value="S" <?php if( $rowTipoVeiculo['NO_EXIGE_PLACA'] ==  'S'){echo("checked='checked'");}?> />Sim</td>		                           
+	                          </tr>  
+
 <tr>
   <td align="left" valign="top"><font class="FONT04"><b>Descri&ccedil;&atilde;o:</b></font></td>
   <td colspan="4" align="left"><textarea title="Descrição" name="descricaoTipoVeiculoAlterar" id="descricaoTipoVeiculoAlterar" cols="77" rows="10" class="TEXTAREA01"><?php echo $rowTipoVeiculo['DS_TIPO_VEICULO']; ?></textarea></td>
