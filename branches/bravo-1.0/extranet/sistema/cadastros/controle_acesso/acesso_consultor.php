@@ -31,19 +31,20 @@
 			  </script>";
 	}
 	
-	$sqlCartaoIdentificacao = mysql_query("SELECT CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO, CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO
+	$sqlCartaoIdentificacao = mysql_query("SELECT CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO,
+												  CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO
 											FROM
-    									   tb_cartao_identificacao CARTAO_IDENTIFICACAO
+    									   			tb_cartao_identificacao CARTAO_IDENTIFICACAO
 											WHERE
-    										NOT EXISTS( SELECT null FROM tb_acesso_visitante ACESSO_VISITANTE WHERE ACESSO_VISITANTE.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO AND ACESSO_VISITANTE.HR_SAIDA = '')
-        									AND NOT EXISTS( SELECT 
-            null
-        FROM
-            tb_acesso_consultor ACESSO_CONSULTOR
-        WHERE
-            ACESSO_CONSULTOR.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
-                AND ACESSO_CONSULTOR.HR_SAIDA = '')
-ORDER BY CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO")
+    										NOT EXISTS(SELECT null 
+														FROM tb_acesso_visitante ACESSO_VISITANTE 
+														WHERE ACESSO_VISITANTE.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO 
+														AND ACESSO_VISITANTE.HR_SAIDA = '')
+											AND NOT EXISTS(SELECT null 
+														   FROM tb_acesso_consultor ACESSO_CONSULTOR
+        												   WHERE ACESSO_CONSULTOR.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
+               											   AND ACESSO_CONSULTOR.HR_SAIDA = '')
+											ORDER BY CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO")
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);
