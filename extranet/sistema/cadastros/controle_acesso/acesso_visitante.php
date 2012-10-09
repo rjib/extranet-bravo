@@ -8,7 +8,7 @@
 	 * 
 	 */
 
-    $sqlTipoVeiculo = mysql_query("SELECT CO_TIPO_VEICULO, NO_TIPO_VEICULO FROM tb_tipo_veiculo ORDER BY NO_TIPO_VEICULO")
+    $sqlTipoVeiculo = mysql_query("SELECT CO_TIPO_VEICULO, NO_TIPO_VEICULO, FL_EXIGE_PLACA FROM tb_tipo_veiculo ORDER BY NO_TIPO_VEICULO")
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);
@@ -129,7 +129,7 @@
 		                            <option value="0">Selecione...</option>                                    
 		                            <?php
                                         while($rowTipoVeiculo=mysql_fetch_array($sqlTipoVeiculo)){ 	
-                                            echo "<option value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
+                                            echo "<option id='".$rowTipoVeiculo['FL_EXIGE_PLACA']."' value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
                                         }	
                                     ?>
 	                              </select>

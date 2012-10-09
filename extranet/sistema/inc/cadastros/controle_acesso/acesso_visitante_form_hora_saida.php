@@ -33,7 +33,7 @@
 			</script>");
 	$rowAcessoVisitante=mysql_fetch_array($sqlAcessoVisitante);
 	
-	$sqlTipoVeiculo = mysql_query("SELECT CO_TIPO_VEICULO, NO_TIPO_VEICULO FROM tb_tipo_veiculo ORDER BY NO_TIPO_VEICULO")
+	$sqlTipoVeiculo = mysql_query("SELECT CO_TIPO_VEICULO, NO_EXIGE_PLACA, NO_TIPO_VEICULO FROM tb_tipo_veiculo ORDER BY NO_TIPO_VEICULO")
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);
@@ -111,15 +111,15 @@
 		                            <?php
                                         while($rowTipoVeiculo=mysql_fetch_array($sqlTipoVeiculo)){ 	
 										    if($rowTipoVeiculo['CO_TIPO_VEICULO'] == $rowAcessoVisitante['CO_TIPO_VEICULO']){
-											    echo "<option value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."' selected='selected'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
+											    echo "<option id='".$rowTipoVeiculo['NO_EXIGE_PLACA']."' value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."' selected='selected'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
 										    }else{
-											    echo "<option value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
+											    echo "<option id='".$rowTipoVeiculo['NO_EXIGE_PLACA']."' value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
 										    }
                                         }	
                                     ?>
 	                              </select>
                                   </td>
-		                          <td align="left"><font class="FONT04"><b>Placa Veiculo:</b></font></td>
+		                          <td align="left"><font class="FONT04"><b id="placaVeiculoLabel">Placa Veiculo:</b></font></td>
 		                          <td align="left"><input title="Placa Veiculo" type="text" name="placaVeiculo" id="placaVeiculo" class="INPUT03" size="8" maxlength="8" value="<?php echo $rowAcessoVisitante['PL_VEICULO']; ?>" disabled="disabled"/></td>
     </tr>
 		                        <tr>

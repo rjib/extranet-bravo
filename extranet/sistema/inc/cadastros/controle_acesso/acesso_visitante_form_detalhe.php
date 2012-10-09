@@ -94,14 +94,14 @@
 		                          <td colspan="3" align="left"><input title="Data/Hora" name="dataCadastro" type="text" class="INPUT01" size="20" value="<?php echo $rowAcessoVisitante['DT_CADAS']; ?>" disabled="disabled"/></td>
     </tr>
 		                        <tr>
-		                          <td width="231" align="left"><font class="FONT04"><b>Visitante:</b></font></td>
+		                          <td width="120" align="left"><font class="FONT04"><b>Visitante:</b></font></td>
 		                          <td colspan="3" align="left"><input title="Visitante" name="nomeVisitanteAlterar" id="nomeVisitanteAlterar" type="text" class="INPUT01" size="60" maxlength="80" value="<?php echo $rowAcessoVisitante['NOME_PESSOA']; ?>" disabled="disabled"/></td>
 	                          </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Hora Entrada:</b></font></td>
-		                          <td width="155" align="left"><input title="Hora Entrada" type="text" name="horaEntradaAlterar" id="horaEntradaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoVisitante['HR_ENTRADA']; ?>" disabled="disabled" /></td>
-		                          <td width="142" align="left"><font class="FONT04"><b>Hora Saída:</b></font></td>
-		                          <td width="768" align="left"><input title="Hora Saída" type="text" name="horaSaidaAlterar" id="horaSaidaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoVisitante['HR_SAIDA']; ?>" disabled="disabled"/></td>
+		                          <td width="105" align="left"><input title="Hora Entrada" type="text" name="horaEntradaAlterar" id="horaEntradaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoVisitante['HR_ENTRADA']; ?>" disabled="disabled" /></td>
+		                          <td width="128" align="right"><font class="FONT04"><b>Hora Saída:</b></font></td>
+		                          <td width="207" align="left"><input title="Hora Saída" type="text" name="horaSaidaAlterar" id="horaSaidaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoVisitante['HR_SAIDA']; ?>" disabled="disabled"/></td>
     </tr><div id="dadosVeiculo">
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Tipo Veiculo:</b></font></td>
@@ -119,7 +119,7 @@
                                     ?>
 	                              </select>
                                   </td>
-		                          <td align="left"><font class="FONT04"><b>Placa Veiculo:</b></font></td>
+		                          <td align="right"><font class="FONT04"><b>Placa Veiculo:</b></font></td>
 		                          <td align="left"><input title="Placa Veiculo" type="text" name="placaVeiculoAlterar" id="placaVeiculoAlterar" class="INPUT03" size="8" maxlength="8" value="<?php echo $rowAcessoVisitante['PL_VEICULO']; ?>" disabled="disabled"/></td>
     </tr></div>
 		                        <tr>

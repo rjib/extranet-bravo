@@ -5,6 +5,7 @@
 	$codigoTipoVeiculo           = $_POST["codigoTipoVeiculo"];
 	$nomeTipoVeiculoAlterar      = $_POST["nomeTipoVeiculoAlterar"];
 	$descricaoTipoVeiculoAlterar = $_POST["descricaoTipoVeiculoAlterar"];
+	$exigePlaca					 = $_POST["exigePlaca"];
 	
 	if (empty($nomeTipoVeiculoAlterar)) {
 		echo "Informe o Nome";
@@ -15,6 +16,7 @@
 		$query = mysql_query("UPDATE tb_tipo_veiculo SET
 							      NO_TIPO_VEICULO   = '".$nomeTipoVeiculoAlterar."'
 							      , DS_TIPO_VEICULO = '".$descricaoTipoVeiculoAlterar."'
+								  , NO_EXIGE_PLACA = '".$exigePlaca."'
 							  WHERE CO_TIPO_VEICULO = '".$codigoTipoVeiculo."'");
 		if ($query) {
 			echo false;
