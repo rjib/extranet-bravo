@@ -91,7 +91,7 @@ $(function($) {
 			}
 		},
 		close: function() {
-		    $("#grid").load("inc/cadastros/controle_acesso/acesso_consultor_grid.php");
+		    $("#grid").load("inc/cadastros/controle_acesso/acesso_consultor_grid.php");			
 		}
 	});
 	
@@ -321,3 +321,18 @@ $(function($) {
 	 var loadmsg = 'Carregando...aguarde';			//Mensagem ou animação durante a fase de carregamento
      var searchdiv = '#searching';					//Div utilizada para realizar o search
      /***** FIM CONFIGURACAO SCRIPT TABLESORTER *****/
+
+
+function desabilitaPlaca()
+{   
+   var i = document.getElementById("tipoVeiculo").selectedIndex;
+   var v = 	document.getElementById("tipoVeiculo").options[i].text.toUpperCase();
+   
+   if(v=='NENHUM'){		
+		$('#placaVeiculo').hide('fast');
+		$('#placaVeiculoLabel').hide('fast');
+	}else{
+		$('#placaVeiculo').show('fast');
+		$('#placaVeiculoLabel').show('fast');
+	}
+}

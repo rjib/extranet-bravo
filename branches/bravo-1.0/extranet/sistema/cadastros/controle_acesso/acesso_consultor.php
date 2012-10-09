@@ -125,16 +125,16 @@
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Tipo Veiculo:</b></font></td>
 		                          <td width="135" align="left">
-                                  <select title="Tipo Veiculo" name="tipoVeiculo" id="tipoVeiculo" class="SELECT01">
+                                  <select title="Tipo Veiculo" onchange="desabilitaPlaca();" name="tipoVeiculo" id="tipoVeiculo" class="SELECT01">
 		                            <option value="0">Selecione...</option>
 		                            <?php
                                         while($rowTipoVeiculo=mysql_fetch_array($sqlTipoVeiculo)){ 	
-                                            echo "<option value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
+                                            echo "<option id='".$rowTipoVeiculo['NO_TIPO_VEICULO']."' value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
                                         }	
                                     ?>
 	                              </select>
                                   </td>
-		                          <td width="80" align="left"><font class="FONT04"><b>Placa Veiculo:</b></font></td>
+		                          <td width="80" align="left"><font class="FONT04"><b id="placaVeiculoLabel">Placa Veiculo:</b></font></td>
 		                          <td width="146" align="left"><input title="Placa Veiculo" type="text" name="placaVeiculo" id="placaVeiculo" class="INPUT03" size="8" maxlength="8"/></td>
                               </tr>
 		                        <tr>
