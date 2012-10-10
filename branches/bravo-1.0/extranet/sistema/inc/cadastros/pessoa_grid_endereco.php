@@ -2,9 +2,9 @@
 	
 	session_start();
 
-    require("../../setup.php");
+    require("../../setup.php");	
 	
-	if(empty($_SESSION['codigoPessoa'])){
+	if(empty($_GET['codigoPessoa'])){
 		echo "<table width='100%' border='0' cellspacing='0' cellpadding='4' class='LISTA'>";
 		echo "<tr>";
 		echo "<th align='center'>";
@@ -30,7 +30,7 @@
 									        ON BAIRRO.CO_MUNICIPIO = MUNICIPIO.CO_MUNICIPIO
 									    INNER JOIN tb_uf UF
 									        ON MUNICIPIO.CO_UF = UF.CO_UF
-									WHERE ENDERECO.CO_PESSOA = '".$_SESSION['codigoPessoa']."'",$conexaoERP)
+									WHERE ENDERECO.CO_PESSOA = '".$_GET['codigoPessoa']."'",$conexaoERP)
 	    or die(mysql_error());
 
 		if(mysql_num_rows($sqlEndereco) == 0){
@@ -48,11 +48,11 @@ $(document).ready(function(){
    
     $("#formularioDetalhesEndereco").dialog({
 		autoOpen: false,
-		height: 420,
-		width: 600,
+		height: 460,
+		width: 610,
 		modal: true,
 		resizable: false,
-		title: 'Detalhes Endere&ccedil;o',
+		title: 'Detalhes Endere&ccedil;o2',
 		buttons: {'Fechar': function() {
 			$(this).dialog("close");
 		}}
@@ -99,6 +99,7 @@ $(document).ready(function(){
 		},
 		'Nao': function() {
 			$( this ).dialog( "close" );
+			
 		}
 	},
 	close: function() {

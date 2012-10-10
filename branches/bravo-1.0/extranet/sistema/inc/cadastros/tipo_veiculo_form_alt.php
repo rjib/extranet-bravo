@@ -8,7 +8,7 @@
 	                                   , DATE_FORMAT(DT_CADAS, '%d/%m/%Y %H:%i:%S') AS DT_CADAS
 									   , NO_TIPO_VEICULO
 									   , DS_TIPO_VEICULO
-									   , NO_EXIGE_PLACA
+									   , FL_EXIGE_PLACA
  							       FROM tb_tipo_veiculo 
 								   WHERE CO_TIPO_VEICULO = '".$codigoTipoVeiculo."'",$conexaoERP)
 	or die("<script>
@@ -41,7 +41,7 @@ $("input[name='exigePlacaNaoAlterar']").click(function(){ $("#exigePlacaSimAlter
 </tr>
 
 <tr>
-		                          <td colspan="2" align="left"><font class="FONT04"><b>Exigir Placa do Veiculo?&nbsp;</b></font><input type="radio" name="exigePlacaNaoAlterar" id="exigePlacaNaoAlterar" value="N" <?php if( $rowTipoVeiculo['NO_EXIGE_PLACA'] ==  'N'){echo("checked='checked'");}?> />N&atilde;o<input type="radio" name="exigePlacaSimAlterar" id="exigePlacaSimAlterar" value="S" <?php if( $rowTipoVeiculo['NO_EXIGE_PLACA'] ==  'S'){echo("checked='checked'");}?> />Sim</td>		                           
+		                          <td colspan="2" align="left"><font class="FONT04"><b>Exigir Placa do Veiculo?&nbsp;</b></font><input type="radio" name="exigePlacaNaoAlterar" id="exigePlacaNaoAlterar" value="N" <?php if( $rowTipoVeiculo['FL_EXIGE_PLACA'] ==  'N'){echo("checked='checked'");}?> />N&atilde;o<input type="radio" name="exigePlacaSimAlterar" id="exigePlacaSimAlterar" value="S" <?php if( $rowTipoVeiculo['FL_EXIGE_PLACA'] ==  'S'){echo("checked='checked'");}?> />Sim</td>		                           
 	                          </tr>  
 
 <tr>

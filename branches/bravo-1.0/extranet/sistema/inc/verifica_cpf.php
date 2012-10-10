@@ -4,7 +4,10 @@
 	
     require("../setup.php");
 	
-	$cpf = $_GET["cpf"];
+	$cpf = $_GET["cpf"];	
+
+	
+	//verifica se cpf ja esta sendo utilizado pelo sistema
 	
 	$verificaCPF = mysql_query("SELECT CO_PESSOA
 						        FROM tb_pessoa_fisica
@@ -17,6 +20,9 @@
 			'codigoPessoa' => $rowVerificaCPF['CO_PESSOA'],
 		);
 		echo json_encode($resposta);
+		
 	}
+	
+	
 		
 ?>

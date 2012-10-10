@@ -68,6 +68,7 @@ $(function($) {
 		},
 		close: function() {
 		    $("#grid").load("inc/cadastros/tipo_veiculo_grid.php");
+			$(window.document.location).attr('href','inicio.php?pg=tipo_veiculo');
 		}
 	});
 	
@@ -116,6 +117,7 @@ $(function($) {
 			},
 			close: function() {
 				$("#grid").load("inc/cadastros/tipo_veiculo_grid.php");
+				$(window.document.location).attr('href','inicio.php?pg=tipo_veiculo');
 			}
 	});
 	
@@ -180,7 +182,8 @@ $(function($) {
 			}
 			},
 			close: function() {
-				$("#grid").load("inc/cadastros/tipo_veiculo_grid.php");	
+				$("#grid").load("inc/cadastros/tipo_veiculo_grid.php");
+				$(window.document.location).attr('href','inicio.php?pg=tipo_veiculo');	
 												
 			}
 			});

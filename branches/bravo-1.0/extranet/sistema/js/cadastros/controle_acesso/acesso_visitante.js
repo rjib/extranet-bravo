@@ -344,9 +344,11 @@ function desabilitaPlaca()
    if(v=='N'){		
 		$('#placaVeiculo').hide('fast');
 		$('#placaVeiculoLabel').hide('fast');
+		$('#placaVeiculo').val('');
 	}else{
 		$('#placaVeiculo').show('fast');
 		$('#placaVeiculoLabel').show('fast');
+		$('#placaVeiculo').focus();
 	}
 }
 
@@ -358,8 +360,11 @@ function desabilitaPlacaAlterar()
    if(v=='N'){		
 		$('#placaVeiculoAlterar').hide('fast');
 		$('#placaVeiculoLabelAlterar').hide('fast');
+		$('#placaVeiculoAlterar').val('');
+				
 	}else{
 		$('#placaVeiculoAlterar').show('fast');
 		$('#placaVeiculoLabelAlterar').show('fast');
+		$('#placaVeiculoAlterar').focus();
 	}
 }
