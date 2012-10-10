@@ -17,7 +17,6 @@
 	}elseif(strlen($nomeContato) < 3) {
 		echo "O nome deve ter no minimo 3 caracteres";
 	}else{
-			
 		$query = mysql_query("INSERT INTO tb_contato (CO_PESSOA, NO_CONTATO) VALUES ('".$codigoPessoa."', '".$nomeContato."')",$conexaoERP)
 		or die(mysql_error());
 		

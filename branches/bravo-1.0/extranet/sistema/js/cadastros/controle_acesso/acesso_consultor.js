@@ -28,7 +28,7 @@ $(function($) {
 		   
 	$("#formularioAcessoConsultor").dialog({
 		autoOpen: false,
-		height: 400,
+		height: 320,
 		width: 530,
 		modal: true,
 		resizable: false,
@@ -91,7 +91,8 @@ $(function($) {
 			}
 		},
 		close: function() {
-		    $("#grid").load("inc/cadastros/controle_acesso/acesso_consultor_grid.php");			
+		    $("#grid").load("inc/cadastros/controle_acesso/acesso_consultor_grid.php");	
+			$(window.document.location).attr('href','inicio.php?pg=acesso_consultor');		
 		}
 	});
 	
@@ -148,7 +149,8 @@ $(function($) {
 			}
 			},
 			close: function() {
-				$("#grid").load("inc/cadastros/controle_acesso/acesso_consultor_grid.php");									
+				$("#grid").load("inc/cadastros/controle_acesso/acesso_consultor_grid.php");
+				$(window.document.location).attr('href','inicio.php?pg=acesso_consultor');										
 			}
 			});
 	});
@@ -181,7 +183,7 @@ $(function($) {
 						title: "Aten&ccedil;&atilde;o",
 						buttons: {
 							Ok: function() {
-								$(this).dialog("close");
+								$(this).dialog("close");							
 							}
 						}
 						});
@@ -211,7 +213,8 @@ $(function($) {
 			}
 			},
 			close: function() {
-				$("#grid").load("inc/cadastros/controle_acesso/acesso_consultor_grid.php");									
+				$("#grid").load("inc/cadastros/controle_acesso/acesso_consultor_grid.php");
+				$(window.document.location).attr('href','inicio.php?pg=acesso_consultor');										
 			}
 			});
 	});
@@ -237,7 +240,8 @@ $(function($) {
 			}
 			},
 			close: function() {
-				$("#grid").load("inc/cadastros/controle_acesso/acesso_consultor_grid.php");									
+				$("#grid").load("inc/cadastros/controle_acesso/acesso_consultor_grid.php");
+				$(window.document.location).attr('href','inicio.php?pg=acesso_consultor');										
 			}
 			});
 	});
@@ -287,6 +291,7 @@ $(function($) {
 			},
 			close: function() {
 				$("#grid").load("inc/cadastros/usuario_grid.php");
+				$(window.document.location).attr('href','inicio.php?pg=acesso_consultor');	
 			}
 	});
 	
@@ -326,13 +331,32 @@ $(function($) {
 function desabilitaPlaca()
 {   
    var i = document.getElementById("tipoVeiculo").selectedIndex;
-   var v = 	document.getElementById("tipoVeiculo").options[i].text.toUpperCase();
+   var v = 	document.getElementById("tipoVeiculo").options[i].id;
    
-   if(v=='NENHUM'){		
+   if(v=='N'){		
 		$('#placaVeiculo').hide('fast');
 		$('#placaVeiculoLabel').hide('fast');
+		$('#placaVeiculo').val('');
 	}else{
 		$('#placaVeiculo').show('fast');
 		$('#placaVeiculoLabel').show('fast');
+		$('#placaVeiculo').focus();
+	}
+}
+
+function desabilitaPlacaAlterar()
+{   
+   var i = document.getElementById("tipoVeiculoAlterar").selectedIndex;
+   var v = 	document.getElementById("tipoVeiculoAlterar").options[i].id;
+  
+   if(v=='N'){		
+		$('#placaVeiculoAlterar').hide('fast');
+		$('#placaVeiculoLabelAlterar').hide('fast');
+		$('#placaVeiculoAlterar').val('');
+				
+	}else{
+		$('#placaVeiculoAlterar').show('fast');
+		$('#placaVeiculoLabelAlterar').show('fast');
+		$('#placaVeiculoAlterar').focus();
 	}
 }

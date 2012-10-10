@@ -33,7 +33,7 @@
 			</script>");
 	$rowAcessoConsultor=mysql_fetch_array($sqlAcessoConsultor);
 	
-	$sqlTipoVeiculo = mysql_query("SELECT CO_TIPO_VEICULO, NO_TIPO_VEICULO FROM tb_tipo_veiculo ORDER BY NO_TIPO_VEICULO")
+	$sqlTipoVeiculo = mysql_query("SELECT FL_EXIGE_PLACA, CO_TIPO_VEICULO, NO_TIPO_VEICULO FROM tb_tipo_veiculo ORDER BY NO_TIPO_VEICULO")
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);
@@ -56,7 +56,22 @@
 			  </script>";
 	}
 	
-	$sqlCartaoIdentificacao = mysql_query("SELECT CO_CARTAO_IDENTIFICACAO, NU_CARTAO_IDENTIFICACAO FROM tb_cartao_identificacao ORDER BY NU_CARTAO_IDENTIFICACAO")
+	$sqlCartaoIdentificacao = mysql_query("SELECT CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO,
+												  CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO
+											FROM
+    									   			tb_cartao_identificacao CARTAO_IDENTIFICACAO
+											WHERE
+    										NOT EXISTS(SELECT null 
+														FROM tb_acesso_visitante ACESSO_VISITANTE 
+														WHERE ACESSO_VISITANTE.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO 
+														AND ACESSO_VISITANTE.HR_SAIDA = '')
+											AND NOT EXISTS(SELECT null 
+														   FROM tb_acesso_consultor ACESSO_CONSULTOR
+        												   WHERE ACESSO_CONSULTOR.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
+               											   AND ACESSO_CONSULTOR.HR_SAIDA = '')
+											UNION ALL
+
+											SELECT CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO, CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO FROM TB_CARTAO_IDENTIFICACAO 				CARTAO_IDENTIFICACAO WHERE CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO = '".$rowAcessoConsultor['CO_CARTAO_IDENTIFICACAO']."'")
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);
@@ -95,14 +110,14 @@
 		                          <td colspan="3" align="left"><input title="Data/Hora" name="dataCadastro" type="text" class="INPUT01" size="20" value="<?php echo $rowAcessoConsultor['DT_CADAS']; ?>" disabled="disabled"/></td>
     </tr>
 		                        <tr>
-		                          <td width="100" align="left"><font class="FONT04"><b>Consultor:</b></font></td>
+		                          <td width="305" align="left"><font class="FONT04"><b>Consultor:</b></font></td>
 		                          <td colspan="3" align="left"><input title="Consultor" name="nomeConsultorAlterar" id="nomeConsultorAlterar" type="text" class="INPUT01" size="60" maxlength="80" value="<?php echo $rowAcessoConsultor['NOME_PESSOA']; ?>" disabled="disabled"/></td>
 	                          </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Hora Entrada:</b></font></td>
-		                          <td width="114" align="left"><input title="Hora Entrada" type="text" name="horaEntradaAlterar" id="horaEntradaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoConsultor['HR_ENTRADA']; ?>" /></td>
-		                          <td width="104" align="left"><font class="FONT04"><b>Hora Saída:</b></font></td>
-		                          <td width="321" align="left"><input title="Hora Saída" type="text" name="horaSaidaAlterar" id="horaSaidaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoConsultor['HR_SAIDA']; ?>" disabled="disabled"/></td>
+		                          <td width="167" align="left"><input title="Hora Entrada" type="text" name="horaEntradaAlterar" id="horaEntradaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoConsultor['HR_ENTRADA']; ?>" /></td>
+		                          <td width="311" align="right"><font class="FONT04"><b>Hora Saída:</b></font></td>
+		                          <td width="556" align="left"><input title="Hora Saída" type="text" name="horaSaidaAlterar" id="horaSaidaAlterar" class="INPUT03" size="4" maxlength="5" value="<?php echo $rowAcessoConsultor['HR_SAIDA']; ?>" disabled="disabled"/></td>
     </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Tipo Veiculo:</b></font></td>
@@ -112,15 +127,15 @@
 		                            <?php
                                         while($rowTipoVeiculo=mysql_fetch_array($sqlTipoVeiculo)){ 	
 										    if($rowTipoVeiculo['CO_TIPO_VEICULO'] == $rowAcessoConsultor['CO_TIPO_VEICULO']){
-											    echo "<option value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."' selected='selected'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
+											    echo "<option id='".$rowTipoVeiculo['FL_EXIGE_PLACA']."' value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."' selected='selected'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
 										    }else{
-											    echo "<option value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
+											    echo "<option id='".$rowTipoVeiculo['FL_EXIGE_PLACA']."' value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
 										    }
                                         }	
                                     ?>
 	                              </select>
                                   </td>
-		                          <td align="left"><font class="FONT04"><b id="placaVeiculoLabelAlterar">Placa Veiculo:</b></font></td>
+		                          <td align="right"><font class="FONT04"><b id="placaVeiculoLabelAlterar">Placa Veiculo:</b></font></td>
 		                          <td align="left"><input title="Placa Veiculo" type="text" name="placaVeiculoAlterar" id="placaVeiculoAlterar" class="INPUT03" size="8" maxlength="8" value="<?php echo $rowAcessoConsultor['PL_VEICULO']; ?>"/></td>
     </tr>
 		                        <tr>
@@ -150,3 +165,4 @@
     </tr>
 	                          </table>
 </form>
+<script>desabilitaPlacaAlterar();</script>

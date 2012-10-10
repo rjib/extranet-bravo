@@ -8,7 +8,7 @@
 	 * 
 	 */
 
-    $sqlTipoVeiculo = mysql_query("SELECT CO_TIPO_VEICULO, NO_TIPO_VEICULO FROM tb_tipo_veiculo ORDER BY NO_TIPO_VEICULO")
+    $sqlTipoVeiculo = mysql_query("SELECT CO_TIPO_VEICULO, NO_TIPO_VEICULO, FL_EXIGE_PLACA FROM tb_tipo_veiculo ORDER BY NO_TIPO_VEICULO")
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);
@@ -123,13 +123,13 @@
                                   <input title="Hora Entrada" type="text" name="horaEntrada" id="horaEntrada" class="INPUT03" size="4" maxlength="4" /></td>
 	                          </tr>
 		                        <tr>
-		                          <td align="left"><font class="FONT04"><b>Tipo Veiculo:</b></font></td>
+		                          <td align="left"><font class="FONT04"><b >Tipo Veiculo:</b></font></td>
 		                          <td width="135" align="left">
                                   <select title="Tipo Veiculo" onchange="desabilitaPlaca();" name="tipoVeiculo" id="tipoVeiculo" class="SELECT01">
 		                            <option value="0">Selecione...</option>
 		                            <?php
                                         while($rowTipoVeiculo=mysql_fetch_array($sqlTipoVeiculo)){ 	
-                                            echo "<option id='".$rowTipoVeiculo['NO_TIPO_VEICULO']."' value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
+                                            echo "<option id='".$rowTipoVeiculo['FL_EXIGE_PLACA']."' value='".$rowTipoVeiculo['CO_TIPO_VEICULO']."'>".$rowTipoVeiculo['NO_TIPO_VEICULO']."</option>";
                                         }	
                                     ?>
 	                              </select>
