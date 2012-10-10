@@ -10,7 +10,7 @@
 	$placaVeiculo    = $_POST["placaVeiculo"];
 	$numeroCartao    = $_POST["numeroCartao"];
 	
-	$sqlTipoVeiculo= mysql_query("SELECT no_exige_placa FROM tb_tipo_veiculo WHERE co_tipo_veiculo = '".$tipoVeiculo."'")
+	$sqlTipoVeiculo= mysql_query("SELECT fl_exige_placa FROM tb_tipo_veiculo WHERE co_tipo_veiculo = '".$tipoVeiculo."'")
 	or die("<script>
 					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 					history.back(-1);
@@ -59,7 +59,7 @@
 												 						FROM tb_consultor c 
 																		INNER JOIN tb_acesso_visitante av 
 																		ON c.co_pessoa = av.co_pessoa
-																		WHERE av.co_pessoa = 28 LIMIT 1);")
+																		WHERE av.co_pessoa = '".$codigoVisitante."' LIMIT 1);")
 			or die("<script>
 						alert('[Erro 2] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 						history.back(-1);

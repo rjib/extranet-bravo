@@ -10,7 +10,7 @@
 	$placaVeiculo    = $_POST["placaVeiculo"];
 	$numeroCartao    = $_POST["numeroCartao"];
 	
-	$sqlTipoVeiculo= mysql_query("SELECT no_tipo_veiculo FROM tb_tipo_veiculo WHERE co_tipo_veiculo = '".$tipoVeiculo."'")
+	$sqlTipoVeiculo= mysql_query("SELECT fl_exige_placa FROM tb_tipo_veiculo WHERE co_tipo_veiculo = '".$tipoVeiculo."'")
 	or die("<script>
 					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 					history.back(-1);
@@ -24,11 +24,11 @@
 		echo "Informe a Hora Entrada";
 	}elseif(empty($tipoVeiculo)){
 		echo "Informe o Tipo Veiculo";
-	}elseif(strtoupper($row[0])!=strtoupper('Nenhum') && empty($placaVeiculo)){
+	}elseif($row[0]!="N" && empty($placaVeiculo)){
 		echo "Informe a Placa do Veiculo!";
 	}elseif(empty($numeroCartao)){
 		echo "Informe o Número do Cartão";
-	}elseif (strtoupper($row[0])!=strtoupper('Nenhum') && strlen($placaVeiculo) < 8){
+	}elseif ($row[0]!="N" && strlen($placaVeiculo) < 8){
 		echo "A Placa do Veiculo deve ter 8 caracteres";
 	}else{
 		

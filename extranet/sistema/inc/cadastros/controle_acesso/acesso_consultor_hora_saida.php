@@ -8,7 +8,7 @@
 	$horaSaidaInserir      = $_POST["horaSaidaInserir"];
 	$horaEntrada 		   = $_POST["horaEntrada"];
 	if($horaEntrada > $horaSaidaInserir){	
-		echo("O Horário de saída não deve ser menor que o horário de entrada!");
+		echo("O Horário de saída não deve ser menor que o horário de entrada!");		
 		exit;
 	}		
 	if($horaSaidaInserir == "0" or $horaSaidaInserir == "") {

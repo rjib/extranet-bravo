@@ -4,7 +4,7 @@
 
     require("../../setup.php");
 	
-	if(empty($_SESSION['codigoPessoa'])){
+	if(empty($_GET['codigoPessoa'])){
 		echo "<table width='100%' border='0' cellspacing='0' cellpadding='4' class='LISTA'>";
 		echo "<tr>";
 		echo "<th align='center'>";
@@ -24,7 +24,7 @@
 								         ON EMAIL.CO_CONTATO = CONTATO.CO_CONTATO
 								     INNER JOIN tb_tipo_email TIPO_EMAIL
 								         ON EMAIL.CO_TIPO_EMAIL = TIPO_EMAIL.CO_TIPO_EMAIL
-							     WHERE EMAIL.CO_PESSOA = '".$_SESSION['codigoPessoa']."'",$conexaoERP)
+							     WHERE EMAIL.CO_PESSOA = '".$_GET['codigoPessoa']."'",$conexaoERP)
 	    or die(mysql_error());
 
 		if(mysql_num_rows($sqlEmail) == 0){

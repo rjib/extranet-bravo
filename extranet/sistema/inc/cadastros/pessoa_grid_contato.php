@@ -4,7 +4,7 @@
 
     require("../../setup.php");
 	
-	if(empty($_SESSION['codigoPessoa'])){
+	if(empty($_GET['codigoPessoa'])){
 		echo "<table width='100%' border='0' cellspacing='0' cellpadding='4' class='LISTA'>";
 		echo "<tr>";
 		echo "<th align='center'>";
@@ -18,7 +18,7 @@
 	                                   , DATE_FORMAT(DT_CADAS, '%d/%m/%Y %H:%i:%S') AS DT_CADAS
 									   , NO_CONTATO
 								   FROM tb_contato
-								   WHERE CO_PESSOA = '".$_SESSION['codigoPessoa']."'",$conexaoERP)
+								   WHERE CO_PESSOA = '".$_GET['codigoPessoa']."'",$conexaoERP)
 	    or die(mysql_error());
 
 		if(mysql_num_rows($sqlContato) == 0){

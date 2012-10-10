@@ -56,7 +56,22 @@
 			  </script>";
 	}
 	
-	$sqlCartaoIdentificacao = mysql_query("SELECT CO_CARTAO_IDENTIFICACAO, NU_CARTAO_IDENTIFICACAO FROM tb_cartao_identificacao ORDER BY NU_CARTAO_IDENTIFICACAO")
+	$sqlCartaoIdentificacao = mysql_query("SELECT CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO,
+												  CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO
+											FROM
+    									   			tb_cartao_identificacao CARTAO_IDENTIFICACAO
+											WHERE
+    										NOT EXISTS(SELECT null 
+														FROM tb_acesso_visitante ACESSO_VISITANTE 
+														WHERE ACESSO_VISITANTE.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO 
+														AND ACESSO_VISITANTE.HR_SAIDA = '')
+											AND NOT EXISTS(SELECT null 
+														   FROM tb_acesso_consultor ACESSO_CONSULTOR
+        												   WHERE ACESSO_CONSULTOR.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
+               											   AND ACESSO_CONSULTOR.HR_SAIDA = '')
+											UNION ALL
+
+											SELECT CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO, CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO FROM TB_CARTAO_IDENTIFICACAO 				CARTAO_IDENTIFICACAO WHERE CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO = '".$rowAcessoVisitante['CO_CARTAO_IDENTIFICACAO']."'")
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);

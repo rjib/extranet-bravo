@@ -102,10 +102,10 @@ $(function($) {
 		});
 		
 		$("table").tablesorter();
-		$("#gridEndereco").load("inc/cadastros/pessoa_grid_endereco.php");
-		$("#gridContato").load("inc/cadastros/pessoa_grid_contato.php");
-		$("#gridTelefone").load("inc/cadastros/pessoa_grid_telefone.php");
-		$("#gridEmail").load("inc/cadastros/pessoa_grid_email.php");
+		//$("#gridEndereco").load("inc/cadastros/pessoa_grid_endereco.php");
+		//$("#gridContato").load("inc/cadastros/pessoa_grid_contato.php");
+		//$("#gridTelefone").load("inc/cadastros/pessoa_grid_telefone.php");
+		//$("#gridEmail").load("inc/cadastros/pessoa_grid_email.php");
 			
 	});
 	
@@ -324,7 +324,7 @@ $(function($) {
 					correspondenciaLogradouro = "";
 				}
 				
-				$.post('inc/cadastros/pessoa_endereco_ins.php', {codigoCep: codigoCep, numeroCep: numeroCep, logradouro: logradouro, numeroLogradouro: numeroLogradouro, complementoLogradouro: complementoLogradouro, bairroLogradouro: bairroLogradouro, estadoLogradouro: estadoLogradouro, cidadeLogradouro: cidadeLogradouro, principalLogradouro: principalLogradouro, cobrancaLogradouro: cobrancaLogradouro, correspondenciaLogradouro: correspondenciaLogradouro}, function(resposta) {
+				$.post('inc/cadastros/pessoa_endereco_ins.php', {codigoCep: codigoCep, numeroCep: numeroCep, logradouro: logradouro, numeroLogradouro: numeroLogradouro, complementoLogradouro: complementoLogradouro, bairroLogradouro: bairroLogradouro, estadoLogradouro: estadoLogradouro, cidadeLogradouro: cidadeLogradouro, principalLogradouro: principalLogradouro, cobrancaLogradouro: cobrancaLogradouro, correspondenciaLogradouro: correspondenciaLogradouro, codigoPessoa:codigoPessoa}, function(resposta) {
 																																																																																																				
 						if (resposta != false) {
 							$('<p>' + resposta + '</p>').dialog({
@@ -385,7 +385,8 @@ $(function($) {
 			}
 		},
 		close: function() {
-		    $("#gridEndereco").load("inc/cadastros/pessoa_grid_endereco.php");
+		    $("#gridEndereco").load("inc/cadastros/pessoa_grid_endereco.php?codigoPessoa="+codigoPessoa);
+			
 		}
 	});
 	
@@ -399,9 +400,10 @@ $(function($) {
 		buttons: {
 			'Salvar': function() {
 												
-				var nomeContato = $("#nomeContato").val(); 
+				var nomeContato = $("#nomeContato").val();
+				var codigoPessoa  = $("#codigoPessoa").val();				
 								
-				$.post('inc/cadastros/pessoa_contato_ins.php', {nomeContato: nomeContato}, function(resposta) {
+				$.post('inc/cadastros/pessoa_contato_ins.php', {nomeContato: nomeContato, codigoPessoa: codigoPessoa}, function(resposta) {
 																																																																																																				
 						if (resposta != false) {
 							$('<p>' + resposta + '</p>').dialog({
@@ -441,7 +443,7 @@ $(function($) {
 			}
 		},
 		close: function() {
-		    $("#gridContato").load("inc/cadastros/pessoa_grid_contato.php");
+		    $("#gridContato").load("inc/cadastros/pessoa_grid_contato.php?codigoPessoa="+codigoPessoa);
 		}
 	});
 	
@@ -575,7 +577,7 @@ $(function($) {
 			}
 		},
 		close: function() {
-		    $("#gridTelefone").load("inc/cadastros/pessoa_grid_telefone.php");
+		    $("#gridTelefone").load("inc/cadastros/pessoa_grid_telefone.php?codigoPessoa="+codigoPessoa);
 		}
 	});
 	
@@ -640,7 +642,8 @@ $(function($) {
 			}
 		},
 		close: function() {
-		    $("#gridEmail").load("inc/cadastros/pessoa_grid_email.php");
+		    $("#gridEmail").load("inc/cadastros/pessoa_grid_email.php?codigoPessoa="+codigoPessoa);
+			
 		}
 	});
 			
@@ -705,24 +708,88 @@ $(function($) {
 	
 });
 
+// validador CPF
+function validaCPF(c){	
+    var i;
+    s = c;
+	var temp = s.substr(0,3)+s.substr(4,3)+s.substr(8,3)+s.substr(12,2);
+	c = temp;
+	s = c;
+	
+    var c = s.substr(0,9);
+    var dv = s.substr(9,2);
+    var d1 = 0;
+    var v = false;
+ 
+    for (i = 0; i < 9; i++){
+        d1 += c.charAt(i)*(10-i);
+    }
+    if (d1 == 0){
+       // alert("CPF Inválido1")
+        v = true;
+        return false;
+    }
+    d1 = 11 - (d1 % 11);
+    if (d1 > 9) d1 = 0;
+    if (dv.charAt(0) != d1){
+        //alert("CPF Inválido2")
+        v = true;
+        return false;
+    }
+ 
+    d1 *= 2;
+    for (i = 0; i < 9; i++){
+        d1 += c.charAt(i)*(11-i);
+    }
+    d1 = 11 - (d1 % 11);
+    if (d1 > 9) d1 = 0;
+    if (dv.charAt(1) != d1){
+       // alert("CPF Inválido3")
+        v = true;
+        return false;
+    }
+    if (!v) {
+        //alert(c + "CPF Válido4")
+		return true;
+    }
+}
+
 function verificaCPF() {
-    if($("#cpf").val() != null && $("#cpf").val() != ""){
-	    $.get('inc/verifica_cpf.php', {'cpf': $("#cpf").val()}, function(resposta){
-		if(resposta){			  			  
-			$(function($) {
-			    $('<p>CPF j&aacute; cadastrado para a pessoa de c&oacute;digo: '+resposta.codigoPessoa+'</p>').dialog({
-				    modal: true,
-				    resizable: false,
-				    title: 'Aten&ccedil;&atilde;o',
-				    buttons: {
-				    Ok: function() {
-						$(this).dialog('close');
-						$("#cpf").val(""); 
-				    }
-				}
-			}); });
+	
+	if(validaCPF($("#cpf").val())){	
+	
+		if($("#cpf").val() != null && $("#cpf").val() != ""){
+			
+			$.get('inc/verifica_cpf.php', {'cpf': $("#cpf").val()}, function(resposta){
+			if(resposta){			  			  
+				$(function($) {
+					$('<p>CPF j&aacute; cadastrado para a pessoa de c&oacute;digo: '+resposta.codigoPessoa+'</p>').dialog({
+						modal: true,
+						resizable: false,
+						title: 'Aten&ccedil;&atilde;o',
+						buttons: {
+						Ok: function() {
+							$(this).dialog('close');						
+							$("#cpf").val(""); 
+						}
+					}
+				});$("#cpf").val("");  });
+			}
+			}, 'json'); 
 		}
-		}, 'json');  
+	}else{
+		$(function($) {
+					$('<p>CPF inv&aacute;lido</p>').dialog({
+						modal: true,
+						resizable: false,
+						title: 'Aten&ccedil;&atilde;o',
+						buttons: {
+						Ok: function() {
+							$(this).dialog('close');						
+							$("#cpf").val(""); 
+						}
+				 }
+			});});
 	}		
 }
 
@@ -743,7 +810,7 @@ function verificaRG() {
 				}
 			}); });
 		}
-		}, 'json');  
+		}, 'json'); $("#rg").val(""); 
 	}		
 }
 
@@ -766,3 +833,5 @@ function verificaRG() {
      var searchdiv = '#searching';					//Div utilizada para realizar o search
 	
      /***** FIM CONFIGURACAO SCRIPT TABLESORTER *****/
+	 
+	 

@@ -143,6 +143,7 @@ $(function($) {
 	$("#dataNascimento").mask("99/99/9999");
 	$("#faxLogradouro").mask("(99) 9999-9999");
 	$("#telefoneContato").mask("(99) 9999-9999");
+	//$("#numeroCep").mask("99999-999");
 		
 	$("#clienteDesde").datepicker({
 	    maxDate: new Date()
@@ -393,6 +394,7 @@ $(function($) {
 		},
 		close: function() {
 		    $("#gridEndereco").load("inc/cadastros/pessoa_alt_grid_endereco.php?codigoPessoa=<?php echo $rowPessoa['CO_PESSOA']; ?>");
+			
 		}
 	});
 	
@@ -885,7 +887,7 @@ $(function($) {
 		                        <tr>
 		                          <td width="97" align="left"><font class="FONT04"><b>CEP:</b></font></td>
 		                          <td colspan="5" align="left">
-                                      <input title="CEP" name="numeroCep" id="numeroCep" size="10" maxlength="8" class="INPUT03" autocomplete="off"/>
+                                      <input title="CEP" name="numeroCep" id="numeroCep" size="10" maxlength="9" class="INPUT03" autocomplete="off"/>
                                       <input type="hidden" name="codigoCep" id="codigoCep" />
                                       <input type="hidden" name="codigoPessoa" id="codigoPessoa" value="<?php echo $rowPessoa['CO_PESSOA']; ?>" />
                                   </td>
@@ -928,11 +930,11 @@ $(function($) {
   								</tr>
 		                        <tr>
 		                          <td align="left" valign="top"><font class="FONT04"><b>Principal:</b></font></td>
-		                          <td width="127"><input title="Principal" type="checkbox" name="principalLogradouro" id="principalLogradouro" value="S" /></td>
-		                          <td width="70"><font class="FONT04"><b>Cobran&ccedil;a:</b></font></td>
-		                          <td width="112"><input title="Cobran&ccedil;a" type="checkbox" name="cobrancaLogradouro" id="cobrancaLogradouro" value="S" /></td>
-		                          <td width="129"><font class="FONT04"><b>Correspond&ecirc;ncia:</b></font></td>
-		                          <td width="418"><input title="Correspondência" type="checkbox" name="correspondenciaLogradouro" id="correspondenciaLogradouro" value="S" /></td>
+		                          <td width="127" align="left"><input title="Principal" type="checkbox" name="principalLogradouro" id="principalLogradouro" value="S" /></td>
+		                          <td width="70" align="right"><font class="FONT04"><b>Cobran&ccedil;a:</b></font></td>
+		                          <td width="112" align="left"><input title="Cobran&ccedil;a" type="checkbox" name="cobrancaLogradouro" id="cobrancaLogradouro" value="S" /></td>
+		                          <td width="129" align="right"><font class="FONT04"><b>Correspond&ecirc;ncia:</b></font></td>
+		                          <td width="418" align="left"><input title="Correspond&ecirc;ncia" type="checkbox" name="correspondenciaLogradouro" id="correspondenciaLogradouro" value="S" /></td>
   </tr>
 	                          </table>
 		                    </form>
