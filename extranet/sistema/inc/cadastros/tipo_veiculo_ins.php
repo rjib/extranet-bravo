@@ -12,7 +12,7 @@
 		echo "A Descrição deve ter no máximo 244 caracteres";
 	}else {
 		$query = mysql_query("INSERT INTO tb_tipo_veiculo (NO_TIPO_VEICULO
-							      , DS_TIPO_VEICULO, NO_EXIGE_PLACA) 
+							      , DS_TIPO_VEICULO, FL_EXIGE_PLACA) 
 							  VALUES ('".$nomeTipoVeiculo."' 
 								  ,'".$descricaoTipoVeiculo."'
 								  ,'".$exigePlaca."')");
