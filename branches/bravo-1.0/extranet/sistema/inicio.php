@@ -171,6 +171,13 @@
 	}elseif($pg	== "acesso_visitante_alt" && !$sub){
 	    $inicio	= "cadastros/controle_acesso/acesso_visitante_alt.php";
 	}
+	
+	/**	Ordem de Produção **/
+	elseif($pg	== "ordem_producao" && !$sub){
+	    $inicio	= "cadastros/ordem_producao/ordem_producao.php";
+	}elseif($pg	== "importar_ad" && !$sub){
+		$inicio	= "cadastros/ordem_producao/importarAD.php";
+	}
 		
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
