@@ -36,7 +36,15 @@
                                             <li><a href="inicio.php?pg=nacionalidade">Nacionalidade</a></li>                                            
                                             <li><a href="inicio.php?pg=papel">Papel</a></li>                                   
                         				</ul>
-									</li>  
+									</li>
+                                    
+                                     <li>
+                        				<a href="#" class="sub">PCP</a>
+                        				<ul>
+                            				<li class="topline"><a href="inicio.php?pg=ordem_producao">Gerar Arquivo AC</a></li>
+                            				<li><a href="inicio.php?pg=importar_ad">Importar Arquivo AD</a></li>
+                        				</ul>
+									</li>        
                                                                         
                                     <li>
 										<a href="#" class="sub">Tipos</a>
@@ -51,8 +59,7 @@
                                     <li><a href="inicio.php?pg=uf">Estados</a></li>
                                     <li><a href="inicio.php?pg=municipio">Cidades</a></li>
                                     <li><a href="inicio.php?pg=bairro">Bairros</a></li>
-                                    <li><a href="inicio.php?pg=cep">CEPs</a></li>
-                                                                        
+                                    <li><a href="inicio.php?pg=cep">CEPs</a></li>                                                                                                      
                                     <li>
                         				<a href="#" class="sub">Configurações</a>
                         				<ul>
