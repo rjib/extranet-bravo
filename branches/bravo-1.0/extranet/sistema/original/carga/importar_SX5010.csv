@@ -1,0 +1,152 @@
+000100;NOCE                                                   ;2435
+000103;NOCE/TABACO                                            ;5320
+000104;NOCE/CARVALHO                                          ;5202
+000105;NOCE/IMBUA                                             ;5173
+000107;NOCE/BRANCO                                            ;2436
+000114;NOCE/NOCE/CARVALHO                                     ;5315
+000200;MAPLE                                                  ;2437
+000201;MAPLE/BRANCO                                           ;4380
+000300;TABACO                                                 ;2434
+000301;TABACO/NOCE                                            ;5208
+000304;TABACO/CARVALHO                                        ;4419
+000305;TABACO/IMBUIA                                          ;4472
+000307;TABACO/BRANCO                                          ;2438
+000308;TABACO/TABACO VD PRETO                                 ;4388
+000360;TB/NA                                                  ;5354
+000391;TH/PRBL                                                ;5342
+000400;CARVALHO                                               ;2439
+000401;CARVALHO/NOCE                                          ;5318
+000403;CARVALHO/TABACO                                        ;4473
+000405;CARVALHO/IMBUIA                                        ;5174
+000407;CARVALHO/BRANCO                                        ;2440
+000491;CV/PRBL                                                ;5340
+000500;IMBUIA                                                 ;4359
+000501;IMBUIA/NOCE                                            ;5259
+000503;IMBUIA/TABACO                                          ;4474
+000504;IMBUIA/CARVALHO                                        ;4469
+000507;IMBUIA/BRANCO                                          ;4360
+000508;IMBUIA/IMBUIA VD PRETO                                 ;4389
+000510;IMBUIA NICE                                            ;6209
+000531;IMBUIA/TABACO WENGE                                    ;6226
+000542;IMBUIA / CARVALHO IBIZA                                ;23116
+000590;IMBUIA/PRETO                                           ;6203
+000591;IB/PRBL                                                ;5341
+000691;NA/PRBL                                                ;5343
+000700;BRANCO                                                 ;4326
+000701;BRANCO/NOCE                                            ;4327
+000703;BRANCO/TABACO                                          ;4328
+000704;BRANCO/CARVALHO                                        ;4329
+000705;BRANCO/IMBUIA                                          ;4387
+000708;BRANCO/PRETO                                           ;5265
+000709;BRANCO/CINZA                                           ;4379
+000710;BRANCO/BRANCO - VD BRANCO                              ;4383
+000711;BRANCO/BRANCO - VD PRETO                               ;4384
+000712;BRANCO/TABACO - VD PRETO                               ;4385
+000713;BRANCO/IMBUIA - VD PRETO                               ;4386
+000731;BRANCO/TABACO WENGE                                    ;6225
+000740;BRANCO/CARVALHO MEZO                                   ;6219
+000742;BRANCO/CARVALHO IBIZA                                  ;6228
+000760;BR/NA                                                  ;5355
+000770;BRANCO DIAMANTE                                        ;17409
+000791;BR/PRBL                                                ;5339
+000792;BF/PRBL                                                ;17410
+000793;BF                                                     ;17411
+000800;LARANJA/LARANJA                                        ;4381
+000801;LARANJA/BRANCO                                         ;4382
+000891;CG/PRBL                                                ;5344
+000900;PRETO                                                  ;4470
+000901;PRETO/NOCE                                             ;5256
+000903;PRETO/TABACO                                           ;5203
+000904;PRETO/CARVALHO                                         ;5257
+000905;PRETO/IMBUIA                                           ;5258
+000907;PRETO/BRANCO                                           ;4471
+001000;ALUMINIO                                               ;5201
+002000;LABIRINTO                                              ;5214
+003000;TEKA HINDI                                             ;5336
+003100;TABACO WENGE                                           ;6222
+003105;TABACO WENGE/IMBUIA                                    ;6224
+003107;TABACO WENGE/BRANCO                                    ;6223
+003142;TABACO WENGUE/CARVALHO IBIZA                           ;17391
+003160;TABACO WENGE/NOCE AMADO                                ;6233
+003191;TABACO WENGE/PRETO BRILHANTE                           ;30147
+003200;WENGUE                                                 ;30112
+003207;WENGUE / BRANCO                                        ;30113
+003270;WENGUE                                                 ;30154
+004000;CARVALHO MEZZO                                         ;6169
+004031;CARVALHO MEZZO / TABACO WENGE                          ;4358
+004070;CARVALHO MEZZO/BRANCO                                  ;6218
+004090;CARVALHO MEZZO/PRETO                                   ;30094
+004091;CARVALHO MEZO E PRETO BRILHANTE                        ;28973
+004100;CARVALHO DAKAR                                         ;6170
+004170;CARVALHO DAKAR/BRANCO                                  ;6191
+004190;CARVALHO DAKAR/PRETO                                   ;6200
+004191;CARVALHO DAKAR/PRETO BRILHANTE                         ;6188
+004200;CARVALHO IBIZA                                         ;6171
+004240;CARVALHO IBIZA/CARVALHO MEZZO                          ;17366
+004250;CARVALHO IBIZA/IMBUIA                                  ;17369
+004270;CARVALHO IBIZA/BRANCO                                  ;6192
+004290;CARVALHO IBIZA /PRETO                                  ;6202
+004291;CARVALHO IBIZA/PRETO BRILHANTE                         ;6189
+004300;CARVALHO MALVA                                         ;30121
+004370;CARVALHO MALVA                                         ;30152
+005000;MOGNO IGUACU                                           ;6229
+005100;TABACO AMBAR                                           ;6230
+005200;CARVALHO EBANO                                         ;6231
+005300;ROVERE CINZA                                           ;6232
+005400;ROVERE SERENO                                          ;30122
+006000;NOCE AMADO                                             ;5333
+006001;NA / NC                                                ;5349
+006003;NA / TB                                                ;5350
+006004;NA / CV                                                ;5351
+006005;NA / IB                                                ;5352
+006007;NA / BR                                                ;5353
+007100;TEKA ARTICO                                            ;6172
+007170;TEKA ARTICO/BRANCO                                     ;6193
+007190;TEKA ARTICO / PRETO                                    ;6201
+007191;TEKA ARTICO/PRETO BRILHANTE                            ;6190
+007920;BF/PB/BF                                               ;17407
+007930;BF/BF/PB                                               ;17408
+008000;CARVALHO GRIS                                          ;5334
+008100;GRIS MONTANO                                           ;30119
+008170;GRIS MONTANO                                           ;30153
+008910;CARV.GRIS/PRETO BRILHANTE                              ;23117
+009000;CINZA/CINZA                                            ;4335
+009100;PRETO BRILHANTE                                        ;5337
+009200;PRISMA NOGUEIRA CADIZ                                  ;30110
+009300;NOCE VERONA                                            ;30111
+009370;NOCE VERONA                                            ;30148
+009391;NOCE VERONA/PRETO BRILHANTE                            ;22979
+009400;NOCE CALIFORNIA                                        ;30118
+009470;NOCE CALIFORNIA                                        ;30149
+009500;CARVALHO AMETISTA                                      ;30120
+009570;CARVALHO AMETISTA                                      ;30150
+009600;NOCE AREZZO                                            ;30137
+009670;NOCE AREZZO                                            ;30151
+AMAREL;Amarelo                                                ;9281
+AZUL  ;Azul                                                   ;9282
+BRANCO;Branco                                                 ;9283
+CINZA ;Cinza                                                  ;9284
+PRETO ;Preto                                                  ;9285
+VERDE ;Verde                                                  ;9286
+VERMEL;Vermelho                                               ;9287
+AMAREL;Amarelo                                                ;14847
+AZUL  ;Azul                                                   ;14848
+BRANCO;Branco                                                 ;14849
+CINZA ;Cinza                                                  ;14850
+PRETO ;Preto                                                  ;14851
+VERDE ;Verde                                                  ;14852
+VERMEL;Vermelho                                               ;14853
+AMAREL;Amarelo                                                ;20459
+AZUL  ;Azul                                                   ;20460
+BRANCO;Branco                                                 ;20461
+CINZA ;Cinza                                                  ;20462
+PRETO ;Preto                                                  ;20463
+VERDE ;Verde                                                  ;20464
+VERMEL;Vermelho                                               ;20465
+AMAREL;Amarelo                                                ;26202
+AZUL  ;Azul                                                   ;26203
+BRANCO;Branco                                                 ;26204
+CINZA ;Cinza                                                  ;26205
+PRETO ;Preto                                                  ;26206
+VERDE ;Verde                                                  ;26207
+VERMEL;Vermelho                                               ;26208
