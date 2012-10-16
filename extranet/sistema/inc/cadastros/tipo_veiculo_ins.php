@@ -23,6 +23,4 @@
 			echo "[Erro] - Não foi possível inserir o tipo veiculo no momento.";
 		}
 		
-	}
-	
-?>
+	}?>
