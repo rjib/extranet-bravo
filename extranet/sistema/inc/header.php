@@ -43,6 +43,8 @@
                         				<ul>
                             				<li class="topline"><a href="inicio.php?pg=ordem_producao">Gerar Arquivo AC</a></li>
                             				<li><a href="inicio.php?pg=importar_ad">Importar Arquivo AD</a></li>
+                                            <li><a href="inicio.php?pg=lista_cores">Lista de Cores</a></li>
+                                            <li><a href="inicio.php?pg=lista_op">Ordem de Produção</a></li>                                            
                         				</ul>
 									</li>        
                                                                         

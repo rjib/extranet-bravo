@@ -177,6 +177,10 @@
 	    $inicio	= "cadastros/ordem_producao/ordem_producao.php";
 	}elseif($pg	== "importar_ad" && !$sub){
 		$inicio	= "cadastros/ordem_producao/importarAD.php";
+	}elseif($pg	== "lista_cores" && !$sub){
+		$inicio	= "cadastros/ordem_producao/lista_cores.php";
+	}elseif($pg	== "lista_op" && !$sub){
+		$inicio	= "cadastros/ordem_producao/lista_op.php";
 	}
 		
 ?>
