@@ -71,7 +71,7 @@ $(document).ready(function(){
           </tr>
           <tr>
           	<td width="142"><font class="FONT04"><b>Imprimir ja selecionado?</b></font></td>
-            <td width="60"><input type="radio" name="ck" id="ck" value="S" checked />Sim&nbsp;<input id="ck" name="ck" type="radio" value="N" />Não</td>
+            <td width="60"><input type="radio" name="ck" id="ck" title="Sim" value="S" checked />Sim&nbsp;<input title="Não" id="ck" name="ck" type="radio" value="N" />Não</td>
 			<td colspan="2"><button type="button" id="btPesquisarPI" name="btPesquisarPI" title="Consultar">Consultar</button></td>            
           </tr>       
         </table>
