@@ -22,7 +22,8 @@ TD, FONT, BODY {
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 100%;	
+	width: 100%;
+	z-index:10;	 /*Sobrepor header sobre todas as layers*/
 }
 
 #container {
@@ -294,6 +295,12 @@ INPUT.BOTAO{
 	height: 30px;
 	color: #000000; 
 	background-color: #F1F1F1; 
+}
+
+.LISTA TH#th_none.header, .LISTA TH#th_none.header input{ 
+	background-image:none !important; /*Removendo seta do checkbox no grid*/
+	cursor:auto !important;
+		
 }
 
 table.tablesorter thead tr .header {
