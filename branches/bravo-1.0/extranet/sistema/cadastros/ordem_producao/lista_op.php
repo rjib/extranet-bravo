@@ -67,7 +67,7 @@
 	              <td> 
                   <table width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA" >
 	                <tr>
-	                  <th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" /></td>
+	                  <th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" /></th>
                     </tr>
                   </table>
                   </td>

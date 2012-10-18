@@ -1,9 +1,60 @@
 <?php
-/*
+/**
 * Pagina responsavel por listar OP em aberto somente PI
 * @autor Ricardo Alvarenga
 * @version 1.0 15/10/2012
 */
+
+
+	$sqlCores = mysql_query("SELECT CO_COR, DS_COR, CO_RECNO FROM tb_pcp_cor ORDER BY DS_COR ASC",$conexaoERP)
+	or die("<script>
+			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
+			    history.back(-1);
+			</script>");
+	
+	if(mysql_num_rows($sqlCores) == 0){
+	    echo "<script type='text/javascript' language='javascript'>
+		      $(function($) {
+			      $('<p>[Erro] - N&atilde;o existe cores cadastradas, por favor entre em contato com o Suporte.</p>').dialog({
+				      modal: true,
+				      resizable: false,
+				      title: 'Aten&ccedil;&atilde;o',
+				      buttons: {
+				      Ok: function() {
+				          $( this ).dialog( 'close' );
+				          $(window.document.location).attr('href','inicio.php');
+				      }
+				  }
+			  }); });
+			  </script>";
+	}
+	
+	
+	$sqlEspessura = mysql_query("SELECT DISTINCT(NU_ESPESSURA) ESPESSURA FROM tb_pcp_produto WHERE NU_ESPESSURA <>''  ORDER BY ABS(NU_ESPESSURA) ASC;",$conexaoERP)
+	or die("<script>
+			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
+			    history.back(-1);
+			</script>");
+	
+	if(mysql_num_rows($sqlEspessura) == 0){
+	    echo "<script type='text/javascript' language='javascript'>
+		      $(function($) {
+			      $('<p>[Erro] - N&atilde;o existe espessura cadastrado, por favor entre em contato com o Suporte.</p>').dialog({
+				      modal: true,
+				      resizable: false,
+				      title: 'Aten&ccedil;&atilde;o',
+				      buttons: {
+				      Ok: function() {
+				          $( this ).dialog( 'close' );
+				          $(window.document.location).attr('href','inicio.php');
+				      }
+				  }
+			  }); });
+			  </script>";
+	}
+
+
+
 ?>
 
 <div id="header-wrap">
@@ -18,20 +69,28 @@
     </table>
 </div>
 <script type="text/javascript">
+
+
 $(document).ready(function(){
 	$("#btPesquisarPI").button();
 	$("#btGerarArquivo").button();
-	$( "#dataInicial" ).datepicker();
-	$( "#dataInicial" ).mask('99/99/9999');
-	$( "#dataFinal" ).datepicker();
-	$( "#dataFinal" ).mask('99/99/9999');
-	/*$("#pesquisaListaPi").hide();
+	$("#btSelecionarTudo").button();
+	$("#dataInicial").datepicker();
+	$("#dataInicial").mask('99/99/9999');
+	$("#dataFinal").datepicker();
+	$("#dataFinal").mask('99/99/9999');
+	$("#pesquisaListaPi").hide();
 	$("#btGerarArquivo").hide();
-	$("#gridListaPi").hide();
-	*/
+	$("#grid").hide();
+	$("#controls").hide();
+	$("#console").hide();
+	$("#btSelecionarTudo").hide();
 });	
 
 </script>
+<script type="text/javascript" src="js/cadastros/ordem_producao.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/paging.js"></script>
+
 <div id="ie6-container-wrap">
     <div id="container">
         <table width="1003" align="center" style="margin-top:30px; padding-left:5px; margin-bottom:10px;">
@@ -44,35 +103,48 @@ $(document).ready(function(){
             	<td>
                 	<table bgcolor="#FFFFFF" width="980" align="center" cellpadding="5" cellspacing="3">
 <tr>
-          	<td width="142"><font class="FONT04"><b>Data Emissão:</b></font></td>
+          	<td width="138"><font class="FONT04"><b>Data Emissão:</b></font></td>
             <td width="60"><input size="10" id="dataInicial" title="Data Inicial" name="dataInicial" type="text" class="INPUT03"></td>
-            <td width="7"><font class="FONT04"><b>à</b></font></td>
-            <td width="694"><input class="INPUT03" size="10" id="dataFinal" title="Data Final" name="dataFinal" type="text"></td>
+            <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                  <td width="2%"><font class="FONT04"><b>à</b></font></td>
+                  <td width="98%"><font class="FONT04"><b>
+                    <input class="INPUT03" size="10" id="dataFinal" title="Data Final" name="dataFinal" type="text" />
+                  </b></font></td>
+                </tr>
+            </table></td>
+            
           </tr>
           <tr>
           	<td><font class="FONT04"><b>Cor:</b></font></td>
-            <td colspan="3">
-            	<select title="Selecione a Cor" class="SELECT01">
+            <td colspan="4">
+            	<select id="cor" title="Selecione a Cor" class="SELECT01">
                 	<!-- BEGIN BLOCK_CORES -->
-                	<option>{CORES}</option>
+  				<?php while($rowCores=mysql_fetch_array($sqlCores)){ 	
+                    echo "<option value='".$rowCores['CO_COR']."'>".$rowCores['DS_COR']."</option>";
+         		 }?>          
                     <!-- END BLOCK_CORES -->
                 </select>
             </td>
           </tr>
           <tr>
           	<td><font class="FONT04"><b>Espessura:</b></font></td>
-            <td colspan="3">
-            	<select class="SELECT01" title="Selecione a Espessura">
+            <td colspan="4">
+            	<select id="espessura" class="SELECT01" title="Selecione a Espessura">
                 	<!-- BEGIN BLOCK_ESPESSURA -->
-                	<option>{ESPESSURA}</option>
+  				<?php while($rowEspessura=mysql_fetch_array($sqlEspessura)){ 	
+                    echo "<option value='".$rowEspessura['ESPESSURA']."'>".$rowEspessura['ESPESSURA']."</option>";
+         		 }?>  
                     <!-- END BLOCK_ESPESSURA -->
                 </select>
             </td>
           </tr>
           <tr>
-          	<td width="142"><font class="FONT04"><b>Imprimir ja selecionado?</b></font></td>
+          	<td width="138"><font class="FONT04"><b>Imprimir ja selecionado?</b></font></td>
             <td width="60"><input type="radio" name="ck" id="ck" title="Sim" value="S" checked />Sim&nbsp;<input title="Não" id="ck" name="ck" type="radio" value="N" />Não</td>
-			<td colspan="2"><button type="button" id="btPesquisarPI" name="btPesquisarPI" title="Consultar">Consultar</button></td>            
+			<td width="80"><button type="button" id="btPesquisarPI" name="btPesquisarPI" title="Consultar">Consultar</button></td>
+            <td width="135"><button type="button" id="btSelecionarTudo" name="btSelecionarTudo" title="Gerar Arquivo">Selecionar Todos</button></td>              
+            <td width="497"><button type="button" id="btGerarArquivo" name="btGerarArquivo" title="Selecionar Todos">Gerar Arquivo AD</button></td>            
           </tr>       
         </table>
                 </td>
@@ -80,49 +152,24 @@ $(document).ready(function(){
         </table>
         <table id="pesquisaListaPi" width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA" align="center" >
             <tr>
-            	<th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" /></td>
+            	<th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" /></th>
             </tr>
-        </table>
-        <table id="gridListaPi" class="LISTA" width="1003" border="1" cellspacing="1" cellpadding="0" bgcolor="#FFFFFF" align="center">
-			<tr>                
-                <th scope="col"><input title="Selecionar todos PIs" type="checkbox" id="ck_todos_pi" name="ck_todos_pi" /></th>
-                <th scope="col">Cor</th>
-                <th scope="col">Codigo Int.</th>
-                <th scope="col">Produto</th>
-                <th scope="col">Comprimento</th>
-                <th scope="col">Largura</th>     
-                <th scope="col">Espessura</th>  
-                <th scope="col">Qtde. Neces.</th>      
-                <th scope="col">Qtde. a Prod.</th>               
-          </tr>
-              <!--	BEGIN BLOCK_LISTA_PI -->
-              <tr align="center">          	                 
-                <td><input title="Selecionar PI" type="checkbox" value="{COD_PI}" id="ck_pi[]" name="ck_pi[]" /></td>
-                <td>{COR}</td>
-                <td>{CODIGO_INTERNO}</td>  
-                <td>{PRODUTO}</td>                              
-                <td>{COMPRIMENTO}</td>
-                <td>{LARGURA}</td>
-                <td>{ESPESSURA}</td>
-                <td>{QTDE_NECESSARIA}</td>
-                <td>{QTDE_PRODUZIR}</td>                                                                                                                     
-              </tr>
-              <!-- END BLOCK_LISTA_PI -->
-              <!-- BEGIN BLOCK_NENHUM_REGISTRO -->
-              <tr align="center">  
-                <td colspan="9">Nenhum registro encontrado!</td>
-              </tr>
-              <!-- END BLOCK_NENHUM_REGISTRO -->
+         </table>   
+       		<tr> 
+		       <td valign="top">
+                    <div id="grid" class="grid"></div>
+                    <div id="controls" class="controls"></div>
+                    <div id="console"></div>     
+                    </td>
+	            </tr>
         </table>
     </div>
-    <table align="center" width="1003" style="margin-top:-40px">
-                  <tr>
-              	<td align="right">
-                	<button type="button" id="btGerarArquivo" name="btGerarArquivo" title="Gerar Arquivo">Gerar Arquivo AC</button></td>
-                </td>
-              </tr>
-    </table>
-    
+</div>
+<div id="boxAlerta" title="Atenção">
+    <p align="center">
+        <span style="float: left; margin: 0 7px 50px 0;"></span>
+       O data de emissão deve ser informada!
+    </p>
 </div>
 <!---INICIO FOOTER--->
 <?php require("inc/footer.php"); ?>

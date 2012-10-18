@@ -7,8 +7,8 @@
 		public $s_table 		= ''; 		//String com o nome da tabela
 		public $s_fields		= ''; 		//String com os campos da tabela, separados por vírgula. Ex: id,name
 		public $s_labels		= ''; 		//String com as labels que ficarão no cabeçalho da tabela. Ex: ID,Nome
-		public $s_where			= '1'; 		//Clausúla where, se houver
-		public $s_orderby		= 'OP.CO_NUM'; 	//Campo utilizado para ordenação inicial
+		public $s_where			= ''; 		//Clausúla where, se houver
+		public $s_orderby		= 'PCP_PRODUTO.CO_COR'; 	//Campo utilizado para ordenação inicial
 		public $s_orientation	= 'ASC';	//ASC ou DESC
 		public $i_rowsperpage	= 50;		//Limite de registros visualizados por página
 		public $i_page			= 1;		//Página atual
@@ -68,7 +68,13 @@
 		//Retorna o total de linhas encontradas, usado para montar o número de páginas principalmente
 		public function total_rows(){
 						
-			$sth = $this->dbh->prepare('SELECT COUNT(*) FROM tb_pcp_op OP WHERE '.$this->s_where);
+			$sth = $this->dbh->prepare('SELECT 
+											COUNT(*)
+										FROM
+											tb_pcp_op AS PCP_OP 
+										INNER JOIN tb_pcp_produto AS PCP_PRODUTO ON PCP_OP.CO_PRODUTO = PCP_PRODUTO.CO_PRODUTO
+										INNER JOIN tb_pcp_cor AS PCP_COR ON PCP_PRODUTO.CO_COR = PCP_COR.CO_COR
+										WHERE '.$this->s_where);
 			$sth->execute();
 			$row = $sth->fetch(PDO::FETCH_NUM);
 			return $row[0];
@@ -199,24 +205,27 @@
 			}
 			
 			//Formula a query			
-			$sql = 'SELECT OP.CO_NUM
-					, OP.CO_ITEM
-					, OP.CO_SEQUENCIA
-					, OP.CO_PRODUTO
-					, OP.QTD_PRODUTO
-					, OP.QTD_PRODUZIDA
-					, CONCAT(SUBSTRING(OP.dt_emissao,7,2),"/", SUBSTRING(OP.dt_emissao,5,2), "/", SUBSTRING(OP.dt_emissao,1,4)) DT_EMISSAO
-					, OP.CO_RECNO
-				FROM tb_pcp_op OP
-				WHERE '.$this->s_where.'
-				ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
-				LIMIT '.$n.','.$this->i_rowsperpage;
-				
+			$sql = 'SELECT 
+						PCP_OP.CO_PCP_OP,
+						PCP_PRODUTO.CO_COR ,						
+						PCP_PRODUTO.DS_PRODUTO ,
+						PCP_PRODUTO.NU_COMPRIMENTO ,
+						PCP_PRODUTO.NU_LARGURA ,
+						PCP_OP.QTD_PRODUZIDA,																		
+						CONCAT(SUBSTRING(PCP_OP.DT_EMISSAO ,7,2),"/", SUBSTRING(PCP_OP.DT_EMISSAO ,5,2), "/", SUBSTRING(PCP_OP.DT_EMISSAO ,1,4))
+					FROM
+						tb_pcp_op AS PCP_OP 
+					INNER JOIN tb_pcp_produto AS PCP_PRODUTO ON PCP_OP.CO_PRODUTO = PCP_PRODUTO.CO_PRODUTO
+					INNER JOIN tb_pcp_cor AS PCP_COR ON PCP_PRODUTO.CO_COR = PCP_COR.CO_COR			
+					WHERE '.$this->s_where.'
+					ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
+					LIMIT '.$n.','.$this->i_rowsperpage;
+					
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			
 			//Cria o cabeçalho da tabela
-			$s_html .= '<table width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA"><thead><tr>';
+			$s_html .= '<table align="center" width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA"><thead><tr><th id="th_none" width="9px"></th>';
 			
 			for($i = 1; $i <= $a_th[0]; $i++){
 				
@@ -236,7 +245,7 @@
 				//Cria o corpo da tabela
 				while($row = $sth->fetch(PDO::FETCH_NUM)){
 					
-					$s_html .= '<tr>';
+					$s_html .= '<tr><td align="center"><input type="checkbox" id="'.utf8_encode($row[0]).'" name="pi_selecionado[]" value="'.utf8_encode($row[0]).'"/></td>';
 					
 					for($i = 0; $i < $a_cells[0]; $i++){
 						$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';
@@ -318,7 +327,7 @@
 				$url = preg_replace('/&p=[0-9]{1,9999}/', '&p=', $url);
 				
 				//Cria o link para enviar para a primeira página
-				$s_html = '<table width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA"><tr><th><a title="Primeira" href="'.$url.'1">Primeira</a></td>';
+				$s_html = '<table align="center" width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA"><tr><th><a title="Primeira" href="'.$url.'1">Primeira</a></td>';
 				
 				//Cria o link de anterior caso exista página anterior
 				if($this->i_page > 1){
