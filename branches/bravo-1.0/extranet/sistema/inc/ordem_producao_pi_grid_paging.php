@@ -207,10 +207,10 @@
 			//Formula a query			
 			$sql = 'SELECT 
 						PCP_OP.CO_PCP_OP,
-						PCP_PRODUTO.CO_COR ,						
+						PCP_PRODUTO.CO_INT_PRODUTO,						
 						PCP_PRODUTO.DS_PRODUTO ,
 						PCP_PRODUTO.NU_COMPRIMENTO ,
-						PCP_PRODUTO.NU_LARGURA ,
+						PCP_PRODUTO.NU_LARGURA,
 						PCP_OP.QTD_PRODUZIDA,																		
 						CONCAT(SUBSTRING(PCP_OP.DT_EMISSAO ,7,2),"/", SUBSTRING(PCP_OP.DT_EMISSAO ,5,2), "/", SUBSTRING(PCP_OP.DT_EMISSAO ,1,4))
 					FROM
@@ -245,7 +245,7 @@
 				//Cria o corpo da tabela
 				while($row = $sth->fetch(PDO::FETCH_NUM)){
 					
-					$s_html .= '<tr><td align="center"><input type="checkbox" id="pi_selecionado" name="pi_selecionado" value="'.utf8_encode($row[0]).'"/></td>';
+					$s_html .= '<tr><td align="center"><input type="checkbox" id="pi_selecionado" name="pi_selecionado[]" value="'.utf8_encode($row[0]).'"/></td>';
 					
 					for($i = 0; $i < $a_cells[0]; $i++){
 						$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';
