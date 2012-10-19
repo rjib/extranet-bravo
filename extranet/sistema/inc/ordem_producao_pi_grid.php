@@ -22,13 +22,13 @@
 			
 	}
 	$paging->table('');
-	$paging->where('PCP_PRODUTO.CO_COR LIKE "%'.$searchfor.'%" 
+	$paging->where('(PCP_PRODUTO.CO_INT_PRODUTO LIKE "%'.$searchfor.'%" OR PCP_PRODUTO.DS_PRODUTO LIKE "%'.$searchfor.'%")
 					AND PCP_OP.DT_EMISSAO BETWEEN "'.$dataInicial.'" AND "'.$dataFinal.'"
 					AND PCP_PRODUTO.CO_COR ="'.$co_cor.'" 
 					AND PCP_PRODUTO.NU_ESPESSURA ="'.$espessura.'"
 					AND PCP_OP.FL_SELECIONADO LIKE "%'.$flag.'%"');
-	$paging->labels('Código,Cód. Cor,Produto, Comprimento, Largura, Qtd. Produzida, Dt. Emissão');
-	$paging->fields('PCP_OP.CO_PCP_OP, PCP_PRODUTO.CO_COR,PCP_PRODUTO.DS_PRODUT,PCP_PRODUTO.NU_COMPRIMENTO,PCP_PRODUTO.NU_LARGURA,PCP_OP.QTD_PRODUZIDA,PCP_OP.DT_EMISSAO');
+	$paging->labels('Código,Código Int.,Produto, Comprimento, Largura, Qtd. Produzida, Dt. Emissão');
+	$paging->fields('PCP_OP.CO_PCP_OP, PCP_PRODUTO.CO_COR,PCP_PRODUTO.DS_PRODUTO,PCP_PRODUTO.NU_COMPRIMENTO,PCP_PRODUTO.NU_LARGURA,PCP_OP.QTD_PRODUZIDA,PCP_OP.DT_EMISSAO');
 	$paging->cols_width('30,50,250,60,50,68,68,60');
 	$paging->rowsperpage(30);
 	$paging->page(isset($_GET['p']) ? $_GET['p'] : 1);	
