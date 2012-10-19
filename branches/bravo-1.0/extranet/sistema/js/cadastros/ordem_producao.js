@@ -74,8 +74,6 @@ $(document).ready(function(){
 		});								
 		
 	});
-					
-	});
 	//Selecionar todos ckeckbox
 	$("#btSelecionarTudo").click(function(){
 		MarcarTodosCheckbox();	
