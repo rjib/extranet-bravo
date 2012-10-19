@@ -5,7 +5,6 @@
 * @version 1.0 15/10/2012
 */
 
-
 	$sqlCores = mysql_query("SELECT CO_COR, DS_COR, CO_RECNO FROM tb_pcp_cor ORDER BY DS_COR ASC",$conexaoERP)
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
@@ -103,7 +102,7 @@ $(document).ready(function(){
             	<td>
                 	<table bgcolor="#FFFFFF" width="980" align="center" cellpadding="5" cellspacing="3">
 <tr>
-          	<td width="138"><font class="FONT04"><b>Data Emissão:</b></font></td>
+          	<td width="171"><font class="FONT04"><b>Data Emissão:</b></font></td>
             <td width="60"><input size="10" id="dataInicial" title="Data Inicial" name="dataInicial" type="text" class="INPUT03"></td>
             <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
@@ -140,11 +139,11 @@ $(document).ready(function(){
             </td>
           </tr>
           <tr>
-          	<td width="138"><font class="FONT04"><b>Imprimir ja selecionado?</b></font></td>
-            <td width="60"><input type="radio" name="ck" id="ck" title="Sim" value="S" checked />Sim&nbsp;<input title="Não" id="ck" name="ck" type="radio" value="N" />Não</td>
-			<td width="80"><button type="button" id="btPesquisarPI" name="btPesquisarPI" title="Consultar">Consultar</button></td>
-            <td width="135"><button type="button" id="btSelecionarTudo" name="btSelecionarTudo" title="Gerar Arquivo">Selecionar Todos</button></td>              
-            <td width="497"><button type="button" id="btGerarArquivo" name="btGerarArquivo" title="Selecionar Todos">Gerar Arquivo AD</button></td>            
+          	<td width="171"><font class="FONT04"><b>Imprimir ja selecionado?</b></font></td>
+            <td width="60"><input type="radio" id="ck" name="ck" title="Sim" value="S"/>Sim&nbsp;<input title="Não" id="ck" name="ck" type="radio" value="N" checked />Não</td>
+			<td width="81"><button type="button" id="btPesquisarPI" name="btPesquisarPI" title="Consultar">Consultar</button></td>
+            <td width="143"><button type="button" id="btSelecionarTudo" name="btSelecionarTudo" title="Gerar Arquivo">Selecionar Todos</button></td>              
+            <td width="455"><button type="button" id="btGerarArquivo" name="btGerarArquivo" title="Selecionar Todos">Gerar Arquivo AD</button></td>            
           </tr>       
         </table>
                 </td>
