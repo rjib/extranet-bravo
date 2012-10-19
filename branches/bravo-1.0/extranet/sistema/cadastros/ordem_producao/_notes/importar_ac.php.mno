@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_Recordset1" value="name:CO_ACESSO_CONSULTOR;datatype:int,name:DT_CADAS;datatype:timestamp,name:DT_ACESSO_CONSULTOR;datatype:date,name:CO_CONSULTOR;datatype:int,name:HR_ENTRADA;datatype:string,name:HR_SAIDA;datatype:string,name:CO_TIPO_VEICULO;datatype:int,name:PL_VEICULO;datatype:string,name:CO_CARTAO_IDENTIFICACAO;datatype:int,name:CO_USUARIO_ENTRADA;datatype:int,name:CO_USUARIO_SAIDA;datatype:int" />
+</info>

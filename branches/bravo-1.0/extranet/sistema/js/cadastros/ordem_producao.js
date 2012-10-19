@@ -17,18 +17,18 @@ var searchdiv = '#searching';					//Div utilizada para realizar o search
 			
 /***** FIM CONFIGURACAO SCRIPT TABLESORTER *****/	 	
 $(document).ready(function(){
+	//Ações click pesquesar PI
 	$("#btPesquisarPI").click(function(){		
 		var dataInicial = $("#dataInicial").val();
 		var dataFinal = $("#dataFinal").val();
 		var cor = $("#cor").val();
-		var flag = $("#ck").val();
+		var flag = $("#ck:checked").val();
 		var espessura = $("#espessura").val();
 		if(dataInicial !='' && dataFinal != ''){
 			controlsscript		=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
 			gridscript	=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
-			//Inicia a função search para o input designado para esta função			
+			/*## Chamada dos metodos para reload do grid ##*/			
 			search();	
-			//Carrega o grid
 			gridLoader(searchfor, page);
 			$("#grid").show();
 			$("#pesquisaListaPi").show();
@@ -41,13 +41,47 @@ $(document).ready(function(){
 			$('#boxAlerta').dialog('open');	
 		}
 	});
-	
+	//Ações click gerar arquivo AD
+	$("#btGerarArquivo").click(function(){
+		var $tamanho = $('#pi_selecionado:checked').length;	
+		$.post('inc/cadastros/controle_acesso/acesso_visitante_ins.php', {codigoVisitante: codigoVisitante}, function(resposta) {
+																																																																																																				
+			if (resposta != false) {
+				$('<p>' + resposta + '</p>').dialog({
+					modal: true,
+					resizable: false,
+					title: 'Aten&ccedil;&atilde;o',
+					buttons: {
+						Ok: function() {
+							$(this).dialog("close");
+						}
+					}
+				});
+			}else {
+				$('<p>Cadastro efetuado com sucesso!</p>').dialog({
+					modal: true,
+					resizable: false,
+					title: 'Aten&ccedil;&atilde;o',
+					buttons: {
+							Ok: function() {
+								$(this).dialog("close");
+									$("#formularioAcessoVisitante").dialog("close");
+								}
+							}
+				});
+				$("#nomeVisitante").val(""); 
+			}
+		});								
+		
+	});
+					
+	});
+	//Selecionar todos ckeckbox
 	$("#btSelecionarTudo").click(function(){
 		MarcarTodosCheckbox();	
-	});
+	});	
 	
-	
-	
+	//Box data de emissão nao informada
 	$( "#boxAlerta" ).dialog({
 			autoOpen: false,
             modal: true,
@@ -59,10 +93,10 @@ $(document).ready(function(){
             }
     });
 });
-
+// Metodo para selecionar todos checkboxes
 function MarcarTodosCheckbox(){
 
-	$("input[name='pi_selecionado[]']").each(function(){
+	$("input[name='pi_selecionado']").each(function(){
 		if(!this.checked){
 			$(this).attr("checked", "checked");
 		}else{

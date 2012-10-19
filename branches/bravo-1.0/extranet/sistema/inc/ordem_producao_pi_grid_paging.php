@@ -245,7 +245,7 @@
 				//Cria o corpo da tabela
 				while($row = $sth->fetch(PDO::FETCH_NUM)){
 					
-					$s_html .= '<tr><td align="center"><input type="checkbox" id="'.utf8_encode($row[0]).'" name="pi_selecionado[]" value="'.utf8_encode($row[0]).'"/></td>';
+					$s_html .= '<tr><td align="center"><input type="checkbox" id="pi_selecionado" name="pi_selecionado" value="'.utf8_encode($row[0]).'"/></td>';
 					
 					for($i = 0; $i < $a_cells[0]; $i++){
 						$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';
