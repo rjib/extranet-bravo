@@ -170,6 +170,11 @@ $(document).ready(function(){
        O data de emissão deve ser informada!
     </p>
 </div>
+<div id="boxGerandoArquivo" title="Gerando Arquivo AD">
+    <p align="center">
+       <img src="img/loader.gif" /></br>Por favor aguarde, o arquivo esta sendo gerado.
+    </p>
+</div>
 <!---INICIO FOOTER--->
 <?php require("inc/footer.php"); ?>
 <!---FINAL FOOTER--->

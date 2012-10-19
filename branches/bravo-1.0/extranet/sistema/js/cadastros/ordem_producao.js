@@ -43,37 +43,20 @@ $(document).ready(function(){
 	});
 	//Ações click gerar arquivo AD
 	$("#btGerarArquivo").click(function(){
-		var $tamanho = $('#pi_selecionado:checked').length;	
-		$.post('inc/cadastros/controle_acesso/acesso_visitante_ins.php', {codigoVisitante: codigoVisitante}, function(resposta) {
-																																																																																																				
-			if (resposta != false) {
-				$('<p>' + resposta + '</p>').dialog({
-					modal: true,
-					resizable: false,
-					title: 'Aten&ccedil;&atilde;o',
-					buttons: {
-						Ok: function() {
-							$(this).dialog("close");
-						}
-					}
-				});
-			}else {
-				$('<p>Cadastro efetuado com sucesso!</p>').dialog({
-					modal: true,
-					resizable: false,
-					title: 'Aten&ccedil;&atilde;o',
-					buttons: {
-							Ok: function() {
-								$(this).dialog("close");
-									$("#formularioAcessoVisitante").dialog("close");
-								}
-							}
-				});
-				$("#nomeVisitante").val(""); 
-			}
-		});								
 		
-	});
+		var tamanho = $('#pi_selecionado:checked').length;	
+		var co_pi = new Array();
+		//pega valores selecionados
+		$("input[type=checkbox][name='pi_selecionado[]']:checked").each(function(){
+			co_pi.push($(this).val());
+		});
+		
+		$.post('inc/cadastros/ordem_producao_pi_gerar_ad.php', {co_pi: co_pi},function(data) {
+			$('#boxGerandoArquivo').dialog('open');
+        });//fim do post		
+	});//fim click
+	
+	
 	//Selecionar todos ckeckbox
 	$("#btSelecionarTudo").click(function(){
 		MarcarTodosCheckbox();	
@@ -90,11 +73,18 @@ $(document).ready(function(){
                 }
             }
     });
+	$("#boxGerandoArquivo").dialog({
+		autoOpen: false,
+		modal: true,
+		closeOnEscape:false,
+		resizable:false,
+		draggable:false,
+	}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();			
 });
 // Metodo para selecionar todos checkboxes
 function MarcarTodosCheckbox(){
 
-	$("input[name='pi_selecionado']").each(function(){
+	$("input[name='pi_selecionado[]']").each(function(){
 		if(!this.checked){
 			$(this).attr("checked", "checked");
 		}else{
