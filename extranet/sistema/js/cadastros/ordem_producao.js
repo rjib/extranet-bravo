@@ -27,6 +27,7 @@ $(document).ready(function(){
 		if(dataInicial !='' && dataFinal != ''){
 			controlsscript		=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
 			gridscript	=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
+			//alert(gridscript);
 			/*## Chamada dos metodos para reload do grid ##*/			
 			search();	
 			gridLoader(searchfor, page);
