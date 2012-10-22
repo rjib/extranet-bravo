@@ -142,8 +142,8 @@ $(document).ready(function(){
           	<td width="171"><font class="FONT04"><b>Imprimir ja selecionado?</b></font></td>
             <td width="60"><input type="radio" id="ck" name="ck" title="Sim" value="S"/>Sim&nbsp;<input title="Não" id="ck" name="ck" type="radio" value="N" checked />Não</td>
 			<td width="81"><button type="button" id="btPesquisarPI" name="btPesquisarPI" title="Consultar">Consultar</button></td>
-            <td width="143"><button type="button" id="btSelecionarTudo" name="btSelecionarTudo" title="Gerar Arquivo">Selecionar Todos</button></td>              
-            <td width="455"><button type="button" id="btGerarArquivo" name="btGerarArquivo" title="Selecionar Todos">Gerar Arquivo AD</button></td>            
+            <td width="140"><button type="button" id="btSelecionarTudo" name="btSelecionarTudo" title="Gerar Arquivo">Selecionar Todos</button></td>              
+            <td width="458"><button type="button" id="btGerarArquivo" name="btGerarArquivo" title="Selecionar Todos">Gerar Arquivo AD</button></td>            
           </tr>       
         </table>
                 </td>
@@ -172,7 +172,7 @@ $(document).ready(function(){
 </div>
 <div id="boxGerandoArquivo" title="Gerando Arquivo AD">
     <p align="center">
-       <img src="img/loader.gif" /></br>Por favor aguarde, o arquivo esta sendo gerado.
+       <img src="img/loader.gif" /></br>Gerando arquivo, favor aguarde...
     </p>
 </div>
 <!---INICIO FOOTER--->
