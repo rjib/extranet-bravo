@@ -1,7 +1,6 @@
 <?php
 	
-	header('Content-Type: text/html; charset=utf-8');       
-	
+	header('Content-Type: text/html; charset=utf-8');	
 	$conexaoERP = mysql_connect("localhost","root","")
 	or die ("<script>
 			     alert('[Erro] - CONFIGURAÇÃO DO BANCO DE DADOS!');

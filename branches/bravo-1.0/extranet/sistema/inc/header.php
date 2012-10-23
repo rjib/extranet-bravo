@@ -65,7 +65,7 @@
                                     <li>
                         				<a href="#" class="sub">Configurações</a>
                         				<ul>
-                            				<li class="topline"><a href="inicio.php?pg=empresa">Configuração 01</a></li>
+                            				<li class="topline"><a href="inicio.php?pg=parametros_giben_optisave">Parametros Giben OptiSave</a></li>
                         				</ul>
 									</li>  
                                                                         		
