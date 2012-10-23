@@ -54,6 +54,7 @@ $(document).ready(function(){
 		
 		$.post('inc/cadastros/ordem_producao_pi_gerar_ad.php', {co_pi: co_pi},function(data) {
 			$('#boxGerandoArquivo').dialog('open');
+			alert(co_pi);
         });//fim do post		
 	});//fim click
 	

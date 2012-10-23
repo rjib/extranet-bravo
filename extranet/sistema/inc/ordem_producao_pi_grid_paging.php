@@ -211,7 +211,7 @@
 						PCP_PRODUTO.DS_PRODUTO ,
 						PCP_PRODUTO.NU_COMPRIMENTO ,
 						PCP_PRODUTO.NU_LARGURA,
-						PCP_OP.QTD_PRODUZIDA,																		
+						PCP_OP.QTD_PRODUTO,																		
 						CONCAT(SUBSTRING(PCP_OP.DT_EMISSAO ,7,2),"/", SUBSTRING(PCP_OP.DT_EMISSAO ,5,2), "/", SUBSTRING(PCP_OP.DT_EMISSAO ,1,4))
 					FROM
 						tb_pcp_op AS PCP_OP 
@@ -242,16 +242,19 @@
 			//Se não forem inseridas colunas manualmente, então apenas mostra os resultados do banco
 			if($this->a_columns == null){
 				
+				$ordem = 2; //ordem do pi inicia-se com 2
+				
 				//Cria o corpo da tabela
 				while($row = $sth->fetch(PDO::FETCH_NUM)){
 					
-					$s_html .= '<tr><td align="center"><input type="checkbox" id="pi_selecionado" name="pi_selecionado[]" value="'.utf8_encode($row[0]).'"/></td>';
+					$s_html .= '<tr><td align="center"><input type="hidden" name="piOrdem[]" id="piOrdem" value="'.$ordem.'"/><input type="checkbox" id="pi_selecionado" name="pi_selecionado[]" value="'.utf8_encode($row[0]).'"/></td>';
 					
 					for($i = 0; $i < $a_cells[0]; $i++){
 						$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';
 					}
 					
 					$s_html .= '</tr>';
+					$ordem++; //incrementa para nova ordem, ja que esta agrupado por espessura
 				
 				}
 			
