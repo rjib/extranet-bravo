@@ -17,7 +17,7 @@
 	
    	$outputPath = "";
 	
-	$arquivo[0]="importar_SC2010.csv";
+	$arquivo[0]="importar_SB1010.csv";
 	
 	$ArquivoImportar = $arquivo;
 	$loops = count ($ArquivoImportar);
@@ -48,17 +48,21 @@
 			
 		    $linha = explode (";",$linha_arquivo);
 			
-			$sqlPcpOp = mysql_query ("SELECT null FROM tb_pcp_op WHERE CO_RECNO = '".addslashes (trim ($linha[7]))."'",$conexao)
+			$sqlPcpProduto = mysql_query ("SELECT null FROM tb_pcp_produto WHERE CO_RECNO = '".addslashes (trim ($linha[11]))."'",$conexao)
 			or die (mysql_error ());
 			
-			if (mysql_num_rows ($sqlPcpOp) == 0){
-			    mysql_query ("INSERT INTO tb_pcp_op (CO_NUM
-								  ,CO_ITEM
-								  ,CO_SEQUENCIA
-								  ,CO_PRODUTO
-								  ,QTD_PRODUTO
-								  ,QTD_PRODUZIDA
-								  ,DT_EMISSAO
+			if (mysql_num_rows ($sqlPcpProduto) == 0){
+			    mysql_query ("INSERT INTO tb_pcp_produto (CO_PRODUTO
+								  ,CO_INT_PRODUTO
+								  ,CO_COR
+								  ,DS_PRODUTO
+								  ,TP_PRODUTO
+								  ,TP_UNIDADE
+								  ,CO_LINHA
+								  ,NU_COMPRIMENTO
+								  ,NU_LARGURA
+								  ,NU_ESPESSURA
+								  ,NU_PESO
 								  ,CO_RECNO) 
 				              VALUES ('".addslashes (trim ($linha[0]))."'
 							      , '".addslashes (trim ($linha[1]))."'
@@ -67,8 +71,12 @@
 								  , '".addslashes (trim ($linha[4]))."'
 								  , '".addslashes (trim ($linha[5]))."'
 								  , '".addslashes (trim ($linha[6]))."'
-								  , '".addslashes (trim ($linha[7]))."')",$conexao)
-			    or die  (mysql_error ()." ->  (insereOrdemProducao)");
+								  , '".addslashes (trim ($linha[7]))."'
+								  , '".addslashes (trim ($linha[8]))."'
+								  , '".addslashes (trim ($linha[9]))."'
+								  , '".addslashes (trim ($linha[10]))."'
+								  , '".addslashes (trim ($linha[11]))."')",$conexao)
+			    or die  (mysql_error ()." ->  (insereProduto)".$linha[11]);
 			}
 			
 			$count++;
@@ -80,5 +88,6 @@
 		//rename($outputPath.$myfile, $outputPath."importados/".$myfile);
 		
 		echo "Arquivo: ".$myfile." importado com sucesso!<br>";
+		echo "CO_RECNO = ".$linha[11].'</br>';
 				  
     }
