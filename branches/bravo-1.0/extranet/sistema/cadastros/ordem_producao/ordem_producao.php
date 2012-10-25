@@ -84,6 +84,14 @@ $(document).ready(function(){
 	$("#controls").hide();
 	$("#console").hide();
 	$("#btSelecionarTudo").hide();
+	$("#formularioGerarArquivoAD").hide();
+
+	$("#unidadeComplementar").keyup(function() {
+		 var valor = $("#unidadeComplementar").val().replace(/[^0-9]+/g,'');
+		 $("#unidadeComplementar").val(valor);
+	});
+			
+
 });	
 
 </script>
@@ -100,52 +108,52 @@ $(document).ready(function(){
         <table align="center" bgcolor="f7f7f7" cellspacing="5px;" class="TABLE_FULL01" width="1000">
         	<tr>
             	<td>
-                	<table bgcolor="#FFFFFF" width="980" align="center" cellpadding="5" cellspacing="3">
-<tr>
-          	<td width="171"><font class="FONT04"><b>Data Emissão:</b></font></td>
-            <td width="60"><input size="10" id="dataInicial" title="Data Inicial" name="dataInicial" type="text" class="INPUT03"></td>
-            <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                  <td width="2%"><font class="FONT04"><b>à</b></font></td>
-                  <td width="98%"><font class="FONT04"><b>
-                    <input class="INPUT03" size="10" id="dataFinal" title="Data Final" name="dataFinal" type="text" />
-                  </b></font></td>
-                </tr>
-            </table></td>
-            
-          </tr>
-          <tr>
-          	<td><font class="FONT04"><b>Cor:</b></font></td>
-            <td colspan="4">
-            	<select id="cor" title="Selecione a Cor" class="SELECT01">
-                	<!-- BEGIN BLOCK_CORES -->
-  				<?php while($rowCores=mysql_fetch_array($sqlCores)){ 	
-                    echo "<option value='".$rowCores['CO_COR']."'>".$rowCores['DS_COR']."</option>";
-         		 }?>          
-                    <!-- END BLOCK_CORES -->
-                </select>
-            </td>
-          </tr>
-          <tr>
-          	<td><font class="FONT04"><b>Espessura:</b></font></td>
-            <td colspan="4">
-            	<select id="espessura" class="SELECT01" title="Selecione a Espessura">
-                	<!-- BEGIN BLOCK_ESPESSURA -->
-  				<?php while($rowEspessura=mysql_fetch_array($sqlEspessura)){ 	
-                    echo "<option value='".$rowEspessura['ESPESSURA']."'>".$rowEspessura['ESPESSURA']."</option>";
-         		 }?>  
-                    <!-- END BLOCK_ESPESSURA -->
-                </select>
-            </td>
-          </tr>
-          <tr>
-          	<td width="171"><font class="FONT04"><b>Imprimir ja selecionado?</b></font></td>
-            <td width="60"><input type="radio" id="ck" name="ck" title="Sim" value="S"/>Sim&nbsp;<input title="Não" id="ck" name="ck" type="radio" value="N" checked />Não</td>
-			<td width="81"><button type="button" id="btPesquisarPI" name="btPesquisarPI" title="Consultar">Consultar</button></td>
-            <td width="140"><button type="button" id="btSelecionarTudo" name="btSelecionarTudo" title="Gerar Arquivo">Selecionar Todos</button></td>              
-            <td width="458"><button type="button" id="btGerarArquivo" name="btGerarArquivo" title="Selecionar Todos">Gerar Arquivo AD</button></td>            
-          </tr>       
-        </table>
+		            <table bgcolor="#FFFFFF" width="980" align="center" cellpadding="5" cellspacing="3">
+						<tr>
+				          	<td width="171"><font class="FONT04"><b>Data Emissão:</b></font></td>
+				            <td width="60"><input onchange="ocultarBotoes();" size="10" id="dataInicial" title="Data Inicial" name="dataInicial" type="text" class="INPUT03"></td>
+				            <td colspan="3">
+				            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					              	<tr>
+					                  <td width="2%"><font class="FONT04"><b>à</b></font></td>
+					                  <td width="98%">
+					                    <input onchange="ocultarBotoes();" class="INPUT03" size="10" id="dataFinal" title="Data Final" name="dataFinal" type="text" /></td>
+					                </tr>
+		            			</table>
+		            		</td>            
+		          		</tr>
+		         		 <tr>
+		          			<td><font class="FONT04"><b>Cor:</b></font></td>
+				            <td colspan="4">
+				            	<select onchange="ocultarBotoes();" id="cor" title="Selecione a Cor" class="SELECT01">
+				                	<!-- BEGIN BLOCK_CORES -->
+				  				<?php while($rowCores=mysql_fetch_array($sqlCores)){ 	
+				                    echo "<option value='".$rowCores['CO_COR']."'>".$rowCores['DS_COR']."</option>";
+				         		 }?>          
+				                    <!-- END BLOCK_CORES -->
+				                </select>
+				            </td>
+		          		</tr>
+		          		<tr>
+				          	<td><font class="FONT04"><b>Espessura:</b></font></td>
+				            <td colspan="4">
+				            	<select id="espessura" onchange="ocultarBotoes();" class="SELECT01" title="Selecione a Espessura">
+				                	<!-- BEGIN BLOCK_ESPESSURA -->
+				  				<?php while($rowEspessura=mysql_fetch_array($sqlEspessura)){ 	
+				                    echo "<option value='".$rowEspessura['ESPESSURA']."'>".$rowEspessura['ESPESSURA']."</option>";
+				         		 }?>  
+				                    <!-- END BLOCK_ESPESSURA -->
+				                </select>
+				            </td>
+		          		</tr>
+		        		<tr>
+				          	<td width="171"><font class="FONT04"><b>Imprimir ja selecionado?</b></font></td>
+				            <td width="60"><input type="radio" id="ck" name="ck" title="Sim" value="S"/>Sim&nbsp;<input title="Não" id="ck" name="ck" type="radio" value="N" checked />Não</td>
+							<td width="81"><button type="button" id="btPesquisarPI" name="btPesquisarPI" title="Consultar">Consultar</button></td>
+				            <td width="140"><button type="button" id="btSelecionarTudo" name="btSelecionarTudo" title="Gerar Arquivo">Selecionar Todos</button></td>              
+				            <td width="458"><button type="button" id="btGerarArquivo" name="btGerarArquivo" title="Selecionar Todos">Gerar Arquivo AD</button></td>            
+		        	 	</tr>       
+		       		</table>
                 </td>
             </tr>
         </table>
@@ -153,7 +161,8 @@ $(document).ready(function(){
             <tr>
             	<th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" /></th>
             </tr>
-         </table>   
+        </table> 
+        <table align="center">  
        		<tr> 
 		       <td valign="top">
                     <div id="grid" class="grid"></div>
@@ -170,11 +179,30 @@ $(document).ready(function(){
        O data de emissão deve ser informada!
     </p>
 </div>
-<div id="boxGerandoArquivo" title="Gerando Arquivo AD">
+<div id="boxGerando" title="Atenção">
     <p align="center">
-       <img src="img/loader.gif" /></br>Gerando arquivo, favor aguarde...
+        <span><img src="img/loader.gif"/></span>
+       O arquivo esta sendo criado, por favor aguarde...
     </p>
 </div>
+<div id="formularioGerarArquivoAD">
+	<form id="formularioGerarAD" action="javascript:void(0)" method="post">
+		<table width="100%" border="0" cellspacing="2" cellpadding="3">
+			<tr>
+				<td width="142" align="left"><font class="FONT04"><b>Unidade Complementar:</b></font></td>
+				<td colspan="3" align="left">
+					<input title="Valor adicionado a largura e comprimento da peça" name="unidadeComplementar" id="unidadeComplementar" type="text" class="INPUT01" size="15" maxlength="3" />
+				</td>
+			</tr>
+			<tr>
+				<td align="left"><font class="FONT04"><b>Nome do Arquivo:</b></font></td>
+				<td colspan="3" align="left"><input type="text" name="nomeArquivo" id="nomeArquivo" class="INPUT01" size="20" /></td>
+			</tr>		
+		</table>
+	</form>
+</div>
+
+
 <!---INICIO FOOTER--->
 <?php require("inc/footer.php"); ?>
 <!---FINAL FOOTER--->

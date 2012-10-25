@@ -13,6 +13,7 @@
 			$co_cor 	 	 = $_GET['cor'];
 			$espessura 	 	 = $_GET['espessura'];			
 			$flag  			 = $_GET['flag'];
+			$flag =='S'? $flag='':$flag=$_GET['flag'];
 	}else{
 			$dataInicial = date('Ymd');			
 			$dataFinal	 = date('Ymd');
@@ -28,9 +29,9 @@
 					AND PCP_PRODUTO.CO_COR ="'.$co_cor.'" 
 					AND PCP_PRODUTO.NU_ESPESSURA ="'.$espessura.'"
 					AND PCP_OP.FL_SELECIONADO LIKE "%'.$flag.'%"');
-	$paging->labels('Código,Código Int.,Produto, Comprimento, Largura, Quantidade, Dt. Emissão');
-	$paging->fields('PCP_OP.CO_PCP_OP, PCP_PRODUTO.CO_INT_PRODUTO,PCP_PRODUTO.DS_PRODUTO,PCP_PRODUTO.NU_COMPRIMENTO,PCP_PRODUTO.NU_LARGURA,PCP_OP.QTD_PRODUTO,PCP_OP.DT_EMISSAO');
-	$paging->cols_width('30,50,250,60,50,68,68,60');
+	$paging->labels('Status,C&oacute;digo,C&oacuted. Int.,Produto, Comp., Larg., Quant., Dt. Emiss&atilde;o');
+	$paging->fields('PCP_OP.FL_SELECIONADO,PCP_OP.CO_PCP_OP, PCP_PRODUTO.CO_INT_PRODUTO,PCP_PRODUTO.DS_PRODUTO,PCP_PRODUTO.NU_COMPRIMENTO,PCP_PRODUTO.NU_LARGURA,PCP_OP.QTD_PRODUTO,PCP_OP.DT_EMISSAO');
+	$paging->cols_width('5,10,30,250,30,30,30,30,40');
 	$paging->rowsperpage(30);
 	$paging->page(isset($_GET['p']) ? $_GET['p'] : 1);	
 	
