@@ -67,6 +67,15 @@ $(document).ready(function(){
 	                },
 					'Gerar': function(){
 						
+						var dataInicial = $("#dataInicial").val();
+						var dataFinal = $("#dataFinal").val();
+						var cor = $("#cor").val();
+						var flag = $("#ck:checked").val();
+						var espessura = $("#espessura").val();
+						
+						controlsscript		=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
+						gridscript			=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
+						
 						//pegando valores do formulario
 						var dataInicial 		= $("#dataInicial").val();
 						var dataFinal 			= $("#dataFinal").val();
@@ -103,13 +112,14 @@ $(document).ready(function(){
 								} 
 								else {
 									$( "#boxGerando" ).dialog('close');
-									$("<p>Arquivo gerado com sucesso!</p>").dialog({
+									$("<p align='center'><img src='img/tick-icon.gif'/>Arquivo gerado com sucesso!</p>").dialog({
 										modal: true,
 										resizable: false,
 										title: 'Aten&ccedil;&atilde;o',
 										buttons: {
 											Ok: function() {												
 												$(this).dialog("close");
+												$("#nomeArquivo").val('');
 												$("#formularioGerarArquivoAD").dialog("close");
 												 
 											}
@@ -126,8 +136,8 @@ $(document).ready(function(){
 					}// fim gerar
 	            },// fim buttons
 				close: function() {
-					// $("#grid").load("inc/ordem_producao_pi_grid.php?dataInicial="+dataInicial+"&dataFinal="+dataFinal+"&co_cor="+cor+"&espessura="+espessura+"&flag="+flag);
-					$(window.document.location).attr('href','inicio.php?pg=ordem_producao');
+					search();	
+					gridLoader(searchfor, page);
 					
 				}
 	    	});//fim box
