@@ -1,5 +1,6 @@
 <?php
 require('ordem_producao_pi_dao.php');
+require ('../../helper.class.php');
 
 //constantes de parametros 
 $_DIMENSAOMINIMA = 240; //dimensao minima
@@ -15,29 +16,40 @@ $_DESCRICAO  	 = array('numCaracter'=>150,'posPrimeiroCaracterer'=>46,'multiplic
 DEFINE('$_PAINEL','4012750018400001001PAINEL');
 $_PATH			 = 'c:\\';
 
+$piModel = new ordemProducaoPi();
+$_helper = new helper();
+
+if(isset($_POST['dataInicial']) && isset($_POST['dataFinal']) && isset($_POST['cor']) && isset($_POST['espessura']) && isset($_POST['flag']) && isset($_POST['co_pi']) && isset($_POST['nomeArquivo']) && isset($_POST['unidadeComplementar']))
+{
+	$dataInicial 			= $_helper->ajustarDataYYYYmmdd($_POST['dataInicial']);
+	$dataFinal 				= $_helper->ajustarDataYYYYmmdd($_POST['dataFinal']);
+	$cor					= $_POST['cor'];
+	$espessura 				= $_POST['espessura'];
+	$flag					= $_POST['flag'];
+	$co_pcp_op  			= $_POST['co_pi'];
+	$nomeArquivo			= $_POST['nomeArquivo'];
+	$unidadeComplementar	= $_POST['unidadeComplementar'];
+}else{
+	echo "<script>
+			    alert('[Erro] - Não existe dados enviados, favor entrar em contato com o suporte!');
+			    history.back(-1);
+		  </script>";	
+}
 
 
-$dataInicial 		= '20121001';
-$dataFinal 			= '20121023';
-$cor				= '000300';
-$espessura 			= 15;
-$ordem				= 1; //loop
-$flag				= 'N';
-$co_pcp_op  		= array('1362','1495'); //loop
-$nomeArquivo		= 'nomeArquivo';
-$unidadeComplementar=5;
-
-$piModel = new ordemProducaoPi();//modelPi
-
-
-$ordem = 1; //ordem dos PIs de acordo com a quantidade selecionada
+$ordem = 2; //ordem dos PIs de acordo com a quantidade selecionada
 $nQuantidade = 0;
+$veio = 0;
+$dadosArquivo = array();
+
+
 for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	
 	$row = mysql_fetch_assoc($piModel->listaPi($cor,$espessura,$dataInicial,$dataFinal,$co_pcp_op[$i],$conexaoERP));
 	$tempComprimento = $row['NU_COMPRIMENTO'];
 	$tempLargura	 = $row['NU_LARGURA'];
 	$tempEspessura   = $row['NU_ESPESSURA'];
+	$row['DS_COR'] = trim($row['DS_COR']);//removendo espacos em branco caso exista
 	strlen($row['DS_COR'])>15 ? $row['DS_COR']=substr($row['DS_COR'],0,15): $row['DS_COR']=str_pad($row['DS_COR'], $_COR['numCaracter'] , " ");
 	$row['NU_ESPESSURA']= floatval($row['NU_ESPESSURA']*$_ESPESSURA['multiplicadorAtivo']); 
 	strlen($row['NU_ESPESSURA'])>3 ? $row['NU_ESPESSURA']=substr($row['NU_ESPESSURA'],0,2): $row['NU_ESPESSURA']=str_pad($row['NU_ESPESSURA'],$_ESPESSURA['numCaracter'],0,STR_PAD_LEFT);
@@ -109,20 +121,35 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	//QUANTIDADE
 	$row['QTD_PRODUTO'] = str_pad($row['QTD_PRODUTO'],$_QUANTIDADE['numCaracter'],0,STR_PAD_LEFT);
 	
-	substr($row['DS_COR'],0,2)=="BR" or substr($row['DS_COR'],0,2)=="PR" or substr($row['DS_COR'],0,2)=="BF" ? $veio=1:$veio=0;
+	if(trim(substr($row['DS_COR'],0,2))=="BR" || trim(substr($row['DS_COR'],0,2))=="PR" || trim(substr($row['DS_COR'],0,2))=="BF" ){
+		$veio=1;
+	}else{		
+		$veio=0;
+	}
 	
 	
-	var_dump($row['DS_COR'].$row['NU_ESPESSURA'].$ordemProducao.$row['NU_COMPRIMENTO'].$row['NU_LARGURA'].$row['QTD_PRODUTO'].$veio.' - '.$tempComprimento.'X'.$tempLargura.'X'.$tempEspessura);
+	array_push($dadosArquivo, $row['DS_COR'].$row['NU_ESPESSURA'].'        '.$ordemProducao.$row['NU_COMPRIMENTO'].' '.$row['NU_LARGURA'].$row['QTD_PRODUTO'].$veio.trim($row['CO_INT_PRODUTO']).' - '.$tempComprimento.'X'.$tempLargura.'X'.$tempEspessura);
 	$ordem++;
 }//fim for
 
 //cria o arquivo (caso ele exista sera sobreescrito)
 $handle = fopen($_PATH."\\arquivosAD\\".$nomeArquivo.".ad", "w+");
 
-fwrite($handle,'BR/BR          180        20'."\n");
-fwrite($handle,'BR/BR          180        4012750018400001001PAINEL'."\n");
+fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        20'."\n");
+fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        4012750018400001001PAINEL'."\n");
+
+
+//Escrevendo no arquivo
+for($i=0; $i<count($dadosArquivo);$i++){
+	fwrite($handle,$dadosArquivo[$i]."\n");
+}
 
 //fecha o arquivo
 fclose($handle);
+
+//Atualizando status pi como processado (gerado arquivo AD)
+for($i=0; $i<count($co_pcp_op);$i++){
+	$piModel->atualizaSelecionados($co_pcp_op[$i],$conexaoERP);
+}
 
 ?>
