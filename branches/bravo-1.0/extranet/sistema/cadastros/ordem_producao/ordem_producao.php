@@ -5,7 +5,7 @@
 * @version 1.0 15/10/2012
 */
 
-	$sqlCores = mysql_query("SELECT CO_COR, DS_COR, CO_RECNO FROM tb_pcp_cor ORDER BY DS_COR ASC",$conexaoERP)
+	$sqlCores = mysql_query("SELECT CO_COR, NO_COR, CO_RECNO FROM tb_pcp_cor ORDER BY DS_COR ASC",$conexaoERP)
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);
@@ -128,7 +128,7 @@ $(document).ready(function(){
 				            	<select onchange="ocultarBotoes();" id="cor" title="Selecione a Cor" class="SELECT01">
 				                	<!-- BEGIN BLOCK_CORES -->
 				  				<?php while($rowCores=mysql_fetch_array($sqlCores)){ 	
-				                    echo "<option value='".$rowCores['CO_COR']."'>".$rowCores['DS_COR']."</option>";
+				                    echo "<option value='".$rowCores['CO_COR']."'>".$rowCores['NO_COR']."</option>";
 				         		 }?>          
 				                    <!-- END BLOCK_CORES -->
 				                </select>

@@ -48,16 +48,18 @@
 			
 		    $linha = explode (";",$linha_arquivo);
 			
-			$sqlPcpCor = mysql_query ("SELECT null FROM tb_pcp_cor WHERE CO_RECNO = '".addslashes (trim ($linha[2]))."'",$conexao)
+			$sqlPcpCor = mysql_query ("SELECT null FROM tb_pcp_cor WHERE CO_RECNO = '".addslashes (trim ($linha[3]))."'",$conexao)
 			or die (mysql_error ());
 			
 			if (mysql_num_rows ($sqlPcpCor) == 0){
 			    mysql_query ("INSERT INTO tb_pcp_cor (CO_COR
+								  , NO_COR
 				                  , DS_COR
 								  , CO_RECNO) 
 				              VALUES ('".addslashes (trim ($linha[0]))."'
 							      , '".addslashes (trim ($linha[1]))."'
-								  , '".addslashes (trim ($linha[2]))."')",$conexao)
+								  , '".addslashes (trim ($linha[2]))."'
+								   , '".addslashes (trim ($linha[3]))."')",$conexao)
 			    or die  (mysql_error ()." ->  (insereCor)");
 			}
 			
