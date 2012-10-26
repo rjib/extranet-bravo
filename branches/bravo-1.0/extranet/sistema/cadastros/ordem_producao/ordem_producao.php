@@ -4,15 +4,17 @@
 * @autor Ricardo Alvarenga
 * @version 1.0 15/10/2012
 */
+require_once 'models/tb_pcp_cor.php';
+$corModel = new tb_pcp_cor($conexaoERP);
 
-	$sqlCores = mysql_query("SELECT CO_COR, NO_COR, CO_RECNO FROM tb_pcp_cor ORDER BY DS_COR ASC",$conexaoERP)
-	or die("<script>
+if(!($rowCores = $corModel->listaTodasCores())){
+	echo "<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);
-			</script>");
-	
-	if(mysql_num_rows($sqlCores) == 0){
-	    echo "<script type='text/javascript' language='javascript'>
+			</script>";	
+}
+if(count($rowCores)==0){	
+	echo "<script type='text/javascript' language='javascript'>
 		      $(function($) {
 			      $('<p>[Erro] - N&atilde;o existe cores cadastradas, por favor entre em contato com o Suporte.</p>').dialog({
 				      modal: true,
@@ -23,11 +25,11 @@
 				          $( this ).dialog( 'close' );
 				          $(window.document.location).attr('href','inicio.php');
 				      }
-				  }
-			  }); });
-			  </script>";
-	}
-	
+				   }
+		        }); 
+			 });
+		  </script>";
+}
 	
 	$sqlEspessura = mysql_query("SELECT DISTINCT(NU_ESPESSURA) ESPESSURA FROM tb_pcp_produto WHERE NU_ESPESSURA <>''  ORDER BY ABS(NU_ESPESSURA) ASC;",$conexaoERP)
 	or die("<script>
@@ -85,10 +87,16 @@ $(document).ready(function(){
 	$("#console").hide();
 	$("#btSelecionarTudo").hide();
 	$("#formularioGerarArquivoAD").hide();
-
+	$("#boxSelecionePeloMenosUm").hide();
+	
 	$("#unidadeComplementar").keyup(function() {
 		 var valor = $("#unidadeComplementar").val().replace(/[^0-9]+/g,'');
 		 $("#unidadeComplementar").val(valor);
+	});
+
+	$("#nomeArquivo").keyup(function() {
+		 var valor = $("#nomeArquivo").val().replace(/[^a-zA-Z0-9]+/g,'');
+		 $("#nomeArquivo").val(valor);
 	});
 			
 
@@ -127,8 +135,8 @@ $(document).ready(function(){
 				            <td colspan="4">
 				            	<select onchange="ocultarBotoes();" id="cor" title="Selecione a Cor" class="SELECT01">
 				                	<!-- BEGIN BLOCK_CORES -->
-				  				<?php while($rowCores=mysql_fetch_array($sqlCores)){ 	
-				                    echo "<option value='".$rowCores['CO_COR']."'>".$rowCores['NO_COR']."</option>";
+				  				<?php while ($row = mysql_fetch_array($rowCores)){ 	
+				                    echo "<option value='".$row['CO_COR']."'>".$row['DS_COR']."</option>";
 				         		 }?>          
 				                    <!-- END BLOCK_CORES -->
 				                </select>
@@ -185,6 +193,7 @@ $(document).ready(function(){
        O arquivo esta sendo criado, por favor aguarde...
     </p>
 </div>
+<div id="boxSelecionePeloMenosUm"><br><p align="center">Pelo menos um produto deve ser selecionado!</p></div>
 <div id="formularioGerarArquivoAD">
 	<form id="formularioGerarAD" action="javascript:void(0)" method="post">
 		<table width="100%" border="0" cellspacing="2" cellpadding="3">
