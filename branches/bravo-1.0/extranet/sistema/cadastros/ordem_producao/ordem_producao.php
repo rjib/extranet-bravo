@@ -147,7 +147,7 @@ $(document).ready(function(){
 				            </td>
 		          		</tr>
 		        		<tr>
-				          	<td width="171"><font class="FONT04"><b>Imprimir ja selecionado?</b></font></td>
+				          	<td width="171"><font class="FONT04"><b>Exibir processados?</b></font></td>
 				            <td width="60"><input type="radio" id="ck" name="ck" title="Sim" value="S"/>Sim&nbsp;<input title="Não" id="ck" name="ck" type="radio" value="N" checked />Não</td>
 							<td width="81"><button type="button" id="btPesquisarPI" name="btPesquisarPI" title="Consultar">Consultar</button></td>
 				            <td width="140"><button type="button" id="btSelecionarTudo" name="btSelecionarTudo" title="Gerar Arquivo">Selecionar Todos</button></td>              

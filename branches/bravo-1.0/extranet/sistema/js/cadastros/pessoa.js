@@ -708,51 +708,7 @@ $(function($) {
 	
 });
 
-// validador CPF
-function validaCPF(c){	
-    var i;
-    s = c;
-	var temp = s.substr(0,3)+s.substr(4,3)+s.substr(8,3)+s.substr(12,2);
-	c = temp;
-	s = c;
-	
-    var c = s.substr(0,9);
-    var dv = s.substr(9,2);
-    var d1 = 0;
-    var v = false;
- 
-    for (i = 0; i < 9; i++){
-        d1 += c.charAt(i)*(10-i);
-    }
-    if (d1 == 0){
-       // alert("CPF Inválido1")
-        v = true;
-        return false;
-    }
-    d1 = 11 - (d1 % 11);
-    if (d1 > 9) d1 = 0;
-    if (dv.charAt(0) != d1){
-        //alert("CPF Inválido2")
-        v = true;
-        return false;
-    }
- 
-    d1 *= 2;
-    for (i = 0; i < 9; i++){
-        d1 += c.charAt(i)*(11-i);
-    }
-    d1 = 11 - (d1 % 11);
-    if (d1 > 9) d1 = 0;
-    if (dv.charAt(1) != d1){
-       // alert("CPF Inválido3")
-        v = true;
-        return false;
-    }
-    if (!v) {
-        //alert(c + "CPF Válido4")
-		return true;
-    }
-}
+
 
 function verificaCPF() {
 	
@@ -817,19 +773,19 @@ function verificaRG() {
 	/**** INICIO CONFIGURACAO SCRIPT TABLESORTER *****/
 
 	 /* Variaveis de configuracao dos controles do grid*/
-	 var controlsdivclass	=	'.controls';		//Classe para aplicar a estilização nos controles
-	 var controlsscript		=	'inc/cadastros/pessoa_grid.php';			//Documento com o conteúdo do grid em formato html
+	 var controlsdivclass	=	'.controls';		//Classe para aplicar a estilizaï¿½ï¿½o nos controles
+	 var controlsscript		=	'inc/cadastros/pessoa_grid.php';			//Documento com o conteï¿½do do grid em formato html
 	 var controlsclass		= 	'tablesorter';		//Nome da classe aplicada aos controles do grid
 	
 	 /* Variaveis de configuracao do grid*/
-	 var griddivid 	=	'#grid';					//Div onde o grid será carregado
-	 var gridscript	=	'inc/cadastros/pessoa_grid.php';					//Documento com o conteúdo do grid em formato html
+	 var griddivid 	=	'#grid';					//Div onde o grid serï¿½ carregado
+	 var gridscript	=	'inc/cadastros/pessoa_grid.php';					//Documento com o conteï¿½do do grid em formato html
 	 var gridclass	= 	'tablesorter';				//Nome da classe aplicada ao grid
-	 var gridheaders =	{};							//Parâmetros utilizados pelo plugin tablesorter para manipular os headers da tabela
+	 var gridheaders =	{};							//Parï¿½metros utilizados pelo plugin tablesorter para manipular os headers da tabela
 	
 	 /* Variaveis para a exibicao de mensagens e carregamento */
-	 var consolediv = '#console';					//Div responsável por mostrar as mensagens de erro, info etc
-	 var loadmsg = 'Carregando...aguarde';			//Mensagem ou animação durante a fase de carregamento
+	 var consolediv = '#console';					//Div responsï¿½vel por mostrar as mensagens de erro, info etc
+	 var loadmsg = 'Carregando...aguarde';			//Mensagem ou animaï¿½ï¿½o durante a fase de carregamento
      var searchdiv = '#searching';					//Div utilizada para realizar o search
 	
      /***** FIM CONFIGURACAO SCRIPT TABLESORTER *****/

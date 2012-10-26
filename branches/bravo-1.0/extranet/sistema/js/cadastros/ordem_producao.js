@@ -23,6 +23,7 @@ $(document).ready(function(){
 		var dataFinal = $("#dataFinal").val();
 		var cor = $("#cor").val();
 		var flag = $("#ck:checked").val();
+		flag==undefined? flag='N':flag=flag;
 		var espessura = $("#espessura").val();
 		if(dataInicial !='' && dataFinal != ''){
 			controlsscript		=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
@@ -146,7 +147,7 @@ $(document).ready(function(){
 	
 	//Selecionar todos ckeckbox
 	$("#btSelecionarTudo").click(function(){
-		MarcarTodosCheckbox();	
+		MarcarTodosCheckbox("input[name='pi_selecionado[]']");	
 	});	
 	
 	//Box data de emissao nao informada
@@ -172,18 +173,7 @@ $(document).ready(function(){
 	
 
 });
-// Metodo para selecionar todos checkboxes
-function MarcarTodosCheckbox(){
 
-	$("input[name='pi_selecionado[]']").each(function(){
-		if(!this.checked){
-			$(this).attr("checked", "checked");
-		}else{
-			$(this).removeAttr("checked");
-		}
-	});
-
-}
 	 
 // Metodo para ocultar botoes para evitar alteracao de valores no submit
 function ocultarBotoes(){	
