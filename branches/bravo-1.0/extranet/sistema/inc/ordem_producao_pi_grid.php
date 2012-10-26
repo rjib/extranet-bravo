@@ -1,6 +1,8 @@
 <?php
 	
 	require('ordem_producao_pi_grid_paging.php');
+	require('../helper.class.php');
+	$_helper = new helper();
 	$paging = new Paging();
 	
 	
@@ -8,8 +10,8 @@
 	
 	if(isset($_GET['dataInicial']) and isset($_GET['dataFinal']) and isset($_GET['cor']) and isset($_GET['espessura']) and isset($_GET['flag'])){
 	//substr($_GET['dataInicial'] ,7,2).substr($_GET['dataInicial'] ,5,2).substr($_GET['dataInicial'],1,4);
-			$dataInicial 	 = substr($_GET['dataInicial'] ,6,4).substr($_GET['dataInicial'] ,3,2).substr($_GET['dataInicial'] ,0,2);
-			$dataFinal	 	 = substr($_GET['dataFinal'] ,6,4).substr($_GET['dataFinal'] ,3,2).substr($_GET['dataFinal'],0,2);
+			$dataInicial 	 = $_helper->ajustarDataYYYYmmdd($_GET['dataInicial']);
+			$dataFinal	 	 = $_helper->ajustarDataYYYYmmdd($_GET['dataFinal']);
 			$co_cor 	 	 = $_GET['cor'];
 			$espessura 	 	 = $_GET['espessura'];			
 			$flag  			 = $_GET['flag'];
@@ -19,7 +21,7 @@
 			$dataFinal	 = date('Ymd');
 			$co_cor 	 = 001000;
 			$espessura 	 = 0;
-			$flag  = '';	
+			$flag  = 'N';	
 			
 	}
 		
@@ -31,7 +33,7 @@
 					AND PCP_OP.FL_SELECIONADO LIKE "%'.$flag.'%"');
 	$paging->labels('Status,C&oacute;digo,C&oacuted. Int.,Produto, Comp., Larg., Quant., Dt. Emiss&atilde;o');
 	$paging->fields('PCP_OP.FL_SELECIONADO,PCP_OP.CO_PCP_OP, PCP_PRODUTO.CO_INT_PRODUTO,PCP_PRODUTO.DS_PRODUTO,PCP_PRODUTO.NU_COMPRIMENTO,PCP_PRODUTO.NU_LARGURA,PCP_OP.QTD_PRODUTO,PCP_OP.DT_EMISSAO');
-	$paging->cols_width('5,10,30,250,30,30,30,30,40');
+	$paging->cols_width('5,10,40,250,30,30,30,30,40');
 	$paging->rowsperpage(30);
 	$paging->page(isset($_GET['p']) ? $_GET['p'] : 1);	
 	
