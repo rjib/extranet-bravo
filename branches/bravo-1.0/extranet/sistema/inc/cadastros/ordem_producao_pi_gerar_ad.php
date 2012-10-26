@@ -1,5 +1,5 @@
 <?php
-require('ordem_producao_pi_dao.php');
+require('../../models/tb_pcp_op.php');
 require ('../../helper.class.php');
 
 //constantes de parametros 
@@ -14,9 +14,9 @@ $_QUANTIDADE     = array('numCaracter'=>6,'posPrimeiroCaracterer'=>39,'multiplic
 $_GRAIN  		 = array('numCaracter'=>1,'posPrimeiroCaracterer'=>45,'multiplicadorAtivo'=>0,'dadoNumerico'=>1); //(veio = BR, BF, PF)? 1:0)
 $_DESCRICAO  	 = array('numCaracter'=>150,'posPrimeiroCaracterer'=>46,'multiplicadorAtivo'=>0,'dadoNumerico'=>0);
 DEFINE('$_PAINEL','4012750018400001001PAINEL');
-$_PATH			 = 'c:\\';
+$_PATH			 = 'C:\\wamp\\www\\extranet-bravo\\extranet\\arquivosAD\\';
 
-$piModel = new ordemProducaoPi();
+$piModel = new tb_pcp_op();
 $_helper = new helper();
 
 if(isset($_POST['dataInicial']) && isset($_POST['dataFinal']) && isset($_POST['cor']) && isset($_POST['espessura']) && isset($_POST['flag']) && isset($_POST['co_pi']) && isset($_POST['nomeArquivo']) && isset($_POST['unidadeComplementar']))
@@ -133,7 +133,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 }//fim for
 
 //cria o arquivo (caso ele exista sera sobreescrito)
-$handle = fopen($_PATH."\\arquivosAD\\".$nomeArquivo.".ad", "w+");
+$handle = fopen($_PATH.$nomeArquivo.".ad", "w+");
 
 fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        20'."\n");
 fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        4012750018400001001PAINEL'."\n");
@@ -147,9 +147,11 @@ for($i=0; $i<count($dadosArquivo);$i++){
 //fecha o arquivo
 fclose($handle);
 
-//Atualizando status pi como processado (gerado arquivo AD)
-for($i=0; $i<count($co_pcp_op);$i++){
-	$piModel->atualizaSelecionados($co_pcp_op[$i],$conexaoERP);
+//Atualizando status pi como processado (gerado arquivo AD) caso o arquivo tenha sido gravado com sucesso
+if($handle){
+	for($i=0; $i<count($co_pcp_op);$i++){
+		$piModel->atualizaSelecionados($co_pcp_op[$i],$conexaoERP);
+	}
 }
 
 ?>
