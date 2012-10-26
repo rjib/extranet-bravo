@@ -47,6 +47,18 @@ $(document).ready(function(){
 	$("#btGerarArquivo").click(function(){
 		
 		var tamanho = $('#pi_selecionado:checked').length;	
+		if(tamanho==0){			
+			$("#boxSelecionePeloMenosUm").dialog({
+				autoOpen: true,
+				modal: true,
+				buttons: {
+                Ok: function() {
+                    $( this ).dialog( "close" );					
+                }
+            }
+			});
+			return false;
+		}
 		var co_pi = new Array();
 		//pega valores selecionados
 		$("input[type=checkbox][name='pi_selecionado[]']:checked").each(function(){
@@ -118,14 +130,15 @@ $(document).ready(function(){
 										resizable: false,
 										title: 'Aten&ccedil;&atilde;o',
 										buttons: {
-											Ok: function() {												
+											'Baixar Arquivo': function() {
+												
+												$(window.document.location).attr('href','../downloadAD.php?arquivo='+nomeArquivo);
 												$(this).dialog("close");
-												$("#nomeArquivo").val('');
+												
 												$("#formularioGerarArquivoAD").dialog("close");
-												 
 											}
 										}
-									});
+									}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();
 								}//fim else
 							});//fim post
 						}//fim do if
@@ -137,8 +150,19 @@ $(document).ready(function(){
 					}// fim gerar
 	            },// fim buttons
 				close: function() {
+					var dataInicial = $("#dataInicial").val();
+					var dataFinal = $("#dataFinal").val();
+					var cor = $("#cor").val();
+					var flag = $("#ck:checked").val();
+					var espessura = $("#espessura").val();
+					var nomeArquivo = $('#nomeArquivo').val();
+					
+					controlsscript		=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
+					gridscript			=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
+					
 					search();	
 					gridLoader(searchfor, page);
+					$('#nomeArquivo').val('');
 					
 				}
 	    	});//fim box
