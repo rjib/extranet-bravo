@@ -1,4 +1,7 @@
-<?php
+<?phP
+	define('ROOT', $_SERVER['DOCUMENT_ROOT']);
+	define ('DS', DIRECTORY_SEPARATOR);
+	
 	
 	header('Content-Type: text/html; charset=utf-8');	
 	$conexaoERP = mysql_connect("localhost","root","")

@@ -99,7 +99,9 @@ $(document).ready(function(){
 						var unidadeComplementar =  $("#unidadeComplementar").val();
 						
 						if(nomeArquivo!="" && unidadeComplementar !=""){ //valida dados do formulario para gerar arquivo					
-							$( "#boxGerando" ).dialog('open');
+							$( "#boxGerando" ).dialog('open');							
+							search();	
+							gridLoader(searchfor, page);
 							$.post('inc/cadastros/ordem_producao_pi_gerar_ad.php', {
 								co_pi:co_pi
 								,dataInicial:dataInicial
@@ -131,7 +133,8 @@ $(document).ready(function(){
 										title: 'Aten&ccedil;&atilde;o',
 										buttons: {
 											'Baixar Arquivo': function() {
-												
+												search();	
+												gridLoader(searchfor, page);												
 												$(window.document.location).attr('href','../downloadAD.php?arquivo='+nomeArquivo);
 												$(this).dialog("close");
 												
@@ -150,18 +153,6 @@ $(document).ready(function(){
 					}// fim gerar
 	            },// fim buttons
 				close: function() {
-					var dataInicial = $("#dataInicial").val();
-					var dataFinal = $("#dataFinal").val();
-					var cor = $("#cor").val();
-					var flag = $("#ck:checked").val();
-					var espessura = $("#espessura").val();
-					var nomeArquivo = $('#nomeArquivo').val();
-					
-					controlsscript		=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
-					gridscript			=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
-					
-					search();	
-					gridLoader(searchfor, page);
 					$('#nomeArquivo').val('');
 					
 				}
