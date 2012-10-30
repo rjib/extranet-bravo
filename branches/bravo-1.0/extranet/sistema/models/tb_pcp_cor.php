@@ -1,4 +1,10 @@
 <?php
+/**
+ * Classe da camada de acesso a dados da tabela tb_pcp_cor * 
+ * @author Ricardo S. Alvarenga
+ * @since 25/10/2012
+ *
+ */
 class tb_pcp_cor{
 
 	private $conexaoERP;
@@ -8,6 +14,12 @@ class tb_pcp_cor{
 
 	}
 
+	/**
+	 * Metodo para listar todas as cores
+	 * @author Ricardo S. Alvarenga
+	 * @since 25/10/2012
+	 * @return array
+	 */
 	public function listaTodasCores(){
 		try {
 			$sql = "SELECT CO_COR, DS_COR, CO_RECNO FROM tb_pcp_cor ORDER BY DS_COR ASC";

@@ -5,6 +5,7 @@
 * @version 1.0 15/10/2012
 */
 require_once 'models/tb_pcp_cor.php';
+
 $corModel = new tb_pcp_cor($conexaoERP);
 
 if(!($rowCores = $corModel->listaTodasCores())){
