@@ -1,4 +1,5 @@
 <?php
+
 require('../../models/tb_pcp_op.php');
 require ('../../helper.class.php');
 
@@ -14,7 +15,7 @@ $_QUANTIDADE     = array('numCaracter'=>6,'posPrimeiroCaracterer'=>39,'multiplic
 $_GRAIN  		 = array('numCaracter'=>1,'posPrimeiroCaracterer'=>45,'multiplicadorAtivo'=>0,'dadoNumerico'=>1); //(veio = BR, BF, PF)? 1:0)
 $_DESCRICAO  	 = array('numCaracter'=>150,'posPrimeiroCaracterer'=>46,'multiplicadorAtivo'=>0,'dadoNumerico'=>0);
 DEFINE('$_PAINEL','4012750018400001001PAINEL');
-$_PATH			 = 'C:\\wamp\\www\\extranet-bravo\\extranet\\arquivosAD\\';
+$_PATH			 = ROOT.DS.'extranet-bravo'.DS.'extranet'.DS.'arquivosAD'.DS;
 
 $piModel = new tb_pcp_op();
 $_helper = new helper();
@@ -89,7 +90,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	
 	if($row['NU_COMPRIMENTO']<$_DIMENSAOMINIMA){
 	
-		$n1 = $_DIMENSAOMINIMA/$row['NU_COMPRIMENTO'];
+		$n1 = $_DIMENSAOMINIMA/floatval($row['NU_COMPRIMENTO']);
 		 if((int)$n1<=$n1){
 			$n1 = (int)$n1+1;
 		 }

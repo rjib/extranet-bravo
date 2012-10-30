@@ -193,6 +193,7 @@
 <link href="css/style_global.css" rel="stylesheet" type="text/css" />
 <link href="css/style_menu_header.css" rel="stylesheet" type="text/css" />
 <link type="text/css" href="css/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
+<link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
 <!--[if IE 6]>
 <link href="css/style_fixa_painel_ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
