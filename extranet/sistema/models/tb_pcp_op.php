@@ -8,6 +8,15 @@ require_once("../../setup.php");
 */
 
 class tb_pcp_op{
+	
+	private $conexaoERP;
+	private $_helper;
+	
+	public function __construct($conexaoERP){
+		$this->conexaoERP = $conexaoERP;
+		$this->_helper = new helper();
+	
+	}
 
 	/**
 	 * Metodo para listar PIs de acordo com os parametros desejados
@@ -21,7 +30,7 @@ class tb_pcp_op{
 	 * @author Ricardo S. Alvarenga
 	 * @since 23/10/2012
 	 */
-	public function listaPi($cor,$espessura,$dataInicial, $dataFinal,$co_pcp_op,$conexaoERP){	
+	public function listaPi($cor,$espessura,$dataInicial, $dataFinal,$co_pcp_op){	
 		$row = mysql_query("SELECT 
 									PCP_OP.CO_PCP_OP,
 									PCP_COR.DS_COR,
@@ -48,29 +57,12 @@ class tb_pcp_op{
 									AND PCP_PRODUTO.NU_ESPESSURA ='".$espessura."'
 									AND PCP_OP.CO_PCP_OP = ".$co_pcp_op."
 								ORDER BY PCP_PRODUTO.CO_COR ASC "
-		,$conexaoERP)
-		or die("<script>
-					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
-					history.back(-1);
-				</script>");
+		,$this->conexaoERP)
+		or die($this->_helper->alertErrorBackParam('Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!','ordem_producao'));
 		
 		if(mysql_num_rows($row) == 0){
-			echo "<script type='text/javascript' language='javascript'>
-				  $(function($) {
-					  $('<p>[Erro] - N&atilde;o existe cores cadastradas, por favor entre em contato com o Suporte.</p>').dialog({
-						  modal: true,
-						  resizable: false,
-						  title: 'Aten&ccedil;&atilde;o',
-						  buttons: {
-						  Ok: function() {
-							  $( this ).dialog( 'close' );
-							  $(window.document.location).attr('href','inicio.php');
-						  }
-					  }
-				  }); });
-				  </script>";
-			
-				  
+			$this->_helper->alertDialog('N&atilde;o existe PIs cadastrados, por favor entre em contato com o Suporte.');
+			exit;
 		}//fim mysql_num_rows
 	 return $row;
 	}//fim listaPi
@@ -82,18 +74,16 @@ class tb_pcp_op{
 	 * @author Ricardo S Alvarenga 
 	 * @since 25/10/2012
 	 */
-	public function atualizaSelecionados($id_pcp_op,$conexaoERP){
+	public function atualizaSelecionados($id_pcp_op){
 		try {
 			$sql = "UPDATE 
 						tb_pcp_op 
 					SET FL_SELECIONADO ='S' 
 					WHERE CO_PCP_OP =".$id_pcp_op;
-			mysql_query($sql,$conexaoERP);
+			mysql_query($sql,$this->conexaoERP);
 		}catch (Exception $e){
-			echo "<script>
-						alert('[Erro] - Ocorreu algum erro durante a atualização, favor entrar em contato com o suporte!');
-						history.back(-1);
-				</script>";	
+			$this->_helper->alertError('Ocorreu algum erro durante a atualização, favor entrar em contato com o suporte!');
+			exit;
 		}		
 	}
 		
