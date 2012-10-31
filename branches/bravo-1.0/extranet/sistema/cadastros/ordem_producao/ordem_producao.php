@@ -5,56 +5,30 @@
 * @version 1.0 15/10/2012
 */
 require_once 'models/tb_pcp_cor.php';
+require_once 'models/tb_pcp_produto.php';
+require_once 'helper.class.php';
 
-$corModel = new tb_pcp_cor($conexaoERP);
+$_corModel = new tb_pcp_cor($conexaoERP);
+$_produtoModel = new tb_pcp_produto($conexaoERP);
+$_helper = new helper();
 
-if(!($rowCores = $corModel->listaTodasCores())){
-	echo "<script>
-			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
-			    history.back(-1);
-			</script>";	
+if(!($rowCores = $_corModel->listaTodasCores())){
+	$_helper->alertError('Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
+	exit;	
 }
-if(count($rowCores)==0){	
-	echo "<script type='text/javascript' language='javascript'>
-		      $(function($) {
-			      $('<p>[Erro] - N&atilde;o existe cores cadastradas, por favor entre em contato com o Suporte.</p>').dialog({
-				      modal: true,
-				      resizable: false,
-				      title: 'Aten&ccedil;&atilde;o',
-				      buttons: {
-				      Ok: function() {
-				          $( this ).dialog( 'close' );
-				          $(window.document.location).attr('href','inicio.php');
-				      }
-				   }
-		        }); 
-			 });
-		  </script>";
+if(mysql_num_rows($rowCores)==0){	
+	$_helper->alertDialog('N&atilde;o existe cores cadastradas, por favor entre em contato com o Suporte.');
+	exit;
 }
-	
-	$sqlEspessura = mysql_query("SELECT DISTINCT(NU_ESPESSURA) ESPESSURA FROM tb_pcp_produto WHERE NU_ESPESSURA <>''  ORDER BY ABS(NU_ESPESSURA) ASC;",$conexaoERP)
-	or die("<script>
-			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
-			    history.back(-1);
-			</script>");
-	
-	if(mysql_num_rows($sqlEspessura) == 0){
-	    echo "<script type='text/javascript' language='javascript'>
-		      $(function($) {
-			      $('<p>[Erro] - N&atilde;o existe espessura cadastrado, por favor entre em contato com o Suporte.</p>').dialog({
-				      modal: true,
-				      resizable: false,
-				      title: 'Aten&ccedil;&atilde;o',
-				      buttons: {
-				      Ok: function() {
-				          $( this ).dialog( 'close' );
-				          $(window.document.location).attr('href','inicio.php');
-				      }
-				  }
-			  }); });
-			  </script>";
-	}
 
+if(!($rowEspessura = $_produtoModel->listaTodasEspessuras())){
+	$_helper->alertError('Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
+	exit;
+}
+if(mysql_num_rows($rowEspessura)==0){
+	$_helper->alertDialog('N&atilde;o existe espessuras cadastradas, por favor entre em contato com o Suporte.');
+	exit;
+}
 
 
 ?>
@@ -148,8 +122,8 @@ $(document).ready(function(){
 				            <td colspan="4">
 				            	<select id="espessura" onchange="ocultarBotoes();" class="SELECT01" title="Selecione a Espessura">
 				                	<!-- BEGIN BLOCK_ESPESSURA -->
-				  				<?php while($rowEspessura=mysql_fetch_array($sqlEspessura)){ 	
-				                    echo "<option value='".$rowEspessura['ESPESSURA']."'>".$rowEspessura['ESPESSURA']."</option>";
+				  				<?php while($row=mysql_fetch_array($rowEspessura)){ 	
+				                    echo "<option value='".$row['ESPESSURA']."'>".$row['ESPESSURA']."</option>";
 				         		 }?>  
 				                    <!-- END BLOCK_ESPESSURA -->
 				                </select>
