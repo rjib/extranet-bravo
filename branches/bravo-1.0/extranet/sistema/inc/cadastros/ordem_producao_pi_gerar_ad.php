@@ -17,7 +17,7 @@ $_DESCRICAO  	 = array('numCaracter'=>150,'posPrimeiroCaracterer'=>46,'multiplic
 DEFINE('$_PAINEL','4012750018400001001PAINEL');
 $_PATH			 = ROOT.DS.'extranet-bravo'.DS.'extranet'.DS.'arquivosAD'.DS;
 
-$piModel = new tb_pcp_op();
+$piModel = new tb_pcp_op($conexaoERP);
 $_helper = new helper();
 
 if(isset($_POST['dataInicial']) && isset($_POST['dataFinal']) && isset($_POST['cor']) && isset($_POST['espessura']) && isset($_POST['flag']) && isset($_POST['co_pi']) && isset($_POST['nomeArquivo']) && isset($_POST['unidadeComplementar']))
@@ -31,10 +31,8 @@ if(isset($_POST['dataInicial']) && isset($_POST['dataFinal']) && isset($_POST['c
 	$nomeArquivo			= $_POST['nomeArquivo'];
 	$unidadeComplementar	= $_POST['unidadeComplementar'];
 }else{
-	echo "<script>
-			    alert('[Erro] - Não existe dados enviados, favor entrar em contato com o suporte!');
-			    history.back(-1);
-		  </script>";	
+	$_helper->alertError('Não existe dados enviados, favor entrar em contato com o suporte!');
+	exit;
 }
 
 
@@ -46,14 +44,18 @@ $dadosArquivo = array();
 
 for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	
-	$row = mysql_fetch_assoc($piModel->listaPi($cor,$espessura,$dataInicial,$dataFinal,$co_pcp_op[$i],$conexaoERP));
+	$row = mysql_fetch_assoc($piModel->listaPi($cor,$espessura,$dataInicial,$dataFinal,$co_pcp_op[$i]));
 	$tempComprimento = $row['NU_COMPRIMENTO'];
 	$tempLargura	 = $row['NU_LARGURA'];
 	$tempEspessura   = $row['NU_ESPESSURA'];
 	$row['DS_COR'] = trim($row['DS_COR']);//removendo espacos em branco caso exista
 	strlen($row['DS_COR'])>15 ? $row['DS_COR']=substr($row['DS_COR'],0,15): $row['DS_COR']=str_pad($row['DS_COR'], $_COR['numCaracter'] , " ");
+	$row['NU_ESPESSURA']= str_replace(',','.',$row['NU_ESPESSURA']);
 	$row['NU_ESPESSURA']= floatval($row['NU_ESPESSURA']*$_ESPESSURA['multiplicadorAtivo']); 
-	strlen($row['NU_ESPESSURA'])>3 ? $row['NU_ESPESSURA']=substr($row['NU_ESPESSURA'],0,2): $row['NU_ESPESSURA']=str_pad($row['NU_ESPESSURA'],$_ESPESSURA['numCaracter'],0,STR_PAD_LEFT);
+	if(strlen($row['NU_ESPESSURA'])>3){
+	$row['NU_ESPESSURA']=substr($row['NU_ESPESSURA'],0,2);}else{
+		$row['NU_ESPESSURA']=str_pad($row['NU_ESPESSURA'],$_ESPESSURA['numCaracter'],0,STR_PAD_LEFT);
+	}
 	$ordemProducao = $ordem; //sequencia
 	
 	if(strlen($ordem)>1 ){
@@ -62,7 +64,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 		$ordemProducao = '2'.str_pad(substr($ordemProducao,(strlen($ordemProducao)-strlen($ordemProducao)-1),strlen($ordemProducao)),$_ORDEM['numCaracter'],'0',STR_PAD_LEFT);	
 	}
 	
-	
+	$row['NU_LARGURA'] =  str_replace(',','.',$row['NU_LARGURA']);
 	if($row['NU_LARGURA']<$_DIMENSAOMINIMA){
 		
 		$n1 = $_DIMENSAOMINIMA/$row['NU_LARGURA'];
@@ -88,6 +90,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	$row['NU_LARGURA'] = $row['NU_LARGURA']*$_LARGURA['multiplicadorAtivo'];
 	$row['NU_LARGURA'] = str_pad($row['NU_LARGURA'],$_LARGURA['numCaracter'],0,STR_PAD_LEFT);
 	
+	$row['NU_COMPRIMENTO'] =  str_replace(',','.',$row['NU_COMPRIMENTO']);
 	if($row['NU_COMPRIMENTO']<$_DIMENSAOMINIMA){
 	
 		$n1 = $_DIMENSAOMINIMA/floatval($row['NU_COMPRIMENTO']);
@@ -127,17 +130,19 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	}else{		
 		$veio=0;
 	}
-	
-	
+	//retornando a virgula
+	$row['NU_ESPESSURA'] =  str_replace('.',',',$row['NU_ESPESSURA']);
+	$row['NU_COMPRIMENTO'] =  str_replace('.',',',$row['NU_COMPRIMENTO']);
+	$row['NU_LARGURA'] =  str_replace('.',',',$row['NU_LARGURA']);
 	array_push($dadosArquivo, $row['DS_COR'].$row['NU_ESPESSURA'].'        '.$ordemProducao.$row['NU_COMPRIMENTO'].' '.$row['NU_LARGURA'].$row['QTD_PRODUTO'].$veio.trim($row['CO_INT_PRODUTO']).' - '.$tempComprimento.'X'.$tempLargura.'X'.$tempEspessura);
 	$ordem++;
 }//fim for
 
 //cria o arquivo (caso ele exista sera sobreescrito)
-$handle = fopen($_PATH.$nomeArquivo.".ad", "w+");
+$handle = fopen($_PATH.$nomeArquivo.".AD", "w+");
 
-fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        20'."\n");
-fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        4012750018400001001PAINEL'."\n");
+fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        20'."\r\n");
+fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        4012750018400001001PAINEL'."\r\n");
 
 
 //Escrevendo no arquivo
@@ -151,7 +156,7 @@ fclose($handle);
 //Atualizando status pi como processado (gerado arquivo AD) caso o arquivo tenha sido gravado com sucesso
 if($handle){
 	for($i=0; $i<count($co_pcp_op);$i++){
-		$piModel->atualizaSelecionados($co_pcp_op[$i],$conexaoERP);
+		$piModel->atualizaSelecionados($co_pcp_op[$i]);
 	}
 }
 
