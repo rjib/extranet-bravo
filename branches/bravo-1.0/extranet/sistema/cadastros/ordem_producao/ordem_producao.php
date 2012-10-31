@@ -69,8 +69,9 @@ $(document).ready(function(){
 		 $("#unidadeComplementar").val(valor);
 	});
 
+
 	$("#nomeArquivo").keyup(function() {
-		 var valor = $("#nomeArquivo").val().replace(/[^a-zA-Z0-9]+/g,'');
+		 var valor = $("#nomeArquivo").val().replace(/[^0-9]+/g,'');
 		 $("#nomeArquivo").val(valor);
 	});
 			
