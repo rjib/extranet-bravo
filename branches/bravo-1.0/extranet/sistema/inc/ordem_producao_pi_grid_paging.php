@@ -206,7 +206,10 @@
 			
 			//Formula a query			
 			$sql = 'SELECT 
-						PCP_OP.FL_SELECIONADO,
+						CASE  
+							WHEN PCP_OP.CO_PCP_AD is null THEN 0
+							WHEN PCP_OP.CO_PCP_AD is not null THEN pcp_op.co_pcp_ad
+						END AS PCP_OP_AD,
 						PCP_OP.CO_PCP_OP,
 						PCP_PRODUTO.CO_INT_PRODUTO,						
 						PCP_PRODUTO.DS_PRODUTO ,
@@ -252,7 +255,7 @@
 					
 					for($i = 0; $i < $a_cells[0]; $i++){
 						if($i==0){
-							utf8_encode($row[$i])=='N'?$row[$i]="<img vspace='4px' src='img/status-nao.gif'/>":$row[$i]="<img src='img/status-sim.gif'/>";
+							utf8_encode($row[$i])==0?$row[$i]="<img vspace='4px' src='img/status-nao.gif'/>":$row[$i]="<img src='img/status-sim.gif'/>";
 							$s_html .= '<td align="center">'.utf8_encode($row[$i]).'</td>';
 						}else{
 							$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';

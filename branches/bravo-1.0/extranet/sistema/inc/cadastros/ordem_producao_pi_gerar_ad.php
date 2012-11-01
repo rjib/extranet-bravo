@@ -1,9 +1,15 @@
 <?php
+/**
+ * Arquivo responsavel pela geração do arquivo AD
+ * @author Ricardo S. Alvarenga
+ * @since 23/10/2012
+ * */
 
 require('../../models/tb_pcp_op.php');
+require ('../../models/tb_pcp_ad.php');
 require ('../../helper.class.php');
 
-//constantes de parametros 
+//constantes de parametros
 $_DIMENSAOMINIMA = 240; //dimensao minima
 $_MM_ENTRE_PECA  = 5; //milimetros entre peças
 $_COR			 = array('numCaracter'=>15,'posPrimeiroCaracterer'=>1,'multiplicadorAtivo'=>0,'dadoNumerico'=>0);
@@ -18,6 +24,7 @@ DEFINE('$_PAINEL','4012750018400001001PAINEL');
 $_PATH			 = ROOT.DS.'extranet-bravo'.DS.'extranet'.DS.'arquivosAD'.DS;
 
 $piModel = new tb_pcp_op($conexaoERP);
+$adModel = new tb_pcp_ad($conexaoERP);
 $_helper = new helper();
 
 if(isset($_POST['dataInicial']) && isset($_POST['dataFinal']) && isset($_POST['cor']) && isset($_POST['espessura']) && isset($_POST['flag']) && isset($_POST['co_pi']) && isset($_POST['nomeArquivo']) && isset($_POST['unidadeComplementar']))
@@ -35,7 +42,6 @@ if(isset($_POST['dataInicial']) && isset($_POST['dataFinal']) && isset($_POST['c
 	exit;
 }
 
-
 $ordem = 2; //ordem dos PIs de acordo com a quantidade selecionada
 $nQuantidade = 0;
 $veio = 0;
@@ -43,7 +49,7 @@ $dadosArquivo = array();
 
 
 for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
-	
+
 	$row = mysql_fetch_assoc($piModel->listaPi($cor,$espessura,$dataInicial,$dataFinal,$co_pcp_op[$i]));
 	$tempComprimento = $row['NU_COMPRIMENTO'];
 	$tempLargura	 = $row['NU_LARGURA'];
@@ -51,27 +57,28 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	$row['DS_COR'] = trim($row['DS_COR']);//removendo espacos em branco caso exista
 	strlen($row['DS_COR'])>15 ? $row['DS_COR']=substr($row['DS_COR'],0,15): $row['DS_COR']=str_pad($row['DS_COR'], $_COR['numCaracter'] , " ");
 	$row['NU_ESPESSURA']= str_replace(',','.',$row['NU_ESPESSURA']);
-	$row['NU_ESPESSURA']= floatval($row['NU_ESPESSURA']*$_ESPESSURA['multiplicadorAtivo']); 
+	$row['NU_ESPESSURA']= floatval($row['NU_ESPESSURA']*$_ESPESSURA['multiplicadorAtivo']);
 	if(strlen($row['NU_ESPESSURA'])>3){
-	$row['NU_ESPESSURA']=substr($row['NU_ESPESSURA'],0,2);}else{
+		$row['NU_ESPESSURA']=substr($row['NU_ESPESSURA'],0,2);
+	}else{
 		$row['NU_ESPESSURA']=str_pad($row['NU_ESPESSURA'],$_ESPESSURA['numCaracter'],0,STR_PAD_LEFT);
 	}
 	$ordemProducao = $ordem; //sequencia
-	
+
 	if(strlen($ordem)>1 ){
 		$ordemProducao = '2'.substr($ordemProducao,(strlen($ordemProducao)-strlen($ordemProducao)-2),strlen($ordemProducao));
 	}else{
-		$ordemProducao = '2'.str_pad(substr($ordemProducao,(strlen($ordemProducao)-strlen($ordemProducao)-1),strlen($ordemProducao)),$_ORDEM['numCaracter'],'0',STR_PAD_LEFT);	
+		$ordemProducao = '2'.str_pad(substr($ordemProducao,(strlen($ordemProducao)-strlen($ordemProducao)-1),strlen($ordemProducao)),$_ORDEM['numCaracter'],'0',STR_PAD_LEFT);
 	}
-	
+
 	$row['NU_LARGURA'] =  str_replace(',','.',$row['NU_LARGURA']);
 	if($row['NU_LARGURA']<$_DIMENSAOMINIMA){
-		
+
 		$n1 = $_DIMENSAOMINIMA/$row['NU_LARGURA'];
 		if((int)$n1<=$n1){
 			$n1 = (int)$n1+1;
-		 }
-		
+		}
+
 		if($n1%2!=0){
 			$n1 = $n1+1;
 		}
@@ -80,24 +87,24 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 		}
 		$nQuantidade = $nQuantidade/$n1;
 		$row['NU_LARGURA'] = $row['NU_LARGURA']*$n1+(($n1-1)* $_MM_ENTRE_PECA);
-		
+
 	}
-	
+
 	$row['NU_LARGURA'] = $row['NU_LARGURA']+$unidadeComplementar;
 
 	//LARGURA
-	$_LARGURA['multiplicadorAtivo']==0? $_LARGURA['multiplicadorAtivo']=1:$_LARGURA['multiplicadorAtivo']=$_LARGURA['multiplicadorAtivo']; 
+	$_LARGURA['multiplicadorAtivo']==0? $_LARGURA['multiplicadorAtivo']=1:$_LARGURA['multiplicadorAtivo']=$_LARGURA['multiplicadorAtivo'];
 	$row['NU_LARGURA'] = $row['NU_LARGURA']*$_LARGURA['multiplicadorAtivo'];
 	$row['NU_LARGURA'] = str_pad($row['NU_LARGURA'],$_LARGURA['numCaracter'],0,STR_PAD_LEFT);
-	
+
 	$row['NU_COMPRIMENTO'] =  str_replace(',','.',$row['NU_COMPRIMENTO']);
 	if($row['NU_COMPRIMENTO']<$_DIMENSAOMINIMA){
-	
+
 		$n1 = $_DIMENSAOMINIMA/floatval($row['NU_COMPRIMENTO']);
-		 if((int)$n1<=$n1){
+		if((int)$n1<=$n1){
 			$n1 = (int)$n1+1;
-		 }
-	
+		}
+
 		if($n1%2!=0){
 			$n1 = $n1+1;
 		}
@@ -106,9 +113,9 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 		}
 		$nQuantidade = $nQuantidade/$n1;
 		$row['NU_COMPRIMENTO'] = $row['NU_COMPRIMENTO']*$n1+(($n1-1)* $_MM_ENTRE_PECA);
-	
+
 	}
-	
+
 	$row['NU_COMPRIMENTO'] = $row['NU_COMPRIMENTO']+$unidadeComplementar;
 	if($nQuantidade!=0){
 		$row['QTD_PRODUTO'] = $nQuantidade;
@@ -116,18 +123,18 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	}
 	$row['QTD_PRODUTO'] = intval($row['QTD_PRODUTO']);
 	$nQuantidade=0;
-	
+
 	//COMPRIMENTO
- 	$_COMPRIMENTO['multiplicadorAtivo']==0? $_COMPRIMENTO['multiplicadorAtivo']=1:$_COMPRIMENTO['multiplicadorAtivo']=$_COMPRIMENTO['multiplicadorAtivo'];
+	$_COMPRIMENTO['multiplicadorAtivo']==0? $_COMPRIMENTO['multiplicadorAtivo']=1:$_COMPRIMENTO['multiplicadorAtivo']=$_COMPRIMENTO['multiplicadorAtivo'];
 	$row['NU_COMPRIMENTO'] = $row['NU_COMPRIMENTO']*$_COMPRIMENTO['multiplicadorAtivo'];
-	$row['NU_COMPRIMENTO'] = str_pad($row['NU_COMPRIMENTO'],$_COMPRIMENTO['numCaracter'],0,STR_PAD_LEFT); 
-	
+	$row['NU_COMPRIMENTO'] = str_pad($row['NU_COMPRIMENTO'],$_COMPRIMENTO['numCaracter'],0,STR_PAD_LEFT);
+
 	//QUANTIDADE
 	$row['QTD_PRODUTO'] = str_pad($row['QTD_PRODUTO'],$_QUANTIDADE['numCaracter'],0,STR_PAD_LEFT);
-	
+
 	if(trim(substr($row['DS_COR'],0,2))=="BR" || trim(substr($row['DS_COR'],0,2))=="PR" || trim(substr($row['DS_COR'],0,2))=="BF" ){
 		$veio=1;
-	}else{		
+	}else{
 		$veio=0;
 	}
 	//retornando a virgula
@@ -139,7 +146,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 }//fim for
 
 //cria o arquivo (caso ele exista sera sobreescrito)
-$handle = fopen($_PATH.$nomeArquivo.".AD", "w+");
+$handle = fopen($_PATH.$nomeArquivo.".ad", "w+");
 
 fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        20'."\r\n");
 fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        4012750018400001001PAINEL'."\r\n");
@@ -155,9 +162,16 @@ fclose($handle);
 
 //Atualizando status pi como processado (gerado arquivo AD) caso o arquivo tenha sido gravado com sucesso
 if($handle){
-	for($i=0; $i<count($co_pcp_op);$i++){
-		$piModel->atualizaSelecionados($co_pcp_op[$i]);
+	try {
+		$adModel->insert($nomeArquivo, $unidadeComplementar);
+	}catch (Exception $e){
+		unlink($_PATH.$nomeArquivo.".ad");
+		$_helper->alertErrorBackParam($e->getMessage(), 'ordem_producao');
 	}
+	for($i=0; $i<count($co_pcp_op);$i++){
+		$piModel->atualizaProcessado($co_pcp_op[$i],$nomeArquivo);
+	}
+
 }
 
 ?>

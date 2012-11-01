@@ -96,56 +96,66 @@ $(document).ready(function(){
 						var flag 				= $("#ck:checked").val();
 						var espessura 			= $("#espessura").val();
 						var nomeArquivo			= $("#nomeArquivo").val();
-						var unidadeComplementar =  $("#unidadeComplementar").val();
+						//$("#ultimoArquivoIns").load('helpers/existeRegistroAD.php',{nomeArquivo:nomeArquivo});
+						var unidadeComplementar = $("#unidadeComplementar").val();
+						//var ultimoArquivoIns    = document.getElementById('ultimoArquivoIns').innerHtml;
 						
-						if(nomeArquivo!="" && unidadeComplementar !=""){ //valida dados do formulario para gerar arquivo					
-							$( "#boxGerando" ).dialog('open');							
-							search();	
-							gridLoader(searchfor, page);
-							$.post('inc/cadastros/ordem_producao_pi_gerar_ad.php', {
-								co_pi:co_pi
-								,dataInicial:dataInicial
-								,dataFinal:dataFinal
-								,cor:cor
-								,flag:flag
-								,espessura:espessura
-								,nomeArquivo:nomeArquivo
-								,unidadeComplementar:unidadeComplementar}, function(resposta) {
+						if(nomeArquivo!="" && unidadeComplementar !=""){ //valida dados do formulario para gerar arquivo	
+							//if( ultimoArquivoIns != nomeArquivo){ //somente se arquivo nao exitir					
+								$( "#boxGerando" ).dialog('open');							
+								search();	
+								gridLoader(searchfor, page);
+								$.post('inc/cadastros/ordem_producao_pi_gerar_ad.php', {
+									co_pi:co_pi
+									,dataInicial:dataInicial
+									,dataFinal:dataFinal
+									,cor:cor
+									,flag:flag
+									,espessura:espessura
+									,nomeArquivo:nomeArquivo
+									,unidadeComplementar:unidadeComplementar}, function(resposta) {
+									
+									if (resposta != false) {
+										$('<p>' + resposta + '</p>').dialog({
+											modal: true,
+											resizable: false,
+											title: 'Aten&ccedil;&atilde;o',
+											buttons: {
+												Ok: function() {
+													$( "#boxGerando" ).dialog('close');
+													$(this).dialog("close");												
+												}
+											}
+										});
+									} 
+									else {
+										$( "#boxGerando" ).dialog('close');									
+										$('#ultimoArquivoIns').html(nomeArquivo);
+										search();	
+										gridLoader(searchfor, page);
+										$("<p align='center'><img src='img/tick-icon.gif'/>Arquivo gerado com sucesso!</p>").dialog({
+											modal: true,
+											resizable: false,
+											title: 'Aten&ccedil;&atilde;o',
+											buttons: {
+												'Baixar Arquivo': function() {
+													search();	
+													gridLoader(searchfor, page);												
+													$(window.document.location).attr('href','../downloadAD.php?arquivo='+nomeArquivo);
+													$(this).dialog("close");
+													
+													$("#formularioGerarArquivoAD").dialog("close");
+												}
+											}
+										}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();
+									}
+								});
+/*							}else{
+								alert('Nome do arquivo ja existe em nosso banco de dados, favor entre com outro nome!');
+								$("#nomeArquivo").focus();}*/
 								
-								if (resposta != false) {
-									$('<p>' + resposta + '</p>').dialog({
-										modal: true,
-										resizable: false,
-										title: 'Aten&ccedil;&atilde;o',
-										buttons: {
-											Ok: function() {
-												$( "#boxGerando" ).dialog('close');
-												$(this).dialog("close");												
-											}
-										}
-									});
-								} 
-								else {
-									$( "#boxGerando" ).dialog('close');
-									$("<p align='center'><img src='img/tick-icon.gif'/>Arquivo gerado com sucesso!</p>").dialog({
-										modal: true,
-										resizable: false,
-										title: 'Aten&ccedil;&atilde;o',
-										buttons: {
-											'Baixar Arquivo': function() {
-												search();	
-												gridLoader(searchfor, page);												
-												$(window.document.location).attr('href','../downloadAD.php?arquivo='+nomeArquivo);
-												$(this).dialog("close");
-												
-												$("#formularioGerarArquivoAD").dialog("close");
-											}
-										}
-									}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();
-								}//fim else
-							});//fim post
-						}//fim do if
-						else{
+							
+						}else{
 							alert('Por favor informe o nome e a unidade complementar para continuar');
 							$("#unidadeComplementar").focus();
 							
@@ -153,6 +163,8 @@ $(document).ready(function(){
 					}// fim gerar
 	            },// fim buttons
 				close: function() {
+					search();	
+					gridLoader(searchfor, page);
 					$('#nomeArquivo').val('');
 					
 				}

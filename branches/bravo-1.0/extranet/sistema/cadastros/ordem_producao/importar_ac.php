@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 * Pagina responsavel por listar e importar arquivos AD
 * @autor Ricardo Alvarenga
 * @version 1.0 16/10/2012

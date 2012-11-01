@@ -3,7 +3,6 @@
 	/**
 	 * Script responsável por listar todas as ordens de produção 
 	 * @author Ricardo Alvarenga <ralvarenga@bravo.com.br>
-	 * @version 1.0 - 17/10/2012 
 	 * 
 	 */
 	 
