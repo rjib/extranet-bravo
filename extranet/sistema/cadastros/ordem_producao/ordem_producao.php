@@ -6,10 +6,12 @@
 */
 require_once 'models/tb_pcp_cor.php';
 require_once 'models/tb_pcp_produto.php';
+require_once 'models/tb_pcp_ad.php';
 require_once 'helper.class.php';
 
 $_corModel = new tb_pcp_cor($conexaoERP);
 $_produtoModel = new tb_pcp_produto($conexaoERP);
+$_adModel = new tb_pcp_ad($conexaoERP);
 $_helper = new helper();
 
 if(!($rowCores = $_corModel->listaTodasCores())){
@@ -29,6 +31,7 @@ if(mysql_num_rows($rowEspessura)==0){
 	$_helper->alertDialog('N&atilde;o existe espessuras cadastradas, por favor entre em contato com o Suporte.');
 	exit;
 }
+$rowAd = $_adModel->maxId();
 
 
 ?>
@@ -63,7 +66,6 @@ $(document).ready(function(){
 	$("#btSelecionarTudo").hide();
 	$("#formularioGerarArquivoAD").hide();
 	$("#boxSelecionePeloMenosUm").hide();
-	
 	$("#unidadeComplementar").keyup(function() {
 		 var valor = $("#unidadeComplementar").val().replace(/[^0-9]+/g,'');
 		 $("#unidadeComplementar").val(valor);
@@ -182,6 +184,9 @@ $(document).ready(function(){
 			<tr>
 				<td align="left"><font class="FONT04"><b>Nome do Arquivo:</b></font></td>
 				<td colspan="3" align="left"><input type="text" name="nomeArquivo" id="nomeArquivo" class="INPUT01" size="20" /></td>
+			</tr>
+			<tr>
+				<td colspan="4"><font class="FONT04"><b> Último arquivo inserido:</b></font>&nbsp;<span id="ultimoArquivoIns" class="FONTRED"><?php echo $rowAd[0]; ?></span></td>
 			</tr>		
 		</table>
 	</form>

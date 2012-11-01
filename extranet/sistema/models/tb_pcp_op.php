@@ -44,7 +44,7 @@ class tb_pcp_op{
 									PCP_PRODUTO.NU_LARGURA,
 									PCP_OP.DT_EMISSAO,
 									PCP_PRODUTO.NU_ESPESSURA,
-									PCP_OP.FL_SELECIONADO
+									PCP_OP.CO_PCP_AD
 								FROM
 									tb_pcp_op AS PCP_OP
 										INNER JOIN
@@ -70,15 +70,16 @@ class tb_pcp_op{
 	/**
 	 * Metodo para marcar PI como processado (gerado AD)
 	 * @param int $id_pcp_op
+	 * $param int $co_pcp_ad	nome do arquivo
 	 * @return boolean
 	 * @author Ricardo S Alvarenga 
 	 * @since 25/10/2012
 	 */
-	public function atualizaSelecionados($id_pcp_op){
+	public function atualizaProcessado($id_pcp_op, $co_pcp_ad){
 		try {
 			$sql = "UPDATE 
 						tb_pcp_op 
-					SET FL_SELECIONADO ='S' 
+					SET CO_PCP_AD = $co_pcp_ad
 					WHERE CO_PCP_OP =".$id_pcp_op;
 			mysql_query($sql,$this->conexaoERP);
 		}catch (Exception $e){

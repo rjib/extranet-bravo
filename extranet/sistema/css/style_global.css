@@ -393,3 +393,8 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  {
 	padding: 20px;
 	font-size: 1.2em;
 }
+.FONTRED{	
+	color: red;
+	width: 11px;
+	size: 11;
+}
