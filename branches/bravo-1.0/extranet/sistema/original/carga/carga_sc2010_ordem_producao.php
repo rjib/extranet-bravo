@@ -48,7 +48,7 @@
 			
 		    $linha = explode (";",$linha_arquivo);
 			
-			$sqlPcpOp = mysql_query ("SELECT null FROM tb_pcp_op WHERE CO_RECNO = '".addslashes (trim ($linha[7]))."'",$conexao)
+			$sqlPcpOp = mysql_query ("SELECT null FROM tb_pcp_op WHERE CO_RECNO = '".addslashes (trim ($linha[9]))."'",$conexao)
 			or die (mysql_error ());
 			
 			if (mysql_num_rows ($sqlPcpOp) == 0){
@@ -57,6 +57,7 @@
 								  ,CO_SEQUENCIA
 								  ,CO_PRODUTO
 								  ,QTD_PRODUTO
+								  ,NU_LOTE
 								  ,QTD_PRODUZIDA
 								  ,DT_EMISSAO
 								  ,DT_FIM
@@ -69,7 +70,8 @@
 								  , '".addslashes (trim ($linha[5]))."'
 								  , '".addslashes (trim ($linha[6]))."'
 								  , '".addslashes (trim ($linha[7]))."'
-								  , '".addslashes (trim ($linha[8]))."')",$conexao)
+								  , '".addslashes (trim ($linha[8]))."'
+								  , '".addslashes (trim ($linha[9]))."')",$conexao)
 			    or die  (mysql_error ()." ->  (insereOrdemProducao)");
 			}
 			
