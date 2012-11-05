@@ -41,8 +41,8 @@
                                      <li>
                         				<a href="#" class="sub">PCP</a>
                         				<ul>
-                            				<li class="topline"><a href="inicio.php?pg=ordem_producao">Gerar Arquivo AD</a></li>
-                            				<li><a href="inicio.php?pg=importar_ac">Importar Arquivo AC</a></li>
+                            				<li class="topline"><a href="inicio.php?pg=ordem_producao">Gerar Plano de Corte</a></li>
+                            				<li><a href="inicio.php?pg=lista_plano_corte">Importar Plano de Corte do Optisave</a></li>
                                             <li><a href="inicio.php?pg=lista_cores">Lista de Cores</a></li>
                                             <li><a href="inicio.php?pg=lista_op">Ordem de Produção</a></li>                                            
                         				</ul>

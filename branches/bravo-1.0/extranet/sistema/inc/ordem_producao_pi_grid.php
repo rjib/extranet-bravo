@@ -39,9 +39,9 @@
 					AND PCP_PRODUTO.NU_ESPESSURA ="'.$espessura.'"');
 		
 	}
-	$paging->labels('Status,C&oacute;digo,C&oacuted. Int.,Produto, Comp., Larg., Quant., Dt. Emiss&atilde;o');
-	$paging->fields('PCP_OP.CO_PCP_AD,PCP_OP.CO_PCP_OP, PCP_PRODUTO.CO_INT_PRODUTO,PCP_PRODUTO.DS_PRODUTO,PCP_PRODUTO.NU_COMPRIMENTO,PCP_PRODUTO.NU_LARGURA,PCP_OP.QTD_PRODUTO,PCP_OP.DT_EMISSAO');
-	$paging->cols_width('5,10,40,250,30,30,30,30,40');
+	$paging->labels('Status,C&oacute;digo,C&oacuted. Int.,Produto, Comp., Larg., Quant.,Lote, Dt. Emiss&atilde;o');
+	$paging->fields('PCP_OP.CO_PCP_AD,PCP_OP.CO_PCP_OP, PCP_PRODUTO.CO_INT_PRODUTO,PCP_PRODUTO.DS_PRODUTO,PCP_PRODUTO.NU_COMPRIMENTO,PCP_PRODUTO.NU_LARGURA,PCP_OP.QTD_PRODUTO,PCP_NU_LOTE,PCP_OP.DT_EMISSAO');
+	$paging->cols_width('5,10,40,250,30,30,20,30,30,20');
 	$paging->rowsperpage(30);
 	$paging->page(isset($_GET['p']) ? $_GET['p'] : 1);	
 	

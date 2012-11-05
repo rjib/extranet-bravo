@@ -215,7 +215,8 @@
 						PCP_PRODUTO.DS_PRODUTO ,
 						PCP_PRODUTO.NU_COMPRIMENTO ,
 						PCP_PRODUTO.NU_LARGURA,
-						PCP_OP.QTD_PRODUTO,																		
+						PCP_OP.QTD_PRODUTO,
+						PCP_OP.NU_LOTE,																		
 						CONCAT(SUBSTRING(PCP_OP.DT_EMISSAO ,7,2),"/", SUBSTRING(PCP_OP.DT_EMISSAO ,5,2), "/", SUBSTRING(PCP_OP.DT_EMISSAO ,1,4))
 					FROM
 						tb_pcp_op AS PCP_OP 
@@ -255,7 +256,7 @@
 					
 					for($i = 0; $i < $a_cells[0]; $i++){
 						if($i==0){
-							utf8_encode($row[$i])==0?$row[$i]="<img vspace='4px' src='img/status-nao.gif'/>":$row[$i]="<img src='img/status-sim.gif'/>";
+							utf8_encode($row[$i])==0?$row[$i]="<img title='Pendente' vspace='4px' src='img/status-nao.gif'/>":$row[$i]="<img title='Processado' src='img/status-sim.gif'/>";
 							$s_html .= '<td align="center">'.utf8_encode($row[$i]).'</td>';
 						}else{
 							$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';
