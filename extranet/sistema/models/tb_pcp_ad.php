@@ -5,6 +5,8 @@
  * @since 31/10/2012
  *
  */
+require_once APP_PATH.'sistema/paging.class.php';
+
 class tb_pcp_ad{
 
 	private $conexaoERP;
@@ -43,7 +45,7 @@ class tb_pcp_ad{
 		$sql = "INSERT INTO tb_pcp_ad (co_pcp_ad, un_complementar)
 				VALUES (".addslashes($cod_pcp_ad).",".addslashes($un_complementar).")";
 		if(!mysql_query($sql,$this->conexaoERP)){
-			throw new Exception('Erro na inserção dos dados, favor contacte o suporte2!');
+			throw new Exception('Erro na inserção dos dados, favor contacte o suporte!');
 		}
 	}
 
@@ -82,6 +84,18 @@ class tb_pcp_ad{
 
 		}
 		return $row;
+	}
+	
+	/**
+	 * Metodo para listar todos os arquivos ad
+	 * @author Ricardo S. Alvarenga
+	 * @return String
+	 * @since 05/11/2012
+	 */
+	public function gridListaAD(){
+		
+
+		
 	}
 }
 ?>

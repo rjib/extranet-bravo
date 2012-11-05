@@ -186,7 +186,9 @@ $(document).ready(function(){
 				<td colspan="3" align="left"><input type="text" name="nomeArquivo" id="nomeArquivo" class="INPUT01" size="20" /></td>
 			</tr>
 			<tr>
-				<td colspan="4"><font class="FONT04"><b> Último arquivo inserido:</b></font>&nbsp;<span id="ultimoArquivoIns" class="FONTRED"><?php echo $rowAd[0]; ?></span></td>
+				<td colspan="4"><font class="FONT04"><b> Último arquivo inserido:</b></font>&nbsp;<span id="ultimoArquivoIns" class="FONTRED"><?php echo $rowAd[0]; ?></span>
+				<input type="hidden" value="<?php echo $rowAd[0];?>" id="ultimoArquivoInsVal">
+				</td>
 			</tr>		
 		</table>
 	</form>

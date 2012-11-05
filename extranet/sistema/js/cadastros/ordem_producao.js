@@ -98,10 +98,10 @@ $(document).ready(function(){
 						var nomeArquivo			= $("#nomeArquivo").val();
 						//$("#ultimoArquivoIns").load('helpers/existeRegistroAD.php',{nomeArquivo:nomeArquivo});
 						var unidadeComplementar = $("#unidadeComplementar").val();
-						//var ultimoArquivoIns    = document.getElementById('ultimoArquivoIns').innerHtml;
+						var ultimoArquivoIns    = $('#ultimoArquivoInsVal').val();
 						
 						if(nomeArquivo!="" && unidadeComplementar !=""){ //valida dados do formulario para gerar arquivo	
-							//if( ultimoArquivoIns != nomeArquivo){ //somente se arquivo nao exitir					
+							if( ultimoArquivoIns != nomeArquivo){ //somente se arquivo nao exitir					
 								$( "#boxGerando" ).dialog('open');							
 								search();	
 								gridLoader(searchfor, page);
@@ -150,9 +150,9 @@ $(document).ready(function(){
 										}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();
 									}
 								});
-/*							}else{
+							}else{
 								alert('Nome do arquivo ja existe em nosso banco de dados, favor entre com outro nome!');
-								$("#nomeArquivo").focus();}*/
+								$("#nomeArquivo").focus();}
 								
 							
 						}else{
