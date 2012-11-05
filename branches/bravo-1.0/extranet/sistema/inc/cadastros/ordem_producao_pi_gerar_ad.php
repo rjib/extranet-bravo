@@ -21,7 +21,7 @@ $_QUANTIDADE     = array('numCaracter'=>6,'posPrimeiroCaracterer'=>39,'multiplic
 $_GRAIN  		 = array('numCaracter'=>1,'posPrimeiroCaracterer'=>45,'multiplicadorAtivo'=>0,'dadoNumerico'=>1); //(veio = BR, BF, PF)? 1:0)
 $_DESCRICAO  	 = array('numCaracter'=>150,'posPrimeiroCaracterer'=>46,'multiplicadorAtivo'=>0,'dadoNumerico'=>0);
 DEFINE('$_PAINEL','4012750018400001001PAINEL');
-$_PATH			 = ROOT.DS.'extranet-bravo'.DS.'extranet'.DS.'arquivosAD'.DS;
+$_PATH			 = APP_PATH.'arquivosAD'.DS;
 
 $piModel = new tb_pcp_op($conexaoERP);
 $adModel = new tb_pcp_ad($conexaoERP);
@@ -138,9 +138,21 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 		$veio=0;
 	}
 	//retornando a virgula
+
 	$row['NU_ESPESSURA'] =  str_replace('.',',',$row['NU_ESPESSURA']);
 	$row['NU_COMPRIMENTO'] =  str_replace('.',',',$row['NU_COMPRIMENTO']);
 	$row['NU_LARGURA'] =  str_replace('.',',',$row['NU_LARGURA']);
+	
+	//removendo casas decimais
+	if(strstr($row['NU_COMPRIMENTO'],',')){
+		$row['NU_COMPRIMENTO'] =  substr($row['NU_COMPRIMENTO'], 0,strpos($row['NU_COMPRIMENTO'], ','));	
+		
+	}
+	if(strstr($row['NU_LARGURA'],',')){
+		$row['NU_LARGURA'] =  substr($row['NU_LARGURA'], 0,strpos($row['NU_LARGURA'], ','));
+		
+	}
+	
 	array_push($dadosArquivo, $row['DS_COR'].$row['NU_ESPESSURA'].'        '.$ordemProducao.$row['NU_COMPRIMENTO'].' '.$row['NU_LARGURA'].$row['QTD_PRODUTO'].$veio.trim($row['CO_INT_PRODUTO']).' - '.$tempComprimento.'X'.$tempLargura.'X'.$tempEspessura);
 	$ordem++;
 }//fim for

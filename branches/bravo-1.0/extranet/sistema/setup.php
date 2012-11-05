@@ -1,18 +1,25 @@
 <?phP
-	define('ROOT', $_SERVER['DOCUMENT_ROOT']);
-	define ('DS', DIRECTORY_SEPARATOR);
+/**
+ * Constantes do sistema
+ * @author Ricardo S. Alvarenga
+ **/
+define('URL', 'http://localhost/extranet-bravo/extranet/');
+define ('DS', DIRECTORY_SEPARATOR);
+define ('APP_PATH',realpath(dirname(__FILE__).DS.'..').DS);
+
+//fim alteracao Ricardo S. Alvarenga
 	
 	
 	header('Content-Type: text/html; charset=utf-8');	
 	$conexaoERP = mysql_connect("localhost","root","")
 	or die ("<script>
-			     alert('[Erro] - CONFIGURA«√O DO BANCO DE DADOS!');
+			     alert('[Erro] - CONFIGURA√á√ÉO DO BANCO DE DADOS!');
 				 window.location = 'index.php';
 			 </script>");
 	
 	$dbERP = mysql_select_db("extranet",$conexaoERP)
 	or die ("<script>
-			     alert('[Erro] - CONFIGURA«√O DO BANCO DE DADOS!');
+			     alert('[Erro] - CONFIGURA√á√ÉO DO BANCO DE DADOS!');
 				 window.location = 'index.php';
 			 </script>");	
 	

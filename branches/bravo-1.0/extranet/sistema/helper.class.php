@@ -6,6 +6,22 @@
  *
  */
 class helper{
+	
+	/**
+	 * Metodo para ajustar a data e hora no padrao portugues brasil
+	 * @param String $data	retorno do banco de dados exemplo: 2012-11-05 16:21:15
+	 * @author Ricardo S. Alvarenga
+	 * @since 05/11/2012
+	 * @return string YYYY/MM/DD h:i:s
+	 */
+	public function ajustarDataHoraPt_Br($dataHora){
+		//2012-11-05 16:21:15
+		$dia			= substr($dataHora,8,2);
+		$mes 			= substr($dataHora,5,2);
+		$ano			= substr($dataHora,0,4);
+		$horaMinSec			= substr($dataHora,11,8);
+		return $dia.'/'.$mes.'/'.$ano.' '.$horaMinSec;
+	}
 
 	/**
 	 * Metodo para ajustar data (DD/MM/YYYY) para (YYYYMMDD)
