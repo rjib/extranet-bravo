@@ -86,4 +86,53 @@ class helper{
 				});
 			</script>";
 	}
+	
+	/**
+	 * Metodo para capturar o nome temporario do arquivo a ser enviado para o servidor
+	 * @param String $nomeDoCampo	nome do campo do qual veio o arquivo
+	 * @return boolean
+	 * @since 06/11/2012
+	 * @author Ricardo S. Alvarenga
+	 */
+	public function getNomeTempArquivo($nomeDoCampo){
+		$nometmp    = $_FILES[$nomeDoCampo]['tmp_name'];
+		if ($nometmp != ""){
+			return $nometmp;
+		}else{
+			return false;
+		}
+	}
+	/**
+	 * Metodo para gerar a matriz de dados contendo as linhas do arquivo
+	 * @param String $nomeTemporario
+	 * @return array
+	 * @since 06/11/2012
+	 * @author Ricardo S. Alvarenga
+	 */
+	public function gerarMatrizDeDadosDoArquivo($nomeTemporario){
+		$linhas = file($nomeTemporario,FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+		for ($x=0; $x < count($linhas); $x++){
+			$dados = explode('\n',$linhas[$x]);
+			$matrizDados[] = $dados;
+		}
+		return $matrizDados;
+	}
+
+	/**
+	 * @param string $dir	diretorio onde sera salvo o arquivo
+	 * @param string $novoNomeArquivo	novo nome do arquivo com extensão
+	 * @param string $nomeTemporario	nome temporario do arquivo 
+	 * @return boolean
+	 * @since 06/11/2012
+	 * @author Ricardo S. Alvarenga
+	 */
+	public function importarArquivo ($dir, $novoNomeArquivo,$nomeTemporario){
+		if (!file_exists($dir))
+		{
+			mkdir($dir, 0755);
+		}
+		$caminho = $dir.$novoNomeArquivo;
+		move_uploaded_file($nomeTemporario,$caminho);
+	}
+	
 }
