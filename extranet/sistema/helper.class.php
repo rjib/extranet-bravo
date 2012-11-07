@@ -103,6 +103,37 @@ class helper{
 		}
 	}
 	/**
+	 * Metodo para retornar o tipo temporario do arquivo a ser enviado para o servidor
+	 * @param String $nomeDoCampo	nome do campo do qual veio o arquivo
+	 * @return boolean
+	 * @since 06/11/2012
+	 * @author Ricardo S. Alvarenga
+	 */
+	public function getTypeArquivo($nomeDoCampo){
+		$type    = $_FILES[$nomeDoCampo]['type'];
+		if ($type != ""){
+			return $type;
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * Metodo para capturar o nome original do arquivo a ser enviado para o servidor
+	 * @param String $nomeDoCampo	nome do campo do qual veio o arquivo
+	 * @return boolean
+	 * @since 07/11/2012
+	 * @author Ricardo S. Alvarenga
+	 */
+	public function getNomeArquivo($nomeDoCampo){
+		$nome    = $_FILES[$nomeDoCampo]['name'];
+		if ($nome != ""){
+			return $nome;
+		}else{
+			return false;
+		}
+	}
+	/**
 	 * Metodo para gerar a matriz de dados contendo as linhas do arquivo
 	 * @param String $nomeTemporario
 	 * @return array
@@ -132,7 +163,71 @@ class helper{
 			mkdir($dir, 0755);
 		}
 		$caminho = $dir.$novoNomeArquivo;
-		move_uploaded_file($nomeTemporario,$caminho);
+		if(file_exists($caminho)) //se arquivo existir retorna false
+		{
+			return false;
+		}else
+		{
+			move_uploaded_file($nomeTemporario,$caminho);
+			return true;
+		}
+
 	}
+	
+	/**
+	 * Metodo para ordenar os schemas do plano de corte
+	 * @param array_multidimensional $matrizDados
+	 * @author Ricardo S. Alvarenga
+	 * @since 07/11/2012
+	 * @return multitype:multitype: 
+	 */
+	public function separaSchemas($matrizDados)
+	{
+		$schema = array(array());
+		$numEsquema = 1;
+
+		//separa os schemas
+		for($i=0; $i<count($matrizDados);$i++){
+			$findme   = 'PAINEL';
+			$pos = strpos($matrizDados[$i][0], $findme);
+			if ($pos === false) { // nao encontrou o schema
+			} else { // encontrou o schema
+				//BR/BR          1800110011127500184000001PAINEL      561,66   10,11000039
+				$numEsquema = (int)substr($matrizDados[$i][0], 18,2);
+			}
+			$schema[$numEsquema][$i] = $matrizDados[$i][0];
+
+
+		}
+
+		//BR/BR          1800910000000041000001000
+		//remove sobras
+		$temp = 0;
+		for($i=0; $i<count($schema);$i++)
+		{
+			if(count($schema[$i])==0)
+			{
+				//unset($schema[$i]); //remove schema vazio
+				//$schema[$i]='VAZIO';
+								
+			}
+			for($j=0; $j<count($schema[$i]); $j++)
+			{
+				$sobra = substr($schema[$i][$temp],40,2);
+				if($sobra=='  '){
+					//unset($schema[$i][$temp]);
+					$schema[$i][$temp]='VAZIO';
+				}
+				$temp++;
+				
+			}
+			
+
+		}
+
+
+		return $schema;
+	}
+
 	
 }
