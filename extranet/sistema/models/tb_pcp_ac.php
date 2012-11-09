@@ -17,20 +17,31 @@ class tb_pcp_ac{
 	/**
 	 * Metodo para inserir novo arquivo AC e retornar o id
 	 * @param int $cod_pcp_ad
-	 * @param int $un_complementar
 	 * @return boolean
 	 * @author Ricardo S. Alvarenga
 	 * @since 07/11/2012
 	 */
-	public function insertReturnId($cod_pcp_ad)
+	public function insertReturnId($co_pcp_ad)
 	{
 		$sql = "INSERT INTO tb_pcp_ac (co_pcp_ad)
-				VALUES (".addslashes($cod_pcp_ad).")";
+				VALUES (".addslashes($co_pcp_ad).")";
 		if(!mysql_query($sql,$this->conexaoERP)){
 			throw new Exception('Erro na inserção dos dados, favor contacte o suporte!');
 		}
 		$id = mysql_insert_id();
 		return $id;
+	}
+	
+
+	/**
+	 * Metodo para deletar o registro de arquivo do arquivo otimizado pelo optisave
+	 * @param int $co_pcp_ad	nome do arquivo ac
+	 * @author Ricardo S. Alvarenga
+	 * @since 08/11/2012
+	 */
+	public function delete($co_pcp_ad){
+		$sql = "DELETE FROM tb_pcp_ac WHERE co_pcp_ad = ".$co_pcp_ad;
+		mysql_query($sql,$this->conexaoERP);
 	}
 }
 ?>

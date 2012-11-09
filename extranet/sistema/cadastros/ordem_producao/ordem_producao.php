@@ -88,7 +88,7 @@ $(document).ready(function(){
     <div id="container">
         <table width="1003" align="center" style="margin-top:30px; padding-left:5px; margin-bottom:10px;">
            <tr>
-            <td colspan="4"><img src="img/title/title_consulta_ordem_producao.jpg" width="1003" height="40" /></td>
+            <td colspan="4"><img src="img/title/title_gerar_plano_corte.png" width="1003" height="40" /></td>
           </tr>          
         </table >
         <table align="center" bgcolor="f7f7f7" cellspacing="5px;" class="TABLE_FULL01" width="1000">
