@@ -398,3 +398,6 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  {
 	width: 11px;
 	size: 11;
 }
+.link01:hover{
+background-image: url(../img/btn/bt_hover.png);
+}

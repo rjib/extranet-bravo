@@ -1,6 +1,6 @@
 <?php
 /**
- * Classe da camada de acesso a dados da tabela tb_pcp_cor * 
+ * Classe da camada de acesso a dados da tabela tb_pcp_cor *
  * @author Ricardo S. Alvarenga
  * @since 25/10/2012
  *
@@ -24,10 +24,27 @@ class tb_pcp_cor{
 		try {
 			$sql = "SELECT CO_COR, DS_COR, CO_RECNO FROM tb_pcp_cor ORDER BY DS_COR ASC";
 			$row = mysql_query($sql,$this->conexaoERP);
-		}catch (Exception $e){			
+		}catch (Exception $e){
 			return false;
 		}
 		return $row;
+	}
+
+	/**
+	 * Metodo para retornar o codigo de uma determina da cor
+	 * @param string $ds_cor
+	 * @author Ricardo S. Alvarenga
+	 * @since 08/11/2012
+	 * @return int
+	 */
+	public function buscarCodCor($ds_cor)
+	{
+		$sql = "SELECT co_cor
+				FROM tb_pcp_cor
+				WHERE DS_COR = '".$ds_cor."'";
+		$row = mysql_fetch_assoc(mysql_query($sql,$this->conexaoERP));
+		return $row;
+
 	}
 }
 ?>
