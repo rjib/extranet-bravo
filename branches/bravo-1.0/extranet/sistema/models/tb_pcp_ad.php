@@ -5,8 +5,6 @@
  * @since 31/10/2012
  *
  */
-require_once APP_PATH.'sistema/paging.class.php';
-
 class tb_pcp_ad{
 
 	private $conexaoERP;
@@ -87,14 +85,18 @@ class tb_pcp_ad{
 	}
 	
 	/**
-	 * Metodo para listar todos os arquivos ad
+	 * Metodo para verificar se um ac ja foi gerado para um determinado .AD
 	 * @author Ricardo S. Alvarenga
 	 * @return String
-	 * @since 05/11/2012
+	 * @since 09/11/2012
 	 */
-	public function gridListaAD(){
+	public function adUploaded($co_pcp_ac){
+		$sql = "SELECT COUNT(*) flg 
+				FROM tb_pcp_ac 
+				WHERE co_pcp_ac = ".$co_pcp_ac;
+		$row = mysql_fetch_array(mysql_query($sql,$this->conexaoERP));
 		
-
+		return $row[0];
 		
 	}
 }
