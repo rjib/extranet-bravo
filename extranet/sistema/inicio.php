@@ -184,7 +184,13 @@
 	}elseif($pg	== "lista_plano_corte" && !$sub){
 		$inicio	= "cadastros/ordem_producao/lista_plano_corte.php";
 	}
+	
+	/** Modulos **/
+	if($pg == "modulos" && !$sub){
+		$inicio = "cadastros/modulos/modulos.php";		
+	}
 ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>

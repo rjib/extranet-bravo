@@ -19,7 +19,9 @@
                                             <li class="topline">
                                                 <a href="#" class="sub">Controle Acesso</a>
                                                 <ul>
-												    <li class="topline"><a href="inicio.php?pg=acesso_visitante">Visitantes</a></li>
+												    <li class="topline"><a class="sub" href="inicio.php?pg=acesso_visitante">Visitantes</a>
+												    	<ul class="topline"><li><a href="#">Teste</a></li></ul>
+												    </li>
                                                     <li><a href="inicio.php?pg=acesso_consultor">Consultores</a></li>
                         						</ul>
                                         	</li>
@@ -34,7 +36,8 @@
                                             <li><a href="inicio.php?pg=estado_civil">Estado Civil</a></li>
                                             <li><a href="inicio.php?pg=nivel_formacao">Nível Formação</a></li>
                                             <li><a href="inicio.php?pg=nacionalidade">Nacionalidade</a></li>                                            
-                                            <li><a href="inicio.php?pg=papel">Papel</a></li>                                   
+                                            <li><a href="inicio.php?pg=papel">Papel</a></li>   
+                                            <li><a href="inicio.php?pg=modulos">Módulos</a></li>                                   
                         				</ul>
 									</li>
                                     
