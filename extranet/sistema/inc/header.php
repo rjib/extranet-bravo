@@ -19,26 +19,27 @@
                                             <li class="topline">
                                                 <a href="#" class="sub">Controle Acesso</a>
                                                 <ul>
-												    <li class="topline"><a class="sub" href="inicio.php?pg=acesso_visitante">Visitantes</a>
-												    	<ul class="topline"><li><a href="#">Teste</a></li></ul>
+												    <li class="topline"><a href="inicio.php?pg=acesso_visitante">Visitantes</a>
 												    </li>
                                                     <li><a href="inicio.php?pg=acesso_consultor">Consultores</a></li>
                         						</ul>
                                         	</li>
-                                            
-                                            <li><a href="inicio.php?pg=pessoa">Pessoas</a></li>
-                                            <li><a href="inicio.php?pg=setor">Setores</a></li>
-                                            <li><a href="inicio.php?pg=cartao_identificacao">Cartão Identificação</a></li>
-                                            <li><a href="inicio.php?pg=cargo">Cargos</a></li>
-                                            <li><a href="inicio.php?pg=consultor">Consultores</a></li>
-                                            <li><a href="inicio.php?pg=colaborador">Colaboradores</a></li>
-                                            <li><a href="inicio.php?pg=usuario">Usuários</a></li>
-                                            <li><a href="inicio.php?pg=estado_civil">Estado Civil</a></li>
-                                            <li><a href="inicio.php?pg=nivel_formacao">Nível Formação</a></li>
-                                            <li><a href="inicio.php?pg=nacionalidade">Nacionalidade</a></li>                                            
-                                            <li><a href="inicio.php?pg=papel">Papel</a></li>   
-                                            <li><a href="inicio.php?pg=modulos">Módulos</a></li>                                   
-                        				</ul>
+		                                    
+		                                    <li><a href="inicio.php?pg=bairro">Bairros</a></li>
+		                                    <li><a href="inicio.php?pg=cargo">Cargos</a></li> 
+		                                    <li><a href="inicio.php?pg=cartao_identificacao">Cartão Identificação</a></li>
+		                                     <li><a href="inicio.php?pg=cep">CEPs</a></li>
+		                                     <li><a href="inicio.php?pg=municipio">Cidades</a></li> 
+		                                     <li><a href="inicio.php?pg=colaborador">Colaboradores</a></li>
+		                                     <li><a href="inicio.php?pg=consultor">Consultores</a></li> 
+		                                     <li><a href="inicio.php?pg=uf">Estados</a></li>
+		                                     <li><a href="inicio.php?pg=estado_civil">Estado Civil</a></li>
+		                                      <li><a href="inicio.php?pg=nacionalidade">Nacionalidade</a></li> 
+		                                      <li><a href="inicio.php?pg=nivel_formacao">Nível Formação</a></li>
+		                                      <li><a href="inicio.php?pg=pessoa">Pessoas</a></li>
+		                                      <li><a href="inicio.php?pg=setor">Setores</a></li>
+		                                      <li><a href="inicio.php?pg=usuario">Usuários</a></li>
+		                             </ul>
 									</li>
                                     
                                      <li>
@@ -60,15 +61,12 @@
                                             <li><a href="inicio.php?pg=tipo_veiculo">Veiculo</a></li>
                         				</ul>
                         			</li>
-                                    
-                                    <li><a href="inicio.php?pg=uf">Estados</a></li>
-                                    <li><a href="inicio.php?pg=municipio">Cidades</a></li>
-                                    <li><a href="inicio.php?pg=bairro">Bairros</a></li>
-                                    <li><a href="inicio.php?pg=cep">CEPs</a></li>                                                                                                      
+                                                                                                    
                                     <li>
                         				<a href="#" class="sub">Configurações</a>
                         				<ul>
-                            				<li class="topline"><a href="inicio.php?pg=parametros_giben_optisave">Parametros Giben OptiSave</a></li>
+                            				<li class="topline"><a href="inicio.php?pg=modulos">Módulos</a></li>  
+                            				<li><a href="inicio.php?pg=papel">Papel</a></li>  
                         				</ul>
 									</li>  
                                                                         		
