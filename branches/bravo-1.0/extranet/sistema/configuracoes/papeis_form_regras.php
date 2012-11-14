@@ -29,15 +29,16 @@ if(!empty($_POST['co_papel'])){
 	<!-- BOX EDITAR/ATRIBUIR REGRAS -->
 	<div id="boxFormEditarRegras">
 	<h3><img src="../img/login_user_image.jpg" /> Papel {<?php echo $papeis['NO_PAPEL']?>}</h3>
+	<span class="FONT04">Marque as ações permitidas para cada módulo.</span>
 	<input type="hidden" id="co_papel_regra" value="<?php echo $papeis['CO_PAPEL']; ?>" />
 		<table class="LISTA tablesorte" width="700" border="0" align="center" cellpadding="1" cellspacing="1">
 			<thead>
 				<tr>
 					<th align="left" width="8%">Código</th>
 					<th align="left" width="30%">Módulos</th>
-					<th width="7%">Editar</th>
-					<th width="7%">Exculír</th>
-					<th width="7%">Incluir</th>
+					<th width="7%"><input type="checkbox" id="btSelecionarTodosEditar" onclick="marcarTodosEditar();"/> Editar</th>
+					<th width="7%"><input type="checkbox" id="btSelecionarTodosExcluir" onclick="marcarTodosExcluir();"/> Exculír</th>
+					<th width="7%"><input type="checkbox" id="btSelecionarTodosIncluir" onclick="marcarTodosIncluir();"/> Incluir</th>
 				</tr>
 			</thead>
 			<?php 

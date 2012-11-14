@@ -323,4 +323,25 @@ class tb_modulos{
 		$this->_j = $j;
 	}
 	
+	/**
+	 * Metodo para verificar permissao de um modulo princial, que nao possua ações
+	 * @param unknown_type $co_papel
+	 * @param unknown_type $no_modulo
+	 * @return boolean
+	 */
+	public function verificaPermissaoModuloPrincipal($co_papel, $no_modulo){
+		$query = "select * from tb_papel_modulo PAPEL_MODULO
+					inner join tb_modulos MODULO
+					on PAPEL_MODULO.co_modulo = MODULO.co_modulo
+					where PAPEL_MODULO.co_papel = ".$co_papel."
+					and MODULO.co_pai in(select MODULO2.co_modulo from tb_modulos MODULO2 WHERE MODULO2.no_modulo = '".$no_modulo."' AND MODULO2.fl_acoes = 0)";
+		$num = mysql_num_rows(mysql_query($query, $this->conexaoERP));
+		if($num ==0){
+			return false;
+		}else{
+			return true;
+		}
+		
+	}
+	
 }

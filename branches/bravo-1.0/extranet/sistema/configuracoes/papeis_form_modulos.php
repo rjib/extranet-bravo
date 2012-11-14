@@ -27,6 +27,7 @@ if(!empty($_POST['co_papel'])){
 	<!-- BOX EDITAR/ATRIBUIR REGRAS -->
 	<div id="boxFormEditarModulos">
 	<h3><img src="../img/login_user_image.jpg" /> Papel {<?php echo $papeis['NO_PAPEL']?>}</h3>
+	<span class="FONT04">Selecione os módulos dos quais deseja que o papel <span style="text-decoration: underline;"><?php echo $papeis['NO_PAPEL']?></span> tenha acesso.</span>
 		<table class="LISTA tablesorte" width="700" border="0" align="center" cellpadding="1" cellspacing="1">
 			<thead>
 				<tr>

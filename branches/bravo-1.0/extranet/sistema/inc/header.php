@@ -22,10 +22,18 @@ $co_papel = $_SESSION['codigoPapel'];
                             	<img src="img/btn/btn_menu_opcoes.jpg" alt="MENU OPÇÕES" width="223" height="60" border="0"/>
                             	</a>
                         		<ul>
-									
+								<?php $principalCadastros = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, 'Cadastros');
+                                     if($principalCadastros){
+                                    ?>
                                     <li>
                         				<a href="#" class="sub">Cadastros</a>
                         				<ul>
+                                        	
+                                        	
+                                        	<?php 
+                                        	$subControleAcesso = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, 'Controle de Acesso');
+                                        	if($subControleAcesso){
+                                        	?>
                                         	
                                             <li class="topline">
                                                 <a href="#" class="sub">Controle Acesso</a>
@@ -44,7 +52,8 @@ $co_papel = $_SESSION['codigoPapel'];
                                                 <?php }?>
                         						</ul>
                                         	</li>
-                                             <?php 
+                                             <?php
+                                             } 
                                              $cadastrosBairos = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Bairros');
                                              if($cadastrosBairos){
                                              ?>		                                    
@@ -115,10 +124,15 @@ $co_papel = $_SESSION['codigoPapel'];
 		                                    if($cadastroUsuario){ ?>
 		                                    <li><a href="inicio.php?pg=usuario">Usuários</a></li>
 		                                    <?php } ?>
-		                             </ul>
+		                             </ul>		                             
 									</li>
-                                    
+									<?php }?>
+                                    <?php 
+                                    $principalPCP = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, 'PCP');
+                                    if($principalPCP){                                    
+                                    ?>
                                      <li>
+                                     
                         				<a href="#" class="sub">PCP</a>
                         				<ul>
                         					<?php 
@@ -146,8 +160,11 @@ $co_papel = $_SESSION['codigoPapel'];
                                             
                                             ?>                                            
                         				</ul>
-									</li>        
-                                                                        
+									</li>   
+									<?php }     
+									$principalTipos = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, 'Tipos');
+									if($principalTipos){
+										?>
                                     <li>
 										<a href="#" class="sub">Tipos</a>
 										<ul>
@@ -175,8 +192,13 @@ $co_papel = $_SESSION['codigoPapel'];
                                             <?php } ?>
                         				</ul>
                         			</li>
-                                                                                                    
+                                      <?php }
+                                      $principalConfig = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, 'Configurações');
+                                      if($principalConfig){
+                                     
+                                      ?>                                                            
                                     <li>
+                                    
                         				<a href="#" class="sub">Configurações</a>
                         				<ul>
                         				<?php 
@@ -192,6 +214,7 @@ $co_papel = $_SESSION['codigoPapel'];
                             				<?php }?>
                         				</ul>
 									</li>  
+									<?php }?>
                                                                         		
 							</ul>
 						</li>
