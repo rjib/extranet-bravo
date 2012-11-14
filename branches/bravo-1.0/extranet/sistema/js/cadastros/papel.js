@@ -1,5 +1,114 @@
-$(function($) {  
-		   
+$(function($) { 
+	
+	
+	$("#boxMensagem").dialog({
+		autoOpen:false,
+		modal:true,
+		height:120,
+		width:230,
+		title:'AtenÃ§Ã£o',
+		buttons:{
+			'Ok': function(){
+				$(window.document.location).attr('href','inicio.php?pg=papel');
+				$("#boxMensagem").dialog('close');
+				$("#boxEditarModulos").dialog("close");				
+				$("#boxEditarRegras").dialog("close");
+				
+
+			}
+		},
+		close:function (){
+			$("#boxEditarModulos").dialog("close");
+			$("#boxEditarRegras").dialog("close");
+			$(this).dialog("close");
+			$(window.document.location).attr('href','inicio.php?pg=papel');
+		}
+		
+	});
+
+	
+	//BOX ADICIONAR Modulos
+	$("#boxEditarModulos").dialog({
+		autoOpen: false,
+		height: 600,
+		width: 730,
+		modal: true,
+		resizable: false,
+		title: 'Atribuir mÃ³dulos ao papel',
+		buttons:{
+			'Salvar':function(){
+				var co_papel = $("#co_papel").val();
+				var co_modulo = new Array();
+				$("input[type=checkbox][name='modulo_selecao[]']:checked").each(function(){
+					co_modulo.push($(this).val());
+				});
+				//if(co_modulo.length!=0){
+					//$("#boxEditarRules").dialog('open');
+					//$("#boxTeste").load("inc/configuracoes/acoes_ins.php",{co_papel:co_papel, co_modulo:co_modulo});
+	            	$.post('inc/configuracoes/acoes_modulos_ins.php',{
+	            			co_papel:co_papel, 
+	            			co_modulo:co_modulo});
+	            	 $("#boxMensagem").html('Operacao realizada com sucesso!');
+					 $("#boxMensagem").dialog('open');
+            	
+				
+			},
+			'Cancelar':function(){
+				$("#boxEditarModulos").dialog('close');	
+				$(window.document.location).attr('href','inicio.php?pg=papel');
+			}
+		}
+			
+	});
+	
+	
+
+	//BOX REGRAS
+	$("#boxEditarRegras").dialog({
+		autoOpen: false,
+		height: 600,
+		width: 730,
+		modal: true,
+		resizable: false,
+		title: 'Atribuir regras ao papel',
+		buttons:{
+			'Salvar':function(){
+				var acao_editar = new Array();
+				var acao_excluir = new Array();
+				var acao_incluir = new Array();
+				var co_papel_regra = $("#co_papel_regra").val();
+				$("input[type=checkbox][name='acao_editar[]']:checked").each(function(){
+					acao_editar.push($(this).val());
+				});
+				$("input[type=checkbox][name='acao_excluir[]']:checked").each(function(){
+					acao_excluir.push($(this).val());
+				});
+				$("input[type=checkbox][name='acao_incluir[]']:checked").each(function(){
+					acao_incluir.push($(this).val());
+				});
+				//$("#boxEditarRules").dialog('open');
+				//$("#boxTeste").load("inc/configuracoes/acoes_ins.php",{co_papel:co_papel, co_modulo:co_modulo});
+            	$.post('inc/configuracoes/acoes_regras_ins.php',{
+            		acao_editar:acao_editar, 
+            		acao_excluir:acao_excluir,
+            		acao_incluir:acao_incluir,
+            		co_papel_regra:co_papel_regra
+            		});
+            	 $("#boxMensagem").html('OperaÃ§Ã£o realizada com sucesso!');
+				 $("#boxMensagem").dialog('open');
+            	
+				
+			},
+			'Cancelar':function(){				
+				$("#boxEditarRegras").dialog('close');
+				$(window.document.location).attr('href','inicio.php?pg=papel');
+			}
+		}
+			
+	});
+	
+	
+	
 	$("#formularioPapel").dialog({
 		autoOpen: false,
 		height: 320,
@@ -176,18 +285,33 @@ $(function($) {
 
     /**** INICIO CONFIGURACAO SCRIPT TABLESORTER *****/
 	 /* Variaveis de configuracao dos controles do grid*/
-	 var controlsdivclass	=	'.controls';		//Classe para aplicar a estilização nos controles
-	 var controlsscript		=	'inc/cadastros/papel_grid.php';			//Documento com o conteúdo do grid em formato html
+	 var controlsdivclass	=	'.controls';		//Classe para aplicar a estilizaï¿½ï¿½o nos controles
+	 var controlsscript		=	'inc/cadastros/papel_grid.php';			//Documento com o conteï¿½do do grid em formato html
 	 var controlsclass		= 	'tablesorter';		//Nome da classe aplicada aos controles do grid
 	
 	 /* Variaveis de configuracao do grid*/
-	 var griddivid 	=	'#grid';					//Div onde o grid será carregado
-	 var gridscript	=	'inc/cadastros/papel_grid.php';					//Documento com o conteúdo do grid em formato html
+	 var griddivid 	=	'#grid';					//Div onde o grid serï¿½ carregado
+	 var gridscript	=	'inc/cadastros/papel_grid.php';					//Documento com o conteï¿½do do grid em formato html
 	 var gridclass	= 	'tablesorter';				//Nome da classe aplicada ao grid
-	 var gridheaders =	{};							//Parâmetros utilizados pelo plugin tablesorter para manipular os headers da tabela
+	 var gridheaders =	{};							//Parï¿½metros utilizados pelo plugin tablesorter para manipular os headers da tabela
 	
 	 /* Variaveis para a exibicao de mensagens e carregamento */
-	 var consolediv = '#console';					//Div responsável por mostrar as mensagens de erro, info etc
-	 var loadmsg = 'Carregando...aguarde';			//Mensagem ou animação durante a fase de carregamento
+	 var consolediv = '#console';					//Div responsï¿½vel por mostrar as mensagens de erro, info etc
+	 var loadmsg = 'Carregando...aguarde';			//Mensagem ou animaï¿½ï¿½o durante a fase de carregamento
      var searchdiv = '#searching';					//Div utilizada para realizar o search
      /***** FIM CONFIGURACAO SCRIPT TABLESORTER *****/
+     
+     
+function editarModulos(papel){
+	//$("#boxEditarRules").dialog('open');
+	$("#boxEditarModulos").load("configuracoes/papeis_form_modulos.php",{co_papel:papel});
+	$("#boxEditarModulos").dialog('open');
+	
+} 
+
+function editarRegras(papel){
+	//$("#boxEditarRules").dialog('open');
+	$("#boxEditarRegras").load("configuracoes/papeis_form_regras.php",{co_papel:papel});
+	$("#boxEditarRegras").dialog('open');
+	
+}   
