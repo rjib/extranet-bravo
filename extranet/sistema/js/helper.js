@@ -105,7 +105,7 @@ function marcarTodosModuloSelecao() {
 		});
 }
 function marcarTodosIncluir() {
-	$("input[name='modulo_incluir[]']").each(function() {
+	$("input[name='acao_incluir[]']").each(function() {
 
 		if (!this.checked) {
 
@@ -118,7 +118,7 @@ function marcarTodosIncluir() {
 	});
 }
 function marcarTodosEditar() {
-	$("input[name='modulo_editar[]']").each(function() {
+	$("input[name='acao_editar[]']").each(function() {
 
 		if (!this.checked) {
 
@@ -132,7 +132,7 @@ function marcarTodosEditar() {
 }
 
 function marcarTodosExcluir() {
-	$("input[name='modulo_excluir[]']").each(function() {
+	$("input[name='acao_excluir[]']").each(function() {
 
 		if (!this.checked) {
 
