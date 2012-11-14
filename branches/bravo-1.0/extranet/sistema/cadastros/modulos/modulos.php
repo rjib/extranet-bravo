@@ -55,13 +55,13 @@ $moduloPai  = $_modModel->getPai(0);
 				</thead>
 				<?php 
 				$i = 1;
-				$teste = 'labla';
 				while($dados = mysql_fetch_array($moduloPai)){
 					$html.= $_modModel->getHtml();
 					$_modModel->setHtml('');
-					$html.=	"<tr class='modulo_pai'>";
+					$dados['FL_ATIVO']==0? $class="class='INATIVO'":$class="class='modulo_pai'";
+					$html.=	"<tr ".$class.">";
 					$html.=	"<td>".$dados['CO_MODULO']."</td>";
-					$html.=	"<td><div id='".$dados['CO_MODULO']."'><strong>".$i.' '.$dados['NO_MODULO']."</strong></div></td>";
+					$html.=	"<td><div title='".$dados['DS_MODULO']."' id='".$dados['CO_MODULO']."'><strong>".$i.' '.$dados['NO_MODULO']."</strong></div></td>";
 					$html.= '<td align="center"><a href="javascript:addSub('.$dados[CO_MODULO].');"><img title="Adicionar Sub-módulo" src="img/btn/btn_mais.gif" /></a> <a href="javascript:editar('.$dados[CO_MODULO].');"><img title="Editar" src="img/btn/btn_editar.gif" /></a> <a href="javascript:excluir('.$dados[CO_MODULO].');"><img title="Excluír" src="img/btn/btn_excluir.gif" /></a></td>';
 					$html.=	"</tr>";
 					$i++;
@@ -87,19 +87,24 @@ $moduloPai  = $_modModel->getPai(0);
 
 <!-- BOX ADICIONAR MODULO -->
 <div id="boxAdicionarModulo">
-<fieldset>
-<legend><font class="FONT04">Adiconar novo módulo</font></legend>
 	<table>
 		<tr>
 			<td><font class="FONT04"><b>Nome:</b></font></td>
 			<td><input class="INPUT01" type="text" id="no_modulo" size="45" /></td>
 		</tr>
 		<tr>
-			<td><font class="FONT04"><b>Status:</b></font></td>
-			<td><input type="radio" id="fl_status" name="fl_status[]" value="1" checked="checked" />Sim <input type="radio" id="fl_status" name="fl_status[]" value="0" />Não</td>
+			<td><font class="FONT04"><b>Descrição:</b></font></td>
+			<td><textarea id="ds_modulo" cols="46" rows="5" class="TEXTAREA01"></textarea></td>
+		</tr>		
+		<tr>
+			<td><font class="FONT04"><b>Ativo:</b></font></td>
+			<td><input type="radio" id="fl_ativo" name="fl_ativo" value="1" checked="checked" />Sim <input type="radio" id="fl_ativo" name="fl_ativo" value="0" />Não</td>
+		</tr>
+		<tr>
+			<td><font class="FONT04"><b>Módulo possui ações?</b></font></td>
+			<td><input type="radio" id="fl_acoes" name="fl_acoes" value="1" />Sim <input  checked="checked" type="radio" id="fl_acoes" name="fl_acoes" value="0" />Não</td>
 		</tr>
 	</table>
-	</fieldset>
 </div>
 
 <!-- BOX ADICIONAR SUB-MODULO -->
@@ -114,9 +119,17 @@ $moduloPai  = $_modModel->getPai(0);
 			<td><input class="INPUT01" type="text" id="no_modulo_add_sub" size="45" /></td>
 		</tr>
 		<tr>
-			<td><font class="FONT04"><b>Status:</b></font></td>
-			<td><input type="radio" id="fl_status_add_sub" name="fl_status_add_sub[]" value="1" checked="checked" />Sim <input type="radio" id="fl_status_add_sub" name="fl_status_add_sub[]" value="0" />Não</td>
+			<td><font class="FONT04"><b>Descrição:</b></font></td>
+			<td><textarea id="ds_modulo_add_sub" cols="46" rows="5" class="TEXTAREA01"></textarea></td>
+		</tr>			
+		<tr>
+			<td><font class="FONT04"><b>Ativo:</b></font></td>
+			<td><input type="radio" id="fl_ativo_add_sub" name="fl_ativo_add_sub[]" value="1" checked="checked" />Sim <input type="radio" id="fl_ativo_add_sub" name="fl_ativo_add_sub[]" value="0" />Não</td>
 		</tr>
+		<tr>
+			<td><font class="FONT04"><b>Módulo possui ações?</b></font></td>
+			<td><input type="radio" id="fl_acoes_add_sub" name="fl_acoes_add_sub[]" value="1" />Sim <input  checked="checked" type="radio" id="fl_acoes_add_sub" name="fl_acoes_add_sub[]" value="0" />Não</td>
+		</tr>		
 	</table>
 </div>
 
@@ -133,7 +146,7 @@ $moduloPai  = $_modModel->getPai(0);
 
 
 <!-- BOX ALTERAR MODULO -->
-<div id="boxAlterar">adasdfas</div>
+<div id="boxAlterar"></div>
 
 
 </div>

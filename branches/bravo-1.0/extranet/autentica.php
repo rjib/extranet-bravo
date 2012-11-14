@@ -1,9 +1,9 @@
 <?php
 	
 	/**
-	 * Script responsável por autenticar o usuario conforme login e senha informados no formulário.
+	 * Script responsï¿½vel por autenticar o usuario conforme login e senha informados no formulï¿½rio.
 	 * 
-	 * @author RouterNet - Soluções em Tecnologia <comercial@routernet.com.br>
+	 * @author RouterNet - Soluï¿½ï¿½es em Tecnologia <comercial@routernet.com.br>
 	 * @version 1.0 - 27/02/2012 08:00
 	 * 
 	 */
@@ -16,6 +16,7 @@
 										    , PESSOA.NO_PESSOA
 										    , USUARIO.LG_USUARIO
 										    , USUARIO.PASS_USUARIO
+											, USUARIO.CO_PAPEL
 										FROM tb_usuario USUARIO
 										    INNER JOIN tb_colaborador COLABORADOR
 											    ON USUARIO.CO_COLABORADOR = COLABORADOR.CO_COLABORADOR
@@ -56,8 +57,9 @@
 					 
 			//GRAVA AS VARIAVEIS NA SESSAO
 			$_SESSION['codigoUsuario']   = $rowAutenticaUsuario['CO_USUARIO'];
-			$_SESSION['nomePessoa']     = $rowAutenticaUsuario['NO_PESSOA'];
+			$_SESSION['nomePessoa']      = $rowAutenticaUsuario['NO_PESSOA'];
 			$_SESSION['loginUsuario']    = $rowAutenticaUsuario['LG_USUARIO'];
+			$_SESSION['codigoPapel']     = $rowAutenticaUsuario['CO_PAPEL'];
 				
 			$dataAcessoUsuario = date("Y-m-d");
 			$horaAcessoUsuario = date("H:i:s");                  

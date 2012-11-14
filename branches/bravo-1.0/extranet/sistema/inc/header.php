@@ -1,3 +1,14 @@
+<?php
+require_once 'setup.php';
+require_once 'models/tb_modulos.php';
+require_once 'helper.class.php';
+
+$moduloModel = new tb_modulos($conexaoERP);
+$co_papel = $_SESSION['codigoPapel'];
+
+
+?>
+
 <table width="1003" height="92" border="0" align="center" cellpadding="0" cellspacing="0" background="img/header.jpg">
             <tr>
                 <td align="right"><table width="609" border="0" cellspacing="0" cellpadding="0">
@@ -19,54 +30,166 @@
                                             <li class="topline">
                                                 <a href="#" class="sub">Controle Acesso</a>
                                                 <ul>
-												    <li class="topline"><a href="inicio.php?pg=acesso_visitante">Visitantes</a>
-												    </li>
+                                                <?php 
+                                                $cadastroVisitantes = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Controle de Acesso', 'Visitantes');
+                                                if($cadastroVisitantes){
+                                                ?>
+												    <li class="topline"><a href="inicio.php?pg=acesso_visitante">Visitantes</a></li>
+												<?php
+												} 
+                                                $cadastroConsultores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Controle de Acesso', 'Consultores');
+                                                if($cadastroConsultores){
+                                                ?>
                                                     <li><a href="inicio.php?pg=acesso_consultor">Consultores</a></li>
+                                                <?php }?>
                         						</ul>
                                         	</li>
-		                                    
+                                             <?php 
+                                             $cadastrosBairos = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Bairros');
+                                             if($cadastrosBairos){
+                                             ?>		                                    
 		                                    <li><a href="inicio.php?pg=bairro">Bairros</a></li>
-		                                    <li><a href="inicio.php?pg=cargo">Cargos</a></li> 
+                                             <?php 
+                                             }
+                                             $cadastrosCargos = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Cargos');
+                                             if($cadastrosCargos){
+                                             ?>	
+		                                    <li><a href="inicio.php?pg=cargo">Cargos</a></li>
+		                                    <?php }
+		                                    $cadastrosCartao = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Cartão Identificação');
+		                                    if($cadastrosCartao){		                                    
+		                                    ?> 
 		                                    <li><a href="inicio.php?pg=cartao_identificacao">Cartão Identificação</a></li>
-		                                     <li><a href="inicio.php?pg=cep">CEPs</a></li>
-		                                     <li><a href="inicio.php?pg=municipio">Cidades</a></li> 
-		                                     <li><a href="inicio.php?pg=colaborador">Colaboradores</a></li>
-		                                     <li><a href="inicio.php?pg=consultor">Consultores</a></li> 
-		                                     <li><a href="inicio.php?pg=uf">Estados</a></li>
-		                                     <li><a href="inicio.php?pg=estado_civil">Estado Civil</a></li>
-		                                      <li><a href="inicio.php?pg=nacionalidade">Nacionalidade</a></li> 
-		                                      <li><a href="inicio.php?pg=nivel_formacao">Nível Formação</a></li>
-		                                      <li><a href="inicio.php?pg=pessoa">Pessoas</a></li>
-		                                      <li><a href="inicio.php?pg=setor">Setores</a></li>
-		                                      <li><a href="inicio.php?pg=usuario">Usuários</a></li>
+		                                    <?php }
+		                                    $cadastroCep = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'CEPs');
+		                                    if($cadastroCep){		                                    
+		                                    ?>
+		                                    <li><a href="inicio.php?pg=cep">CEPs</a></li>
+		                                    <?php }
+		                                    $cadastroCidades = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Cidades');
+		                                    if($cadastroCidades){		                                    
+		                                    ?>
+		                                    <li><a href="inicio.php?pg=municipio">Cidades</a></li>
+		                                    <?php }
+		                                    $cadastroColaboradores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Colaboradores');
+		                                    if($cadastroColaboradores){		                                    
+		                                    ?> 
+		                                    <li><a href="inicio.php?pg=colaborador">Colaboradores</a></li>
+		                                    <?php }
+		                                    $cadastrosConsultores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Consultores');
+		                                    if($cadastrosConsultores){
+		                                    ?>
+		                                    <li><a href="inicio.php?pg=consultor">Consultores</a></li>
+		                                    <?php }
+		                                    $cadastroEstados = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Estados');
+		                                    if($cadastroCidades){		                                    
+		                                    ?> 
+		                                    <li><a href="inicio.php?pg=uf">Estados</a></li>
+		                                    <?php }
+		                                    $cadastroCivil = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Estado Civil');
+		                                    if($cadastrosCivil){		                                    
+		                                    ?>
+		                                    <li><a href="inicio.php?pg=estado_civil">Estado Civil</a></li>
+		                                    <?php }
+		                                    $cadastroNacionalidade = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Nacionalidade');
+		                                    if($cadastroNacionalidade){		                                    
+		                                    ?>
+		                                    <li><a href="inicio.php?pg=nacionalidade">Nacionalidade</a></li>
+		                                    <?php }
+		                                    $cadastroNivelFormacao = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Nível Formação');
+		                                    if($cadastroNivelFormacao){		                                    
+		                                    ?> 
+		                                    <li><a href="inicio.php?pg=nivel_formacao">Nível Formação</a></li>
+		                                    <?php }
+		                                    $cadastroPessoas = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Pessoas');
+		                                    if($cadastroPessoas){		                                    
+		                                    ?>
+		                                    <li><a href="inicio.php?pg=pessoa">Pessoas</a></li>
+		                                    <?php }
+		                                    $cadastroSetores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Setores');
+		                                    if($cadastroSetores){		                                    
+		                                    ?>
+		                                    <li><a href="inicio.php?pg=setor">Setores</a></li>
+		                                    <?php }
+		                                    $cadastroUsuario = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Usuários');
+		                                    if($cadastroUsuario){ ?>
+		                                    <li><a href="inicio.php?pg=usuario">Usuários</a></li>
+		                                    <?php } ?>
 		                             </ul>
 									</li>
                                     
                                      <li>
                         				<a href="#" class="sub">PCP</a>
                         				<ul>
+                        					<?php 
+                        					$pcpPlanoCorte = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'PCP', 'Gerar Plano de Corte');
+                        					if($pcpPlanoCorte){
+                        					?>
                             				<li class="topline"><a href="inicio.php?pg=ordem_producao">Gerar Plano de Corte</a></li>
+                            				<?php }
+                            				$pcpImportar = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'PCP', 'Importar Plano de Corte Optisave');
+                            				if($pcpImportar){                            				
+                            				?>
                             				<li><a href="inicio.php?pg=lista_plano_corte">Importar Plano de Corte do Optisave</a></li>
+                            				<?php }
+                            				$pcpListaCores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'PCP', 'Lista de Cores');
+                            				if($pcpListaCores){                            				
+                            				?>
                                             <li><a href="inicio.php?pg=lista_cores">Lista de Cores</a></li>
-                                            <li><a href="inicio.php?pg=lista_op">Ordem de Produção</a></li>                                            
+                                            <?php 
+                                            }
+                                            $pcpOrdem = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'PCP', 'Ordem de Produção');
+                                            if($pcpOrdem){
+                                            ?>
+                                            <li><a href="inicio.php?pg=lista_op">Ordem de Produção</a></li>
+                                            <?php }
+                                            
+                                            ?>                                            
                         				</ul>
 									</li>        
                                                                         
                                     <li>
 										<a href="#" class="sub">Tipos</a>
 										<ul>
+										<?php 
+										$tiposSanguineo = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Tipos', 'Sanguineo');
+										if($tiposSanguineo){										
+										?>
                                             <li class="topline"><a href="inicio.php?pg=tipo_sanguineo">Sanguineo</a></li>
+                                            <?php }
+                                            $cadastrosConsultores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Tipos', 'E-Mail');
+                                            if($cadastrosConsultores){                                            
+                                            ?>
                                             <li><a href="inicio.php?pg=tipo_email">E-Mail</a></li>
+										<?php } 
+										$tipoTelefone = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Tipos', 'Telefone');
+										if($tipoTelefone){									
+										?>                                            
+                                            
                                             <li><a href="inicio.php?pg=tipo_telefone">Telefone</a></li>
+                                            <?php }
+                                            $tipoVeiculo = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Tipos', 'Veiculo');
+                                            if($tipoVeiculo){
+                                            ?>                                            
                                             <li><a href="inicio.php?pg=tipo_veiculo">Veiculo</a></li>
+                                            <?php } ?>
                         				</ul>
                         			</li>
                                                                                                     
                                     <li>
                         				<a href="#" class="sub">Configurações</a>
                         				<ul>
-                            				<li class="topline"><a href="inicio.php?pg=modulos">Módulos</a></li>  
+                        				<?php 
+                        				$configuracoesModulos = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Configurações', 'Módulos');
+                        				if($configuracoesModulos){
+                        				?>
+                            				<li class="topline"><a href="inicio.php?pg=modulos">Módulos</a></li> 
+                            			<?php  }
+                            			$configuracoesPapel = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Configurações', 'Papel');
+                            			if($configuracoesPapel){
+                            			?>	                            				
                             				<li><a href="inicio.php?pg=papel">Papel</a></li>  
+                            				<?php }?>
                         				</ul>
 									</li>  
                                                                         		
