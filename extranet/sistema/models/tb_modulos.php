@@ -11,6 +11,7 @@ class tb_modulos{
 	private $_helper;
 	protected $_html = NULL;
 	protected $_j = 1;
+	protected $_caminho = '';
 
 	public function __construct($conexaoERP){
 		$this->conexaoERP = $conexaoERP;
@@ -19,17 +20,59 @@ class tb_modulos{
 	}
 	
 	/**
-	 * Metodo para editar um modulo existente
+	 * Metodo para retornar se existe 
 	 * @param int $co_modulo	codigo do modulo
 	 * @param string $no_modulo	nome do modulo
-	 * @param string $fl_status 	status do modulo
+	 * @param string $fl_ativo 	ativo do modulo
 	 * @author Ricardo S. Alvarenga
 	 * @since 12/11/2012
 	 */
-	public function editar($co_modulo, $no_modulo, $fl_status){
+	public function PossuiPermissaoParaModuloPrincipal($co_papel, $no_modulo_pai,$no_modulo_a_liberar){
+		//$_SESSION['codigoUsuario'] 
+		$query = "SELECT * 
+					FROM tb_papel_modulo PAPEL_MODULO
+				  INNER JOIN tb_modulos MODULOS
+						ON PAPEL_MODULO.co_modulo = MODULOS.co_modulo
+				  WHERE PAPEL_MODULO.co_papel = ".$co_papel."
+				  		AND MODULOS.no_modulo = '".$no_modulo_a_liberar."' 
+					    AND MODULOS.fl_ativo = 1 ";
+		$result = mysql_query($query, $this->conexaoERP);
+		while($dados = mysql_fetch_array($result)){
+			$return = $this->recursivaPai($no_modulo_pai, $dados['CO_PAI']);
+			if($return){
+				return true;
+			}else{
+				//return false;
+			}
+		}
+		return false;
+		
+	}
+	
+	public function recursivaPai($no_modulo_pai,$co_pai){
+		$query = "SELECT * FROM tb_modulos WHERE co_modulo = ".$co_pai;
+		$result = mysql_query($query, $this->conexaoERP);
+		while($dados = mysql_fetch_array($result)){
+			if($dados['NO_MODULO']==$no_modulo_pai){
+				return true;
+			}else{
+				$this->recursivaPai($no_modulo_pai, $dados['CO_PAI']);
+			}
+		}
+		
+	}
+	
+	/**
+	 * Metodo para editar um modulo existente
+	 * @param int $co_modulo	codigo do modulo
+	 * @param string $no_modulo	nome do modulo
+	 * @param string $fl_ativo 	ativo do modulo
+	 * @author Ricardo S. Alvarenga
+	 * @since 12/11/2012
+	 */
+	public function editar($co_modulo, $no_modulo, $fl_acoes,$fl_ativo,$ds_modulo){
 		$sql = "UPDATE tb_modulos 
-				SET no_modulo = '".$no_modulo."', fl_status =".$fl_status."  
-				WHERE co_modulo = ".$co_modulo;
+				SET no_modulo = '".$no_modulo."', fl_ativo ='".$fl_ativo."', fl_acoes ='".$fl_acoes."', ds_modulo ='".$ds_modulo."' WHERE co_modulo = ".$co_modulo;
 		mysql_query($sql, $this->conexaoERP);
 		
 	}
@@ -38,7 +81,7 @@ class tb_modulos{
 	 * Metodo para excluír novo modulo
 	 * @param int $co_pai
 	 * @param string $no_modulo
-	 * @param int $fl_status
+	 * @param int $fl_ativo
 	 * @since 12/11/2012
 	 */
 	public function excluir($co_modulo){
@@ -61,11 +104,11 @@ class tb_modulos{
 	 * Metodo para inserir novo modulo
 	 * @param int $co_pai
 	 * @param string $no_modulo
-	 * @param int $fl_status
+	 * @param int $fl_ativo
 	 * @since 12/11/2012
 	 */
-	public function inserirModulo($co_pai, $no_modulo, $fl_status){
-		$sql = "INSERT INTO tb_modulos (co_pai, no_modulo, fl_status) VALUES (".$co_pai.",'".addslashes($no_modulo)."', '".addslashes($fl_status)."')";		
+	public function inserirModulo($co_pai, $no_modulo, $fl_ativo, $fl_acoes, $ds_modulo){
+		$sql = "INSERT INTO tb_modulos (co_pai, no_modulo, fl_ativo, fl_acoes, ds_modulo) VALUES (".$co_pai.",'".addslashes($no_modulo)."', '".addslashes($fl_ativo)."','".$fl_acoes."','".$ds_modulo."')";		
 		mysql_query($sql, $this->conexaoERP);
 	}
 	
@@ -83,6 +126,38 @@ class tb_modulos{
 	}
 	
 	/**
+	 * Metodo para listar todos os modulos ativos e com ações
+	 * @return multitype:
+	 * @since 13/11/2012
+	 * @author Ricardo S. Alvarenga
+	 */
+	public function listaModulosAtivosComAcoes(){
+		$sql = "SELECT *
+				FROM tb_modulos 
+				WHERE fl_ativo = 1 
+				AND fl_acoes = 1";
+		$row = mysql_query($sql,$this->conexaoERP);
+		return $row;
+	}
+	
+	/**
+	 * Metodo para listar todos os modulos ativos de um papel
+	 * @return multitype:
+	 * @since 14/11/2012
+	 * @author Ricardo S. Alvarenga
+	 */
+	public function listaModulosPorPapel($co_papel_modulo){
+		$query = "SELECT * FROM tb_papel_modulo PAPEL_MODULO
+  					INNER JOIN tb_modulos MODULOS
+  						ON PAPEL_MODULO.CO_MODULO = MODULOS.CO_MODULO
+				  	INNER JOIN tb_acoes ACOES 
+						ON PAPEL_MODULO.co_papel_modulo = ACOES.co_papel_modulo
+				   WHERE PAPEL_MODULO.co_papel = ".$co_papel_modulo;
+		$row = mysql_query($query, $this->conexaoERP);
+		return $row;
+	}
+	
+	/**
 	 * Metodo para retornar um modulo apartir de seu codigo
 	 * @param int $co_modulo
 	 * @since 11/11/2012
@@ -93,10 +168,11 @@ class tb_modulos{
 					co_modulo, 
 					co_pai,
 					no_modulo,
-					fl_status
+					fl_ativo,
+					ds_modulo,
+					fl_acoes
 				FROM tb_modulos
-				WHERE fl_status = 1 
-				AND co_modulo =".$co_modulo;
+				WHERE co_modulo =".$co_modulo;
 		$row = mysql_fetch_assoc(mysql_query($sql,$this->conexaoERP));
 		return $row;
 		
@@ -113,8 +189,7 @@ class tb_modulos{
 		
 		$sql = "SELECT * 
 				FROM tb_modulos
-				WHERE fl_status = 1
-				AND co_pai =".$co_pai." 
+				WHERE co_pai =".$co_pai." 
 				ORDER BY co_modulo";
 		$row = mysql_query($sql, $this->conexaoERP);
 		return $row;
@@ -131,8 +206,7 @@ class tb_modulos{
 	
 		$sql = "SELECT *
 				FROM tb_modulos
-				WHERE fl_status = 1
-				AND co_pai =".$co_pai;
+				WHERE co_pai =".$co_pai;
 		$row = mysql_query($sql, $this->conexaoERP);
 		return $row;
 	}
@@ -151,10 +225,10 @@ class tb_modulos{
 		if($continua){
 			$filho = $this->getFilho($co_pai);
 				while($dados = mysql_fetch_array($filho)){
-					
-					$this->_html.="<tr>";
+					$dados['FL_ATIVO']==0? $class="class='INATIVO'":$class="";
+					$this->_html.="<tr ".$class.">";
 					$this->_html.="<td>".$dados['CO_MODULO']."</td>";
-					$this->_html.="<td><div id='".$dados['CO_MODULO']."'>".$i.".".$j." ".$dados['NO_MODULO']."</div></td>";
+					$this->_html.="<td><div title='".$dados['DS_MODULO']."' id='".$dados['CO_MODULO']."'>".$i.".".$j." ".$dados['NO_MODULO']."</div></td>";
 					$this->_html.= "<td align='center'><a href='javascript:addSub(".$dados['CO_MODULO'].");'><img title='Adicionar Sub-módulo' src='img/btn/btn_mais.gif' /></a> <a href='javascript:editar(".$dados[CO_MODULO].");'><img title='Editar' src='img/btn/btn_editar.gif' /></a> <a href='javascript:excluir(".$dados[CO_MODULO].");'><img title='Excluír' src='img/btn/btn_excluir.gif' /></a></td>";
 					$this->_html.="</tr>";
 					$this->_j .= '.'.$j	;
@@ -168,6 +242,53 @@ class tb_modulos{
 		
 	}
 	
+	/**
+	 * Metodo para retornar o caminho completo da arvore até o nó atual
+	 * @param int $co_pai
+	 * @since 13/11/2012
+	 * @author Ricardo S. Alvarenga
+	 */
+	public function recursivaFilhos($co_pai){		
+		$sql = "SELECT 
+					co_modulo, 
+					co_pai, 
+					no_modulo 
+				FROM 
+					tb_modulos 
+				WHERE co_modulo = '".$co_pai."'";
+		$row = mysql_fetch_assoc(mysql_query($sql, $this->conexaoERP));
+		if($row['co_pai']!='0'){
+				$this->setCaminho($row['no_modulo'].'/'.$this->_caminho);
+				$this->recursivaFilhos($row['co_pai']);
+		}else{
+			$this->setCaminho($row['no_modulo'].'/'.$this->_caminho);
+		}
+			
+		
+	}
+	
+	/**
+	 * Metodo para retonrar o caminho completo até um nó
+	 * @param string $co_modulo
+	 * @author Ricardo S. Alvarenga
+	 * @since 13/11/2012
+	 * @return string
+	 */
+	public function getCaminho ($co_modulo){
+		$this->recursivaFilhos($co_modulo);
+		return $this->_caminho;
+	}
+	
+	/**
+	 * Metodo para setar o caminho até um nó
+	 * @param string $caminho
+	 * @author Ricardo S. Alvarenga
+	 * @since 13/11/2012
+	 * @return string
+	 */
+	public function setCaminho($caminho){
+		$this->_caminho = $caminho;
+	}
 	
 	/**
 	 * Metodo para setar o html dos submodulos 

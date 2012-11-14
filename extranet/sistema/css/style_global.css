@@ -404,3 +404,6 @@ background-image: url(../img/btn/bt_hover.png);
 .modulo_pai{
 	 background-color: #FDF5E6;
 }
+.INATIVO{
+	color: #EE6363 !important;
+}

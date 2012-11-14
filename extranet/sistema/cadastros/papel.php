@@ -1,13 +1,14 @@
 <?php
 
 	/**
-	 * Script responsável por listar todos os Papel cadastrados.
+	 * Script responsï¿½vel por listar todos os Papel cadastrados.
 	 * 
 	 * @author Euripedes B. Silva Junior <euripedes.junior@yahoo.com.br>
 	 * @version 1.0 - 01/08/2012 08:00
 	 * 
 	 */
 	 
+
 ?>
 <script type="text/javascript" src="js/cadastros/papel.js"></script>
 <script type="text/javascript" src="js/paging.js"></script>
@@ -85,6 +86,16 @@
     </tr>
 </table>
 </div>
+
+<!-- BOX EDITAR MODULOS -->
+<div id="boxEditarModulos"></div>
+
+<!-- BOX ATRIBUIR REGRAS -->
+<div id="boxEditarRegras"></div>
+
+<!-- BOX MENSAGEM -->
+<div id="boxMensagem"></div>
+
 </div>
 <!--FINAL CONTEUDO-->
 
