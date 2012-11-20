@@ -1,7 +1,15 @@
 <?php
+require_once 'setup.php';
+require_once 'models/tb_modulos.php';
 
+
+$co_papel = $_SESSION['codigoPapel'];
+$modulos = new tb_modulos($conexaoERP);
+$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, CONTROLE_DE_ACESSO, CONTROLE_DE_ACESSO_CONSULTORES);
+
+if($acoes['NO_MODULO'] == CONTROLE_DE_ACESSO_CONSULTORES){
 	/**
-	 * Script responsável por listar todos os acessos de consultores.
+	 * Script responsï¿½vel por listar todos os acessos de consultores.
 	 * 
 	 * @author Euripedes B. Silva Junior <euripedes.junior@yahoo.com.br>
 	 * @version 1.0 - 19/09/2011 08:00
@@ -50,7 +58,7 @@
 			    history.back(-1);
 			</script>");
 	
-	if(mysql_num_rows($sqlCartaoIdentificacao) == 0){
+/* 	if(mysql_num_rows($sqlCartaoIdentificacao) == 0){
 	    echo "<script type='text/javascript' language='javascript'>
 		      $(function($) {
 			      $('<p>[Erro] - N&atilde;o existe Cart&atilde;o de Identifica&ccedil;&atilde;o cadastrado, por favor entre em contato com o Suporte.</p>').dialog({
@@ -65,7 +73,7 @@
 				  }
 			  }); });
 			  </script>";
-	}
+	} */
 	 
 ?>
 <script type="text/javascript" src="js/cadastros/controle_acesso/acesso_consultor.js"></script>
@@ -153,7 +161,9 @@
 	                          </table>
                     </form>
                   </div>
+                  <?php if($acoes['FL_ADICIONAR']==1){?>
                   <button type="button" id="adicionarAcessoConsultor" title="Adicionar Acesso Consultor">Adicionar Acesso Consultor</button>
+                  <?php }?>
                   </td>
               </tr>
               <tr>
@@ -184,5 +194,10 @@
 <!--FINAL CONTEUDO-->
 
 <!--INICIO FOOTER-->
-<?php require("inc/footer.php"); ?>
+<?php require("inc/footer.php"); 
+}else{
+	header('location:inicio.php');
+
+}
+?>
 <!--FINAL FOOTER-->

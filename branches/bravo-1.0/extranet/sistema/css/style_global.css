@@ -106,6 +106,13 @@ FONT.FONT05 {
 	color: #990000;
 }
 
+
+FONT.FONT06 {
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+	font-size:12px; 
+	font-weight: normal; 
+	color: #000000;
+}
 /***********************************************/
 /* LINKS                                       */
 /***********************************************/
@@ -402,7 +409,8 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  {
 background-image: url(../img/btn/bt_hover.png);
 }
 .modulo_pai{
-	 background-color: #FDF5E6;
+	 background-color: #FDF5E6; 
+	 /* background-color: #40E0D0;*/
 }
 .INATIVO{
 	color: #EE6363 !important;

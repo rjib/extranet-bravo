@@ -18,7 +18,29 @@ if(!empty($_POST['co_papel_regra'])){
 			$co_acao_editar  = $_POST['acao_editar'];
 			$co_acao_excluir = $_POST['acao_excluir'];
 			$co_acao_incluir = $_POST['acao_incluir']; //ADICIONAR
-						
+
+			$result = $_moduloModel->listaModulosPorPapel($co_papel);
+			
+			while($dados = mysql_fetch_array($result)){
+				if(array_search($dados['CO_ACAO'], $co_acao_editar)===false){//se nao existir acao editar selecionada marca-la como sem permissao [0]
+					$_acaoModel->updateEditar($dados['CO_ACAO'], 0);
+					$data['erro'] = 0;
+				}
+			}
+			$result = $_moduloModel->listaModulosPorPapel($co_papel);
+			while($dados = mysql_fetch_array($result)){
+					if(array_search($dados['CO_ACAO'], $co_acao_excluir)===false){//se nao existir acao excluir selecionada marca-la como sem permissao [0]
+						$_acaoModel->updateExcluir($dados['CO_ACAO'], 0);
+						$data['erro'] = 0;
+					}
+			}
+			$result = $_moduloModel->listaModulosPorPapel($co_papel);
+			while($dados = mysql_fetch_array($result)){
+				if(array_search($dados['CO_ACAO'], $co_acao_incluir)===false){//se nao existir acao INCLUIR selecionada marca-la como sem permissao [0]
+					$_acaoModel->updateIncluir($dados['CO_ACAO'], 0);
+					$data['erro'] = 0;
+				}
+			}
 			
 			//UPDATE EDITAR
 			if(count($co_acao_editar)>0){//SE MAIOR ATIVA EDICAO				

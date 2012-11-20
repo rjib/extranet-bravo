@@ -1,7 +1,15 @@
 <?php
+require_once 'models/tb_modulos.php';
+
+
+$co_papel = $_SESSION['codigoPapel'];
+$modulos = new tb_modulos($conexaoERP);
+$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, CADASTROS, CADASTROS_CARGOS);
+
+if($acoes['NO_MODULO'] == CADASTROS_CARGOS){
 
 	/**
-	 * Script responsável por listar todos os Cargos cadastrados.
+	 * Script responsï¿½vel por listar todos os Cargos cadastrados.
 	 * 
 	 * @author Euripedes B. Silva Junior <euripedes.junior@yahoo.com.br>
 	 * @version 1.0 - 01/08/2012 08:00
@@ -58,7 +66,9 @@
 	                          </table>
 		                    </form>
                   </div>
+                  <?php if($acoes['FL_ADICIONAR']==1){?>
                   <button type="button" id="adicionarCargo" title="Adicionar Cargo">Adicionar Cargo</button>
+                  <?php }?>
                   </td>
               </tr>
               <tr>
@@ -89,5 +99,10 @@
 <!--FINAL CONTEUDO-->
 
 <!--INICIO FOOTER-->
-<?php require("inc/footer.php"); ?>
+<?php require("inc/footer.php"); 
+}else{
+	header('location:inicio.php');
+
+}
+?>
 <!--FINAL FOOTER-->

@@ -1,13 +1,20 @@
 <?php
 
 	/**
-	 * Script responsável por listar todos os nivel formacao cadastrados.
+	 * Script responsï¿½vel por listar todos os nivel formacao cadastrados.
 	 * 
 	 * @author Euripedes B. Silva Junior <euripedes.junior@yahoo.com.br>
 	 * @version 1.0 - 01/08/2012 08:00
 	 * 
 	 */
-	 
+require_once 'models/tb_modulos.php';
+
+
+$co_papel = $_SESSION['codigoPapel'];
+$modulos = new tb_modulos($conexaoERP);
+$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, CADASTROS, CADASTROS_NIVEL_DE_FORMACAO);
+
+if($acoes['NO_MODULO'] == CADASTROS_NIVEL_DE_FORMACAO){
 ?>
 <script type="text/javascript" src="js/cadastros/nivel_formacao.js"></script>
 <script type="text/javascript" src="js/paging.js"></script>
@@ -58,7 +65,9 @@
 	                          </table>
 		                    </form>
                   </div>
+                  <?php if($acoes['FL_ADICIONAR']==1){?>
                   <button type="button" id="adicionarNivelFormacao" title="Adicionar Nivel Forma&ccedil;&atilde;o">Adicionar Nivel Forma&ccedil;&atilde;o</button>
+                  <?php }?>
                   </td>
               </tr>
               <tr>
@@ -89,5 +98,10 @@
 <!--FINAL CONTEUDO-->
 
 <!--INICIO FOOTER-->
-<?php require("inc/footer.php"); ?>
+<?php require("inc/footer.php");
+}else{
+	header('location:inicio.php');
+
+}
+?>
 <!--FINAL FOOTER-->

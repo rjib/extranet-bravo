@@ -1,7 +1,15 @@
 <?php
+require_once 'setup.php';
+require_once 'models/tb_modulos.php';
 
+
+$co_papel = $_SESSION['codigoPapel'];
+$modulos = new tb_modulos($conexaoERP);
+$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, CADASTROS, CADASTROS_BAIRROS);
+
+if($acoes['NO_MODULO'] == CADASTROS_BAIRROS){
 	/**
-	 * Script responsável por listar todos os bairros cadastrados.
+	 * Script responsï¿½vel por listar todos os bairros cadastrados.
 	 * 
 	 * @author Euripedes B. Silva Junior <euripedes.junior@yahoo.com.br>
 	 * @version 1.0 - 01/08/2012 08:00
@@ -78,7 +86,9 @@
 	                          </table>
 		                    </form>
                   </div>
+                  <?php if($acoes['FL_ADICIONAR']==1){?>
                   <button type="button" id="adicionarBairro" title="Adicionar Bairro">Adicionar Bairro</button>
+                  <?php }?>
                   </td>
               </tr>
               <tr>
@@ -109,5 +119,10 @@
 <!--FINAL CONTEUDO-->
 
 <!--INICIO FOOTER-->
-<?php require("inc/footer.php"); ?>
+<?php require("inc/footer.php"); 
+}else{
+	header('location:inicio.php');
+
+}
+?>
 <!--FINAL FOOTER-->
