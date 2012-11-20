@@ -4,18 +4,17 @@
  * @author Ricardo S. Alvarenga
  * @since 11/11/2012
  */
+session_start();
 
 class tb_modulos{
 
 	private $conexaoERP;
-	private $_helper;
 	protected $_html = NULL;
 	protected $_j = 1;
 	protected $_caminho = '';
 
 	public function __construct($conexaoERP){
 		$this->conexaoERP = $conexaoERP;
-		$this->_helper = new helper();
 
 	}
 	
@@ -221,6 +220,8 @@ class tb_modulos{
 	 * @return string
 	 */
 	public function recursivaSubcaterorias($continua, $co_pai, $i, $html =''){
+	$co_papel = $_SESSION['codigoPapel'];
+	$acoes = $this->possuiPermissaoParaEstaArea($co_papel, CONFIGURACOES, CONFIGURACOES_MODULOS);
 	 $j = 1;
 		if($continua){
 			$filho = $this->getFilho($co_pai);
@@ -229,8 +230,17 @@ class tb_modulos{
 					$this->_html.="<tr ".$class.">";
 					$this->_html.="<td>".$dados['CO_MODULO']."</td>";
 					$this->_html.="<td><div title='".$dados['DS_MODULO']."' id='".$dados['CO_MODULO']."'>".$i.".".$j." ".$dados['NO_MODULO']."</div></td>";
-					$this->_html.= "<td align='center'><a href='javascript:addSub(".$dados['CO_MODULO'].");'><img title='Adicionar Sub-módulo' src='img/btn/btn_mais.gif' /></a> <a href='javascript:editar(".$dados[CO_MODULO].");'><img title='Editar' src='img/btn/btn_editar.gif' /></a> <a href='javascript:excluir(".$dados[CO_MODULO].");'><img title='Excluír' src='img/btn/btn_excluir.gif' /></a></td>";
-					$this->_html.="</tr>";
+					$this->_html.= "<td align='center'>";
+					
+					if($acoes['FL_ADICIONAR']==1){
+						$this->_html.="<a href='javascript:addSub(".$dados['CO_MODULO'].");'><img title='Adicionar Sub-módulo' src='img/btn/btn_mais.gif' /></a>";
+					}if($acoes['FL_EDITAR']==1){ 
+						$this->_html.="<a href='javascript:editar(".$dados['CO_MODULO'].");'><img title='Editar' src='img/btn/btn_editar.gif' /></a>";
+					}if($acoes['FL_EXCLUIR']==1){
+						$this->_html.="<a href='javascript:excluir(".$dados['CO_MODULO'].");'><img title='Excluír' src='img/btn/btn_excluir.gif' /></a>";
+				    }
+					
+					$this->_html.="</td></tr>";
 					$this->_j .= '.'.$j	;
 					$j++;
 					$this->recursivaSubcaterorias(TRUE, $dados['CO_MODULO'], $this->_j, $this->_html);
@@ -325,22 +335,67 @@ class tb_modulos{
 	
 	/**
 	 * Metodo para verificar permissao de um modulo princial, que nao possua ações
-	 * @param unknown_type $co_papel
-	 * @param unknown_type $no_modulo
+	 * @param unknown_type $co_papel	codigo do papel
+	 * @param array $no_modulo	nome de todos os modulos pai até chegar ao modulo de acesso
 	 * @return boolean
 	 */
 	public function verificaPermissaoModuloPrincipal($co_papel, $no_modulo){
-		$query = "select * from tb_papel_modulo PAPEL_MODULO
-					inner join tb_modulos MODULO
-					on PAPEL_MODULO.co_modulo = MODULO.co_modulo
-					where PAPEL_MODULO.co_papel = ".$co_papel."
-					and MODULO.co_pai in(select MODULO2.co_modulo from tb_modulos MODULO2 WHERE MODULO2.no_modulo = '".$no_modulo."' AND MODULO2.fl_acoes = 0)";
+		$modulos = "";
+	    for ($i=0; $i<count($no_modulo); $i++){
+	    	$i==0?$modulos.= "'".$no_modulo[$i]."'" : $modulos .=",'".$no_modulo[$i]."'";
+	    	
+	    }
+		
+		
+		$query = "SELECT * 
+					FROM tb_papel_modulo PAPEL_MODULO
+					INNER JOIN tb_modulos MODULO
+						ON PAPEL_MODULO.co_modulo = MODULO.co_modulo
+					WHERE PAPEL_MODULO.co_papel = ".$co_papel."
+					AND MODULO.co_pai IN (SELECT MODULO2.co_modulo FROM tb_modulos MODULO2 WHERE MODULO2.no_modulo IN(".$modulos.") AND MODULO2.fl_acoes = 0 AND MODULO2.fl_ativo=1)
+					AND MODULO.fl_ativo = 1";
 		$num = mysql_num_rows(mysql_query($query, $this->conexaoERP));
 		if($num ==0){
 			return false;
 		}else{
 			return true;
 		}
+		
+	}
+	
+	/**
+	 * Metodo para verificar se determinado papel tem acesso a esta area
+	 * @param int $co_papel
+	 * @param string $no_modulo_pai
+	 * @param string $no_modulo_filho
+	 * @return multitype:
+	 * @since 16/11/2012
+	 * @author Ricardo S. Alvarenga
+	 */
+	public function possuiPermissaoParaEstaArea($co_papel,$no_modulo_pai,$no_modulo_filho){
+		$query = "SELECT *
+					FROM
+					    tb_papel_modulo PAPEL_MODULO
+					        INNER JOIN
+					    tb_modulos MODULO ON PAPEL_MODULO.co_modulo = MODULO.co_modulo
+					        INNER JOIN
+					    tb_acoes ACOES ON PAPEL_MODULO.co_papel_modulo = ACOES.co_papel_modulo
+					WHERE
+					    PAPEL_MODULO.co_papel = ".$co_papel."
+					        AND MODULO.co_pai in (select 
+					            MODULO2.co_modulo
+					        FROM
+					            tb_modulos MODULO2
+					        WHERE
+					            MODULO2.no_modulo IN ('".$no_modulo_pai."' , '".$no_modulo_filho."')
+					                AND MODULO2.fl_acoes = 0
+					                AND MODULO2.fl_ativo = 1)
+					        AND MODULO.fl_ativo = 1
+					        AND MODULO.no_modulo = '".$no_modulo_filho."'";
+		$result = mysql_query($query, $this->conexaoERP);
+		$row = mysql_fetch_array($result);
+		return $row;
+		
 		
 	}
 	

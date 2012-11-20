@@ -169,6 +169,7 @@ $(function($) {
 						buttons: {
 							Ok: function() {
 								$( this ).dialog( "close" );
+								 $("#gridContato").load("inc/cadastros/pessoa_alt_grid_contato.php?codigoPessoa="+codigoPessoa);
 							}
 						}
 					});
@@ -267,6 +268,7 @@ $(function($) {
 							Ok: function() {
 								$(this).dialog("close");
 								$("#confirmaExcluirPessoa").dialog("close");
+								 $("#gridContato").load("inc/cadastros/pessoa_alt_grid_contato.php?codigoPessoa="+codigoPessoa);
 							}
 						}
 						});
@@ -279,6 +281,9 @@ $(function($) {
 			}
 			},
 			close: function() {
+				var nomeContato = $("#nomeContato").val();
+				var codigoPessoa  = $("#codigoPessoa").val();	
+				$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
 				$("#grid").load("inc/cadastros/pessoa_grid.php");
 			}
 	});
@@ -348,6 +353,9 @@ $(function($) {
 									Ok: function() {
 										$( this ).dialog( "close" );
 										$( "#formularioEndereco" ).dialog( "close" );
+										 //$("#gridContato").load("inc/cadastros/pessoa_alt_grid_contato.php?codigoPessoa="+codigoPessoa);
+										// $(window.document.location).attr("inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa+"#tab1");
+										// $(window.document.location).attr("href","inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa+"#tab1");
 									}
 								}
 							});
@@ -386,6 +394,9 @@ $(function($) {
 		},
 		close: function() {
 		    $("#gridEndereco").load("inc/cadastros/pessoa_grid_endereco.php?codigoPessoa="+codigoPessoa);
+		    var nomeContato = $("#nomeContato").val();
+			var codigoPessoa  = $("#codigoPessoa").val();	
+			$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
 			
 		}
 	});
@@ -425,8 +436,11 @@ $(function($) {
 								title: 'Aten&ccedil;&atilde;o',
 								buttons: {
 									Ok: function() {
+										var nomeContato = $("#nomeContato").val();
+										var codigoPessoa  = $("#codigoPessoa").val();	
 										$( this ).dialog( "close" );
-										$( "#formularioContato" ).dialog( "close" );
+										$( "#formularioContato" ).dialog( "close" );																		
+										//$(window.document.location).attr("href","inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa+"#tab2");
 									}
 								}
 							});
@@ -443,6 +457,9 @@ $(function($) {
 			}
 		},
 		close: function() {
+			var nomeContato = $("#nomeContato").val();
+			var codigoPessoa  = $("#codigoPessoa").val();	
+			$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
 		    $("#gridContato").load("inc/cadastros/pessoa_grid_contato.php?codigoPessoa="+codigoPessoa);
 		}
 	});
@@ -553,6 +570,7 @@ $(function($) {
 									Ok: function() {
 										$( this ).dialog( "close" );
 										$( "#formularioTelefone" ).dialog( "close" );
+										$(window.document.location).attr("href","inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa+"#tab3");
 									}
 								}
 							});
@@ -577,6 +595,9 @@ $(function($) {
 			}
 		},
 		close: function() {
+			var nomeContato = $("#nomeContato").val();
+			var codigoPessoa  = $("#codigoPessoa").val();	
+			$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
 		    $("#gridTelefone").load("inc/cadastros/pessoa_grid_telefone.php?codigoPessoa="+codigoPessoa);
 		}
 	});
@@ -620,6 +641,7 @@ $(function($) {
 									Ok: function() {
 										$( this ).dialog( "close" );
 										$( "#formularioEmail" ).dialog( "close" );
+										$(window.document.location).attr("href","inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa+"#tab4");
 									}
 								}
 							});
@@ -642,6 +664,9 @@ $(function($) {
 			}
 		},
 		close: function() {
+			var nomeContato = $("#nomeContato").val();
+			var codigoPessoa  = $("#codigoPessoa").val();	
+			$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
 		    $("#gridEmail").load("inc/cadastros/pessoa_grid_email.php?codigoPessoa="+codigoPessoa);
 			
 		}
@@ -766,7 +791,7 @@ function verificaRG() {
 				}
 			}); });
 		}
-		}, 'json'); $("#rg").val(""); 
+		}, 'json'); 
 	}		
 }
 

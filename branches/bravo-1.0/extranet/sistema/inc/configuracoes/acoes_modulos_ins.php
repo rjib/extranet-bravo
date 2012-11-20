@@ -17,7 +17,7 @@ if(!empty($_POST['co_papel'])){
 		if(!empty($_POST['co_modulo'])){
 			
 			//verificando remoçao de modulos		
-			$objSQL = $_pmodulo->listaModuloPorPapel($co_papel);
+			$objSQL = $_pmodulo->listaModuloPorPapel($co_papel,$co_modulo);
 	
 			while($dados = mysql_fetch_array($objSQL)){
 					if(array_search($dados['CO_MODULO'], $co_modulo)===false){//se nao existir modulo selecionado, entao exclui-lo
@@ -43,6 +43,7 @@ if(!empty($_POST['co_papel'])){
 			}
 		}else{//REMOVER TODOS
 			$_pmodulo->deleteModuloByPapel($co_papel);
+			$data['erro'] = 0;
 			
 		}
 }else{

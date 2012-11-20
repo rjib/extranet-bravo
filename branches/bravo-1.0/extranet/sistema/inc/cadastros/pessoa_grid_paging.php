@@ -1,5 +1,5 @@
 <?php
-
+session_start();
     require("../../setup.php");
 
 	class Paging extends Connection{
@@ -10,7 +10,7 @@
 		public $s_where			= '1'; 		//Claus�la where, se houver
 		public $s_orderby		= 'NO_PESSOA'; 	//Campo utilizado para ordena��o inicial
 		public $s_orientation	= 'ASC';	//ASC ou DESC
-		public $i_rowsperpage	= 50;		//Limite de registros visualizados por p�gina
+		public $i_rowsperpage	= 2;		//Limite de registros visualizados por p�gina
 		public $i_page			= 1;		//P�gina atual
 		public $i_link_limit	= 5;		//N�mero de links de p�ginas
 		public $a_columns		= null; 	//Array com as colunas inseridas pela fun��o addColumn
@@ -182,6 +182,16 @@
 		//Imprime a tabela de resultados
 		public function show_table(){
 			
+			//CONTROLE DE ACESSO ACOES
+			require_once '../../models/tb_modulos.php';
+				
+			
+			$co_papel = $_SESSION['codigoPapel'];
+			$modulos = new tb_modulos(CONEXAOERP);
+			$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, CADASTROS, CADASTROS_PESSOAS);
+			
+			//FIM CONTROLE DE ACESSO
+			
 			//Guarda o conte�do tempor�rio da tabela
 			$s_html = '';
 			
@@ -240,7 +250,7 @@
 				
 			}
 			
-			$s_html .= '<th align="center" width="60">'.utf8_encode('Ação').'</th>';
+			$s_html .= '<th align="center" width="60">Ações</th>';
 			
 			$s_html .= '</tr></thead><tbody>';
 			
@@ -257,8 +267,11 @@
 					}
 					
 					$s_html .= '<td align="center">';
+					if($acoes['FL_EXCLUIR']==1){
 					$s_html .= '<a title="Excluir" href="#" name="excluirPessoa" id="'.$row[0].'"><img src="img/btn/btn_excluir.gif" width="25" height="19" border="0"/></a>';
+					}if($acoes['FL_EDITAR']==1){
 					$s_html .= '<a title="Editar" href="#" name="alterarPessoa" id="'.$row[0].'"><img src="img/btn/btn_editar.gif" width="25" height="19" border="0"/></a>';
+					}
 					$s_html .= '</td>';
 					
 					$s_html .= '</tr>';

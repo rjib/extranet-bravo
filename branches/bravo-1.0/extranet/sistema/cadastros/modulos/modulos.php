@@ -9,7 +9,15 @@
 require_once 'models/tb_modulos.php';
 require_once 'helper.class.php';
 
-$_modModel 	= new tb_modulos($conexaoERP);
+
+$co_papel = $_SESSION['codigoPapel'];
+$_modModel = new tb_modulos($conexaoERP);
+$acoes = $_modModel->possuiPermissaoParaEstaArea($co_papel, CONFIGURACOES, CONFIGURACOES_MODULOS);
+
+if($acoes['NO_MODULO'] == CONFIGURACOES_MODULOS){
+
+
+
 $_helper	= new helper();
 
 $moduloPai  = $_modModel->getPai(0);
@@ -44,7 +52,11 @@ $moduloPai  = $_modModel->getPai(0);
 	              <td><img src="img/title/title_modulos.png" width="1003" height="40" /></td>
               </tr>
               <tr>
-	              <td><button type="button" id="adicionarModulo" onclick="javascript:addModulo();"  title="Adicionar Módulo">Adicionar Módulo</button><img onclick="" /></td>
+	              <td>
+	               <?php if($acoes['FL_ADICIONAR']==1){?>
+	              	<button type="button" id="adicionarModulo" onclick="javascript:addModulo();"  title="Adicionar Módulo">Adicionar Módulo</button><img onclick="" />
+	              	<?php }?>
+	              </td>
               </tr>
               <tr>
               <table class="LISTA tablesorte" width="1003" border="0" align="center" cellpadding="1" cellspacing="1">
@@ -62,8 +74,16 @@ $moduloPai  = $_modModel->getPai(0);
 					$html.=	"<tr ".$class.">";
 					$html.=	"<td>".$dados['CO_MODULO']."</td>";
 					$html.=	"<td><div title='".$dados['DS_MODULO']."' id='".$dados['CO_MODULO']."'><strong>".$i.' '.$dados['NO_MODULO']."</strong></div></td>";
-					$html.= '<td align="center"><a href="javascript:addSub('.$dados[CO_MODULO].');"><img title="Adicionar Sub-módulo" src="img/btn/btn_mais.gif" /></a> <a href="javascript:editar('.$dados[CO_MODULO].');"><img title="Editar" src="img/btn/btn_editar.gif" /></a> <a href="javascript:excluir('.$dados[CO_MODULO].');"><img title="Excluír" src="img/btn/btn_excluir.gif" /></a></td>';
-					$html.=	"</tr>";
+					$html.= '<td align="center">';
+					
+					if($acoes['FL_ADICIONAR']==1){
+						$html.='<a href="javascript:addSub('.$dados["CO_MODULO"].');"><img title="Adicionar Sub-módulo" src="img/btn/btn_mais.gif" /></a>';
+					}if($acoes['FL_EDITAR']==1){ 
+						$html.='<a href="javascript:editar('.$dados["CO_MODULO"].');"><img title="Editar" src="img/btn/btn_editar.gif" /></a>';
+					}if($acoes['FL_EXCLUIR']==1){
+						$html.='<a href="javascript:excluir('.$dados["CO_MODULO"].');"><img title="Excluír" src="img/btn/btn_excluir.gif" /></a>';
+					}
+					$html.=	"</td></tr>";
 					$i++;
 					
 					$_modModel->recursivaSubcaterorias(TRUE, $dados['CO_MODULO'],$i-1);
@@ -86,7 +106,7 @@ $moduloPai  = $_modModel->getPai(0);
 </table>
 
 <!-- BOX ADICIONAR MODULO -->
-<div id="boxAdicionarModulo">
+<div id="boxAdicionarModulo" style="display: none;">
 	<table>
 		<tr>
 			<td><font class="FONT04"><b>Nome:</b></font></td>
@@ -108,7 +128,7 @@ $moduloPai  = $_modModel->getPai(0);
 </div>
 
 <!-- BOX ADICIONAR SUB-MODULO -->
-<div id="boxAdicionarSub">
+<div id="boxAdicionarSub" style="display: none;">
 	<table>
 		<tr>
 			<td><font class="FONT04"><b>Módulo Pai:</b></font></td>
@@ -134,7 +154,7 @@ $moduloPai  = $_modModel->getPai(0);
 </div>
 
 <!-- BOX EXCLUÍR MODULO -->
-<div id="boxExcluir">
+<div id="boxExcluir" style="display: none;">
     <p><span> <img src="img/atencao.png" hspace="3" /></span>Caso este módulo possua filhos, eles também serão removidos permanentemente do sistema. Tem certeza que deseja realizar esta operação?</p>
 </div>
 
@@ -154,5 +174,10 @@ $moduloPai  = $_modModel->getPai(0);
 
 <!--INICIO FOOTER-->
 <?php 
-require("inc/footer.php"); ?>
+require("inc/footer.php"); 
+}else{
+	header('location:inicio.php');
+
+}
+?>
 <!--FINAL FOOTER-->

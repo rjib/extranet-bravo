@@ -5,9 +5,9 @@
 	
 	$searchfor = isset($_GET['searchfor']) ? $_GET['searchfor'] : '';
 	
-	$paging->table('tb_pessoa');
+	$paging->table('tb_pessoa PESSOA');
 	$paging->where('PESSOA.CO_PESSOA = "'.$searchfor.'" OR PESSOA.NO_PESSOA LIKE "%'.$searchfor.'%"');
-	$paging->labels('Código,Data Cadastro,Nome,Tipo,CPF/CNPJ');
+	$paging->labels('C&oacute;digo,Data Cadastro,Nome,Tipo,CPF/CNPJ');
 	$paging->fields('CO_PESSOA,DT_CADAS,NO_PESSOA,TP_PESSOA,CPF_CNPJ_PESSOA');
 	$paging->cols_width('60,120,600,70,150');
 	$paging->rowsperpage(30);

@@ -22,7 +22,7 @@ $co_papel = $_SESSION['codigoPapel'];
                             	<img src="img/btn/btn_menu_opcoes.jpg" alt="MENU OPÇÕES" width="223" height="60" border="0"/>
                             	</a>
                         		<ul>
-								<?php $principalCadastros = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, 'Cadastros');
+								<?php $principalCadastros = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, array('Cadastros','Controle de Acesso'));
                                      if($principalCadastros){
                                     ?>
                                     <li>
@@ -31,7 +31,7 @@ $co_papel = $_SESSION['codigoPapel'];
                                         	
                                         	
                                         	<?php 
-                                        	$subControleAcesso = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, 'Controle de Acesso');
+                                        	$subControleAcesso = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, array('Controle de Acesso'));
                                         	if($subControleAcesso){
                                         	?>
                                         	
@@ -39,14 +39,14 @@ $co_papel = $_SESSION['codigoPapel'];
                                                 <a href="#" class="sub">Controle Acesso</a>
                                                 <ul>
                                                 <?php 
-                                                $cadastroVisitantes = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Controle de Acesso', 'Visitantes');
-                                                if($cadastroVisitantes){
+                                                $subControleAcessoVisitantes = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Controle de Acesso', 'Visitantes');
+                                                if($subControleAcessoVisitantes){
                                                 ?>
 												    <li class="topline"><a href="inicio.php?pg=acesso_visitante">Visitantes</a></li>
 												<?php
 												} 
-                                                $cadastroConsultores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Controle de Acesso', 'Consultores');
-                                                if($cadastroConsultores){
+                                                $subControleAcessoConsultores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Controle de Acesso', 'Consultores');
+                                                if($subControleAcessoConsultores){
                                                 ?>
                                                     <li><a href="inicio.php?pg=acesso_consultor">Consultores</a></li>
                                                 <?php }?>
@@ -70,18 +70,18 @@ $co_papel = $_SESSION['codigoPapel'];
 		                                    ?> 
 		                                    <li><a href="inicio.php?pg=cartao_identificacao">Cartão Identificação</a></li>
 		                                    <?php }
-		                                    $cadastroCep = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'CEPs');
-		                                    if($cadastroCep){		                                    
+		                                    $cadastrosCep = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'CEPs');
+		                                    if($cadastrosCep){		                                    
 		                                    ?>
 		                                    <li><a href="inicio.php?pg=cep">CEPs</a></li>
 		                                    <?php }
-		                                    $cadastroCidades = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Cidades');
-		                                    if($cadastroCidades){		                                    
+		                                    $cadastrosCidades = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Cidades');
+		                                    if($cadastrosCidades){		                                    
 		                                    ?>
 		                                    <li><a href="inicio.php?pg=municipio">Cidades</a></li>
 		                                    <?php }
-		                                    $cadastroColaboradores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Colaboradores');
-		                                    if($cadastroColaboradores){		                                    
+		                                    $cadastrosColaboradores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Colaboradores');
+		                                    if($cadastrosColaboradores){		                                    
 		                                    ?> 
 		                                    <li><a href="inicio.php?pg=colaborador">Colaboradores</a></li>
 		                                    <?php }
@@ -90,23 +90,23 @@ $co_papel = $_SESSION['codigoPapel'];
 		                                    ?>
 		                                    <li><a href="inicio.php?pg=consultor">Consultores</a></li>
 		                                    <?php }
-		                                    $cadastroEstados = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Estados');
-		                                    if($cadastroCidades){		                                    
+		                                    $cadastrosEstados = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Estados');
+		                                    if($cadastrosEstados){		                                    
 		                                    ?> 
 		                                    <li><a href="inicio.php?pg=uf">Estados</a></li>
 		                                    <?php }
-		                                    $cadastroCivil = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Estado Civil');
+		                                    $cadastrosCivil = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Estado Civil');
 		                                    if($cadastrosCivil){		                                    
 		                                    ?>
 		                                    <li><a href="inicio.php?pg=estado_civil">Estado Civil</a></li>
 		                                    <?php }
-		                                    $cadastroNacionalidade = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Nacionalidade');
-		                                    if($cadastroNacionalidade){		                                    
+		                                    $cadastrosNacionalidade = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Nacionalidade');
+		                                    if($cadastrosNacionalidade){		                                    
 		                                    ?>
 		                                    <li><a href="inicio.php?pg=nacionalidade">Nacionalidade</a></li>
 		                                    <?php }
-		                                    $cadastroNivelFormacao = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Nível Formação');
-		                                    if($cadastroNivelFormacao){		                                    
+		                                    $cadastrosNivelFormacao = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Cadastros', 'Nível de Formação');
+		                                    if($cadastrosNivelFormacao){		                                    
 		                                    ?> 
 		                                    <li><a href="inicio.php?pg=nivel_formacao">Nível Formação</a></li>
 		                                    <?php }
@@ -128,7 +128,7 @@ $co_papel = $_SESSION['codigoPapel'];
 									</li>
 									<?php }?>
                                     <?php 
-                                    $principalPCP = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, 'PCP');
+                                    $principalPCP = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, array('PCP'));
                                     if($principalPCP){                                    
                                     ?>
                                      <li>
@@ -162,7 +162,7 @@ $co_papel = $_SESSION['codigoPapel'];
                         				</ul>
 									</li>   
 									<?php }     
-									$principalTipos = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, 'Tipos');
+									$principalTipos = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, array('Tipos'));
 									if($principalTipos){
 										?>
                                     <li>
@@ -193,7 +193,7 @@ $co_papel = $_SESSION['codigoPapel'];
                         				</ul>
                         			</li>
                                       <?php }
-                                      $principalConfig = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, 'Configurações');
+                                      $principalConfig = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, array('Configurações'));
                                       if($principalConfig){
                                      
                                       ?>                                                            
@@ -212,6 +212,7 @@ $co_papel = $_SESSION['codigoPapel'];
                             			?>	                            				
                             				<li><a href="inicio.php?pg=papel">Papel</a></li>  
                             				<?php }?>
+                            				<li><a title="trocar senha" href="inicio.php?pg=alt_senha">Trocar senha</a> </li>
                         				</ul>
 									</li>  
 									<?php }?>
