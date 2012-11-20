@@ -51,6 +51,7 @@ $(document).ready(function(){
 			$("#boxSelecionePeloMenosUm").dialog({
 				autoOpen: true,
 				modal: true,
+				title:'Atenção',
 				buttons: {
                 Ok: function() {
                     $( this ).dialog( "close" );					
