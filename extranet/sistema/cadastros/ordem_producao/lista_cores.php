@@ -8,6 +8,14 @@
 	 * 
 	 */
 	 
+require_once 'models/tb_modulos.php';
+
+
+$co_papel = $_SESSION['codigoPapel'];
+$modulos = new tb_modulos($conexaoERP);
+$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_LISTA_DE_CORES);
+
+if($acoes['NO_MODULO'] == PCP_LISTA_DE_CORES){
 ?>
 <script>
 
@@ -89,5 +97,10 @@
 <!--FINAL CONTEUDO-->
 
 <!--INICIO FOOTER-->
-<?php require("inc/footer.php"); ?>
+<?php require("inc/footer.php"); 
+}else{
+	header('location:inicio.php');
+
+}
+?>
 <!--FINAL FOOTER-->

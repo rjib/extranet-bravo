@@ -1,12 +1,22 @@
 <?php
 
 	/**
-	 * Script responsável por listar todos estados civil cadastrados.
+	 * Script responsï¿½vel por listar todos estados civil cadastrados.
 	 * 
 	 * @author Euripedes B. Silva Junior <euripedes.junior@yahoo.com.br>
 	 * @version 1.0 - 01/08/2012 08:00
 	 *
 	 */
+
+
+require_once 'models/tb_modulos.php';
+
+
+$co_papel = $_SESSION['codigoPapel'];
+$modulos = new tb_modulos($conexaoERP);
+$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, CADASTROS, CADASTROS_ESTADO_CIVIL);
+
+if($acoes['NO_MODULO'] == CADASTROS_ESTADO_CIVIL){
 	 
 ?>
 <script type="text/javascript" src="js/cadastros/estado_civil.js"></script>
@@ -58,7 +68,9 @@
 	                          </table>
 		                    </form>
                   </div>
+                  <?php if($acoes['FL_ADICIONAR']==1){?>
                   <button type="button" id="adicionarEstadoCivil" title="Adicionar Estado Civil">Adicionar Estado Civil</button>
+                  <?php }?>
                   </td>
               </tr>
               <tr>
@@ -89,5 +101,10 @@
 <!--FINAL CONTEUDO-->
 
 <!--INICIO FOOTER-->
-<?php require("inc/footer.php"); ?>
+<?php require("inc/footer.php");
+}else{
+	header('location:inicio.php');
+
+}
+?>
 <!--FINAL FOOTER-->

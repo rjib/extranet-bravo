@@ -5,9 +5,24 @@
 	 * @author Ricardo Alvarenga <ralvarenga@bravo.com.br>
 	 * 
 	 */
+
+
+
 require_once 'setup.php';
 require_once APP_PATH.'sistema/helper.class.php';
 require_once APP_PATH.'sistema/models/tb_pcp_ad.php';
+
+
+require_once 'models/tb_modulos.php';
+
+
+$co_papel = $_SESSION['codigoPapel'];
+$modulos = new tb_modulos($conexaoERP);
+$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE);
+
+if($acoes['NO_MODULO'] == PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE){
+
+
 //$_helper = new helper();
 //$_modelAD = new tb_pcp_ad($conexaoERP);
 	 
@@ -88,7 +103,7 @@ require_once APP_PATH.'sistema/models/tb_pcp_ad.php';
         </td>
     </tr>
 </table>
-<div id="boxImportarAC" class="FONT04">
+<div id="boxImportarAC" class="FONT04" style="display: none;">
 	<form method="post" enctype="multipart/form-data" name="formUpload" id="formUpload">
 			<table align="center" style="margin-bottom:5px;">
 			  <tr>
@@ -104,7 +119,7 @@ require_once APP_PATH.'sistema/models/tb_pcp_ad.php';
 	        </table>
 	</form>
 </div>
-<div id="boxLoading"> <p align="center">
+<div id="boxLoading"> <p align="center" style="display: none;">
         <span><img src="img/loader.gif"/></span><br>
        O arquivo esta sendo enviado, por favor aguarde...
     </p>
@@ -116,5 +131,10 @@ require_once APP_PATH.'sistema/models/tb_pcp_ad.php';
 <!--FINAL CONTEUDO-->
 
 <!--INICIO FOOTER-->
-<?php require("inc/footer.php"); ?>
+<?php require("inc/footer.php"); 
+}else{
+	header('location:inicio.php');
+
+}
+?>
 <!--FINAL FOOTER-->

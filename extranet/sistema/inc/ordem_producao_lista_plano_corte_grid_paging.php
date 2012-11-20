@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once APP_PATH.'sistema/helper.class.php';
 
 	class Paging extends Connection{
@@ -200,6 +201,15 @@ require_once APP_PATH.'sistema/helper.class.php';
 		//Imprime a tabela de resultados
 		public function show_table(){
 			
+			//CONTROLE DE ACESSO ACOES
+			require_once '../models/tb_modulos.php';
+				
+			
+			$co_papel = $_SESSION['codigoPapel'];
+			$modulos = new tb_modulos(CONEXAOERP);
+			$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE);
+			
+			
 			//Guarda o conte�do tempor�rio da tabela
 			$s_html = '';
 			
@@ -267,8 +277,12 @@ require_once APP_PATH.'sistema/helper.class.php';
 					}
 					
 					$s_html .= '<td align="center" width="120px">';
-					$s_html .= '<a title="Download Arquivo" href="'.URL.'downloadAD.php?arquivo='.$row[0].'" name="downloadArquivo"><img  class="link01" src="img/btn/bt_download.png" border="0"/></a>';
-					$s_html .= '&nbsp;<a title="Importar AC" href="javascript:importarAC('.$row[0].')" name="importarAC" id=".$row[0]."><img class="link01" src="img/btn/bt_importar.png" border="0"/></a>';
+					
+					if($acoes['FL_ADICIONAR']==1 || $acoes['FL_EXCLUIR']==1 || $acoes['FL_EDITAR']==1){
+						$s_html .= '<a title="Download Arquivo" href="'.URL.'downloadAD.php?arquivo='.$row[0].'" name="downloadArquivo"><img  class="link01" src="img/btn/bt_download.png" border="0"/></a>';	
+						$s_html .= '&nbsp;<a title="Importar AC" href="javascript:importarAC('.$row[0].')" name="importarAC" id=".$row[0]."><img class="link01" src="img/btn/bt_importar.png" border="0"/></a>';
+					}
+					
 					$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="javascript:void(0)" name="gerarEtiqueta" id=".$row[0]."><img src="img/btn/bt_etiqueta.png" border="0"/></a>';
 					$s_html .= '</td>';
 					$s_html .= '</tr>';

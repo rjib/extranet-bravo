@@ -7,6 +7,7 @@
 	 * @version 1.0 - 19/09/2012 08:00
 	 * 
 	 */
+	date_default_timezone_set('America/Sao_Paulo');
 	
 	//EFETUA A CAPTURA DO IP DO USUARIO
 	$IpAcessoLogin = (isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'unknown');			

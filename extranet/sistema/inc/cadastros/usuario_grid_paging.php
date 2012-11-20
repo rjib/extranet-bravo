@@ -1,19 +1,19 @@
 <?php
-
+session_start();
     require("../../setup.php");
 
 	class Paging extends Connection{
 	
 		public $s_table 		= ''; 		//String com o nome da tabela
-		public $s_fields		= ''; 		//String com os campos da tabela, separados por vírgula. Ex: id,name
-		public $s_labels		= ''; 		//String com as labels que ficarão no cabeçalho da tabela. Ex: ID,Nome
-		public $s_where			= '1'; 		//Clausúla where, se houver
-		public $s_orderby		= 'PESSOA.NO_PESSOA'; 	//Campo utilizado para ordenação inicial
+		public $s_fields		= ''; 		//String com os campos da tabela, separados por vï¿½rgula. Ex: id,name
+		public $s_labels		= ''; 		//String com as labels que ficarï¿½o no cabeï¿½alho da tabela. Ex: ID,Nome
+		public $s_where			= '1'; 		//Clausï¿½la where, se houver
+		public $s_orderby		= 'PESSOA.NO_PESSOA'; 	//Campo utilizado para ordenaï¿½ï¿½o inicial
 		public $s_orientation	= 'ASC';	//ASC ou DESC
-		public $i_rowsperpage	= 50;		//Limite de registros visualizados por página
-		public $i_page			= 1;		//Página atual
-		public $i_link_limit	= 5;		//Número de links de páginas
-		public $a_columns		= null; 	//Array com as colunas inseridas pela função addColumn
+		public $i_rowsperpage	= 50;		//Limite de registros visualizados por pï¿½gina
+		public $i_page			= 1;		//Pï¿½gina atual
+		public $i_link_limit	= 5;		//Nï¿½mero de links de pï¿½ginas
+		public $a_columns		= null; 	//Array com as colunas inseridas pela funï¿½ï¿½o addColumn
 		public $a_cols_width	= null;
 	
 		public function __construct(){
@@ -65,7 +65,7 @@
 			$this->i_link_limit = $i_link_limit;
 		}
 		
-		//Retorna o total de linhas encontradas, usado para montar o número de páginas principalmente
+		//Retorna o total de linhas encontradas, usado para montar o nï¿½mero de pï¿½ginas principalmente
 		public function total_rows(){
 			
 			$sth = $this->dbh->prepare('SELECT COUNT(*) FROM '.$this->s_table.' WHERE '.$this->s_where);
@@ -75,7 +75,7 @@
 			
 		}
 		
-		//Retorna o número de páginas
+		//Retorna o nï¿½mero de pï¿½ginas
 		public function pages_count(){
 		
 			return ceil($this->total_rows() / $this->i_rowsperpage);
@@ -109,15 +109,15 @@
 		
 		}
 		
-		//Utilizada internamente para criar o cabeçalho da tabela
+		//Utilizada internamente para criar o cabeï¿½alho da tabela
 		private function thead(){
 		
 			$a_th = explode(',',$this->s_labels);
 			
-			//Se forem adicionadas colunas manualmente, elas serão adicionadas ao array do cabeçalho
+			//Se forem adicionadas colunas manualmente, elas serï¿½o adicionadas ao array do cabeï¿½alho
 			if(!($this->a_columns == null)){
 				
-				//Adiciona o cabeçalho "thead" dentro do array de cabeçalhos dentro do índice informado
+				//Adiciona o cabeï¿½alho "thead" dentro do array de cabeï¿½alhos dentro do ï¿½ndice informado
 				foreach($this->a_columns as $column){
 					
 					array_splice($a_th, $column['index'], 0, $column['thead']);
@@ -132,12 +132,12 @@
 			
 		}
 		
-		//Cria um 'range' de números, baseado em um número máximo (ntotal), a quantidade de números
-		//que devem aparecer (nmax) e em um número dentro da escala, sempre que o dado número apresentado
-		//for maior que a métade dos números contidos na escala, a escala incrementa os números até o limite
+		//Cria um 'range' de nï¿½meros, baseado em um nï¿½mero mï¿½ximo (ntotal), a quantidade de nï¿½meros
+		//que devem aparecer (nmax) e em um nï¿½mero dentro da escala, sempre que o dado nï¿½mero apresentado
+		//for maior que a mï¿½tade dos nï¿½meros contidos na escala, a escala incrementa os nï¿½meros atï¿½ o limite
 		private function page_scale($ntotal, $nmax, $n){
 			
-			//Caso o número de páginas seja menor do que o número limite de links por página
+			//Caso o nï¿½mero de pï¿½ginas seja menor do que o nï¿½mero limite de links por pï¿½gina
 			if($ntotal < $nmax){
 				
 				$ini = 1;
@@ -145,19 +145,19 @@
 				
 			}else{
 			
-				//Descobre qual o número que representa a metade do número dado como parâmetro
+				//Descobre qual o nï¿½mero que representa a metade do nï¿½mero dado como parï¿½metro
 				$mid = ceil($nmax / 2);
 				
-				//Caso a página atual seja igual ou menor que o número do link do meio
+				//Caso a pï¿½gina atual seja igual ou menor que o nï¿½mero do link do meio
 				if($n <= $mid){
 				
 					$ini = 1;
 					$end = $nmax;
 				
-				//Caso a soma da página + o meio seja igual ou menor que o número total de páginas
+				//Caso a soma da pï¿½gina + o meio seja igual ou menor que o nï¿½mero total de pï¿½ginas
 				}elseif($n + $mid <= $ntotal){
 					
-					//Se a página for maior que o meio
+					//Se a pï¿½gina for maior que o meio
 					if($n > $mid){
 					
 						$ini = ($n - $mid) + 1;
@@ -182,16 +182,26 @@
 		//Imprime a tabela de resultados
 		public function show_table(){
 			
-			//Guarda o conteúdo temporário da tabela
+			//CONTROLE DE ACESSO ACOES
+			require_once '../../models/tb_modulos.php';
+				
+			
+			$co_papel = $_SESSION['codigoPapel'];
+			$modulos = new tb_modulos(CONEXAOERP);
+			$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, CADASTROS, CADASTROS_USUARIOS);
+			
+			//FIM CONTROLE DE ACESSO
+			
+			//Guarda o conteï¿½do temporï¿½rio da tabela
 			$s_html = '';
 			
-			//Retorna o array com as labels do cabeçalho da tabela
+			//Retorna o array com as labels do cabeï¿½alho da tabela
 			$a_th = $this->thead();
 			
-			//Retorna o array com os campos que irão preencher as celulas da table
+			//Retorna o array com os campos que irï¿½o preencher as celulas da table
 			$a_cells = $this->cells();
 			
-			//Faz os ajustes na página, para definir a número inicial de registros
+			//Faz os ajustes na pï¿½gina, para definir a nï¿½mero inicial de registros
 			if($this->i_page != 1){
 				$n = ($this->i_page - 1) * $this->i_rowsperpage;
 			}else{
@@ -226,7 +236,7 @@
 						<div id="formularioAlterarUsuario"></div>
 						<div id="formularioAlterarSenhaUsuario"></div>';
 			
-			//Cria o cabeçalho da tabela
+			//Cria o cabeï¿½alho da tabela
 			$s_html .= '<table width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA"><thead><tr>';
 			
 			for($i = 1; $i <= $a_th[0]; $i++){
@@ -239,11 +249,11 @@
 				
 			}
 			
-			$s_html .= '<th align="center" width="80">'.utf8_encode('Ação').'</th>';
+			$s_html .= '<th align="center" width="80">AÃ§Ãµes</th>';
 			
 			$s_html .= '</tr></thead><tbody>';
 			
-			//Se não forem inseridas colunas manualmente, então apenas mostra os resultados do banco
+			//Se nï¿½o forem inseridas colunas manualmente, entï¿½o apenas mostra os resultados do banco
 			if($this->a_columns == null){
 				
 				//Cria o corpo da tabela
@@ -264,25 +274,28 @@
 					}
 					
 					$s_html .= '<td align="center">';
+					if($acoes['FL_EXCLUIR']==1){
 					$s_html .= '<a title="Excluir" href="#" name="excluirUsuario" id="'.$row[0].'"><img src="img/btn/btn_excluir.gif" width="25" height="19" border="0"/></a>';
+					}if($acoes['FL_EDITAR']==1){
 					$s_html .= '<a title="Alterar Senha" href="#" name="alterarSenhaUsuario" id="'.$row[0].'"><img src="img/btn/btn_key.gif" width="25" height="19" border="0"/></a>';
 					$s_html .= '<a title="Editar" href="#" name="alterarUsuario" id="'.$row[0].'"><img src="img/btn/btn_editar.gif" width="25" height="19" border="0"/></a>';
+					}
 					$s_html .= '</td>';
 					
 					$s_html .= '</tr>';
 				
 				}
 			
-			//Caso contrário prepara o array(grid) com os valores inseridos manualmente
+			//Caso contrï¿½rio prepara o array(grid) com os valores inseridos manualmente
 			}else{
 				
 				//Matriz com todos os resultados da tabela
 				$grid = $sth->fetchAll(PDO::FETCH_NUM);
 				
-				//Número de linhas retornadas
+				//Nï¿½mero de linhas retornadas
 				$c = $sth->rowCount();
 				
-				//Insere dentro do grid, no índice informado, as colunas que foram inseridas manualmente
+				//Insere dentro do grid, no ï¿½ndice informado, as colunas que foram inseridas manualmente
 				for($i = 0; $i < $c; $i++){
 					
 					foreach($this->a_columns as $column){
@@ -293,7 +306,7 @@
 					
 				}
 				
-				//Prepara a string com o html que será impresso em tela
+				//Prepara a string com o html que serï¿½ impresso em tela
 				for($i = 0; $i < $c; $i++){
 					
 					$s_html .='<tr>';
@@ -316,16 +329,16 @@
 			
 		}
 		
-		//Imprime os controles da páginação
+		//Imprime os controles da pï¿½ginaï¿½ï¿½o
 		public function show_controls(){
 		
 			//A url atual
 			$url = $_SERVER['REQUEST_URI'];
 			
-			//Verifica se a url termina em .php, se terminar quer dizer que não possui nenhum parametro ainda
+			//Verifica se a url termina em .php, se terminar quer dizer que nï¿½o possui nenhum parametro ainda
 			if(substr($url,-4,4) == '.php'){
 				
-				//Então concatena a página inicial, para que exista um valor a ser substituido posteriormente
+				//Entï¿½o concatena a pï¿½gina inicial, para que exista um valor a ser substituido posteriormente
 				$url.= '?p=1';
 			
 			}elseif(preg_match('/\?p=/',$url) == 0 && preg_match('/\?[\w]{1,99}=/',$url) > 0 && preg_match('/&p=/',$url) == 0){
@@ -334,20 +347,20 @@
 			
 			}
 			
-			//Retorna o número de páginas
+			//Retorna o nï¿½mero de pï¿½ginas
 			$pages = $this->pages_count();
 			
-			//Mostra os controles apenas se existirem 2 ou mais páginas
+			//Mostra os controles apenas se existirem 2 ou mais pï¿½ginas
 			if($pages > 1){
 				
-				//Remove o parâmetro 'p' caso ouver;
+				//Remove o parï¿½metro 'p' caso ouver;
 				$url = preg_replace('/\?p=[0-9]{1,9999}/', '?p=', $url);
 				$url = preg_replace('/&p=[0-9]{1,9999}/', '&p=', $url);
 				
-				//Cria o link para enviar para a primeira página
+				//Cria o link para enviar para a primeira pï¿½gina
 				$s_html = '<table width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA"><tr><th><a title="Primeira" href="'.$url.'1">Primeira</a></td>';
 				
-				//Cria o link de anterior caso exista página anterior
+				//Cria o link de anterior caso exista pï¿½gina anterior
 				if($this->i_page > 1){
 				
 					$s_html .= '<th><a title="Anterior" href="'.$url.($this->i_page - 1).'">Anterior</a></td>';
@@ -358,7 +371,7 @@
 	
 				}
 				
-				//Retorna os números da primeira e última página que serão apresentadas
+				//Retorna os nï¿½meros da primeira e ï¿½ltima pï¿½gina que serï¿½o apresentadas
 				$n = $this->page_scale($pages,$this->i_link_limit,$this->i_page);
 					
 				for($i = $n[0];$i <= $n[1]; $i++){
@@ -375,7 +388,7 @@
 					
 				}
 				
-				//Cria o link de próxima caso exista uma próxima página
+				//Cria o link de prï¿½xima caso exista uma prï¿½xima pï¿½gina
 				if($this->i_page < $pages){
 				
 					$s_html .= '<th><a title="Pr&oacute;xima" href="'.$url.($this->i_page + 1).'">Pr&oacute;xima</a></td>';
@@ -386,7 +399,7 @@
 				
 				}
 				
-				//Cria o link para enviar para a última página
+				//Cria o link para enviar para a ï¿½ltima pï¿½gina
 				$s_html .= '<th><a title="&Uacute;ltima" href="'.$url.$pages.'">&Uacute;ltima</a></td></tr></table>';
 				
 				echo($s_html);

@@ -13,6 +13,7 @@
  * @author Ricardo S. Alvarenga
  * @since 26/10/2012
  */
+
 function MarcarTodosCheckbox(nameCheckbox) {
 
 	$(nameCheckbox).each(function() {
@@ -94,7 +95,9 @@ function notNull(x) {
 function marcarTodosModuloSelecao() {
 		$("input[name='modulo_selecao[]']").each(function() {
 
-			if (!this.checked) {
+			if ($("#btSelecionarTodosModulos").is(":checked")) {
+				//$(this).is(':checked')
+				//alert($("#btSelecionarTodosModulos").is(":checked"));
 
 				$(this).attr("checked", "checked");
 			} else {
@@ -107,7 +110,7 @@ function marcarTodosModuloSelecao() {
 function marcarTodosIncluir() {
 	$("input[name='acao_incluir[]']").each(function() {
 
-		if (!this.checked) {
+		if ($("#btSelecionarTodosIncluir").is(":checked")) {
 
 			$(this).attr("checked", "checked");
 		} else {
@@ -120,7 +123,7 @@ function marcarTodosIncluir() {
 function marcarTodosEditar() {
 	$("input[name='acao_editar[]']").each(function() {
 
-		if (!this.checked) {
+		if ($("#btSelecionarTodosEditar").is(":checked")) {
 
 			$(this).attr("checked", "checked");
 		} else {
@@ -134,7 +137,7 @@ function marcarTodosEditar() {
 function marcarTodosExcluir() {
 	$("input[name='acao_excluir[]']").each(function() {
 
-		if (!this.checked) {
+		if ($("#btSelecionarTodosExcluir").is(":checked")) {
 
 			$(this).attr("checked", "checked");
 		} else {

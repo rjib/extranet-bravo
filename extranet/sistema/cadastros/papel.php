@@ -8,7 +8,14 @@
 	 * 
 	 */
 	 
+require_once 'models/tb_modulos.php';
 
+
+$co_papel = $_SESSION['codigoPapel'];
+$_modModel = new tb_modulos($conexaoERP);
+$acoes = $_modModel->possuiPermissaoParaEstaArea($co_papel, CONFIGURACOES, CONFIGURACOES_PAPEIS);
+
+if($acoes['NO_MODULO'] == CONFIGURACOES_PAPEIS){
 ?>
 <script type="text/javascript" src="js/cadastros/papel.js"></script>
 <script type="text/javascript" src="js/paging.js"></script>
@@ -45,7 +52,7 @@
               </tr>
               <tr>
 	              <td>
-                  <div id="formularioPapel">
+                  <div id="formularioPapel" style="display: none;">
                             <form id="formularioPapel" action="javascript:func()" method="post">
 		                    <table width="100%" border="0" cellspacing="2" cellpadding="3">
 		                        <tr>
@@ -59,7 +66,9 @@
 	                          </table>
 		                    </form>
                   </div>
+                  <?php if($acoes['FL_ADICIONAR']==1){?>
                   <button type="button" id="adicionarPapel" title="Adicionar Papel">Adicionar Papel</button>
+                  <?php }?>
                   </td>
               </tr>
               <tr>
@@ -96,9 +105,20 @@
 <!-- BOX MENSAGEM -->
 <div id="boxMensagem"></div>
 
+<div id="boxLoading" style="display: none;"> <p align="center">
+        <span><img src="img/loader.gif"/></span><br>
+       Os dados estão sendo enviados, por favor aguarde...
+    </p>
+ </div>
+
 </div>
 <!--FINAL CONTEUDO-->
 
 <!--INICIO FOOTER-->
-<?php require("inc/footer.php"); ?>
+<?php require("inc/footer.php");
+}else{
+	header('location:inicio.php');
+
+}
+?>
 <!--FINAL FOOTER-->

@@ -1,5 +1,17 @@
 $(function($) { 
 	
+	//boxloading
+	$( "#boxLoading" ).dialog({
+		autoOpen: false,
+        modal: true,
+		height: 150,
+		width: 250,
+        closeOnEscape:false,
+		resizable:false,
+		draggable:false,
+		title: 'Aguarde...'
+	}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();
+	
 	
 	$("#boxMensagem").dialog({
 		autoOpen:false,
@@ -9,18 +21,13 @@ $(function($) {
 		title:'Atenção',
 		buttons:{
 			'Ok': function(){
-				$(window.document.location).attr('href','inicio.php?pg=papel');
-				$("#boxMensagem").dialog('close');
-				$("#boxEditarModulos").dialog("close");				
-				$("#boxEditarRegras").dialog("close");
-				
+				$("#boxMensagem").dialog('close');						
 
 			}
 		},
 		close:function (){
 			$("#boxEditarModulos").dialog("close");
 			$("#boxEditarRegras").dialog("close");
-			$(this).dialog("close");
 			$(window.document.location).attr('href','inicio.php?pg=papel');
 		}
 		
@@ -45,12 +52,29 @@ $(function($) {
 				//if(co_modulo.length!=0){
 					//$("#boxEditarRules").dialog('open');
 					//$("#boxTeste").load("inc/configuracoes/acoes_ins.php",{co_papel:co_papel, co_modulo:co_modulo});
+				$( "#boxLoading" ).dialog('open');
+				$("#boxEditarModulos").dialog("close");	
 	            	$.post('inc/configuracoes/acoes_modulos_ins.php',{
 	            			co_papel:co_papel, 
-	            			co_modulo:co_modulo});
-	            	 $("#boxMensagem").html('Operacao realizada com sucesso!');
-					 $("#boxMensagem").dialog('open');
-            	
+	            			co_modulo:co_modulo},
+	            	
+	            	function (resposta){
+       				 switch(resposta){
+       				 case "0": 
+       					$( "#boxLoading" ).dialog('close');
+       					 $("#boxMensagem").html('Operacao realizada com sucesso!');
+       					 $("#boxMensagem").dialog('open');	
+       					                					 
+       	                
+       					 break;
+       				 case "1":
+       					 $("#boxMensagem").html('Não foi possível realizar a operação, favor entrar em contato com suporte!.');
+       					 $("#boxMensagem").dialog('open');
+       					 break;
+       				 }
+	            	}
+	            	
+	            	);            	
 				
 			},
 			'Cancelar':function(){
@@ -88,15 +112,32 @@ $(function($) {
 				});
 				//$("#boxEditarRules").dialog('open');
 				//$("#boxTeste").load("inc/configuracoes/acoes_ins.php",{co_papel:co_papel, co_modulo:co_modulo});
+				$( "#boxLoading" ).dialog('open');
+				$("#boxEditarRegras").dialog("close");	
             	$.post('inc/configuracoes/acoes_regras_ins.php',{
             		acao_editar:acao_editar, 
             		acao_excluir:acao_excluir,
             		acao_incluir:acao_incluir,
             		co_papel_regra:co_papel_regra
-            		});
-            	 $("#boxMensagem").html('Operação realizada com sucesso!');
-				 $("#boxMensagem").dialog('open');
+            		},
+	            	
+	            	function (resposta){
+       				 switch(resposta){
+       				 case "0":
+       					$( "#boxLoading" ).dialog('close');
+       					 $("#boxMensagem").html('Operacao realizada com sucesso!');
+       					 $("#boxMensagem").dialog('open');	
+       					                					 
+       	                
+       					 break;
+       				 case "1":
+       					 $("#boxMensagem").html('Não foi possível realizar a operação, favor entrar em contato com suporte!.');
+       					 $("#boxMensagem").dialog('open');
+       					 break;
+       				 }
+	            	}	
             	
+            	);
 				
 			},
 			'Cancelar':function(){				

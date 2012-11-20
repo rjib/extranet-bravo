@@ -1,5 +1,5 @@
 <?php
-
+session_start();
     require("../../setup.php");
 
 	class Paging extends Connection{
@@ -190,6 +190,16 @@
 		//Imprime a tabela de resultados
 		public function show_table(){
 			
+			//CONTROLE DE ACESSO ACOES
+			require_once '../../models/tb_modulos.php';
+			
+				
+			$co_papel = $_SESSION['codigoPapel'];
+			$modulos = new tb_modulos(CONEXAOERP);
+			$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, CONFIGURACOES, CONFIGURACOES_PAPEIS);
+				
+			//FIM CONTROLE DE ACESSO
+			
 			//Guarda o conte�do tempor�rio da tabela
 			$s_html = '';
 			
@@ -263,10 +273,16 @@
 					$existeModuloCadastrado[0]!=0? $btn_key = '<a title="Editar Regras de Acesso" href="javascript:editarRegras('.$row[0].');" name="rules" id="'.$row[0].'"><img src="img/btn/btn_key.gif" width="25" height="19" border="0"/></a>' : $btn_key=""; 
 					
 					$s_html .= '<td align="left">';
-					$s_html .= '<a title="Excluir" href="#" name="excluirPapel" id="'.$row[0].'"><img src="img/btn/btn_excluir.gif" width="25" height="19" border="0"/></a>';
-					$s_html .= '<a title="Editar" href="#" name="alterarPapel" id="'.$row[0].'"><img src="img/btn/btn_editar.gif" width="25" height="19" border="0"/></a>';
-					$s_html .= '<a title="Atribuir módulos" href="javascript:editarModulos('.$row[0].');" name="editar_modulos" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
-					$s_html .= $btn_key;
+					if($acoes['FL_EXCLUIR']==1){
+						$s_html .= '<a title="Excluir" href="#" name="excluirPapel" id="'.$row[0].'"><img src="img/btn/btn_excluir.gif" width="25" height="19" border="0"/></a>';
+					}
+					if($acoes['FL_EDITAR']==1){
+						$s_html .= '<a title="Editar" href="#" name="alterarPapel" id="'.$row[0].'"><img src="img/btn/btn_editar.gif" width="25" height="19" border="0"/></a>';
+					}if($acoes['FL_ADICIONAR']==1){
+						$s_html .= '<a title="Atribuir módulos" href="javascript:editarModulos('.$row[0].');" name="editar_modulos" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
+					}if($acoes['FL_EDITAR']==1){
+						$s_html .= $btn_key;
+					}
 					$s_html .= '</td>';
 					
 					$s_html .= '</tr>';

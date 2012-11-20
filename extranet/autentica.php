@@ -17,6 +17,7 @@
 										    , USUARIO.LG_USUARIO
 										    , USUARIO.PASS_USUARIO
 											, USUARIO.CO_PAPEL
+											, USUARIO.QT_ACESSO_USUARIO
 										FROM tb_usuario USUARIO
 										    INNER JOIN tb_colaborador COLABORADOR
 											    ON USUARIO.CO_COLABORADOR = COLABORADOR.CO_COLABORADOR
@@ -60,6 +61,7 @@
 			$_SESSION['nomePessoa']      = $rowAutenticaUsuario['NO_PESSOA'];
 			$_SESSION['loginUsuario']    = $rowAutenticaUsuario['LG_USUARIO'];
 			$_SESSION['codigoPapel']     = $rowAutenticaUsuario['CO_PAPEL'];
+			$_SESSION['qt_acesso']		 = $rowAutenticaUsuario['QT_ACESSO_USUARIO'];
 				
 			$dataAcessoUsuario = date("Y-m-d");
 			$horaAcessoUsuario = date("H:i:s");                  

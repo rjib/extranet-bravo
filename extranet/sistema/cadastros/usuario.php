@@ -1,7 +1,14 @@
 <?php
+require_once 'models/tb_modulos.php';
 
+
+$co_papel = $_SESSION['codigoPapel'];
+$modulos = new tb_modulos($conexaoERP);
+$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, CADASTROS, CADASTROS_USUARIOS);
+
+if($acoes['NO_MODULO'] == CADASTROS_USUARIOS){
 	/**
-	 * Script responsável por listar todos os Usuarios cadastrados.
+	 * Script responsï¿½vel por listar todos os Usuarios cadastrados.
 	 * 
 	 * @author Euripedes B. Silva Junior <euripedes.junior@yahoo.com.br>
 	 * @version 1.0 - 01/08/2012 08:00
@@ -114,7 +121,9 @@
 	                          </table>
 		                    </form>
                   </div>
+                   <?php if($acoes['FL_ADICIONAR']==1){?>
                   <button type="button" id="adicionarUsuario" title="Adicionar Usuario">Adicionar Usuario</button>
+                  <?php }?>
                   </td>
               </tr>
               <tr>
@@ -145,5 +154,10 @@
 <!--FINAL CONTEUDO-->
 
 <!--INICIO FOOTER-->
-<?php require("inc/footer.php"); ?>
+<?php require("inc/footer.php");
+}else{
+	header('location:inicio.php');
+
+}
+?>
 <!--FINAL FOOTER-->

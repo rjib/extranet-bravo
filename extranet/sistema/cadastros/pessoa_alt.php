@@ -143,7 +143,7 @@ $(function($) {
 	$("#dataNascimento").mask("99/99/9999");
 	$("#faxLogradouro").mask("(99) 9999-9999");
 	$("#telefoneContato").mask("(99) 9999-9999");
-	//$("#numeroCep").mask("99999-999");
+	$("#numeroCep").mask("99999-999");
 		
 	$("#clienteDesde").datepicker({
 	    maxDate: new Date()
@@ -348,6 +348,8 @@ $(function($) {
 									Ok: function() {
 										$( this ).dialog( "close" );
 										$( "#formularioEndereco" ).dialog( "close" );
+										$(window.document.location).attr("inc/cadastros/pessoa_alt_grid_endereco.php?codigoPessoa=<?php echo $rowPessoa['CO_PESSOA']; ?>");
+										$("#gridEndereco").load("inc/cadastros/pessoa_alt_grid_endereco.php?codigoPessoa=<?php echo $rowPessoa['CO_PESSOA']; ?>");
 									}
 								}
 							});
@@ -435,6 +437,7 @@ $(function($) {
 									Ok: function() {
 										$( this ).dialog( "close" );
 										$( "#formularioContato" ).dialog( "close" );
+										$(window.document.location).attr("inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa);
 									}
 								}
 							});
@@ -797,7 +800,7 @@ $(function($) {
                                         <option value="<?php echo $rowPessoa['CO_UF']; ?>"><?php echo $rowPessoa['DS_UF']; ?></option>
                                         <option value="0">--Selecione o estado &gt;&gt;</option>
                                         <?php for($i=0; $i<$rowEstado; $i++) { ?>
-                                        <option value="<? echo mysql_result($sqlEstado, $i, "CO_UF"); ?>"> <?php echo mysql_result($sqlEstado, $i, "DS_UF"); ?></option>
+                                        <option value="<?php echo mysql_result($sqlEstado, $i, "CO_UF"); ?>"> <?php echo mysql_result($sqlEstado, $i, "DS_UF"); ?></option>
                                         <?php } ?>
                                         </select>
                                       &nbsp;&nbsp;

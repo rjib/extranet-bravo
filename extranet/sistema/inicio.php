@@ -2,9 +2,13 @@
 	
 	session_start();
 	
-	require("setup.php");
+	date_default_timezone_set('America/Sao_Paulo');
 	
+	require("setup.php");	
 	require("verifica.php");
+	require_once 'models/tb_usuario.php';
+	
+	$_usuario = new tb_usuario($conexaoERP);
 	
 	@$pg	= $_REQUEST['pg'];
 	@$sub	= $_REQUEST['sub'];
@@ -189,6 +193,11 @@
 	if($pg == "modulos" && !$sub){
 		$inicio = "cadastros/modulos/modulos.php";		
 	}
+	
+	/** Modulos **/
+	elseif($pg == "alt_senha" && !$sub){
+		$inicio = "configuracoes/form_alterar_senha.php";
+	}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -221,11 +230,20 @@
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" bgcolor="FFFFFF">
 <?php
+//VERIFICA PRIMEIRO ACESSO
+$primeiroAcesso = $_SESSION['qt_acesso'];
+
+if($primeiroAcesso==0){
+	include 'configuracoes/form_alterar_senha.php';
+
+}else{
+
 	if( (isset($inicio)) and (file_exists($inicio)) ) {
 		include($inicio);
 	}else{
 		include ("principal.php");
 	}
+}
 ?>
 </body>
 </html>
