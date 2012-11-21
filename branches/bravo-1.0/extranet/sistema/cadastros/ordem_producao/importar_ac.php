@@ -44,7 +44,7 @@ if(isset($_POST['nomeAD'])){
 			}catch (Exception $e){
 				//DELETA O ARQUIVO EM CASO DE ERRO NO BANCO
 				unlink($novoNomeArquivo);
-				$data['msg'] = 'Não foi possível importar arquivo, pois este ja se encontra no servidor!';
+				$data['msg'] = 'Não foi possível importar arquivo, favor entre em contato com o suporte!';
 				echo json_encode($data);
 				exit;
 			}
@@ -113,7 +113,7 @@ if(isset($_POST['nomeAD'])){
 				if(array_search($tempProdutos[$i],$coditos_internos_arquivo_ad)===FALSE) //verifica se o produto nao esta no arquivo .ad antes do optisave
 				{
 					//caso nao esteja seta como processado na tabela tb_pcp_op
-					$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($tempProdutos[$i], $co_cor, $nu_lote);
+					$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($tempProdutos[$i], $co_cor, $nu_lote); 
 					array_push($divergencias, $co_pcp_op[0]);//lista os produtos divergentes
 					$_opModel->atualizaProcessado( $co_pcp_op[0], $co_pcp_ad);
 					
