@@ -5,6 +5,7 @@
  * @since 23/10/2012
  * */
 
+require_once '../../setup.php';
 require('../../models/tb_pcp_op.php');
 require ('../../models/tb_pcp_ad.php');
 require ('../../helper.class.php');

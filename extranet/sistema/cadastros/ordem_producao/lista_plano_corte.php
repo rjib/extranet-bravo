@@ -119,8 +119,8 @@ if($acoes['NO_MODULO'] == PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE){
 	        </table>
 	</form>
 </div>
-<div id="boxLoading"> <p align="center" style="display: none;">
-        <span><img src="img/loader.gif"/></span><br>
+<div id="boxLoading" style="display: none;"> <p align="center">
+        <span><img src="img/ajax-loader.gif"/></span><br>
        O arquivo esta sendo enviado, por favor aguarde...
     </p>
  </div>
