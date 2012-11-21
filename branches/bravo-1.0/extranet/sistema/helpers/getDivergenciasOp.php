@@ -11,7 +11,7 @@ $_opModel = new tb_pcp_op($conexaoERP);
 
 $loopTr = '';
 $dialog = '';
-$co_pcp_ad = '2.ad';
+$co_pcp_ad = $_POST['nomeArquivo'].'.ad';
 $row = $_opModel->getDivergencias($divergencias);
 while ($dados = mysql_fetch_array($row)){
 $loopTr.= "<tr>";

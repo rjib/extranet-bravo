@@ -178,7 +178,7 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 	<div id="boxAlerta" title="Atenção" style="display: none;">
 	    <p align="center">
 	        <span style="float: left; margin: 0 7px 50px 0;"></span>
-	       O data de emissão deve ser informada!
+	       A data de emissão deve ser informada!
 	    </p>
 	</div>
 	<div id="boxGerando" title="Atenção" style="display: none;">

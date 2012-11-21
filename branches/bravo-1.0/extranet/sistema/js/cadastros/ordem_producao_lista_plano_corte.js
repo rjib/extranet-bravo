@@ -10,7 +10,7 @@ $(document).ready(function(){
 		draggable:false,
 		title: 'Informativo do Sistema',
 		buttons: {
-			Ok: function() {
+			'Ok': function() {
 				$( this ).dialog( 'close' );
 				$("#boxFinishi").dialog('open');
 				search();	
@@ -33,7 +33,7 @@ $(document).ready(function(){
 			autoOpen: false,
             modal: true,
 			height: 200,
-			width: 370,
+			width: 390,
 			title: 'Importar Arquivo Optisave (.ac)',
             buttons: {
                 'Cancelar': function() {
@@ -42,9 +42,9 @@ $(document).ready(function(){
                 }
             },
             close: function() {
-            	$nomeArquivo = $("#arquivo_ac").val();
-            	if($nomeArquivo!=""){
-            		$("#arquivoSelecionado").html($nomeArquivo);
+            	var nomeArquivo = $("#arquivo_ac").val();
+            	if(nomeArquivo!=""){
+            		$("#arquivoSelecionado").html(nomeArquivo);
             	}else{
             		$("#arquivoSelecionado").html('Nenhum');
             	}
@@ -68,7 +68,7 @@ $(document).ready(function(){
 	$( "#boxLoading" ).dialog({
 		autoOpen: false,
         modal: true,
-		height: 200,
+		height: 150,
 		width: 250,
         closeOnEscape:false,
 		resizable:false,
@@ -85,7 +85,8 @@ $(document).ready(function(){
 	                	if(data.divergencia ==true){
 	                		$("#boxImportarAC").dialog('close');
 	                		$("#boxLoading").dialog('close');
-	                		$("#boxDivergencias").load("helpers/getDivergenciasOp.php",{divergencias:data.dadosDivergencia});
+	                		var nomeArquivo = $("#nomeAD").val();
+	                		$("#boxDivergencias").load("helpers/getDivergenciasOp.php",{divergencias:data.dadosDivergencia, nomeArquivo:nomeArquivo});
 	                		$("#boxDivergencias").dialog('open');
 	                		
 	                		
