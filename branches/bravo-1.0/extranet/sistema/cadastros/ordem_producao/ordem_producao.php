@@ -111,13 +111,13 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 			            <table bgcolor="#FFFFFF" width="980" align="center" cellpadding="5" cellspacing="3">
 							<tr>
 					          	<td width="171"><font class="FONT04"><b>Data Emissão:</b></font></td>
-					            <td width="60"><input onchange="ocultarBotoes();" size="10" id="dataInicial" title="Data Inicial" name="dataInicial" type="text" class="INPUT03"></td>
+					            <td width="60"><input onchange="ocultarBotoes();" size="10" id="dataInicial" title="Data Inicial" name="dataInicial" type="text" class="INPUT03" value="25/10/2012"></td>
 					            <td colspan="3">
 					            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						              	<tr>
 						                  <td width="2%"><font class="FONT04"><b>à</b></font></td>
 						                  <td width="98%">
-						                    <input onchange="ocultarBotoes();" class="INPUT03" size="10" id="dataFinal" title="Data Final" name="dataFinal" type="text" /></td>
+						                    <input onchange="ocultarBotoes();" class="INPUT03" size="10" id="dataFinal" title="Data Final" name="dataFinal" type="text" value="25/10/2012" /></td>
 						                </tr>
 			            			</table>
 			            		</td>            
@@ -150,9 +150,9 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 					          	<td width="171"><font class="FONT04"><b>Exibir processados?</b></font></td>
 					            <td width="60"><input type="radio" id="ck" name="ck" title="Sim" value="S"/>Sim&nbsp;<input title="Não" id="ck" name="ck" type="radio" value="N" checked />Não</td>
 								<td width="81"><button type="button" id="btPesquisarPI" name="btPesquisarPI" title="Consultar">Consultar</button></td>
-					            <td width="140"><button type="button" id="btSelecionarTudo" name="btSelecionarTudo" title="Gerar Arquivo">Selecionar Todos</button></td> 
+					            <td width="140"><button type="button" id="btSelecionarTudo" name="btSelecionarTudo" title="Selecionar Todos">Selecionar Todos</button></td> 
 					            <?php if($acoes['FL_ADICIONAR']==1 || $acoes['FL_EDITAR']==1 ||$acoes['FL_EXCLUIR']){?>             
-					            <td width="458"><button type="button" id="btGerarArquivo" name="btGerarArquivo" title="Selecionar Todos">Gerar Arquivo AD</button></td> 
+					            <td width="458"><button type="button" id="btGerarArquivo" name="btGerarArquivo" title="Gerar Arquivo">Gerar Arquivo AD</button></td> 
 					            <?php }?>           
 			        	 	</tr>       
 			       		</table>
@@ -161,7 +161,9 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 	        </table>
 	        <table id="pesquisaListaPi" width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA" align="center" >
 	            <tr>
-	            	<th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" /></th>
+	            	<th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" />
+	            		<div style="text-align: right; float: right; margin-top: 8px;">Legenda:&nbsp;&nbsp;<img src="img/status-nao.gif" /><font class="FONT07"> Não processado</font> <img src="img/status-sim.gif" /> <font class="FONT07"> Processado e finalizado </font> <img src="img/status-pendente.gif" /> <font class="FONT07"> Processado e pendente</font></div>
+	            	</th>
 	            </tr>
 	        </table> 
 	        <table align="center">  
@@ -183,7 +185,7 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 	</div>
 	<div id="boxGerando" title="Atenção" style="display: none;">
 	    <p align="center">
-	        <span><img src="img/loader.gif"/></span>
+	        <span><img src="img/ajax-loader.gif"/></span><br>
 	       O arquivo esta sendo criado, por favor aguarde...
 	    </p>
 	</div>
@@ -199,11 +201,12 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 				</tr>
 				<tr>
 					<td align="left"><font class="FONT04"><b>Nome do Arquivo:</b></font></td>
-					<td colspan="3" align="left"><input type="text" name="nomeArquivo" id="nomeArquivo" class="INPUT01" size="20" /></td>
+					<td colspan="3" align="left"><input type="text" name="nomeArquivo" id="nomeArquivo" class="INPUT01" size="20" maxlength="4" /></td>
 				</tr>
 				<tr>
-					<td colspan="4"><font class="FONT04"><b> Último arquivo inserido:</b></font>&nbsp;<span id="ultimoArquivoIns" class="FONTRED"><?php echo $rowAd[0]; ?></span>
-					<input type="hidden" value="<?php echo $rowAd[0];?>" id="ultimoArquivoInsVal">
+					<td colspan="4"><font class="FONT04"><b> Último arquivo inserido:</b></font>&nbsp;<span id="ultimoArquivoIns" class="FONTRED"><?php echo $rowAd[1]; ?></span>
+					<input type="hidden" value="<?php echo $rowAd[1];?>" id="ultimoArquivoInsVal">
+					<input type="hidden" value="<?php echo date('Y');?>" id="ano">
 					</td>
 				</tr>		
 			</table>

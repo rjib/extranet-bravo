@@ -45,9 +45,10 @@ class tb_pcp_pecas{
 	 * @author Ricardo S. Alvarenga
 	 * @since 07/11/2012
 	 */
-	public function insert($co_cor,$nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtd_pecas, $co_int_produto, $co_pcp_ac)
+	public function insert($co_pcp_op,$co_cor,$nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtd_pecas, $co_int_produto, $co_pcp_ac)
 	{
-		$sql = "INSERT INTO tb_pcp_pecas (CO_COR, 
+		$sql = "INSERT INTO tb_pcp_pecas (CO_PCP_OP, 
+											CO_COR,  
 											NU_SCHEMA,
 											NU_COMPRIMENTO,
 											NU_LARGURA,
@@ -55,12 +56,13 @@ class tb_pcp_pecas{
 											QTD_PECAS,
 											CO_INT_PRODUTO,
 											CO_PCP_AC)
-				VALUES ('".addslashes($co_cor)."',
+				VALUES ('".$co_pcp_op."', 
+						'".$co_cor."',
 						".addslashes($nu_schema).",
 						'".(int)addslashes($nu_comprimento)."',
 						'".(int)addslashes($nu_largura)."',
 						'".(int)addslashes($nu_espessura)."',
-						'".(int)addslashes($qtd_pecas)."',
+						".(int)addslashes($qtd_pecas).",
 						'".addslashes($co_int_produto)."',
 						".addslashes($co_pcp_ac).")";
 		try {
@@ -80,6 +82,26 @@ class tb_pcp_pecas{
 	public function delete($co_pcp_ac){
 		$sql = "DELETE FROM tb_pcp_pecas WHERE co_pcp_ac = ".$co_pcp_ac;
 		mysql_query($sql,$this->conexaoERP);
+	}
+	
+	/**
+	 * Metodo para listar todos os dados de um arquivo .ac importado
+	 * @param int $co_pcp_ac	chave primaria da tabela de arquivo ac
+	 * @author Ricardo S. Alvarenga
+	 * @since 22/11/2012
+	 */
+	public function findByPecas($co_pcp_ac){
+		$query = "SELECT SUM(qtd_pecas) qtd_processada, 
+					co_pcp_op, 
+					co_int_produto, 
+					co_cor
+				  FROM tb_pcp_pecas
+					WHERE co_pcp_ac = ".$co_pcp_ac."
+					GROUP BY co_pcp_op;";
+		$result = mysql_query($query, $this->conexaoERP);
+		
+		return $result;
+	
 	}
 }
 ?>

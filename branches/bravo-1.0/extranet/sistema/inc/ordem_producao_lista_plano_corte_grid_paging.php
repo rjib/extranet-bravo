@@ -228,7 +228,8 @@ require_once APP_PATH.'sistema/helper.class.php';
 			
 			//Formula a query			
 			$sql = 'SELECT DISTINCT
-					PCP_AD.co_pcp_ad arquivo,
+					PCP_AD.co_pcp_ad co_pcp_ad,
+					PCP_AD.no_pcp_ad arquivo,
 					PCP_AD.dt_cadas data_criacao_arquivo,
 					PCP_AD.un_complementar,
 					PCP_OP.nu_lote
@@ -265,22 +266,27 @@ require_once APP_PATH.'sistema/helper.class.php';
 				//Cria o corpo da tabela
 				while($row = $sth->fetch(PDO::FETCH_NUM)){
 					$result = $this->adUploaded($row[0]);
-					$result[0]==0?$result[0]="<img title='Pendente' vspace='4px' src='img/status-nao.gif'/>":$result[0]="<img title='Processado' src='img/status-sim.gif'/>";
-					$s_html .= '<tr><td>'.$result[0].'</td>';
+					$result[0]==0?$result[0]="<img title='Importação não realizada' vspace='4px' src='img/status-nao.gif'/>":$result[0]="<img title='Importação realizada' src='img/status-sim.gif'/>";
+					$s_html .= '<tr><td align="center">'.$result[0].'</td>';
 					
-					for($i = 0; $i < $a_cells[0]; $i++){
-						if($i==1){
+					for($i = 0; $i < $a_cells[0]+1; $i++){
+						if($i==2){
 							$s_html .= '<td>'.$this->_helper->ajustarDataHoraPt_Br(utf8_encode($row[$i])).'</td>';
 						}else{
-							$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';
+							if($i!=0){//nao mostra o codigo no grid
+								$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';
+							}
 						}
 					}
 					
 					$s_html .= '<td align="center" width="120px">';
 					
 					if($acoes['FL_ADICIONAR']==1 || $acoes['FL_EXCLUIR']==1 || $acoes['FL_EDITAR']==1){
-						$s_html .= '<a title="Download Arquivo" href="'.URL.'downloadAD.php?arquivo='.$row[0].'" name="downloadArquivo"><img  class="link01" src="img/btn/bt_download.png" border="0"/></a>';	
-						$s_html .= '&nbsp;<a title="Importar AC" href="javascript:importarAC('.$row[0].')" name="importarAC" id=".$row[0]."><img class="link01" src="img/btn/bt_importar.png" border="0"/></a>';
+						//22/11/2012 10:29:28
+						$pasta = $this->_helper->ajustarDataHoraPt_Br(utf8_encode($row[2]));
+						$ano = substr($pasta,6,4);
+						$s_html .= '<a title="Download Arquivo .Ad" href="'.URL.'downloadAD.php?arquivo='.$row[1].'&ano='.$ano.'" name="downloadArquivo"><img  class="link01" src="img/btn/bt_download.png" border="0"/></a>';	
+						$s_html .= '&nbsp;<a title="Importar AC" href="javascript:importarAC('.$row[0].','.$row[1].')" name="importarAC" id=".$row[0]."><img class="link01" src="img/btn/bt_importar.png" border="0"/></a>';
 					}
 					
 					$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="javascript:void(0)" name="gerarEtiqueta" id=".$row[0]."><img src="img/btn/bt_etiqueta.png" border="0"/></a>';
