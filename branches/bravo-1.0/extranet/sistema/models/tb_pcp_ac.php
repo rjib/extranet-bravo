@@ -35,13 +35,14 @@ class tb_pcp_ac{
 
 	/**
 	 * Metodo para deletar o registro de arquivo do arquivo otimizado pelo optisave
-	 * @param int $co_pcp_ad	nome do arquivo ac
+	 * @param int $co_pcp_ac	chave primaria da tabela de arquivo ac
 	 * @author Ricardo S. Alvarenga
 	 * @since 08/11/2012
 	 */
-	public function delete($co_pcp_ad){
-		$sql = "DELETE FROM tb_pcp_ac WHERE co_pcp_ad = ".$co_pcp_ad;
+	public function delete($co_pcp_ac){
+		$sql = "DELETE FROM tb_pcp_ac WHERE co_pcp_ac = ".$co_pcp_ac;
 		mysql_query($sql,$this->conexaoERP);
 	}
+	
 }
 ?>

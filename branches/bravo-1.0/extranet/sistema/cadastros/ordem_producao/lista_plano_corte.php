@@ -87,7 +87,9 @@ if($acoes['NO_MODULO'] == PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE){
 	              <td> 
                   <table width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA" >
 	                <tr>
-	                  <th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" /></th>
+	                  <th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" />
+	                  	<div style="text-align: right; float: right; margin-top: 8px;">Legenda:&nbsp;&nbsp;<img src="img/status-nao.gif" /><font class="FONT07"> Importação não realizada</font> <img src="img/status-sim.gif" /> <font class="FONT07"> Importação realizada </font></div>
+	                  </th>
                     </tr>
                   </table>
                   </td>
@@ -111,7 +113,7 @@ if($acoes['NO_MODULO'] == PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE){
 			  </tr>
 	          <tr>                    	
 	          	<td width="234"><input onchange="javascript:getNameArquivo()" size="20" type="file" id="arquivo_ac" name="arquivo_ac" value="Importar Arquivo AC" title="Importar Arquivo AC"></td>
-	            <td width="754"><input type="button" id="btEnviarAC" value="Enviar" title="Importar Arquivo AC"><input type="hidden" value="" id="nomeAD" name="nomeAD"></td>
+	            <td width="754"><input type="button" id="btEnviarAC" value="Enviar" title="Importar Arquivo AC"><input type="hidden" value="" id="nomeAD" name="nomeAD"><input type="hidden" value="" id="co_pcp_ad" name="co_pcp_ad"></td>
 	          </tr> 
 	          <tr>
 	          	<td><b>Arquivo Selecionado:</b><div id="arquivoSelecionado">Nenhum</div></td>

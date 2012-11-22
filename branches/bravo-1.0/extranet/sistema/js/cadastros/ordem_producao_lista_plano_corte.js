@@ -86,7 +86,8 @@ $(document).ready(function(){
 	                		$("#boxImportarAC").dialog('close');
 	                		$("#boxLoading").dialog('close');
 	                		var nomeArquivo = $("#nomeAD").val();
-	                		$("#boxDivergencias").load("helpers/getDivergenciasOp.php",{divergencias:data.dadosDivergencia, nomeArquivo:nomeArquivo});
+	                		var co_pcp_ad = $("#co_pcp_ad").val();
+	                		$("#boxDivergencias").load("helpers/getDivergenciasOp.php",{divergencias:data.dadosDivergencia, nomeArquivo:nomeArquivo, co_pcp_ad:co_pcp_ad});
 	                		$("#boxDivergencias").dialog('open');
 	                		
 	                		
@@ -115,10 +116,11 @@ $(document).ready(function(){
 	    })
 
 });
-function importarAC(planoCorte){
-		$("#arquivoOrigem").html(planoCorte+'.ad');
+function importarAC(co_pcp_ad,no_pcp_ad){
+		$("#arquivoOrigem").html(no_pcp_ad+'.ad');
 		$("#boxImportarAC").dialog('open');
-		$("#nomeAD").val(planoCorte);
+		$("#nomeAD").val(no_pcp_ad);
+		$("#co_pcp_ad").val(co_pcp_ad);
 }
 function getNameArquivo(){
 	$nomeArquivo = $("#arquivo_ac").val();

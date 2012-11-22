@@ -22,7 +22,9 @@ $_QUANTIDADE     = array('numCaracter'=>6,'posPrimeiroCaracterer'=>39,'multiplic
 $_GRAIN  		 = array('numCaracter'=>1,'posPrimeiroCaracterer'=>45,'multiplicadorAtivo'=>0,'dadoNumerico'=>1); //(veio = BR, BF, PF)? 1:0)
 $_DESCRICAO  	 = array('numCaracter'=>150,'posPrimeiroCaracterer'=>46,'multiplicadorAtivo'=>0,'dadoNumerico'=>0);
 DEFINE('$_PAINEL','4012750018400001001PAINEL');
-$_PATH			 = APP_PATH.'arquivosAD'.DS;
+$_ano			 = date('Y');
+$_PATH			 = APP_PATH.'arquivosAD'.DS.$_ano.DS;
+
 
 $piModel = new tb_pcp_op($conexaoERP);
 $adModel = new tb_pcp_ad($conexaoERP);
@@ -159,6 +161,12 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 }//fim for
 
 //cria o arquivo (caso ele exista sera sobreescrito)
+$dir = $_PATH;
+if (!file_exists($dir))
+{
+	mkdir($dir, 0755);
+}
+
 $handle = fopen($_PATH.$nomeArquivo.".ad", "w+");
 
 fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        20'."\r\n");
@@ -182,7 +190,7 @@ if($handle){
 		$_helper->alertErrorBackParam($e->getMessage(), 'ordem_producao');
 	}
 	for($i=0; $i<count($co_pcp_op);$i++){
-		$piModel->atualizaProcessado($co_pcp_op[$i],$nomeArquivo);
+		$piModel->atualizaProcessado($co_pcp_op[$i],mysql_insert_id());
 	}
 
 }

@@ -97,6 +97,7 @@ $(document).ready(function(){
 						var flag 				= $("#ck:checked").val();
 						var espessura 			= $("#espessura").val();
 						var nomeArquivo			= $("#nomeArquivo").val();
+						var ano					= $("#ano").val();
 						//$("#ultimoArquivoIns").load('helpers/existeRegistroAD.php',{nomeArquivo:nomeArquivo});
 						var unidadeComplementar = $("#unidadeComplementar").val();
 						var ultimoArquivoIns    = $('#ultimoArquivoInsVal').val();
@@ -142,7 +143,7 @@ $(document).ready(function(){
 												'Baixar Arquivo': function() {
 													search();	
 													gridLoader(searchfor, page);												
-													$(window.document.location).attr('href','../downloadAD.php?arquivo='+nomeArquivo);
+													$(window.document.location).attr('href','../downloadAD.php?arquivo='+nomeArquivo+'&ano='+ano);
 													$(this).dialog("close");
 													
 													$("#formularioGerarArquivoAD").dialog("close");
