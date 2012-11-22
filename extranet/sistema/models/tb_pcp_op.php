@@ -70,7 +70,7 @@ class tb_pcp_op{
 	/**
 	 * Metodo para marcar PI como processado (gerado AD)
 	 * @param int $id_pcp_op
-	 * $param int $co_pcp_ad	nome do arquivo
+	 * @param int $co_pcp_ad	nome do arquivo
 	 * @return boolean
 	 * @author Ricardo S Alvarenga 
 	 * @since 25/10/2012
@@ -86,6 +86,29 @@ class tb_pcp_op{
 			$this->_helper->alertError('Ocorreu algum erro durante a atualização, favor entrar em contato com o suporte!');
 			exit;
 		}		
+	}
+	
+	/**
+	 * Metodo para marcar PI como processado (gerado AC) e adiciona a quantidade processada
+	 * @param int $co_pcp_op
+	 * @param int $co_pcp_ad	codigo do arquivo
+	 * @param int $qtd_processada quantidade processada
+	 * @return boolean
+	 * @author Ricardo S Alvarenga
+	 * @since 22/11/2012
+	 */
+	public function atualizaProcessadoComQuantidade($co_pcp_op, $co_pcp_ad, $qtd_processada){
+		try {
+			$sql = "UPDATE
+			tb_pcp_op
+			SET QTD_PROCESSADA = ".$qtd_processada."
+			WHERE CO_PCP_AD = ".$co_pcp_ad."
+			AND CO_PCP_OP = ".$co_pcp_op;
+			mysql_query($sql,$this->conexaoERP);
+		}catch (Exception $e){
+		$this->_helper->alertError('Ocorreu algum erro durante a atualização, favor entrar em contato com o suporte!');
+			exit;
+		}
 	}
 	
 	
@@ -109,7 +132,7 @@ class tb_pcp_op{
 	}
 
 	/**
-	 * Metodo para retornar o co_pcp_op de um plano de corte arquivo ad 
+	 * Metodo para retornar o co_pcp_op de um plano de corte arquivo ac que não existe no arquivo AD
 	 * @param string $co_int_prod
 	 * @param string $co_cor
 	 * @param string $nu_lote
@@ -117,14 +140,39 @@ class tb_pcp_op{
 	 * @return multitype:
 	 */
 	public function getCoPcpOPPisDeUmPlanoDeCorte($co_int_prod,$co_cor,$nu_lote){
-		$sql = "SELECT op.co_pcp_op
-				FROM tb_pcp_op op
-				  INNER JOIN tb_pcp_produto prod
-				  ON op.co_produto = prod.co_produto
-				WHERE prod.co_int_produto = '".$co_int_prod."'
-				AND prod.co_cor = '".$co_cor."'
-				AND op.nu_lote = '".$nu_lote."'";
+		$sql = "SELECT ORDEM_PRODUCAO.co_pcp_op
+				FROM tb_pcp_op ORDEM_PRODUCAO
+				  INNER JOIN tb_pcp_produto PRODUTO
+				  ON ORDEM_PRODUCAO.co_produto = PRODUTO.co_produto
+				WHERE PRODUTO.co_int_produto = '".$co_int_prod."'
+				 AND PRODUTO.co_cor = '".$co_cor."'
+				 AND ORDEM_PRODUCAO.nu_lote = '".$nu_lote."'
+				 AND ORDEM_PRODUCAO.co_pcp_ad is null";
 		$row = mysql_fetch_row(mysql_query($sql,$this->conexaoERP));		
+		return $row;
+	}
+	
+	/**
+	 * Metodo para retornar o co_pcp_op de um plano de corte que existe no arquivo AD
+	 * @param string $co_int_prod
+	 * @param string $co_cor
+	 * @param string $nu_lote
+	 * @since 22/11/2012
+	 * @return multitype:
+	 */
+	public function getCoPcpOPPisDeUmPlanoDeCorteExistente($co_int_prod,$co_cor,$nu_lote,$co_pcp_ad){
+		$sql = "SELECT ORDEM_PRODUCAO.co_pcp_op, 
+					ORDEM_PRODUCAO.qtd_produto, 
+					ORDEM_PRODUCAO.qtd_processada, 
+					ORDEM_PRODUCAO.co_pcp_op
+				FROM tb_pcp_op ORDEM_PRODUCAO
+				  INNER JOIN tb_pcp_produto PRODUTO
+				  ON ORDEM_PRODUCAO.co_produto = PRODUTO.co_produto
+				WHERE PRODUTO.co_int_produto = '".$co_int_prod."'
+				 AND PRODUTO.co_cor = '".$co_cor."'
+				 AND ORDEM_PRODUCAO.nu_lote = '".$nu_lote."'
+				 AND ORDEM_PRODUCAO.co_pcp_ad = ".$co_pcp_ad;
+		$row = mysql_fetch_row(mysql_query($sql,$this->conexaoERP));
 		return $row;
 	}
 	
@@ -161,6 +209,21 @@ class tb_pcp_op{
 			return false;
 		}
 		return $row;
+	}
+	
+	/**
+	 * Metodo listar todos os pis que ja foram gerados ac
+	 * @param int $co_pcp_op	Primary key da tabela pcp_op
+	 * @author Ricardo S. Alvarenga
+	 * @since 22/11/2012
+	 * @return multitype:
+	 */
+	public function getQtdProduto($co_pcp_op){
+		$query = "SELECT qtd_produto, qtd_processada FROM tb_pcp_op WHERE co_pcp_op = ".$co_pcp_op;
+		$result = mysql_query($query, $this->conexaoERP);
+		$row = mysql_fetch_row($result);
+		return $row;
+		
 	}
 		
 }//fim classe

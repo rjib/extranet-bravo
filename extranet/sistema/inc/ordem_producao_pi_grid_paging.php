@@ -15,6 +15,7 @@
 		public $i_link_limit	= 5;		//N�mero de links de p�ginas
 		public $a_columns		= null; 	//Array com as colunas inseridas pela fun��o addColumn
 		public $a_cols_width	= null;
+		public $_title			= array();
 	
 		public function __construct(){
 			$this->dbh = new Connection;
@@ -138,6 +139,7 @@
 			
 		}
 		
+		
 		//Cria um 'range' de n�meros, baseado em um n�mero m�ximo (ntotal), a quantidade de n�meros
 		//que devem aparecer (nmax) e em um n�mero dentro da escala, sempre que o dado n�mero apresentado
 		//for maior que a m�tade dos n�meros contidos na escala, a escala incrementa os n�meros at� o limite
@@ -210,14 +212,15 @@
 							WHEN PCP_OP.CO_PCP_AD is null THEN 0
 							WHEN PCP_OP.CO_PCP_AD is not null THEN pcp_op.co_pcp_ad
 						END AS PCP_OP_AD,
+						CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA) NUM_OP,
 						PCP_OP.CO_PCP_OP,
 						PCP_PRODUTO.CO_INT_PRODUTO,						
 						PCP_PRODUTO.DS_PRODUTO ,
-						PCP_PRODUTO.NU_COMPRIMENTO ,
-						PCP_PRODUTO.NU_LARGURA,
 						PCP_OP.QTD_PRODUTO,
+						PCP_OP.QTD_PROCESSADA,
+						PCP_OP.QTD_PRODUZIDA,
 						PCP_OP.NU_LOTE,																		
-						CONCAT(SUBSTRING(PCP_OP.DT_EMISSAO ,7,2),"/", SUBSTRING(PCP_OP.DT_EMISSAO ,5,2), "/", SUBSTRING(PCP_OP.DT_EMISSAO ,1,4))
+						CONCAT(SUBSTRING(PCP_OP.DT_EMISSAO ,7,2),"/", SUBSTRING(PCP_OP.DT_EMISSAO ,5,2), "/", SUBSTRING(PCP_OP.DT_EMISSAO ,1,4)) DT_EMISSAO
 					FROM
 						tb_pcp_op AS PCP_OP 
 					INNER JOIN tb_pcp_produto AS PCP_PRODUTO ON PCP_OP.CO_PRODUTO = PCP_PRODUTO.CO_PRODUTO
@@ -235,7 +238,7 @@
 			for($i = 1; $i <= $a_th[0]; $i++){
 				
 				if($this->cols_width != null){
-					$s_html .= '<th align="left" width="'.$this->cols_width[$i].'">'.$a_th[$i].'</th>';					
+					$s_html .= '<th align="left" title="'.$this->_title[$i-1].'" width="'.$this->cols_width[$i].'">'.$a_th[$i].'</th>';					
 				}else{
 					$s_html .= '<th>'.$a_th[$i].'</th>';
 				}
@@ -251,15 +254,32 @@
 				
 				//Cria o corpo da tabela
 				while($row = $sth->fetch(PDO::FETCH_NUM)){
-					
-					$s_html .= '<tr><td align="center"><input type="hidden" name="piOrdem[]" id="piOrdem" value="'.$ordem.'"/><input type="checkbox" id="pi_selecionado" name="pi_selecionado[]" value="'.utf8_encode($row[1]).'"/></td>';
+					if($row[5]!=$row[6]){
+						$s_html .= '<tr><td align="center"><input type="hidden" name="piOrdem[]" id="piOrdem" value="'.$ordem.'"/><input type="checkbox" id="pi_selecionado" name="pi_selecionado[]" value="'.utf8_encode($row[2]).'"/></td>';
+					}else{
+						$s_html .= '<tr><td align="center"><input type="hidden" name="piOrdem[]" id="piOrdem" value="'.$ordem.'"/><input type="checkbox" id="pi_selecionado" name="pi_selecionado[]" disabled=true value="'.utf8_encode($row[2]).'"/></td>';
+					}
 					
 					for($i = 0; $i < $a_cells[0]; $i++){
 						if($i==0){
-							utf8_encode($row[$i])==0?$row[$i]="<img title='Pendente' vspace='4px' src='img/status-nao.gif'/>":$row[$i]="<img title='Processado' src='img/status-sim.gif'/>";
-							$s_html .= '<td align="center">'.utf8_encode($row[$i]).'</td>';
+							if($row[$i]==0){
+								$row[$i]="<img title='Não processado' vspace='4px' src='img/status-nao.gif'/>";
+							}else{
+								if($row[5]==$row[6]){
+									$row[$i]="<img title='Processado' src='img/status-sim.gif'/>";
+								}else{
+									$row[$i]="<img title='Processado e Pendente' src='img/status-pendente.gif'/>";
+								}
+							}
+							$s_html .= '<td align="center">'.$row[$i].'</td>';
 						}else{
-							$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';
+							if($i!=2){
+								if($i==6){
+									$s_html .= "<td><font>".utf8_encode($row[$i])."</font></td>";
+								}else{
+									$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';
+								}
+							}
 						}
 					}
 					

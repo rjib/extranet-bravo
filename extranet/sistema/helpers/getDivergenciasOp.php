@@ -11,7 +11,8 @@ $_opModel = new tb_pcp_op($conexaoERP);
 
 $loopTr = '';
 $dialog = '';
-$co_pcp_ad = $_POST['nomeArquivo'].'.ad';
+$co_pcp_ad = $_POST['co_pcp_ad'];
+$no_pcp_ad = $_POST['nomeArquivo'].'.ad';
 $row = $_opModel->getDivergencias($divergencias);
 while ($dados = mysql_fetch_array($row)){
 $loopTr.= "<tr>";
@@ -24,7 +25,7 @@ $loopTr.= "<tr>";
 ?>
 <div id='boxDivergencia'>
 	<b style='color: red;'>Atenção!</b> Os produtos abaixo não foram
-	encontrados no plano de corte <strong style="text-decoration: underline;"><?php echo $co_pcp_ad?></strong> o sistema
+	encontrados no plano de corte <strong style="text-decoration: underline;"><?php echo $no_pcp_ad?></strong> o sistema
 	automáticamente ira marcar estes produtos como processados na lista de
 	PIs.
 	<div id='gridInternoDivergencia' style='margin-top: 10px'>
