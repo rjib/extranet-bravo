@@ -44,7 +44,8 @@ class tb_pcp_op{
 									PCP_PRODUTO.NU_LARGURA,
 									PCP_OP.DT_EMISSAO,
 									PCP_PRODUTO.NU_ESPESSURA,
-									PCP_OP.CO_PCP_AD
+									PCP_OP.CO_PCP_AD,
+									PCP_OP.QTD_PROCESSADA
 								FROM
 									tb_pcp_op AS PCP_OP
 										INNER JOIN
@@ -101,9 +102,9 @@ class tb_pcp_op{
 		try {
 			$sql = "UPDATE
 			tb_pcp_op
-			SET QTD_PROCESSADA = ".$qtd_processada."
-			WHERE CO_PCP_AD = ".$co_pcp_ad."
-			AND CO_PCP_OP = ".$co_pcp_op;
+			SET QTD_PROCESSADA = ".$qtd_processada.", 
+					CO_PCP_AD = ".$co_pcp_ad."
+			WHERE CO_PCP_OP = ".$co_pcp_op;
 			mysql_query($sql,$this->conexaoERP);
 		}catch (Exception $e){
 		$this->_helper->alertError('Ocorreu algum erro durante a atualização, favor entrar em contato com o suporte!');
@@ -219,10 +220,31 @@ class tb_pcp_op{
 	 * @return multitype:
 	 */
 	public function getQtdProduto($co_pcp_op){
-		$query = "SELECT qtd_produto, qtd_processada FROM tb_pcp_op WHERE co_pcp_op = ".$co_pcp_op;
+		$query = "SELECT qtd_produto, qtd_processada, CONCAT(co_num,co_item,co_sequencia) nu_op, nu_lote FROM tb_pcp_op WHERE co_pcp_op = ".$co_pcp_op;
 		$result = mysql_query($query, $this->conexaoERP);
 		$row = mysql_fetch_row($result);
 		return $row;
+		
+	}
+	
+	/**
+	 * Metodo verificar se todas as op selecionadas sao do mesmo lote
+	 * @param int $co_pcp_op	Primary key da tabela pcp_op
+	 * @author Ricardo S. Alvarenga
+	 * @since 23/11/2012
+	 * @return multitype:
+	 */
+	public function getMesmoLote($co_pcp_op){
+		$row = $this->getQtdProduto($co_pcp_op[0]);
+		$lote = $row[3];
+		for($i=0;$i<count($co_pcp_op); $i++){
+			$row = $this->getQtdProduto($co_pcp_op[$i]);
+			if($lote != $row[3]){
+				return false;
+			}
+			
+		}
+		return true;
 		
 	}
 		

@@ -213,8 +213,7 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 		</form>
 	</div>
 	
-	
-	<!---INICIO FOOTER--->
+<!---INICIO FOOTER--->
 	<?php require("inc/footer.php");
 }else{
 	header('location:inicio.php');

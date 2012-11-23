@@ -266,6 +266,8 @@ require_once APP_PATH.'sistema/helper.class.php';
 				//Cria o corpo da tabela
 				while($row = $sth->fetch(PDO::FETCH_NUM)){
 					$result = $this->adUploaded($row[0]);
+					$abilita = false;
+					$result[0]==0?$abilita=true:$abilita=false;
 					$result[0]==0?$result[0]="<img title='Importação não realizada' vspace='4px' src='img/status-nao.gif'/>":$result[0]="<img title='Importação realizada' src='img/status-sim.gif'/>";
 					$s_html .= '<tr><td align="center">'.$result[0].'</td>';
 					
@@ -285,8 +287,12 @@ require_once APP_PATH.'sistema/helper.class.php';
 						//22/11/2012 10:29:28
 						$pasta = $this->_helper->ajustarDataHoraPt_Br(utf8_encode($row[2]));
 						$ano = substr($pasta,6,4);
-						$s_html .= '<a title="Download Arquivo .Ad" href="'.URL.'downloadAD.php?arquivo='.$row[1].'&ano='.$ano.'" name="downloadArquivo"><img  class="link01" src="img/btn/bt_download.png" border="0"/></a>';	
-						$s_html .= '&nbsp;<a title="Importar AC" href="javascript:importarAC('.$row[0].','.$row[1].')" name="importarAC" id=".$row[0]."><img class="link01" src="img/btn/bt_importar.png" border="0"/></a>';
+						$s_html .= '<a title="Download Arquivo .Ad" href="'.URL.'downloadAD.php?arquivo='.$row[1].'&ano='.$ano.'" name="downloadArquivo"><img  class="link01" src="img/btn/bt_download.png" border="0"/></a>';
+						if($abilita==true){	
+							$s_html .= '&nbsp;<a title="Importar AC" href="javascript:importarAC('.$row[0].','.$row[1].')" name="importarAC" id=".$row[0]."><img class="link01" src="img/btn/bt_importar.png" border="0"/></a>';
+						}else{
+							$s_html .= '&nbsp;<a title="Importação ja foi realizada" name="importarAC" id=".$row[0]."><img src="img/btn/bt_importar_disabled.png" border="0"/></a>';
+						}
 					}
 					
 					$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="javascript:void(0)" name="gerarEtiqueta" id=".$row[0]."><img src="img/btn/bt_etiqueta.png" border="0"/></a>';

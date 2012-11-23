@@ -1,4 +1,23 @@
-$(document).ready(function(){	
+$(document).ready(function(){
+	
+	$("#boxErro").dialog({
+		autoOpen:false,
+        resizable: false,
+        height:200,
+		width: 400,
+        modal: true,
+        title: 'Atenção!',
+        buttons: {
+        	'Ok':function(){
+        		$(this).dialog('close');
+        		
+        	},
+        }
+	
+	}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();
+	
+	
+	
 	$("#boxDivergencias").dialog({
 		autoOpen:false,
 		modal: true,
@@ -20,6 +39,7 @@ $(document).ready(function(){
 		}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();	
 
 	function loading(){
+		$("#boxImportarAC").dialog('close');
 		$("#boxLoading").dialog('open');
 		
 	}
@@ -99,12 +119,15 @@ $(document).ready(function(){
 		        			gridLoader(searchfor, page);
 	                	}
 	                }else{
+	                	$("#boxImportarAC").dialog('close');
 	                	$("#boxLoading").dialog('close');
-	                	$("#arquivoSelecionado").html('Nenhum');
-	                	alert(data.msg);                  
+	                	$("#arquivoSelecionado").html('Nenhum');	                	  
+	                	$("#boxErro").html(data.msg);
+	                	$("#boxErro").dialog('open');
 	                }                
 	            },
-	            error : function(){	            	
+	            error : function(){	 
+	            	
 	            	$("#boxLoading").dialog('close');
 	            	$("#arquivoSelecionado").html('Nenhum');
 	            	alert('Erro ao enviar requisição!');

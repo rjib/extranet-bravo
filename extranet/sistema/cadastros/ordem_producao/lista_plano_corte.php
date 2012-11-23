@@ -126,8 +126,12 @@ if($acoes['NO_MODULO'] == PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE){
        O arquivo esta sendo enviado, por favor aguarde...
     </p>
  </div>
- <div id="boxDivergencias"></div>
+ <div id="boxDivergencias" style="display: none;"></div>
  <div id="boxFinishi" style="text-align: center;">Operação realizada com sucesso.</div>
+ 
+ <!-- BOX ERRO DE LOTE -->
+<div id="boxErro" style="display: none;"></div>
+
  </div>
 </div>
 <!--FINAL CONTEUDO-->
