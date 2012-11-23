@@ -93,10 +93,11 @@ if(isset($_POST['co_pcp_ad'])){
 										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtd_pecas, $co_int_produto, $co_pcp_ac);
 										
 									}else{
-											unlink($novoNomeArquivo);
+											unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
 											$_acModel->delete($co_pcp_ac);
 											$data['sucesso']= false;
-											$data['msg'] = 'Não é possivel concluir a operação, pois este arquivo contém produto de lote diferente do arquivo '.$no_pcp_ad.'.ad original, ou sua ordem de produção ainda não foi gerada. Importação será cancelada.';
+											//<p><span> <img src="img/atencao.png" hspace="3" /></span>
+											$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois este arquivo contém produto de lote diferente do arquivo <strong> ".$no_pcp_ad.".ad </strong>original, ou sua ordem de produção ainda não foi gerada. Importação será cancelada.</p>";
 											echo json_encode($data);
 											exit;										
 									}								
@@ -105,7 +106,7 @@ if(isset($_POST['co_pcp_ad'])){
 								
 							}catch(Exception $e){
 								## EM CASO DE ERRO ROLLBACK
-								unlink(APP_PATH.'arquivosAC'.DS.$novoNomeArquivo);
+								unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
 								$_acModel->delete($co_pcp_ac);
 								$data['msg'] = $e;
 								echo json_encode($data);
@@ -121,12 +122,27 @@ if(isset($_POST['co_pcp_ad'])){
 
 			}
 			
+			sort($divergencias);
 			$result = $_pecasModel->findByPecas($co_pcp_ac);
-			while ($dados = mysql_fetch_array($result)){
-				$row = $_opModel->getQtdProduto($dados['co_pcp_op']);
-				$qtd_produto    = $dados['qtd_produto'];
-				$qtd_processada = 
-				$_opModel->atualizaProcessadoComQuantidade($co_pcp_op, $co_pcp_ad, $qtd_processada);
+			while ($peca = mysql_fetch_array($result)){
+				$op = $_opModel->getQtdProduto($peca['co_pcp_op']);
+				$aprocessar  = $op[1]+$peca['qtd_processada'];
+				$nu_op 		 = $op[2];
+				 if($aprocessar<=$op[0]){//se quantidade processadas for menor ou igual ao total de pecas
+					if($op[0]>$op[1]){//quantidade produto é menor que a quantidade processada?
+						$qtd_processada = $op[1]+$peca['qtd_processada'];
+						$_opModel->atualizaProcessadoComQuantidade($peca['co_pcp_op'], $co_pcp_ad, $qtd_processada);
+						
+					}
+				 }else{//quantidade processada maior que a quantidade de produto na ordem de produção
+				 	unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
+				 	$_acModel->delete($co_pcp_ac);
+				 	$data['sucesso']= false;
+				 	$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Você esta tentando produzir <strong style='color: red;'>".$aprocessar."</strong> peças, no entanto, a OP:".$nu_op." é de <strong>".$op[0]."</strong> peças. Operação sera cancelada! </p>";
+				 	echo json_encode($data);
+				 	exit;
+				 	
+				 }				
 				
 			}
 			

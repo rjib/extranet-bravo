@@ -40,6 +40,7 @@ if(isset($_POST['dataInicial']) && isset($_POST['dataFinal']) && isset($_POST['c
 	$co_pcp_op  			= $_POST['co_pi'];
 	$nomeArquivo			= $_POST['nomeArquivo'];
 	$unidadeComplementar	= $_POST['unidadeComplementar'];
+	$mesmoLote 				= $piModel->getMesmoLote($co_pcp_op);
 }else{
 	$_helper->alertError('Não existe dados enviados, favor entrar em contato com o suporte!');
 	exit;
@@ -49,7 +50,12 @@ $ordem = 2; //ordem dos PIs de acordo com a quantidade selecionada
 $nQuantidade = 0;
 $veio = 0;
 $dadosArquivo = array();
-
+if($mesmoLote==false){ //passa somete se for do mesmo lote
+	//$_helper->alertError('Não se pode gerar o arquivo com lotes diferentes, favor selecionar produtos do mesmo lote.');
+	$resposta = "<img src='img/atencao.png' hspace='3' /> N&atilde;o se pode gerar o arquivo com lotes diferentes, favor selecionar produtos do mesmo lote.";
+	echo json_encode($resposta);
+	exit;
+}
 
 for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 
@@ -86,7 +92,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 			$n1 = $n1+1;
 		}
 		if($nQuantidade==0){
-			$nQuantidade = $row['QTD_PRODUTO'];
+			$nQuantidade = ($row['QTD_PRODUTO']-$row['QTD_PROCESSADA']);
 		}
 		$nQuantidade = $nQuantidade/$n1;
 		$row['NU_LARGURA'] = $row['NU_LARGURA']*$n1+(($n1-1)* $_MM_ENTRE_PECA);
@@ -112,7 +118,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 			$n1 = $n1+1;
 		}
 		if($nQuantidade==0){
-			$nQuantidade = $row['QTD_PRODUTO'];
+			$nQuantidade = ($row['QTD_PRODUTO']-$row['QTD_PROCESSADA']);
 		}
 		$nQuantidade = $nQuantidade/$n1;
 		$row['NU_COMPRIMENTO'] = $row['NU_COMPRIMENTO']*$n1+(($n1-1)* $_MM_ENTRE_PECA);
@@ -124,7 +130,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 		$row['QTD_PRODUTO'] = $nQuantidade;
 		//$nQuantidade = 0; //zerando o temp quantidade
 	}
-	$row['QTD_PRODUTO'] = intval($row['QTD_PRODUTO']);
+	$row['QTD_PRODUTO'] = intval($row['QTD_PRODUTO']-$row['QTD_PROCESSADA']);
 	$nQuantidade=0;
 
 	//COMPRIMENTO

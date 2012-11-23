@@ -413,7 +413,7 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  {
 	size: 11;
 }
 .link01:hover{
-background-image: url(../img/btn/bt_hover.png);
+background: url(../img/btn/bt_hover.png) !important;
 }
 .modulo_pai{
 	 background-color: #FDF5E6; 
