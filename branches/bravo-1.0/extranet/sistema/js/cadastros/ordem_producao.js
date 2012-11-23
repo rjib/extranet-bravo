@@ -118,15 +118,18 @@ $(document).ready(function(){
 									,unidadeComplementar:unidadeComplementar}, function(resposta) {
 									
 									if (resposta != false) {
+										$( "#boxGerando" ).dialog('close');
 										$('<p>' + resposta + '</p>').dialog({
 											modal: true,
 											resizable: false,
 											title: 'Aten&ccedil;&atilde;o',
 											buttons: {
-												Ok: function() {
-													$( "#boxGerando" ).dialog('close');
+												Ok: function() {													
 													$(this).dialog("close");												
 												}
+											},
+											close: function() {												
+												$(this).dialog('close');
 											}
 										});
 									} 
