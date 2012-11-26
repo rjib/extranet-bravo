@@ -31,7 +31,7 @@
 					AND PCP_OP.DT_EMISSAO BETWEEN "'.$dataInicial.'" AND "'.$dataFinal.'"
 					AND PCP_PRODUTO.CO_COR ="'.$co_cor.'" 
 					AND PCP_PRODUTO.NU_ESPESSURA ="'.$espessura.'"
-					AND PCP_OP.CO_PCP_AD is null ');
+					AND PCP_OP.CO_PCP_OP NOT IN (SELECT DISTINCT CO_PCP_OP FROM TB_PCP_AD_PECA)');
 	}else{
 	$paging->where('PCP_PRODUTO.CO_INT_PRODUTO LIKE "%'.$searchfor.'%"
 					AND PCP_OP.DT_EMISSAO BETWEEN "'.$dataInicial.'" AND "'.$dataFinal.'"

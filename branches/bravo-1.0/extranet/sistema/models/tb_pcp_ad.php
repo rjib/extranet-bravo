@@ -55,7 +55,7 @@ class tb_pcp_ad{
 	 */
 	public function maxId(){
 
-		$sql = 'SELECT MAX(co_pcp_ad) co_pcp_max_id, no_pcp_ad FROM tb_pcp_ad;';
+		$sql = 'SELECT MAX(co_pcp_ad) co_pcp_max_id, no_pcp_ad FROM tb_pcp_ad where co_pcp_ad = (SELECT MAX(co_pcp_ad) FROM tb_pcp_ad)';
 		try {
 			$result = mysql_query($sql, $this->conexaoERP);
 			$row = mysql_fetch_row($result);
@@ -108,11 +108,14 @@ class tb_pcp_ad{
 	 * @since 22/11/2012
 	 */
 	public function findByLote($co_pcp_ad){
-		$query = "SELECT nu_lote
-					FROM tb_pcp_ad PCP_AD
-					  INNER JOIN tb_pcp_op ORDEM_PRODUCAO
-					ON PCP_AD.co_pcp_ad = ORDEM_PRODUCAO.co_pcp_ad
-					WHERE PCP_AD.co_pcp_ad = ".$co_pcp_ad;
+		$query = "SELECT DISTINCT 
+					    nu_lote
+					FROM
+					    tb_pcp_ad_peca PCP_AD_PECA
+					        INNER JOIN
+					    tb_pcp_op ORDEM_PRODUCAO ON PCP_AD_PECA.co_pcp_op = ORDEM_PRODUCAO.co_pcp_op
+					WHERE
+					    PCP_AD_PECA.co_pcp_ad = ".$co_pcp_ad;
 		$row = mysql_fetch_array(mysql_query($query, $this->conexaoERP));
 		return $row[0];
 		

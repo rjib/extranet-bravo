@@ -228,15 +228,17 @@ require_once APP_PATH.'sistema/helper.class.php';
 			
 			//Formula a query			
 			$sql = 'SELECT DISTINCT
-					PCP_AD.co_pcp_ad co_pcp_ad,
-					PCP_AD.no_pcp_ad arquivo,
-					PCP_AD.dt_cadas data_criacao_arquivo,
-					PCP_AD.un_complementar,
-					PCP_OP.nu_lote
-				FROM
-					tb_pcp_ad PCP_AD
-					LEFT JOIN tb_pcp_op PCP_OP
-					ON PCP_AD.co_pcp_ad = PCP_OP.co_pcp_ad	
+					    PCP_AD.co_pcp_ad co_pcp_ad,
+					    PCP_AD.no_pcp_ad arquivo,
+					    PCP_AD.dt_cadas data_criacao_arquivo,
+					    PCP_AD.un_complementar,
+					    PCP_OP.nu_lote
+					FROM
+					    tb_pcp_ad PCP_AD
+					        INNER JOIN
+					    tb_pcp_ad_peca PCP_AD_PECA ON PCP_AD.co_pcp_ad = PCP_AD_PECA.co_pcp_ad
+					        INNER JOIN
+					    tb_pcp_op PCP_OP ON PCP_AD_PECA.co_pcp_op =  PCP_OP.co_pcp_op	
 					WHERE '.$this->s_where.'
 					ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
 					LIMIT '.$n.','.$this->i_rowsperpage;
@@ -295,7 +297,7 @@ require_once APP_PATH.'sistema/helper.class.php';
 						}
 					}
 					
-					$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="javascript:void(0)" name="gerarEtiqueta" id=".$row[0]."><img src="img/btn/bt_etiqueta.png" border="0"/></a>';
+					$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="javascript:void(0)" name="gerarEtiqueta" id=".$row[0]."><img class="link02" src="img/btn/bt_etiqueta.png" border="0"/></a>';
 					$s_html .= '</td>';
 					$s_html .= '</tr>';
 				

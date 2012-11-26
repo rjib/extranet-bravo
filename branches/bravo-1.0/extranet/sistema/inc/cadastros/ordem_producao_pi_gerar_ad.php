@@ -8,6 +8,7 @@
 require_once '../../setup.php';
 require('../../models/tb_pcp_op.php');
 require ('../../models/tb_pcp_ad.php');
+require ('../../models/tb_pcp_ad_peca.php');
 require ('../../helper.class.php');
 
 //constantes de parametros
@@ -26,9 +27,10 @@ $_ano			 = date('Y');
 $_PATH			 = APP_PATH.'arquivosAD'.DS.$_ano.DS;
 
 
-$piModel = new tb_pcp_op($conexaoERP);
-$adModel = new tb_pcp_ad($conexaoERP);
-$_helper = new helper();
+$piModel 	 = new tb_pcp_op($conexaoERP);
+$adModel	 = new tb_pcp_ad($conexaoERP);
+$adpecaModel = new tb_pcp_ad_peca($conexaoERP);
+$_helper 	 = new helper();
 
 if(isset($_POST['dataInicial']) && isset($_POST['dataFinal']) && isset($_POST['cor']) && isset($_POST['espessura']) && isset($_POST['flag']) && isset($_POST['co_pi']) && isset($_POST['nomeArquivo']) && isset($_POST['unidadeComplementar']))
 {
@@ -52,7 +54,7 @@ $veio = 0;
 $dadosArquivo = array();
 if($mesmoLote==false){ //passa somete se for do mesmo lote
 	//$_helper->alertError('Não se pode gerar o arquivo com lotes diferentes, favor selecionar produtos do mesmo lote.');
-	$resposta = "<img src='img/atencao.png' hspace='3' /> N&atilde;o se pode gerar o arquivo com lotes diferentes, favor selecionar produtos do mesmo lote.";
+	$resposta = "<img src='img/atencao.png' hspace='3' /> N&atilde;o &eacute; poss&iacute;vel gerar o arquivo AD com produtos de lotes diferentes, favor selecionar apenas produtos do mesmo lote.";
 	echo json_encode($resposta);
 	exit;
 }
@@ -191,12 +193,13 @@ fclose($handle);
 if($handle){
 	try {
 		$adModel->insert($nomeArquivo, $unidadeComplementar);
+		$co_pcp_ad = mysql_insert_id();
 	}catch (Exception $e){
 		unlink($_PATH.$nomeArquivo.".ad");
 		$_helper->alertErrorBackParam($e->getMessage(), 'ordem_producao');
 	}
 	for($i=0; $i<count($co_pcp_op);$i++){
-		$piModel->atualizaProcessado($co_pcp_op[$i],mysql_insert_id());
+		$adpecaModel->insert($co_pcp_ad,$co_pcp_op[$i]);
 	}
 
 }

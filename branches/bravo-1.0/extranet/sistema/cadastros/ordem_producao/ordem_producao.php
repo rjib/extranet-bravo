@@ -111,13 +111,13 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 			            <table bgcolor="#FFFFFF" width="980" align="center" cellpadding="5" cellspacing="3">
 							<tr>
 					          	<td width="171"><font class="FONT04"><b>Data Emissão:</b></font></td>
-					            <td width="60"><input onchange="ocultarBotoes();" size="10" id="dataInicial" title="Data Inicial" name="dataInicial" type="text" class="INPUT03" value="25/10/2012"></td>
+					            <td width="60"><input onchange="ocultarBotoes();" size="10" id="dataInicial" title="Data Inicial" name="dataInicial" type="text" class="INPUT03" value="<?php echo date('d/m/Y')?>"></td>
 					            <td colspan="3">
 					            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						              	<tr>
 						                  <td width="2%"><font class="FONT04"><b>à</b></font></td>
 						                  <td width="98%">
-						                    <input onchange="ocultarBotoes();" class="INPUT03" size="10" id="dataFinal" title="Data Final" name="dataFinal" type="text" value="25/10/2012" /></td>
+						                    <input onchange="ocultarBotoes();" class="INPUT03" size="10" id="dataFinal" title="Data Final" name="dataFinal" type="text" value="<?php echo date('d/m/Y')?>" /></td>
 						                </tr>
 			            			</table>
 			            		</td>            
@@ -162,7 +162,7 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 	        <table id="pesquisaListaPi" width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA" align="center" >
 	            <tr>
 	            	<th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" />
-	            		<div style="text-align: right; float: right; margin-top: 8px;">Legenda:&nbsp;&nbsp;<img src="img/status-nao.gif" /><font class="FONT07"> Não processado</font> <img src="img/status-sim.gif" /> <font class="FONT07"> Processado e finalizado </font> <img src="img/status-pendente.gif" /> <font class="FONT07"> Processado e pendente</font></div>
+	            		<div style="text-align: right; float: right; margin-top: 8px;"><a href="javascript:$('#boxLegenda').dialog('open');"> Clique aqui para ver a legenda</a></div>
 	            	</th>
 	            </tr>
 	        </table> 
@@ -189,6 +189,7 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 	       O arquivo esta sendo criado, por favor aguarde...
 	    </p>
 	</div>
+	<div id="boxLegenda" style="display: none;"><img src="img/status-nao.gif" /><font class="FONT04"> Arquivo .ad ainda não foi gerado</font><br> <img src="img/status-pendente-importacao.gif" /> <font class="FONT04"> Arquivo .ad gerado porém não houve importação do .ac</font> <br><img src="img/status-pendente.gif" /> <font class="FONT04"> Arquivo .ad gerado e importação do .ac realizada, porém nem todos os PIs foram produzidos</font> <br><img src="img/status-sim.gif" /> <font class="FONT04"> Processo finalizado </font></div>
 	<div id="boxSelecionePeloMenosUm" style="display: none;"><br><p align="center">Pelo menos um produto deve ser selecionado!</p></div>
 	<div id="formularioGerarArquivoAD" style="display: none;">
 		<form id="formularioGerarAD" action="javascript:void(0)" method="post">

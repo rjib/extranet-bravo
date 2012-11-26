@@ -26,8 +26,7 @@ $loopTr.= "<tr>";
 <div id='boxDivergencia'>
 	<b style='color: red;'>Atenção!</b> Os produtos abaixo não foram
 	encontrados no plano de corte <strong style="text-decoration: underline;"><?php echo $no_pcp_ad?></strong> o sistema
-	automáticamente ira marcar estes produtos como processados na lista de
-	PIs.
+	automáticamente ira marcar estes produtos como processados na lista de PIs. No entanto, ele não será incluido no arquivo <strong style="text-decoration: underline;"><?php echo $no_pcp_ad?></strong>.
 	<div id='gridInternoDivergencia' style='margin-top: 10px'>
 		<table align='center' style='margin-bottom: 5px; width: 600px;'>
 			<thead align='left' style='background-color: #E8E8E8;'>

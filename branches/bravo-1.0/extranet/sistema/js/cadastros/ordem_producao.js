@@ -17,6 +17,22 @@ var searchdiv = '#searching';					//Div utilizada para realizar o search
 			
 /***** FIM CONFIGURACAO SCRIPT TABLESORTER *****/	 	
 $(document).ready(function(){
+	
+	$( "#boxLegenda" ).dialog({
+		autoOpen: false,
+        modal: true,
+		height: 150,
+		width: 500,
+		title: 'Legenda',
+        buttons: {
+            'Fechar': function() {
+            	$( this ).dialog( "close" );
+            }
+        }
+	});
+	
+	
+	
 	//Acoes clique pesquisar pi
 	$("#btPesquisarPI").click(function(){		
 		var dataInicial = $("#dataInicial").val();
@@ -119,12 +135,15 @@ $(document).ready(function(){
 									
 									if (resposta != false) {
 										$( "#boxGerando" ).dialog('close');
+										$("#formularioGerarArquivoAD").dialog('close');
+										resposta  = resposta.replace('"', "");
+										resposta  = resposta.replace('"', "");
 										$('<p>' + resposta + '</p>').dialog({
 											modal: true,
 											resizable: false,
 											title: 'Aten&ccedil;&atilde;o',
 											buttons: {
-												Ok: function() {													
+												Ok: function() {														
 													$(this).dialog("close");												
 												}
 											},

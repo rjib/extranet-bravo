@@ -415,6 +415,9 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  {
 .link01:hover{
 background: url(../img/btn/bt_hover.png) !important;
 }
+.link02:hover{
+background: url(../img/btn/bt_etiqueta_hover.png) !important;
+}
 .modulo_pai{
 	 background-color: #FDF5E6; 
 	 /* background-color: #40E0D0;*/
