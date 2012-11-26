@@ -162,7 +162,7 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 	        <table id="pesquisaListaPi" width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA" align="center" >
 	            <tr>
 	            	<th align="left"><b>Pesquisar:&nbsp;&nbsp;</b><input type="text" class="INPUT02" id="searching" value="Pesquisar..." size="60" maxlength="80" />
-	            		<div style="text-align: right; float: right; margin-top: 8px;"><a href="javascript:$('#boxLegenda').dialog('open');"> Clique aqui para ver a legenda</a></div>
+	            		<div style="text-align: right; float: right; margin-top: 8px;"><a href="javascript:void(0);" onclick="javascript:legenda()"> Clique aqui para ver a legenda</a></div>
 	            	</th>
 	            </tr>
 	        </table> 
