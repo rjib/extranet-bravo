@@ -74,7 +74,7 @@ $(document).ready(function(){
 	$( '#boxFinishi' ).dialog({
 		autoOpen: false,
         modal: true,
-		height: 120,
+		height: 130,
 		width: 250,
 		title: 'Atenção',
         buttons: {

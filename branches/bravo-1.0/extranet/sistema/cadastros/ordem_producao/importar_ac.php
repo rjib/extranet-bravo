@@ -7,6 +7,7 @@ require_once APP_PATH.'sistema/models/tb_pcp_ac.php';
 require_once APP_PATH.'sistema/models/tb_pcp_cor.php';
 require_once APP_PATH.'sistema/models/tb_pcp_op.php';
 require_once APP_PATH.'sistema/models/tb_pcp_ad.php';
+require_once APP_PATH.'sistema/models/tb_pcp_ad_peca.php';
 
 if(isset($_POST['co_pcp_ad'])){
 	
@@ -21,6 +22,7 @@ if(isset($_POST['co_pcp_ad'])){
 	$_corModel 	 = new tb_pcp_cor($conexaoERP);
 	$_opModel	 = new tb_pcp_op($conexaoERP);
 	$_adModel    = new tb_pcp_ad($conexaoERP);
+	$_adPecaModel= new tb_pcp_ad_peca($conexaoERP);
 
 	$nomeTemporario = $_helper->getNomeTempArquivo('arquivo_ac');
 	$data['divergencia']=false;
@@ -131,7 +133,8 @@ if(isset($_POST['co_pcp_ad'])){
 				 if($aprocessar<=$op[0]){//se quantidade processadas for menor ou igual ao total de pecas
 					if($op[0]>$op[1]){//quantidade produto é menor que a quantidade processada?
 						$qtd_processada = $op[1]+$peca['qtd_processada'];
-						$_opModel->atualizaProcessadoComQuantidade($peca['co_pcp_op'], $co_pcp_ad, $qtd_processada);
+						$_opModel->atualizaProcessadoComQuantidade($peca['co_pcp_op'], $qtd_processada);
+						$_adPecaModel->insert($co_pcp_ad, $peca['co_pcp_op']);
 						
 					}
 				 }else{//quantidade processada maior que a quantidade de produto na ordem de produção
