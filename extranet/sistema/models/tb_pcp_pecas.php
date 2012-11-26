@@ -1,6 +1,6 @@
 <?php
 /**
- * Classe da camada de acesso a dados da tabela tb_pcp_pecas
+ * Classe da camada de acesso a dados da tabela tb_pcp_ac_peca
  * @author Ricardo S. Alvarenga
  * @since 07/11/2012
  *
@@ -23,7 +23,7 @@ class tb_pcp_pecas{
 	 */
 	public function listaTodosArquivos(){
 		try {
-			$sql = "SELECT * FROM tb_pcp_pecas ORDER BY CO_PCP_PECAS ASC";
+			$sql = "SELECT * FROM tb_pcp_ac_peca ORDER BY CO_PCP_PECA ASC";
 			$row = mysql_query($sql,$this->conexaoERP);
 		}catch (Exception $e){
 			return false;
@@ -47,7 +47,7 @@ class tb_pcp_pecas{
 	 */
 	public function insert($co_pcp_op,$co_cor,$nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtd_pecas, $co_int_produto, $co_pcp_ac)
 	{
-		$sql = "INSERT INTO tb_pcp_pecas (CO_PCP_OP, 
+		$sql = "INSERT INTO tb_pcp_ac_peca (CO_PCP_OP, 
 											CO_COR,  
 											NU_SCHEMA,
 											NU_COMPRIMENTO,
@@ -80,7 +80,7 @@ class tb_pcp_pecas{
 	 * @since 08/11/2012
 	 */
 	public function delete($co_pcp_ac){
-		$sql = "DELETE FROM tb_pcp_pecas WHERE co_pcp_ac = ".$co_pcp_ac;
+		$sql = "DELETE FROM tb_pcp_ac_peca WHERE co_pcp_ac = ".$co_pcp_ac;
 		mysql_query($sql,$this->conexaoERP);
 	}
 	
@@ -95,7 +95,7 @@ class tb_pcp_pecas{
 					co_pcp_op, 
 					co_int_produto, 
 					co_cor
-				  FROM tb_pcp_pecas
+				  FROM tb_pcp_ac_peca
 					WHERE co_pcp_ac = ".$co_pcp_ac."
 					GROUP BY co_pcp_op;";
 		$result = mysql_query($query, $this->conexaoERP);

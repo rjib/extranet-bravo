@@ -31,7 +31,7 @@ class tb_pcp_op{
 	 * @since 23/10/2012
 	 */
 	public function listaPi($cor,$espessura,$dataInicial, $dataFinal,$co_pcp_op){	
-		$row = mysql_query("SELECT 
+		$query = "SELECT 
 									PCP_OP.CO_PCP_OP,
 									PCP_COR.DS_COR,
 									PCP_OP.QTD_PRODUTO,
@@ -43,8 +43,7 @@ class tb_pcp_op{
 									PCP_PRODUTO.NU_COMPRIMENTO,
 									PCP_PRODUTO.NU_LARGURA,
 									PCP_OP.DT_EMISSAO,
-									PCP_PRODUTO.NU_ESPESSURA,
-									PCP_OP.CO_PCP_AD,
+									PCP_PRODUTO.NU_ESPESSURA,									
 									PCP_OP.QTD_PROCESSADA
 								FROM
 									tb_pcp_op AS PCP_OP
@@ -57,8 +56,8 @@ class tb_pcp_op{
 									AND PCP_PRODUTO.CO_COR ='".$cor."' 
 									AND PCP_PRODUTO.NU_ESPESSURA ='".$espessura."'
 									AND PCP_OP.CO_PCP_OP = ".$co_pcp_op."
-								ORDER BY PCP_PRODUTO.CO_COR ASC "
-		,$this->conexaoERP)
+								ORDER BY PCP_PRODUTO.CO_COR ASC ";
+		$row = mysql_query($query,$this->conexaoERP)
 		or die($this->_helper->alertErrorBackParam('Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!','ordem_producao'));
 		
 		if(mysql_num_rows($row) == 0){
@@ -68,26 +67,6 @@ class tb_pcp_op{
 	 return $row;
 	}//fim listaPi
 	
-	/**
-	 * Metodo para marcar PI como processado (gerado AD)
-	 * @param int $id_pcp_op
-	 * @param int $co_pcp_ad	nome do arquivo
-	 * @return boolean
-	 * @author Ricardo S Alvarenga 
-	 * @since 25/10/2012
-	 */
-	public function atualizaProcessado($id_pcp_op, $co_pcp_ad){
-		try {
-			$sql = "UPDATE 
-						tb_pcp_op 
-					SET CO_PCP_AD = $co_pcp_ad
-					WHERE CO_PCP_OP =".$id_pcp_op;
-			mysql_query($sql,$this->conexaoERP);
-		}catch (Exception $e){
-			$this->_helper->alertError('Ocorreu algum erro durante a atualização, favor entrar em contato com o suporte!');
-			exit;
-		}		
-	}
 	
 	/**
 	 * Metodo para marcar PI como processado (gerado AC) e adiciona a quantidade processada
@@ -98,12 +77,11 @@ class tb_pcp_op{
 	 * @author Ricardo S Alvarenga
 	 * @since 22/11/2012
 	 */
-	public function atualizaProcessadoComQuantidade($co_pcp_op, $co_pcp_ad, $qtd_processada){
+	public function atualizaProcessadoComQuantidade($co_pcp_op, $qtd_processada){
 		try {
 			$sql = "UPDATE
 			tb_pcp_op
-			SET QTD_PROCESSADA = ".$qtd_processada.", 
-					CO_PCP_AD = ".$co_pcp_ad."
+			SET QTD_PROCESSADA = ".$qtd_processada." 
 			WHERE CO_PCP_OP = ".$co_pcp_op;
 			mysql_query($sql,$this->conexaoERP);
 		}catch (Exception $e){
@@ -112,25 +90,6 @@ class tb_pcp_op{
 		}
 	}
 	
-	
-	/**
-	 * Metodo para listar todos os pis de um plano de corte arquivo ad
-	 * @param string $co_pcp_ad	nome do arquivo ad
-	 * @param string $co_cor codigo da cor
-	 * @author Ricardo S. Alvarenga
-	 * @since 08/11/2012
-	 * @return array
-	 */
-	public function listarTodosPisDeUmPlanoDeCorte($co_pcp_ad,$co_cor){
-		$sql = "SELECT * 
-				FROM tb_pcp_op op
-					INNER JOIN tb_pcp_produto prod
-					ON op.co_produto = prod.co_produto
-				WHERE op.co_pcp_ad = '".$co_pcp_ad."'
-					AND prod.co_cor = '".$co_cor."'";
-		$row = mysql_query($sql,$this->conexaoERP);
-		return $row;
-	}
 
 	/**
 	 * Metodo para retornar o co_pcp_op de um plano de corte arquivo ac que não existe no arquivo AD
@@ -143,12 +102,14 @@ class tb_pcp_op{
 	public function getCoPcpOPPisDeUmPlanoDeCorte($co_int_prod,$co_cor,$nu_lote){
 		$sql = "SELECT ORDEM_PRODUCAO.co_pcp_op
 				FROM tb_pcp_op ORDEM_PRODUCAO
-				  INNER JOIN tb_pcp_produto PRODUTO
-				  ON ORDEM_PRODUCAO.co_produto = PRODUTO.co_produto
+			        INNER JOIN
+			    tb_pcp_produto PRODUTO ON ORDEM_PRODUCAO.co_produto = PRODUTO.co_produto
+					LEFT JOIN 
+			    tb_pcp_ad_peca PCP_AD_PECA ON ORDEM_PRODUCAO.co_pcp_op = PCP_AD_PECA.co_pcp_op
 				WHERE PRODUTO.co_int_produto = '".$co_int_prod."'
 				 AND PRODUTO.co_cor = '".$co_cor."'
 				 AND ORDEM_PRODUCAO.nu_lote = '".$nu_lote."'
-				 AND ORDEM_PRODUCAO.co_pcp_ad is null";
+				 AND ORDEM_PRODUCAO.co_pcp_op NOT IN (SELECT DISTINCT co_pcp_op FROM tb_pcp_ad_peca AD_PECA)";
 		$row = mysql_fetch_row(mysql_query($sql,$this->conexaoERP));		
 		return $row;
 	}
@@ -162,17 +123,22 @@ class tb_pcp_op{
 	 * @return multitype:
 	 */
 	public function getCoPcpOPPisDeUmPlanoDeCorteExistente($co_int_prod,$co_cor,$nu_lote,$co_pcp_ad){
+								
 		$sql = "SELECT ORDEM_PRODUCAO.co_pcp_op, 
 					ORDEM_PRODUCAO.qtd_produto, 
 					ORDEM_PRODUCAO.qtd_processada, 
 					ORDEM_PRODUCAO.co_pcp_op
 				FROM tb_pcp_op ORDEM_PRODUCAO
-				  INNER JOIN tb_pcp_produto PRODUTO
-				  ON ORDEM_PRODUCAO.co_produto = PRODUTO.co_produto
+					INNER JOIN
+					tb_pcp_produto PRODUTO ON ORDEM_PRODUCAO.co_produto = PRODUTO.co_produto
+					INNER JOIN
+					tb_pcp_ad_peca PCP_AD_PECA ON ORDEM_PRODUCAO.co_pcp_op = PCP_AD_PECA.co_pcp_op
+					INNER JOIN
+					tb_pcp_ad PCP_AD ON PCP_AD_PECA.co_pcp_ad = PCP_AD.co_pcp_ad
 				WHERE PRODUTO.co_int_produto = '".$co_int_prod."'
 				 AND PRODUTO.co_cor = '".$co_cor."'
 				 AND ORDEM_PRODUCAO.nu_lote = '".$nu_lote."'
-				 AND ORDEM_PRODUCAO.co_pcp_ad = ".$co_pcp_ad;
+				 AND PCP_AD.co_pcp_ad = ".$co_pcp_ad;
 		$row = mysql_fetch_row(mysql_query($sql,$this->conexaoERP));
 		return $row;
 	}

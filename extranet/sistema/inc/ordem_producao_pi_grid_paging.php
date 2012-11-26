@@ -82,6 +82,22 @@
 			
 		}
 		
+		/**
+		 * Metodo para verificar se uma op ja foi gerado ad, assim capturar as informações necessárias
+		 * @param int $co_pcp_op chave primaria da tabela
+		 * @return array
+		 * @since 23/11/2012
+		 * @author Ricardo S. Alvarenga
+		 */
+		public function flagStatus($co_pcp_op){
+			$query = "SELECT co_pcp_op FROM tb_pcp_ad_peca WHERE co_pcp_op = ".$co_pcp_op." GROUP BY co_pcp_op";
+			$sth = $this->dbh->prepare($query);
+			$sth->execute();
+			$row = $sth->fetch(PDO::FETCH_NUM);
+			return $row;
+			
+		}
+		
 		//Retorna o n�mero de p�ginas
 		public function pages_count(){
 		
@@ -207,11 +223,7 @@
 			}
 			
 			//Formula a query			
-			$sql = 'SELECT 
-						CASE  
-							WHEN PCP_OP.CO_PCP_AD is null THEN 0
-							WHEN PCP_OP.CO_PCP_AD is not null THEN pcp_op.co_pcp_ad
-						END AS PCP_OP_AD,
+			$sql = 'SELECT
 						CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA) NUM_OP,
 						PCP_OP.CO_PCP_OP,
 						PCP_PRODUTO.CO_INT_PRODUTO,						
@@ -254,42 +266,42 @@
 				
 				//Cria o corpo da tabela
 				while($row = $sth->fetch(PDO::FETCH_NUM)){
-					if($row[5]!=$row[6]){
-						$s_html .= '<tr><td align="center"><input type="hidden" name="piOrdem[]" id="piOrdem" value="'.$ordem.'"/><input type="checkbox" id="pi_selecionado" name="pi_selecionado[]" value="'.utf8_encode($row[2]).'"/></td>';
+					if($row[4]!=$row[5]){
+						$s_html .= '<tr><td align="center"><input type="hidden" name="piOrdem[]" id="piOrdem" value="'.$ordem.'"/><input type="checkbox" id="pi_selecionado" name="pi_selecionado[]" value="'.utf8_encode($row[1]).'"/></td>';
 					}else{
-						$s_html .= '<tr><td align="center"><input type="hidden" name="piOrdem[]" id="piOrdem" value="'.$ordem.'"/><input type="checkbox" id="pi_selecionado" name="pi_selecionado[]" disabled=true value="'.utf8_encode($row[2]).'"/></td>';
+						$s_html .= '<tr><td align="center"><input type="hidden" name="piOrdem[]" id="piOrdem" value="'.$ordem.'"/><input type="checkbox" id="pi_selecionado" name="pi_selecionado[]" disabled=true value="'.utf8_encode($row[1]).'"/></td>';
+					}
+					$fl = $this->flagStatus($row[1]);
+					
+					if($fl!=false){
+						if($row[4]!=$row[5]){//se tiver pendente porem processado
+							if($row[5]==0){
+								$s_html .= "<td align='center'><img title='Importação do AC não realizada' src='img/status-pendente-importacao.gif'/></td>";
+							}else{
+								$s_html .= "<td align='center'><img title='AC importado, porém produção pendente' src='img/status-pendente.gif'/></td>";
+							}
+						}else{//se estiver tudo processado
+							$s_html .= "<td align = 'center'><img title='Processado e finalizado' src='img/status-sim.gif'/></td>";
+						}
+						
+					}else{
+						$s_html .="<td align='center'><img title='Não processado' vspace='4px' src='img/status-nao.gif'/></td>";
 					}
 					
-					for($i = 0; $i < $a_cells[0]; $i++){
-						if($i==0){
-							if($row[$i]==0){
-								$row[$i]="<img title='Não processado' vspace='4px' src='img/status-nao.gif'/>";
-							}else{
-								if($row[5]==$row[6]){
-									$row[$i]="<img title='Processado' src='img/status-sim.gif'/>";
-								}else{
-									$row[$i]="<img title='Processado e Pendente' src='img/status-pendente.gif'/>";
-								}
-							}
-							$s_html .= '<td align="center">'.$row[$i].'</td>';
-						}else{
-							if($i!=2){
-								if($i==6){
-									$s_html .= "<td><font>".utf8_encode($row[$i])."</font></td>";
-								}else{
-									$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';
-								}
-							}
+					for($i = 0; $i < $a_cells[0]-1; $i++){
+			
+						if($i !=1){										
+								$s_html .= '<td>'.$row[$i].'</td>';					
 						}
-					}
+
+					}//fim for
+			 }//fim while
 					
 					$s_html .= '</tr>';
 					$ordem++; //incrementa para nova ordem, ja que esta agrupado por espessura
-				
-				}
-			
+					
 			//Caso contr�rio prepara o array(grid) com os valores inseridos manualmente
-			}else{
+		}else{
 				
 				//Matriz com todos os resultados da tabela
 				$grid = $sth->fetchAll(PDO::FETCH_NUM);
