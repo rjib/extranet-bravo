@@ -231,3 +231,8 @@ function ocultarBotoes(){
 	$("#btSelecionarTudo").hide();
 	$("#btGerarArquivo").hide();
 }
+
+function legenda(){
+	$('#boxLegenda').dialog('open');
+	
+}
