@@ -129,11 +129,12 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 
 	$row['NU_COMPRIMENTO'] = $row['NU_COMPRIMENTO']+$unidadeComplementar;
 	if($nQuantidade!=0){
-		$row['QTD_PRODUTO'] = $nQuantidade;
+		$row['QTD_PRODUTO'] = intval($nQuantidade);
 		//$nQuantidade = 0; //zerando o temp quantidade
+	}else{
+		$row['QTD_PRODUTO'] = intval($row['QTD_PRODUTO']-$row['QTD_PROCESSADA']);
+		$nQuantidade=0;
 	}
-	$row['QTD_PRODUTO'] = intval($row['QTD_PRODUTO']-$row['QTD_PROCESSADA']);
-	$nQuantidade=0;
 
 	//COMPRIMENTO
 	$_COMPRIMENTO['multiplicadorAtivo']==0? $_COMPRIMENTO['multiplicadorAtivo']=1:$_COMPRIMENTO['multiplicadorAtivo']=$_COMPRIMENTO['multiplicadorAtivo'];
@@ -183,7 +184,7 @@ fwrite($handle,$row['DS_COR'].$row['NU_ESPESSURA'].'        4012750018400001001P
 
 //Escrevendo no arquivo
 for($i=0; $i<count($dadosArquivo);$i++){
-	fwrite($handle,$dadosArquivo[$i]."\n");
+	fwrite($handle,$dadosArquivo[$i]."\r\n");
 }
 
 //fecha o arquivo

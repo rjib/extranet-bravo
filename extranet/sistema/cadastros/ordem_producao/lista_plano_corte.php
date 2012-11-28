@@ -97,7 +97,7 @@ if($acoes['NO_MODULO'] == PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE){
 	            <tr> 
 		            <td valign="top">
                     <div id="grid" class="grid"></div>
-                    <div class="controls"></div>
+                    <div  id="controls" class="controls"></div>
                     <div id="console"></div>     
                     </td>
 	            </tr>
