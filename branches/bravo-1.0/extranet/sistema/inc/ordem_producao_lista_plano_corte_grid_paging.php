@@ -10,7 +10,7 @@ require_once APP_PATH.'sistema/helper.class.php';
 		public $s_where			= ''; 		//Claus�la where, se houver
 		public $s_orderby		= 'PCP_AD.CO_PCP_AD'; 	//Campo utilizado para ordena��o inicial
 		public $s_orientation	= 'DESC';	//ASC ou DESC
-		public $i_rowsperpage	= 30;		//Limite de registros visualizados por p�gina
+		public $i_rowsperpage	= 5;		//Limite de registros visualizados por p�gina
 		public $i_page			= 1;		//P�gina atual
 		public $i_link_limit	= 5;		//N�mero de links de p�ginas
 		public $a_columns		= null; 	//Array com as colunas inseridas pela fun��o addColumn
@@ -70,14 +70,13 @@ require_once APP_PATH.'sistema/helper.class.php';
 		
 		//Retorna o total de linhas encontradas, usado para montar o n�mero de p�ginas principalmente
 		public function total_rows(){
+			$query = "SELECT 
+					   	COUNT(*)
+					   FROM
+					   	tb_pcp_ad PCP_AD
+					   ";
 						
-			$sth = $this->dbh->prepare('SELECT 
-											COUNT(*)
-										FROM
-											tb_pcp_ad PCP_AD
-										INNER JOIN tb_pcp_op PCP_OP
-										ON PCP_AD.co_pcp_ad = PCP_OP.co_pcp_ad
-										WHERE '.$this->s_where);
+			$sth = $this->dbh->prepare($query);
 			$sth->execute();
 			$row = $sth->fetch(PDO::FETCH_NUM);
 			return $row[0];
@@ -289,7 +288,7 @@ require_once APP_PATH.'sistema/helper.class.php';
 						//22/11/2012 10:29:28
 						$pasta = $this->_helper->ajustarDataHoraPt_Br(utf8_encode($row[2]));
 						$ano = substr($pasta,6,4);
-						$s_html .= '<a title="Download Arquivo .Ad" href="'.URL.'downloadAD.php?arquivo='.$row[1].'&ano='.$ano.'" name="downloadArquivo"><img  class="link01" src="img/btn/bt_download.png" border="0"/></a>';
+						$s_html .= '<a title="Download Arquivo .Ad" href="../downloadAD.php?arquivo='.$row[1].'&ano='.$ano.'" name="downloadArquivo"><img  class="link01" src="img/btn/bt_download.png" border="0"/></a>';
 						if($abilita==true){	
 							$s_html .= '&nbsp;<a title="Importar AC" href="javascript:importarAC('.$row[0].','.$row[1].')" name="importarAC" id=".$row[0]."><img class="link01" src="img/btn/bt_importar.png" border="0"/></a>';
 						}else{

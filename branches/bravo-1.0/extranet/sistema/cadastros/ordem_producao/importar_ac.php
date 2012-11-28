@@ -58,7 +58,8 @@ if(isset($_POST['co_pcp_ad'])){
 				exit;
 			}
 			
-			$schema = $_helper->separaSchemas($matrizDados);			
+			$schema = $_helper->separaSchemas($matrizDados);	
+			sort($schema);		
 			$temp = 0;
 			for($i=0; $i<=count($schema)+1;$i++)
 			{
@@ -69,14 +70,14 @@ if(isset($_POST['co_pcp_ad'])){
 							## PERSISTENCIA DOS DADOS
 							//BR/BR          15002200002033501743010021PR006 -      1,17    0,018							
 							$nu_schema 		 = $i;
-							$ds_cor			 = trim(substr($schema[$i][$temp+1],0,15));
-							$nu_espessura	 = substr($schema[$i][$temp+1],15,3);
-							$qtd_pecas		 = substr($schema[$i][$temp+1],21,5);
-							$nu_comprimento  = substr($schema[$i][$temp+1],26,4);
-							$nu_largura  	 = substr($schema[$i][$temp+1],31,4);
-							$corteTemp 		 = substr($schema[$i][$temp+1],40,8);
+							$ds_cor			 = trim(substr($schema[$i][$temp+1],0,14));
+							$nu_espessura	 = substr($schema[$i][$temp+1],14,3);
+							$qtd_pecas		 = substr($schema[$i][$temp+1],20,5);
+							$nu_comprimento  = substr($schema[$i][$temp+1],25,4);
+							$nu_largura  	 = substr($schema[$i][$temp+1],30,4);
+							$corteTemp 		 = substr($schema[$i][$temp+1],39,8);
 							$pos 			 = strpos($corteTemp, ' '); 
-							$co_int_produto  = trim(substr($schema[$i][$temp+1],40,$pos));
+							$co_int_produto  = trim(substr($schema[$i][$temp+1],39,$pos));
 							$co_cor 		 = $_corModel->buscarCodCor($ds_cor);
 							$co_cor			 = $co_cor['co_cor'];
 							$lote			 = $_adModel->findByLote($co_pcp_ad);
@@ -85,8 +86,29 @@ if(isset($_POST['co_pcp_ad'])){
 								$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorteExistente($co_int_produto, $co_cor, $lote, $co_pcp_ad); //produtos dentro do arquivo AD
 								
 								if($co_pcp_op!=false){	
-																					
-									$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtd_pecas, $co_int_produto, $co_pcp_ac);
+									$total = $co_pcp_op[1];
+									$processadas = $qtd_pecas+$co_pcp_op[2];
+									if($total >= $processadas){																					
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtd_pecas, $co_int_produto, $co_pcp_ac);
+									}else{
+										$diferenca = $processadas-$total;
+										$qtd_pecas = $qtd_pecas - $diferenca;
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtd_pecas, $co_int_produto, $co_pcp_ac);
+										
+										$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($co_int_produto, $co_cor, $lote); //produtos fora do arquivo AD ou com outra op + produtos
+										if($co_pcp_op!=false){
+											array_push($divergencias, $co_pcp_op[0]);//lista os produtos divergentes
+											$divergencias = array_unique($divergencias);
+											$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $diferenca, $co_int_produto, $co_pcp_ac);
+										}else{//erro nao possui op cadastrado para os produtos adicionados a mais 											
+											unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
+											$_acModel->delete($co_pcp_ac);
+											$data['sucesso']= false;										
+											$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois não foi aberta OP para produção de <strong style='color:red;'>".$diferenca."</strong> peça(s) a mais para o produto ".$co_int_produto."</p>";
+											echo json_encode($data);
+											exit;
+										}
+									}
 								}else{
 									$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($co_int_produto, $co_cor, $lote); //produtos fora do arquivo AD
 									if($co_pcp_op!=false){
@@ -98,8 +120,7 @@ if(isset($_POST['co_pcp_ad'])){
 											unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
 											$_acModel->delete($co_pcp_ac);
 											$data['sucesso']= false;
-											//<p><span> <img src="img/atencao.png" hspace="3" /></span>
-											$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois este arquivo contém produto de lote diferente do arquivo <strong> ".$no_pcp_ad.".ad </strong>original, ou sua ordem de produção ainda não foi gerada. Importação será cancelada.</p>";
+											$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois este arquivo contém produto de lote diferente do arquivo <strong> ".$no_pcp_ad.".ad </strong>original.</p>";
 											echo json_encode($data);
 											exit;										
 									}								
