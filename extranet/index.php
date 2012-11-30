@@ -83,7 +83,7 @@
             <br />
            <?php
 	    echo "Por medidas de seguran&ccedil;a, voc&ecirc; est&aacute; sendo monitorado por nosso sistema.<br>";
-		echo "O IP $IpAcessoLogin foram gravados em nossos servidores<br>";
+		echo "O IP $IpAcessoLogin foi gravado em nosso servidore<br>";
 		echo "&nbsp;na data ".date("d-m-Y", strtotime($DtAcessoLogin))." e horário ".date("H:i:s", strtotime($HrAcessoLogin));
 	?>
     </p>
