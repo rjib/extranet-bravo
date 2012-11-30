@@ -12,7 +12,7 @@ require ('../../models/tb_pcp_ad_peca.php');
 require ('../../helper.class.php');
 
 //constantes de parametros
-$_DIMENSAOMINIMA = 240; //dimensao minima
+$_DIMENSAOMINIMA = DIMENSAO_MINIMA; //dimensao minima
 $_MM_ENTRE_PECA  = 5; //milimetros entre peças
 $_COR			 = array('numCaracter'=>15,'posPrimeiroCaracterer'=>1,'multiplicadorAtivo'=>0,'dadoNumerico'=>0);
 $_ESPESSURA 	 = array('numCaracter'=>3,'posPrimeiroCaracterer'=>16,'multiplicadorAtivo'=>10,'dadoNumerico'=>1);
@@ -85,14 +85,14 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	$row['NU_LARGURA'] =  str_replace(',','.',$row['NU_LARGURA']);
 	if($row['NU_LARGURA']<$_DIMENSAOMINIMA){
 
-		$n1 = $_DIMENSAOMINIMA/$row['NU_LARGURA'];
-		if((int)$n1<=$n1){
-			$n1 = (int)$n1+1;
+		if ($row['NU_LARGURA']>=56 && $row['NU_LARGURA']<100){
+			$n1 = 4;
+		}elseif($row['NU_LARGURA']<56){
+			$n1 = 8;
+		}elseif($row['NU_LARGURA']>=100 && $row['NU_LARGURA']<240){
+			$n1 = 2;
 		}
-
-		if($n1%2!=0){
-			$n1 = $n1+1;
-		}
+		
 		if($nQuantidade==0){
 			$nQuantidade = ($row['QTD_PRODUTO']-$row['QTD_PROCESSADA']);
 		}
@@ -110,15 +110,14 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 
 	$row['NU_COMPRIMENTO'] =  str_replace(',','.',$row['NU_COMPRIMENTO']);
 	if($row['NU_COMPRIMENTO']<$_DIMENSAOMINIMA){
-
-		$n1 = $_DIMENSAOMINIMA/floatval($row['NU_COMPRIMENTO']);
-		if((int)$n1<=$n1){
-			$n1 = (int)$n1+1;
+		if ($row['NU_COMPRIMENTO']>=56 && $row['NU_COMPRIMENTO']<100){
+			$n1 = 4; 
+		}elseif($row['NU_COMPRIMENTO']<56){
+			$n1 = 8;			
+		}elseif($row['NU_COMPRIMENTO']>=100 && $row['NU_COMPRIMENTO']<240){
+			$n1 = 2;			
 		}
 
-		if($n1%2!=0){
-			$n1 = $n1+1;
-		}
 		if($nQuantidade==0){
 			$nQuantidade = ($row['QTD_PRODUTO']-$row['QTD_PROCESSADA']);
 		}
@@ -167,6 +166,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	
 	array_push($dadosArquivo, $row['DS_COR'].$row['NU_ESPESSURA'].'        '.$ordemProducao.$row['NU_COMPRIMENTO'].' '.$row['NU_LARGURA'].$row['QTD_PRODUTO'].$veio.trim($row['CO_INT_PRODUTO']).' - '.$tempComprimento.'X'.$tempLargura.'X'.$tempEspessura);
 	$ordem++;
+	$nQuantidade=0;
 }//fim for
 
 //cria o arquivo (caso ele exista sera sobreescrito)
