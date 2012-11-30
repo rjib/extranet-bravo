@@ -202,7 +202,7 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 				</tr>
 				<tr>
 					<td align="left"><font class="FONT04"><b>Nome do Arquivo:</b></font></td>
-					<td colspan="3" align="left"><input type="text" name="nomeArquivo" id="nomeArquivo" class="INPUT01" size="20" maxlength="4" /></td>
+					<td colspan="3" align="left"><input type="text" name="nomeArquivo" id="nomeArquivo" class="INPUT01" size="20" maxlength="5" /></td>
 				</tr>
 				<tr>
 					<td colspan="4"><font class="FONT04"><b> Último arquivo inserido:</b></font>&nbsp;<span id="ultimoArquivoIns" class="FONTRED"><?php echo $rowAd[1]; ?></span>
