@@ -4,7 +4,7 @@
  * @author Ricardo S. Alvarenga
  * @since 11/11/2012
  */
-session_start();
+//session_start();
 
 class tb_modulos{
 

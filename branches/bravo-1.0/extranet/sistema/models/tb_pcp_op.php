@@ -103,6 +103,10 @@ class tb_pcp_op{
 		$sql = "SELECT ORDEM_PRODUCAO.co_pcp_op
 					   , ORDEM_PRODUCAO.qtd_produto
 					   , CONCAT(ORDEM_PRODUCAO.co_num,ORDEM_PRODUCAO.co_item,ORDEM_PRODUCAO.co_sequencia) 
+					   , ORDEM_PRODUCAO.qtd_processada
+					   , ORDEM_PRODUCAO.co_pcp_op
+					   , PRODUTO.nu_comprimento
+				       , PRODUTO.nu_largura
 				FROM tb_pcp_op ORDEM_PRODUCAO
 			        INNER JOIN
 			    tb_pcp_produto PRODUTO ON ORDEM_PRODUCAO.co_produto = PRODUTO.co_produto
