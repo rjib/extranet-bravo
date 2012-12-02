@@ -175,6 +175,11 @@ if (!file_exists($dir))
 {
 	mkdir($dir, 0755);
 }
+if(file_exists($_PATH.$nomeArquivo.".ad")){
+	$resposta = "<img src='img/atencao.png' hspace='3' /> N&atilde;o &eacute; poss&iacute;vel gerar o arquivo AD pois ja existe um arquivo com este nome.";
+	echo json_encode($resposta);
+	exit;
+}
 
 $handle = fopen($_PATH.$nomeArquivo.".ad", "w+");
 
