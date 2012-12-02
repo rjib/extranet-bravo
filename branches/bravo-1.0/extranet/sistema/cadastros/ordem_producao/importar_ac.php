@@ -61,11 +61,13 @@ if(isset($_POST['co_pcp_ad'])){
 			$schema = $_helper->separaSchemas($matrizDados);	
 			sort($schema);		
 			$temp = 0;
-			for($i=0; $i<=count($schema)+1;$i++)
+			for($i=0; $i<count($schema);$i++)
 			{
 				sort($schema[$i]);
+				
 				for($j=0; $j<count($schema[$i]); $j++)
 				{
+					if($j!=0){
 					if($schema[$i][$j]!='VAZIO'){
 						if(isset($schema[$i][$j])){
 							## PERSISTENCIA DOS DADOS
@@ -108,6 +110,9 @@ if(isset($_POST['co_pcp_ad'])){
 								}elseif($co_pcp_op[4]>=100 && $co_pcp_op[4]<240){
 									$processadas += $qtd_pecas*2;
 								}
+								if($processadas==0){
+									$processadas+= $qtd_pecas*1;
+								}	
 								
 								if($co_pcp_op[4]< DIMENSAO_MINIMA && $co_pcp_op[5]< DIMENSAO_MINIMA){
 									unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
@@ -165,9 +170,27 @@ if(isset($_POST['co_pcp_ad'])){
 								}else{
 									$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($co_int_produto, $co_cor, $lote); //produtos fora do arquivo AD
 									if($co_pcp_op!=false){
-										array_push($divergencias, $co_pcp_op[0]);//lista os produtos divergentes
+										if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
+											$processadas += $qtd_pecas*4;
+										}elseif($co_pcp_op[6]<56){
+											$processadas += $qtd_pecas*8;									
+										}elseif($co_pcp_op[6]>=100 && $co_pcp_op[6]<240){									
+											$processadas += $qtd_pecas*2;
+										}	
+		
+										if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //comprimento
+											$processadas += $qtd_pecas*4;
+										}elseif($co_pcp_op[5]<56){
+											$processadas += $qtd_pecas*8;
+										}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
+											$processadas += $qtd_pecas*2;
+										}
+										if($processadas==0){
+											$processadas+= $qtd_pecas*1;
+										}
+										array_push($divergencias, $co_pcp_op[0]);	//lista os produtos divergentes
 										$divergencias = array_unique($divergencias);
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtd_pecas, $co_int_produto, $co_pcp_ac);
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $co_int_produto, $co_pcp_ac);
 										
 									}else{
 											unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
@@ -195,6 +218,7 @@ if(isset($_POST['co_pcp_ad'])){
 					}
 					$temp++;
 				}
+			}
 
 			}
 			
