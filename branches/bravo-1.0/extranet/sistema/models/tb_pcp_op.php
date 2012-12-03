@@ -120,6 +120,32 @@ class tb_pcp_op{
 		return $row;
 	}
 	
+	public function getCoPcpOPPisDeUmPlanoDeCorteExistenteAD($co_int_prod,$co_cor,$nu_lote){
+		$sql = "SELECT DISTINCT
+				    ORDEM_PRODUCAO.co_pcp_op,
+				    ORDEM_PRODUCAO.qtd_produto,
+				    CONCAT(ORDEM_PRODUCAO.co_num,
+				            ORDEM_PRODUCAO.co_item,
+				            ORDEM_PRODUCAO.co_sequencia),
+				    ORDEM_PRODUCAO.qtd_processada,
+				    ORDEM_PRODUCAO.co_pcp_op,
+				    PRODUTO.nu_comprimento,
+				    PRODUTO.nu_largura
+				FROM
+				    tb_pcp_op ORDEM_PRODUCAO
+				        INNER JOIN
+				    tb_pcp_produto PRODUTO ON ORDEM_PRODUCAO.co_produto = PRODUTO.co_produto
+				        LEFT JOIN
+				    tb_pcp_ad_peca PCP_AD_PECA ON ORDEM_PRODUCAO.co_pcp_op = PCP_AD_PECA.co_pcp_op
+				WHERE ";
+		$sql .="PRODUTO.co_int_produto = '".$co_int_prod."'
+				        AND PRODUTO.co_cor = '".$co_cor."'
+				        AND ORDEM_PRODUCAO.nu_lote = '".$nu_lote."'
+				        AND ORDEM_PRODUCAO.co_pcp_op IN (SELECT DISTINCT AD_PECA2.co_pcp_op FROM tb_pcp_ad_peca AD_PECA2 INNER JOIN tb_pcp_op ORDEM_PRODUCAO2 ON ORDEM_PRODUCAO2.co_pcp_op = AD_PECA2.co_pcp_op WHERE ORDEM_PRODUCAO2.qtd_processada <> ORDEM_PRODUCAO2.qtd_produto)";
+		$row = mysql_fetch_row(mysql_query($sql,$this->conexaoERP));
+		return $row;
+	}
+	
 	/**
 	 * Metodo para retornar o co_pcp_op de um plano de corte que existe no arquivo AD
 	 * @param string $co_int_prod
