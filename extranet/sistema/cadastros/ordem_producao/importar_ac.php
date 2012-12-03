@@ -58,8 +58,11 @@ if(isset($_POST['co_pcp_ad'])){
 				exit;
 			}
 			
-			$schema = $_helper->separaSchemas($matrizDados);	
-			sort($schema);		
+			$schema = $_helper->separaSchemas($matrizDados);
+			sort($schema);
+			//sort($schema[0]);
+			//sort($schema[1]);
+			//sort($schema[2]);
 			$temp = 0;
 			for($i=0; $i<count($schema);$i++)
 			{
@@ -132,7 +135,7 @@ if(isset($_POST['co_pcp_ad'])){
 									## FIM CONTABILIZAR
 									
 									if($total >= $processadas){																					
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $co_int_produto, $co_pcp_ac);
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtPeca, $co_int_produto, $co_pcp_ac);
 										//$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										
 									}else{
@@ -196,7 +199,7 @@ if(isset($_POST['co_pcp_ad'])){
 											unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
 											$_acModel->delete($co_pcp_ac);
 											$data['sucesso']= false;
-											$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois este arquivo contém produto de lote diferente do arquivo <strong> ".$no_pcp_ad.".ad </strong>original.</p>";
+											$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois este arquivo contém produto de lote diferente do arquivo <strong> ".$no_pcp_ad.".ad </strong>original. Ou o produto ".$co_int_produto." já foi processado anteriormente, nesse caso é necessário gerar novo arquivo .ad</p>";
 											echo json_encode($data);
 											exit;										
 									}								
