@@ -36,10 +36,6 @@
 			echo "Informe o CPF";
 		}elseif (empty($rg)){
 			echo "Informe o RG";
-		}elseif (empty($orgaoExpedidor)){
-			echo "Informe o Org&atilde;o Expedidor";
-		}elseif (empty($dataEmissao)){
-			echo "Informe a Data Emiss&atilde;o";
 		}elseif ($sexo == "0"){			
 		    echo "Informe o Sexo";
 		}elseif (empty($dataNascimento)){	

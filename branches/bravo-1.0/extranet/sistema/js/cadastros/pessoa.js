@@ -169,6 +169,7 @@ $(function($) {
 						buttons: {
 							Ok: function() {
 								$( this ).dialog( "close" );
+								var codigoPessoa = $("#codigoPessoa").val(); 
 								 $("#gridContato").load("inc/cadastros/pessoa_alt_grid_contato.php?codigoPessoa="+codigoPessoa);
 							}
 						}
