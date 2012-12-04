@@ -202,7 +202,8 @@ class helper{
 
 		//BR/BR          1800910000000041000001000
 		//remove sobras
-		$temp = 0;
+		//$temp = 0;
+		sort($schema);
 		for($i=0; $i<count($schema);$i++)
 		{
 			if(count($schema[$i])==0)
@@ -211,14 +212,17 @@ class helper{
 				//$schema[$i]='VAZIO';
 								
 			}
+			sort($schema[$i]);
 			for($j=0; $j<count($schema[$i]); $j++)
 			{
-				$sobra = substr($schema[$i][$temp],40,2);
+				$sobra = substr($schema[$i][$j],40,2);
 				if($sobra=='  '){
 					//unset($schema[$i][$temp]);
-					$schema[$i][$temp]='VAZIO';
+					$schema[$i][$j]='VAZIO';
+				}elseif($sobra =='SO'){
+					$schema[$i][$j]='VAZIO';
 				}
-				$temp++;
+				//$temp++;
 				
 			}
 			

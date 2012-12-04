@@ -59,14 +59,11 @@ if(isset($_POST['co_pcp_ad'])){
 			}
 			
 			$schema = $_helper->separaSchemas($matrizDados);
-			sort($schema);
-			//sort($schema[0]);
-			//sort($schema[1]);
-			//sort($schema[2]);
+			//sort($schema);			
 			$temp = 0;
 			for($i=0; $i<count($schema);$i++)
 			{
-				sort($schema[$i]);
+				//sort($schema[$i]);
 				
 				for($j=0; $j<count($schema[$i]); $j++)
 				{
