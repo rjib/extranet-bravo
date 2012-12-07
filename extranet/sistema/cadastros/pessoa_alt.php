@@ -184,6 +184,7 @@ $(function($) {
 		$("#gridContato").load("inc/cadastros/pessoa_alt_grid_contato.php?codigoPessoa=<?php echo $rowPessoa['CO_PESSOA']; ?>");
 		$("#gridTelefone").load("inc/cadastros/pessoa_alt_grid_telefone.php?codigoPessoa=<?php echo $rowPessoa['CO_PESSOA']; ?>");
 		$("#gridEmail").load("inc/cadastros/pessoa_alt_grid_email.php?codigoPessoa=<?php echo $rowPessoa['CO_PESSOA']; ?>");
+		$("#gridEmpresa").load("inc/cadastros/pessoa_alt_grid_empresa.php?codigoPessoa=<?php echo $rowPessoa['CO_PESSOA']; ?>");
 		
 	});
 	
@@ -874,6 +875,7 @@ $(function($) {
                 <li><a title="Contatos" href="#tab2">Contatos</a></li>
                 <li><a title="Telefones" href="#tab3">Telefones</a></li>
                 <li><a title="E-mails" href="#tab4">E-mails</a></li>
+                <li><a title="Empresa" href="#tab6">Empresa</a></li>
     			</ul>
                 
                 <div class="tab_container">
@@ -938,7 +940,7 @@ $(function($) {
 		                          <td width="112" align="left"><input title="Cobran&ccedil;a" type="checkbox" name="cobrancaLogradouro" id="cobrancaLogradouro" value="S" /></td>
 		                          <td width="129" align="right"><font class="FONT04"><b>Correspond&ecirc;ncia:</b></font></td>
 		                          <td width="418" align="left"><input title="Correspond&ecirc;ncia" type="checkbox" name="correspondenciaLogradouro" id="correspondenciaLogradouro" value="S" /></td>
-  </tr>
+  								</tr>
 	                          </table>
 		                    </form>
                         </div>
@@ -1047,6 +1049,26 @@ $(function($) {
                         <br />
                         <div id="gridEmail"></div>     
 					</div>
+					
+					<!--  TAB EMPRESA -->
+                    <div id="tab6" class="tab_content">
+                    	 <div id="formularioEmpresa">
+                            <form id="formularioEmpresa" action="javascript:func()" method="post">
+		                    <table width="420" border="0" cellspacing="2" cellpadding="3">
+		                        <tr>
+		                          <td width="10" align="left"><font class="FONT04"><b>Empresa:</b></font>
+		                          <td align="left"><input type="text" id="nomeEmpresa" name="nomeEmpresa" autocomplete="off" class="INPUT01" size="50" maxlength="80"/>
+                                  <input type="hidden" id="codigoEmpresa" name="codigoEmpresa"/>
+                                  <input type="hidden" name="codigoPessoa" id="codigoPessoa" value="<?php echo $rowPessoa['CO_PESSOA']; ?>"/>
+                                  </td>
+	                            </tr>
+	                          </table>
+		                    </form>
+                        </div>
+                    	
+                    	<div id="botaoAdicionarEmpresa" ><button title="Adicionar Empresa" id="adicionarEmpresa">Adicionar Empresa</button></div>
+                    	<div id="gridEmpresa"></div>
+                    </div>
                     
     			</div>
                 

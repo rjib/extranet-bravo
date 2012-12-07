@@ -6,9 +6,9 @@
 	$searchfor = isset($_GET['searchfor']) ? $_GET['searchfor'] : '';
 	
 	$paging->table('tb_consultor CONSULTOR');
-	$paging->where('CONSULTOR.CO_CONSULTOR = "'.$searchfor.'" OR PESSOA_FISICA.CPF_PESSOA_FISICA LIKE "%'.$searchfor.'%" OR PESSOA.NO_PESSOA LIKE "%'.$searchfor.'%"');
-	$paging->labels('Código,Data Cadastro,CPF,Nome');
-	$paging->fields('CONSULTOR.CO_CONSULTOR,DT_CADAS,CPF_PESSOA_FISICA,PESSOA.NO_PESSOA');
+	$paging->where('CONSULTOR.CO_PRESTADOR = "'.$searchfor.'" OR PESSOA_FISICA.CPF_PESSOA_FISICA LIKE "%'.$searchfor.'%" OR PESSOA.NO_PESSOA LIKE "%'.$searchfor.'%"');
+	$paging->labels('Cï¿½digo,Data Cadastro,CPF,Nome');
+	$paging->fields('CONSULTOR.CO_PRESTADOR,DT_CADAS,CPF_PESSOA_FISICA,PESSOA.NO_PESSOA');
 	$paging->cols_width('60,120,120');
 	$paging->rowsperpage(30);
 	$paging->page(isset($_GET['p']) ? $_GET['p'] : 1);

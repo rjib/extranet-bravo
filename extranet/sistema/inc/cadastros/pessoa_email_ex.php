@@ -2,10 +2,13 @@
 
     require("../../setup.php");
 	
-	$codigoEmail = $_GET["codigoEmail"];
+	$codigoPessoa = $_GET["codigoEmail"];
+
+	$sql3 = "delete from tb_email where co_email = $codigoPessoa";
 	
-	$query = mysql_query("DELETE FROM tb_email WHERE CO_EMAIL = '".$codigoEmail."'");
-	if ($query) {
+	$queryPessoa = mysql_query($sql3,$conexaoERP);
+	
+	if ($queryPessoa) {
 		echo false;
 	}else {
 		echo "[Erro] - Não foi possível excluir o e-mail no momento.";

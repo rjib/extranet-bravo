@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#numeroCep').simpleAutoComplete('inc/auto_completa_cep.php',{
+$('#numeroCep').simpleAutoComplete('inc/auto_completa_cep.php',{
 	autoCompleteClassName: 'autocomplete',
 	selectedClassName: 'sel',
 	attrCallBack: 'rel',
@@ -49,6 +49,24 @@ $(document).ready(function(){
 	identifier: 'contato'
 	},nomeContatoEmailCallback);
 });
+
+$(document).ready(function(){
+    $('#nomeEmpresa').simpleAutoComplete('inc/auto_completa_empresa.php',{
+	autoCompleteClassName: 'autocomplete',
+	selectedClassName: 'sel',
+	attrCallBack: 'rel',
+	identifier: 'empresa'
+	},nomeEmpresaCallback);
+});
+
+function nomeEmpresaCallback(par){
+	if(par[0] == "naoEcontrou"){
+		$("#codigoEmpresa").val(""); 
+	    $("#nomeEmpresa").val("");
+	}
+    $("#codigoEmpresa").val( par[1] );
+}
+
 	
 function nomeContatoEmailCallback(par){
 	if(par[0] == "naoEcontrou"){
@@ -66,6 +84,7 @@ $(function($) {
 	$("#dataNascimento").mask("99/99/9999");
 	$("#telefoneContato").mask("(99) 9999-9999");
 	$("#dataInicioRenda").mask("99/99/9999");
+	$("#numeroCep").mask("99999-999");
 	
 	$("#clienteDesde").datepicker({
 	    maxDate: new Date()
@@ -105,7 +124,10 @@ $(function($) {
 		//$("#gridEndereco").load("inc/cadastros/pessoa_grid_endereco.php");
 		//$("#gridContato").load("inc/cadastros/pessoa_grid_contato.php");
 		//$("#gridTelefone").load("inc/cadastros/pessoa_grid_telefone.php");
-		//$("#gridEmail").load("inc/cadastros/pessoa_grid_email.php");
+		//var codigoPessoa = $("#codigoPessoa").val(); 
+		//$("#gridEmpresa").load("inc/cadastros/pessoa_alt_grid_empresa.php?codigoPessoa="+codigoPessoa);
+		 
+		
 			
 	});
 	
@@ -114,7 +136,7 @@ $(function($) {
 		var pessoaTipoFisica   = $("#pessoaTipoFisica").val();
 		var pessoaTipoJuridica = $("#pessoaTipoJuridica").val();
 		var pessoaTipo;
-		var nome               = $("#nome").val();
+		var nome             = $("#nome").val();
 		var email           = $("#email").val();
 		var site            = $("#site").val();
 		
@@ -169,8 +191,6 @@ $(function($) {
 						buttons: {
 							Ok: function() {
 								$( this ).dialog( "close" );
-								var codigoPessoa = $("#codigoPessoa").val(); 
-								 $("#gridContato").load("inc/cadastros/pessoa_alt_grid_contato.php?codigoPessoa="+codigoPessoa);
 							}
 						}
 					});
@@ -181,6 +201,7 @@ $(function($) {
 					$("#botaoAdicionarCliente").show('fast');
 					$("#botaoAdicionarTelefone").show('fast');
 					$("#botaoAdicionarEmail").show('fast');
+					$("#botaoAdicionarEmpresa").show('fast');
 															
 					// Atribuindo valor as campos					
 					$("#pessoaTipo").val();
@@ -267,9 +288,10 @@ $(function($) {
 						title: "Aten&ccedil;&atilde;o",
 						buttons: {
 							Ok: function() {
+								var codigoPessoa = $("#codigoPessoa").val();
 								$(this).dialog("close");
 								$("#confirmaExcluirPessoa").dialog("close");
-								 $("#gridContato").load("inc/cadastros/pessoa_alt_grid_contato.php?codigoPessoa="+codigoPessoa);
+								$("#grid").load("inc/cadastros/pessoa_grid.php");
 							}
 						}
 						});
@@ -284,7 +306,7 @@ $(function($) {
 			close: function() {
 				var nomeContato = $("#nomeContato").val();
 				var codigoPessoa  = $("#codigoPessoa").val();	
-				$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
+				//$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
 				$("#grid").load("inc/cadastros/pessoa_grid.php");
 			}
 	});
@@ -352,9 +374,10 @@ $(function($) {
 								title: 'Aten&ccedil;&atilde;o',
 								buttons: {
 									Ok: function() {
+										var codigoPessoa = $("#codigoPessoa").val();
 										$( this ).dialog( "close" );
 										$( "#formularioEndereco" ).dialog( "close" );
-										 //$("#gridContato").load("inc/cadastros/pessoa_alt_grid_contato.php?codigoPessoa="+codigoPessoa);
+										$("#gridEndereco").load("inc/cadastros/pessoa_grid_endereco.php?codigoPessoa="+codigoPessoa);
 										// $(window.document.location).attr("inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa+"#tab1");
 										// $(window.document.location).attr("href","inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa+"#tab1");
 									}
@@ -394,13 +417,80 @@ $(function($) {
 			}
 		},
 		close: function() {
+			var codigoPessoa = $("#codigoPessoa").val();
 		    $("#gridEndereco").load("inc/cadastros/pessoa_grid_endereco.php?codigoPessoa="+codigoPessoa);
-		    var nomeContato = $("#nomeContato").val();
-			var codigoPessoa  = $("#codigoPessoa").val();	
-			$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
+		    //var nomeContato = $("#nomeContato").val();
+			//var codigoPessoa  = $("#codigoPessoa").val();	
+			//$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
 			
 		}
 	});
+	
+
+	$("#formularioEmpresa").dialog({
+		autoOpen: false,
+		height: 300,
+		width: 450,
+		modal: true,
+		resizable: false,
+		title: 'Adicionar Empresa',
+		buttons: {
+			'Salvar': function() {
+												
+				var codigoPessoa   = $("#codigoPessoa").val();
+				var codigoEmpresa  = $("#codigoEmpresa").val();
+								
+				$.post('inc/cadastros/pessoa_empresa_ins.php', {codigoPessoa: codigoPessoa, codigoEmpresa:codigoEmpresa}, function(resposta) {
+																																																																																																				
+						if (resposta != false) {
+							$('<p>' + resposta + '</p>').dialog({
+								modal: true,
+								resizable: false,
+								title: 'Aten&ccedil;&atilde;o',
+								buttons: {
+									Ok: function() {
+										$( this ).dialog( "close" );
+									}
+								}
+							});
+						} 
+						else {
+							
+							$('<p>Cadastro efetuado com sucesso!</p>').dialog({
+								modal: true,
+								resizable: false,
+								height:150,
+								width:250,
+								title: 'Aten&ccedil;&atilde;o',
+								buttons: {
+									Ok: function() {
+										$( this ).dialog( "close" );
+										$( "#formularioEmpresa" ).dialog( "close" );																		
+										//$(window.document.location).attr("href","inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa+"#tab2");
+										 $("#gridEmpresa").load("inc/cadastros/pessoa_grid_empresa.php?codigoPessoa="+codigoPessoa+"#tab6");
+									}
+								}
+							});
+							
+							$("#nomeContato").val(""); 
+							
+						}
+				});
+								
+			},
+			'Cancelar': function() {
+				$(this).dialog("close");
+				$("#nomeContato").val(""); 
+			}
+		},
+		close: function() {
+			//var nomeContato = $("#nomeContato").val();
+			var codigoPessoa  = $("#codigoPessoa").val();	
+			//$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
+		   $("#gridEmpresa").load("inc/cadastros/pessoa_grid_empresa.php?codigoPessoa="+codigoPessoa+"#tab6");
+		}
+	});	
+	
 	
 	$("#formularioContato").dialog({
 		autoOpen: false,
@@ -440,8 +530,9 @@ $(function($) {
 										var nomeContato = $("#nomeContato").val();
 										var codigoPessoa  = $("#codigoPessoa").val();	
 										$( this ).dialog( "close" );
-										$( "#formularioContato" ).dialog( "close" );																		
-										//$(window.document.location).attr("href","inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa+"#tab2");
+										$( "#formularioContato" ).dialog( "close" );
+										$("#gridContato").load("inc/cadastros/pessoa_grid_contato.php?codigoPessoa="+codigoPessoa);
+										 
 									}
 								}
 							});
@@ -459,9 +550,8 @@ $(function($) {
 		},
 		close: function() {
 			var nomeContato = $("#nomeContato").val();
-			var codigoPessoa  = $("#codigoPessoa").val();	
-			$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
-		    $("#gridContato").load("inc/cadastros/pessoa_grid_contato.php?codigoPessoa="+codigoPessoa);
+			var codigoPessoa  = $("#codigoPessoa").val();			
+			 $("#gridContato").load("inc/cadastros/pessoa_grid_contato.php?codigoPessoa="+codigoPessoa);
 		}
 	});
 	
@@ -571,7 +661,7 @@ $(function($) {
 									Ok: function() {
 										$( this ).dialog( "close" );
 										$( "#formularioTelefone" ).dialog( "close" );
-										$(window.document.location).attr("href","inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa+"#tab3");
+										 $("#gridTelefone").load("inc/cadastros/pessoa_grid_telefone.php?codigoPessoa="+codigoPessoa);
 									}
 								}
 							});
@@ -597,9 +687,8 @@ $(function($) {
 		},
 		close: function() {
 			var nomeContato = $("#nomeContato").val();
-			var codigoPessoa  = $("#codigoPessoa").val();	
-			$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
-		    $("#gridTelefone").load("inc/cadastros/pessoa_grid_telefone.php?codigoPessoa="+codigoPessoa);
+			var codigoPessoa  = $("#codigoPessoa").val();			
+			 $("#gridTelefone").load("inc/cadastros/pessoa_grid_telefone.php?codigoPessoa="+codigoPessoa);
 		}
 	});
 	
@@ -642,7 +731,8 @@ $(function($) {
 									Ok: function() {
 										$( this ).dialog( "close" );
 										$( "#formularioEmail" ).dialog( "close" );
-										$(window.document.location).attr("href","inicio.php?pg=pessoa_alt&codigoPessoa="+codigoPessoa+"#tab4");
+										var codigoPessoa  = $("#codigoPessoa").val();
+										 $("#gridEmail").load("inc/cadastros/pessoa_grid_email.php?codigoPessoa="+codigoPessoa);
 									}
 								}
 							});
@@ -667,8 +757,7 @@ $(function($) {
 		close: function() {
 			var nomeContato = $("#nomeContato").val();
 			var codigoPessoa  = $("#codigoPessoa").val();	
-			$(window.document.location).attr('href','inicio.php?pg=pessoa_alt&codigoPessoa='+codigoPessoa);
-		    $("#gridEmail").load("inc/cadastros/pessoa_grid_email.php?codigoPessoa="+codigoPessoa);
+			 $("#gridEmail").load("inc/cadastros/pessoa_grid_email.php?codigoPessoa="+codigoPessoa);
 			
 		}
 	});
@@ -690,6 +779,11 @@ $(function($) {
 		.click(function() {
 		$( "#formularioEndereco" ).dialog( "open" );
 	});
+	$("#adicionarEmpresa")
+    .button()
+	.click(function() {
+	$( "#formularioEmpresa" ).dialog( "open" );
+});
 		
 	$("#adicionarContato")
 	    .button()

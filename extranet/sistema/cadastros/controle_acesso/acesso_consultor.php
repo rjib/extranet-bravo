@@ -49,7 +49,7 @@ if($acoes['NO_MODULO'] == CONTROLE_DE_ACESSO_CONSULTORES){
 														WHERE ACESSO_VISITANTE.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO 
 														AND ACESSO_VISITANTE.HR_SAIDA = '')
 											AND NOT EXISTS(SELECT null 
-														   FROM tb_acesso_consultor ACESSO_CONSULTOR
+														   FROM tb_acesso_prestador ACESSO_CONSULTOR
         												   WHERE ACESSO_CONSULTOR.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
                											   AND ACESSO_CONSULTOR.HR_SAIDA = '')
 											ORDER BY CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO")
@@ -58,23 +58,6 @@ if($acoes['NO_MODULO'] == CONTROLE_DE_ACESSO_CONSULTORES){
 			    history.back(-1);
 			</script>");
 	
-/* 	if(mysql_num_rows($sqlCartaoIdentificacao) == 0){
-	    echo "<script type='text/javascript' language='javascript'>
-		      $(function($) {
-			      $('<p>[Erro] - N&atilde;o existe Cart&atilde;o de Identifica&ccedil;&atilde;o cadastrado, por favor entre em contato com o Suporte.</p>').dialog({
-				      modal: true,
-				      resizable: false,
-				      title: 'Aten&ccedil;&atilde;o',
-				      buttons: {
-				      Ok: function() {
-				          $( this ).dialog( 'close' );
-				          $(window.document.location).attr('href','inicio.php');
-				      }
-				  }
-			  }); });
-			  </script>";
-	} */
-	 
 ?>
 <script type="text/javascript" src="js/cadastros/controle_acesso/acesso_consultor.js"></script>
 <script type="text/javascript" src="js/paging.js"></script>
@@ -162,7 +145,7 @@ if($acoes['NO_MODULO'] == CONTROLE_DE_ACESSO_CONSULTORES){
                     </form>
                   </div>
                   <?php if($acoes['FL_ADICIONAR']==1){?>
-                  <button type="button" id="adicionarAcessoConsultor" title="Adicionar Acesso Consultor">Adicionar Acesso Consultor</button>
+                  <button type="button" id="adicionarAcessoConsultor" title="Adicionar Acesso Prestador de Serviço">Adicionar Acesso Prestador de Serviço</button>
                   <?php }?>
                   </td>
               </tr>

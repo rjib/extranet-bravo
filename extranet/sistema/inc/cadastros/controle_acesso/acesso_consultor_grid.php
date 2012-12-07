@@ -5,11 +5,11 @@
 	
 	$searchfor = isset($_GET['searchfor']) ? $_GET['searchfor'] : '';
 	
-	$paging->table('tb_acesso_consultor ACESSO_CONSULTOR');
-	$paging->where('ACESSO_CONSULTOR.CO_CONSULTOR = "'.$searchfor.'" OR PESSOA_FISICA.CPF_PESSOA_FISICA LIKE "%'.$searchfor.'%"');
-	$paging->labels('Código,Data Cadastro,Data Acesso,Hora Entrada,Hora Saída,Cartão,Consultor');
-	$paging->fields('ACESSO_CONSULTOR.CO_ACESSO_CONSULTOR,DT_CADAS,DT_ACESSO_CONSULTOR,HR_ENTRADA,HR_SAIDA,NU_CARTAO_IDENTIFICACAO,NOME_PESSOA');
-	$paging->cols_width('60,110,90,85,70,60');
+	$paging->table('tb_acesso_prestador ACESSO_CONSULTOR');
+	$paging->where('ACESSO_CONSULTOR.CO_PRESTADOR = "'.$searchfor.'" OR PESSOA_FISICA.CPF_PESSOA_FISICA LIKE "%'.$searchfor.'%"');
+	$paging->labels('C&oacute;digo,Data Cadastro,Hora Entrada,Hora Sa&iacute;da,Cart&atilde;o,Prestador de Servi&ccedil;o');
+	$paging->fields('ACESSO_CONSULTOR.CO_ACESSO_CONSULTOR,DT_CADAS,HR_ENTRADA,HR_SAIDA,NU_CARTAO_IDENTIFICACAO,NOME_PESSOA');
+	$paging->cols_width('60');
 	$paging->rowsperpage(30);
 	$paging->page(isset($_GET['p']) ? $_GET['p'] : 1);
 	

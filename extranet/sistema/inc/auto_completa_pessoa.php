@@ -18,7 +18,7 @@
 										      ON PESSOA.CO_PESSOA = PESSOA_FISICA.CO_PESSOA
 										  LEFT JOIN tb_pessoa_juridica PESSOA_JURIDICA
 											  ON PESSOA.CO_PESSOA = PESSOA_JURIDICA.CO_PESSOA
-									  WHERE locate('".$q."',NO_PESSOA) > 0 ORDER BY locate('".$q."',NO_PESSOA) LIMIT 10");
+									  WHERE locate('".$q."',NO_PESSOA) > 0 ORDER BY locate('".$q."',NO_PESSOA) LIMIT 4");
 			if(mysql_num_rows($sqlPessoa) > 0){
 	    		echo '<ul>'."\n";
 	    		while($rowPessoa = mysql_fetch_array($sqlPessoa) ){
@@ -29,7 +29,7 @@
 	    		echo '</ul>';
 			}else{
 				echo "<ul>\n";
-				echo "\t<li id='autocomplete' rel='naoEcontrou'>".utf8_encode("<font class='FONT05'><b>Não encontrado!</b></font>")."</li>\n";
+				echo "\t<li id='autocomplete' rel='naoEcontrou'>".utf8_encode("<font class='FONT05'><b>N&atilde;o encontrado!</b></font>")."</li>\n";
 	    		echo "</ul>";
 			}
     	}

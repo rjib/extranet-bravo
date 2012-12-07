@@ -15,7 +15,7 @@
 		echo "Informe a Hora Saída";
 	}else {
 		
-		$query = mysql_query("UPDATE tb_acesso_consultor SET 
+		$query = mysql_query("UPDATE tb_acesso_prestador SET 
 		                          HR_SAIDA             = '".$horaSaidaInserir."'
 							      , CO_USUARIO_SAIDA = '".$_SESSION['codigoUsuario']."' 
 							  WHERE CO_ACESSO_CONSULTOR = '".$codigoAcessoConsultor."'");

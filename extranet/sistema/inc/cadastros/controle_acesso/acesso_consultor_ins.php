@@ -32,7 +32,7 @@
 		echo "A Placa do Veiculo deve ter 8 caracteres";
 	}else{
 		
-		$sqlAcessoConsultor= mysql_query("SELECT null FROM tb_acesso_consultor ac WHERE HR_SAIDA = '' AND CO_CARTAO_IDENTIFICACAO = '".$numeroCartao."'")
+		$sqlAcessoConsultor= mysql_query("SELECT null FROM tb_acesso_prestador ac WHERE HR_SAIDA = '' AND CO_CARTAO_IDENTIFICACAO = '".$numeroCartao."'")
 		or die("<script>
 					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 					history.back(-1);
@@ -47,7 +47,7 @@
 		if(mysql_num_rows($sqlAcessoConsultor) > 0 || mysql_num_rows($sqlAcessoVisitante)>0){
 			echo "[Erro] - Já existe um Acesso com este Número de Cartão de Identificação.";
 		}else{
-			$sqlAcessoConsultor= mysql_query("SELECT null FROM tb_acesso_consultor WHERE HR_SAIDA = '' AND CO_CONSULTOR = '".$codigoConsultor."'")
+			$sqlAcessoConsultor= mysql_query("SELECT null FROM tb_acesso_prestador WHERE HR_SAIDA = '' AND CO_PRESTADOR = '".$codigoConsultor."'")
 			or die("<script>
 						alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 						history.back(-1);
@@ -61,16 +61,16 @@
        										 AND av.co_pessoa = (select 
            										p.co_pessoa
         									 FROM
-            									tb_consultor c
+            									tb_prestador_servico c
                 							 INNER JOIN
             									tb_pessoa p ON p.co_pessoa = c.co_pessoa
         									 WHERE
-            									c.co_consultor = ".$codigoConsultor.");");
+            									c.co_prestador = ".$codigoConsultor.");");
 			if(mysql_num_rows($sqlAcessoConsultor) > 0 || mysql_num_rows($sqlAcessoVisitante)>0){
 				echo "[Erro] - Já existe um Acesso para este Consultor em aberto.";
 			}else{
-				$query = mysql_query("INSERT INTO tb_acesso_consultor (DT_ACESSO_CONSULTOR
-										  , CO_CONSULTOR
+				$query = mysql_query("INSERT INTO tb_acesso_prestador (DT_ACESSO_CONSULTOR
+										  , CO_PRESTADOR
 										  , HR_ENTRADA
 										  , CO_TIPO_VEICULO
 										  , PL_VEICULO
