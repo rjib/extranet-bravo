@@ -1,5 +1,6 @@
 
 <?php
+session_start();
 
 	/**
 	 * Formulario insercao de pessoa.
@@ -94,7 +95,7 @@
 	if(mysql_num_rows($sqlProfissao) == 0){
 	    echo "<script type='text/javascript' language='javascript'>
 		      $(function($) {
-			      $('<p>[Erro 9] - N&atilde;o existe Profissão cadastrada, por favor entre em contato com o Suporte.</p>').dialog({
+			      $('<p>[Erro 9] - N&atilde;o existe Profissï¿½o cadastrada, por favor entre em contato com o Suporte.</p>').dialog({
 				      modal: true,
 				      resizable: false,
 				      title: 'Aten&ccedil;&atilde;o',
@@ -339,6 +340,7 @@
                 <li><a title="Contatos" href="#tab2">Contatos</a></li>
                 <li><a title="Telefones" href="#tab4">Telefones</a></li>
                 <li><a title="E-mails" href="#tab5">E-mails</a></li>
+                 <li><a title="Empresa" href="#tab6">Empresa</a></li>
     			</ul>
                 
                 <div class="tab_container">
@@ -401,7 +403,7 @@
 		                          <td width="71"><font class="FONT04"><b>Cobran&ccedil;a:</b></font></td>
 		                          <td width="81"><input title="Cobran&ccedil;a" type="checkbox" name="cobrancaLogradouro" id="cobrancaLogradouro" value="S" /></td>
 		                          <td width="118"><font class="FONT04"><b>Correspond&ecirc;ncia:</b></font></td>
-		                          <td width="492"><input title="Correspondência" type="checkbox" name="correspondenciaLogradouro" id="correspondenciaLogradouro" value="S" /></td>
+		                          <td width="492"><input title="Correspondï¿½ncia" type="checkbox" name="correspondenciaLogradouro" id="correspondenciaLogradouro" value="S" /></td>
   </tr>
 	                          </table>
 		                    </form>
@@ -451,20 +453,11 @@
                                           }	
                                       ?>
 	                              </select></td>
-		                          <td width="118" align="left"><font class="FONT04"><b>Ficha Pessoa F&iacute;sica:</b></font></td>
-		                          <td width="92" align="left"><font class="FONT04"><b>
-		                            <select title="Ficha Pessoa F&iacute;sica" name="flagFichaPessoaFisicaTelefone" id="flagFichaPessoaFisicaTelefone" class="SELECT01">
-		                              <option value="N">N&atilde;o</option>
-		                              <option value="S">Sim</option>
-	                              </select>
-		                          </b></font></td>
+		                          
                               </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Telefone:</b></font></td>
 		                          <td colspan="3" align="left"><input title="Telefone" name="telefoneContato" id="telefoneContato" type="text" class="INPUT03" size="15" maxlength="14" /></td>
-	                          </tr>
-		                        <tr>
-		                          <td colspan="4" align="left"><font class="FONT05"><b>*Ficha Pessoa F&iacute;sica m&aacute;ximo de 3 (tr&ecirc;s telefones).</b></font></td>
 	                          </tr>
 	                          </table>
 		                    </form>
@@ -507,7 +500,25 @@
                         <br />
                         <div id="gridEmail"></div>     
 					</div>
-                    
+					
+					<!--  TAB EMPRESA -->
+                      <div id="tab6" class="tab_content">
+                    	 <div id="formularioEmpresa">
+                           <form id="formularioEmpresa" action="javascript:func()" method="post">
+		                    <table width="420" border="0" cellspacing="2" cellpadding="3">
+		                        <tr>
+		                          <td width="10" align="left"><font class="FONT04"><b>Empresa:</b></font>
+		                          <td align="left"><input type="text" id="nomeEmpresa" name="nomeEmpresa" autocomplete="off" class="INPUT01" size="50" maxlength="80"/>
+                                  <input type="hidden" id="codigoEmpresa" name="codigoEmpresa"/>                                 
+                                  </td>
+	                            </tr>
+	                          </table>
+		                    </form>
+                        </div>
+                    	
+                    	<div id="botaoAdicionarEmpresa" style="display: none;"><button title="Adicionar Empresa" id="adicionarEmpresa">Adicionar Empresa</button></div>
+                    	<div id="gridEmpresa"></div>
+                    </div>
     			</div>
                 
                 </td>

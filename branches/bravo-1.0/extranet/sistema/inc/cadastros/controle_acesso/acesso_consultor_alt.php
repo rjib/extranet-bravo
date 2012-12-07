@@ -27,7 +27,7 @@
 		echo "A Placa do Veiculo deve ter 8 caracteres";
 	}else {
 		
-		$query = mysql_query("UPDATE tb_acesso_consultor SET
+		$query = mysql_query("UPDATE tb_acesso_prestador SET
 		                          HR_ENTRADA                = '".$horaEntradaAlterar."'
 							      , CO_TIPO_VEICULO         = '".$tipoVeiculoAlterar."'
 							      , PL_VEICULO              = '".$placaVeiculoAlterar."'

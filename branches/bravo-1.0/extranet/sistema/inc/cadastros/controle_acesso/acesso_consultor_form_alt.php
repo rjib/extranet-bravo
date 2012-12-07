@@ -15,9 +15,9 @@
 									       , ACESSO_CONSULTOR.CO_CARTAO_IDENTIFICACAO
 									       , USUARIO_ENTRADA.LG_USUARIO AS LG_USUARIO_ENTRADA
 									       , USUARIO_SAIDA.LG_USUARIO AS LG_USUARIO_SAIDA					    
-									   FROM tb_acesso_consultor ACESSO_CONSULTOR
-									       INNER JOIN tb_consultor CONSULTOR
-										       ON ACESSO_CONSULTOR.CO_CONSULTOR = CONSULTOR.CO_CONSULTOR
+									   FROM tb_acesso_prestador ACESSO_CONSULTOR
+									       INNER JOIN tb_prestador_servico CONSULTOR
+										       ON ACESSO_CONSULTOR.CO_PRESTADOR = CONSULTOR.CO_PRESTADOR
 										   INNER JOIN tb_pessoa PESSOA
 										       ON CONSULTOR.CO_PESSOA = PESSOA.CO_PESSOA
 										   INNER JOIN tb_pessoa_fisica PESSOA_FISICA
@@ -66,7 +66,7 @@
 														WHERE ACESSO_VISITANTE.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO 
 														AND ACESSO_VISITANTE.HR_SAIDA = '')
 											AND NOT EXISTS(SELECT null 
-														   FROM tb_acesso_consultor ACESSO_CONSULTOR
+														   FROM tb_acesso_prestador ACESSO_CONSULTOR
         												   WHERE ACESSO_CONSULTOR.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
                											   AND ACESSO_CONSULTOR.HR_SAIDA = '')
 											UNION ALL

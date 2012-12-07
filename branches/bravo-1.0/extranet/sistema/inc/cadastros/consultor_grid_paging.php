@@ -211,11 +211,11 @@ session_start();
 			
 			//Formula a query
 			$sql = '
-				SELECT CONSULTOR.CO_CONSULTOR
+				SELECT CONSULTOR.CO_PRESTADOR
 				    , CONSULTOR.DT_CADAS
 				    , PESSOA_FISICA.CPF_PESSOA_FISICA
 					, PESSOA.NO_PESSOA
-				FROM tb_consultor CONSULTOR
+				FROM tb_prestador_servico CONSULTOR
 				    INNER JOIN tb_pessoa PESSOA
 				        ON CONSULTOR.CO_PESSOA = PESSOA.CO_PESSOA
 				    LEFT JOIN tb_pessoa_fisica PESSOA_FISICA

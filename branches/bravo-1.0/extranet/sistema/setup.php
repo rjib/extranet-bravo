@@ -20,7 +20,7 @@ define('CONFIGURACOES', 'Configurações');
 
 //SUBMODULOS
 define('CONTROLE_DE_ACESSO_VISITANTE', 'Visitantes');
-define('CONTROLE_DE_ACESSO_CONSULTORES', 'Consultores');
+define('CONTROLE_DE_ACESSO_CONSULTORES', 'Prestador de Serviço');
 
 define('CADASTROS_BAIRROS', 'Bairros');
 define('CADASTROS_CARGOS', 'Cargos');
@@ -28,7 +28,7 @@ define('CADASTROS_CARTAO_IDENTIFICACAO', 'Cartão Identificação');
 define('CADASTROS_CEP', 'CEPs');
 define('CADASTROS_CIDADE', 'Cidades');
 define('CADASTROS_COLABORADORES', 'Colaboradores');
-define('CADASTROS_CONSULTORES', 'Consultores');
+define('CADASTROS_CONSULTORES', 'Prestador de Serviço');
 define('CADASTROS_ESTADOS', 'Estados');
 define('CADASTROS_ESTADO_CIVIL', 'Estado Civil');
 define('CADASTROS_NIVEL_DE_FORMACAO', 'Nível de Formação');

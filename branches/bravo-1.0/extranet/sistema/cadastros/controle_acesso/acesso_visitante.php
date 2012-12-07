@@ -49,7 +49,7 @@ if($acoes['NO_MODULO'] == CONTROLE_DE_ACESSO_VISITANTE){
 														WHERE ACESSO_VISITANTE.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO 
 														AND ACESSO_VISITANTE.HR_SAIDA = '')
 											AND NOT EXISTS(SELECT null 
-														   FROM tb_acesso_consultor ACESSO_CONSULTOR
+														   FROM tb_acesso_prestador ACESSO_CONSULTOR
         												   WHERE ACESSO_CONSULTOR.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
                											   AND ACESSO_CONSULTOR.HR_SAIDA = '')
 											ORDER BY CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO")
@@ -57,23 +57,6 @@ if($acoes['NO_MODULO'] == CONTROLE_DE_ACESSO_VISITANTE){
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);
 			</script>");
-	
-/* 	if(mysql_num_rows($sqlCartaoIdentificacao) == 0){
-	    echo "<script type='text/javascript' language='javascript'>
-		      $(function($) {
-			      $('<p>[Erro] - N&atilde;o existe Cart&atilde;o de Identifica&ccedil;&atilde;o cadastrado, por favor entre em contato com o Suporte.</p>').dialog({
-				      modal: true,
-				      resizable: false,
-				      title: 'Aten&ccedil;&atilde;o',
-				      buttons: {
-				      Ok: function() {
-				          $( this ).dialog( 'close' );
-				          $(window.document.location).attr('href','inicio.php');
-				      }
-				  }
-			  }); });
-			  </script>";
-	} */
 	 
 ?>
 <script type="text/javascript" src="js/cadastros/controle_acesso/acesso_visitante.js"></script>

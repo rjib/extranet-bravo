@@ -4,7 +4,17 @@
 
     require("../../setup.php");
 	
-	if(empty($_SESSION['codigoPessoa'])){
+        if(empty($_SESSION['codigoPessoa'])){
+    	if(empty($_GET['codigoPessoa'])){
+    		
+    	}else{
+    		$codigoPessoa = $_GET['codigoPessoa'];
+    	}
+    }else{
+    	$codigoPessoa = $_SESSION['codigoPessoa'];
+    }
+    
+    if(empty($_SESSION['codigoPessoa']) && empty($_GET['codigoPessoa'])){
 		echo "<table width='100%' border='0' cellspacing='0' cellpadding='4' class='LISTA'>";
 		echo "<tr>";
 		echo "<th align='center'>";
@@ -24,7 +34,7 @@
 								            ON TELEFONE.CO_CONTATO = CONTATO.CO_CONTATO
 								        INNER JOIN tb_tipo_telefone TIPO_TELEFONE
 								            ON TELEFONE.CO_TIPO_TELEFONE = TIPO_TELEFONE.CO_TIPO_TELEFONE
-								    WHERE TELEFONE.CO_PESSOA = '".$_SESSION['codigoPessoa']."'",$conexaoERP)
+								    WHERE TELEFONE.CO_PESSOA = '".$codigoPessoa."'",$conexaoERP)
 	    or die(mysql_error());
 
 		if(mysql_num_rows($sqlTelefone) == 0){
@@ -105,7 +115,7 @@ $(document).ready(function(){
             <th width="350" align="left">Contato</th>
             <th width="250" align="left">Tipo Telefone</th>
             <th align="left">Telefone</th>
-            <th width="60">Acao</th>
+            <th width="60">Ação</th>
             </tr>
             </thead>
             <tbody>
