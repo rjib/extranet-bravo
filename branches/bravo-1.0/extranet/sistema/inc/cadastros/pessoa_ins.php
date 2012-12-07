@@ -40,16 +40,12 @@
 		    echo "Informe o Sexo";
 		}elseif (empty($dataNascimento)){	
 		    echo "Informe a Data Nascimento";
-		}elseif ($estadoCivil == "0"){			
-		    echo "Informe o Estado Civil";
 		}elseif ($nacionalidade == "0"){			
 		    echo "Informe a Nacionalidade";
 		}elseif ($codigoEstado == "0"){			
 		    echo "Informe a Unidade Federativa";
 		}elseif ($codigoCidade == "0"){			
 		    echo "Informe o Municipio";
-		}elseif ($nivelFormacao == "0"){			
-		    echo "Informe o Nivel de Formação";
 		}else{
 			
 			$query = mysql_query("INSERT INTO tb_pessoa (NO_PESSOA
@@ -195,5 +191,7 @@
 		}
 	
 	}
+	
+	//echo json_encode($codigoPesosa);
 	
 ?>

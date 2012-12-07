@@ -4,7 +4,7 @@
 
     require("../../setup.php");	
 	
-	if(empty($_GET['codigoPessoa'])){
+	if(empty($_SESSION['codigoPessoa'])){
 		echo "<table width='100%' border='0' cellspacing='0' cellpadding='4' class='LISTA'>";
 		echo "<tr>";
 		echo "<th align='center'>";
@@ -30,7 +30,7 @@
 									        ON BAIRRO.CO_MUNICIPIO = MUNICIPIO.CO_MUNICIPIO
 									    INNER JOIN tb_uf UF
 									        ON MUNICIPIO.CO_UF = UF.CO_UF
-									WHERE ENDERECO.CO_PESSOA = '".$_GET['codigoPessoa']."'",$conexaoERP)
+									WHERE ENDERECO.CO_PESSOA = '".$_SESSION['codigoPessoa']."'",$conexaoERP)
 	    or die(mysql_error());
 
 		if(mysql_num_rows($sqlEndereco) == 0){
@@ -131,7 +131,7 @@ $(document).ready(function(){
             <th width="180" align="left">Bairro</th>
              <th width="150" align="left">Estado</th>
             <th width="180" align="left">Municipio</th>
-            <th width="70"><?php echo utf8_encode("Ação"); ?></th>
+            <th width="70">AÃ§Ã£o</th>
             </tr>
             </thead>
             <tbody>

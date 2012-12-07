@@ -45,10 +45,10 @@ $co_papel = $_SESSION['codigoPapel'];
 												    <li class="topline"><a href="inicio.php?pg=acesso_visitante">Visitantes</a></li>
 												<?php
 												} 
-                                                $subControleAcessoConsultores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Controle de Acesso', 'Consultores');
+                                                $subControleAcessoConsultores = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Controle de Acesso', 'Prestador de Serviço');
                                                 if($subControleAcessoConsultores){
                                                 ?>
-                                                    <li><a href="inicio.php?pg=acesso_consultor">Consultores</a></li>
+                                                    <li><a href="inicio.php?pg=acesso_consultor">Prestador de Serviço</a></li>
                                                 <?php }?>
                         						</ul>
                                         	</li>

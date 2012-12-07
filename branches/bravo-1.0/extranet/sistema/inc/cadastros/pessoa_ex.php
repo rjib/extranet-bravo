@@ -1,56 +1,30 @@
 <?php
 
-    require("../../setup.php");
-	
-	$codigoPessoa = $_GET["codigoPessoa"];	
-	
-	$queryCliente = mysql_query("DELETE FROM tb_cliente WHERE CO_PESSOA = '".$codigoPessoa."'");
-	if($queryCliente){
+session_start();
+
+require("../../setup.php");
+
+$codigoPessoa = $_GET["codigoPessoa"];
+$sql1 = "delete from tb_contato where co_pessoa = $codigoPessoa";
+$sql2 = "delete from tb_telefone where co_pessoa = $codigoPessoa";
+$sql3 = "delete from tb_colaborador where co_pessoa = $codigoPessoa";
+
+$sql4 = "delete from tb_endereco where co_pessoa = $codigoPessoa";
+$sql5 = "delete from tb_prestador_servico where co_pessoa = $codigoPessoa";
+$sql6 = "delete from tb_pessoa where co_pessoa = $codigoPessoa";
 		
-		$queryPessoaJuridica = mysql_query("DELETE FROM tb_pessoa_juridica WHERE CO_PESSOA = '".$codigoPessoa."'");
-		if($queryPessoaJuridica){
-			
-			$queryPessoaFisica = mysql_query("DELETE FROM tb_pessoa_fisica WHERE CO_PESSOA = '".$codigoPessoa."'");
-			if($queryPessoaFisica){
-				
-				$queryColaborador = mysql_query("DELETE FROM tb_colaborador WHERE CO_PESSOA = '".$codigoPessoa."'");
-				if($queryColaborador){	
-				    
-					$queryContato = mysql_query("DELETE FROM tb_contato WHERE CO_PESSOA = '".$codigoPessoa."'");
-					if($queryContato){	
-						
-						$queryEndereco = mysql_query("DELETE FROM tb_endereco WHERE CO_PESSOA = '".$codigoPessoa."'");
-						if($queryEndereco){	
-						    	
-							$queryPessoa = mysql_query("DELETE FROM tb_pessoa WHERE CO_PESSOA = '".$codigoPessoa."'");
-							if($queryPessoa){	
-								echo false;
-							}else{
-								echo "[Erro] - Não foi possível excluir a Pessoa no momento.";
-							}
-							
-						}else{
-							echo "[Erro] - Não foi possível excluir o Endereço no momento.";
-						}
-												
-					}else{
-						echo "[Erro] - Não foi possível excluir o Contato no momento.";
-					}
-										
-				}else{
-					echo "[Erro] - Não foi possível excluir o Colaborador no momento.";
-				}
-							
-			}else{
-				echo "[Erro] - Não foi possível excluir a Pessoa Fisica no momento.";
-			}
-			
-		}else{
-		    echo "[Erro] - Não foi possível excluir a Pessoa Juridica no momento.";
-	    }
-		
-	}else{
-		echo "[Erro] - Não foi possível excluir o cliente no momento.";
-	}
+
+$queryPessoa = mysql_query($sql1,$conexaoERP);
+$queryPessoa = mysql_query($sql2,$conexaoERP);
+$queryPessoa = mysql_query($sql3,$conexaoERP);
+$queryPessoa = mysql_query($sql4,$conexaoERP);
+$queryPessoa = mysql_query($sql5,$conexaoERP);
+$queryPessoa = mysql_query($sql6,$conexaoERP);
+
+if($queryPessoa){
+	echo false;
+}else{
+	echo "[Erro] - Não foi possível excluir a Pessoa no momento.";
+}
 	
 ?>

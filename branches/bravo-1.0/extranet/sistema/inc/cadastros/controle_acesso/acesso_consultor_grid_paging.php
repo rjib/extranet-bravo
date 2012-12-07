@@ -69,7 +69,7 @@
 		public function total_rows(){
 			
 			$sth = $this->dbh->prepare('SELECT COUNT(*) 
-										FROM tb_acesso_consultor ACESSO_CONSULTOR
+										FROM tb_acesso_prestador ACESSO_CONSULTOR
 										WHERE '.$this->s_where);
 			$sth->execute();
 			$row = $sth->fetch(PDO::FETCH_NUM);
@@ -214,20 +214,20 @@
 			$sql = '
 				SELECT ACESSO_CONSULTOR.CO_ACESSO_CONSULTOR
 				    , ACESSO_CONSULTOR.DT_CADAS
-					, DATE_FORMAT(ACESSO_CONSULTOR.DT_ACESSO_CONSULTOR, "%d/%m/%Y") AS DT_ACESSO_CONSULTOR
 					, ACESSO_CONSULTOR.HR_ENTRADA
 					, ACESSO_CONSULTOR.HR_SAIDA		
 					, CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO
-					, CONCAT(PESSOA_FISICA.CPF_PESSOA_FISICA," - ", PESSOA.NO_PESSOA) AS NOME_PESSOA	
-				FROM tb_acesso_consultor ACESSO_CONSULTOR
-				    INNER JOIN tb_consultor CONSULTOR
-					    ON ACESSO_CONSULTOR.CO_CONSULTOR = CONSULTOR.CO_CONSULTOR
+					, CONCAT (PESSOA.no_pessoa," [",(SELECT no_pessoa FROM tb_pessoa WHERE co_pessoa = JURIDICA.co_pessoa),"] ") AS NOME_PESSOA	
+				FROM tb_acesso_prestador ACESSO_CONSULTOR
+				    INNER JOIN tb_prestador_servico CONSULTOR
+					    ON ACESSO_CONSULTOR.CO_PRESTADOR = CONSULTOR.CO_PRESTADOR
 				    INNER JOIN tb_pessoa PESSOA
 				        ON CONSULTOR.CO_PESSOA = PESSOA.CO_PESSOA
 				    INNER JOIN tb_pessoa_fisica PESSOA_FISICA
 				        ON PESSOA.CO_PESSOA = PESSOA_FISICA.CO_PESSOA
 					INNER JOIN tb_cartao_identificacao CARTAO_IDENTIFICACAO
 					    ON ACESSO_CONSULTOR.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
+					INNER JOIN tb_pessoa_juridica JURIDICA ON JURIDICA.co_pessoa_juridica = CONSULTOR.co_pessoa_juridica
 				WHERE '.$this->s_where.'
 				ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
 				LIMIT '.$n.','.$this->i_rowsperpage;
@@ -279,7 +279,7 @@
 					
 					$s_html .= '<td align="center">';
 					
-					if($row[4] == ""){
+					if($row[3] == ""){
 						if($acoes['FL_ADICIONAR']==1){
 					    $s_html .= '<a title="Informar Hora Saida" href="#" name="inserirHoraSaidaAcessoConsultor" id="'.$row[0].'"><img src="img/btn/btn_clock.gif" width="25" height="19" border="0"/></a>';
 						}

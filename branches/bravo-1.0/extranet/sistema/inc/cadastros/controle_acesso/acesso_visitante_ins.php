@@ -37,7 +37,7 @@
 					history.back(-1);
 				</script>");
 				
-		$sqlAcessoConsultor= mysql_query("SELECT null FROM tb_acesso_consultor ac WHERE HR_SAIDA = '' AND CO_CARTAO_IDENTIFICACAO = '".$numeroCartao."'")
+		$sqlAcessoConsultor= mysql_query("SELECT null FROM tb_acesso_prestador_servico ac WHERE HR_SAIDA = '' AND CO_CARTAO_IDENTIFICACAO = '".$numeroCartao."'")
 		or die("<script>
 					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 					history.back(-1);
@@ -53,10 +53,10 @@
 					</script>");
 			
 			$sqlAcessoConsultor = mysql_query("SELECT ac . * 
-												FROM tb_acesso_consultor ac
+												FROM tb_acesso_prestador_servico ac
 												 WHERE ac.hr_saida = '' 
 												 AND ac.co_consultor = (SELECT c.co_consultor 
-												 						FROM tb_consultor c 
+												 						FROM tb_prestador_servico c 
 																		INNER JOIN tb_acesso_visitante av 
 																		ON c.co_pessoa = av.co_pessoa
 																		WHERE av.co_pessoa = '".$codigoVisitante."' LIMIT 1);")
