@@ -290,13 +290,17 @@ require_once APP_PATH.'sistema/helper.class.php';
 						$ano = substr($pasta,6,4);
 						$s_html .= '<a title="Download Arquivo .Ad" href="../downloadAD.php?arquivo='.$row[1].'&ano='.$ano.'" name="downloadArquivo"><img  class="link01" src="img/btn/bt_download.png" border="0"/></a>';
 						if($abilita==true){	
-							$s_html .= '&nbsp;<a title="Importar AC" href="javascript:importarAC('.$row[0].','.$row[1].')" name="importarAC" id=".$row[0]."><img class="link01" src="img/btn/bt_importar.png" border="0"/></a>';
+							$s_html .= '&nbsp;<a title="Importar AC" href="javascript:importarAC('.$row[0].','.$row[1].')" name="importarAC" id='.$row[0].'><img class="link01" src="img/btn/bt_importar.png" border="0"/></a>';
 						}else{
-							$s_html .= '&nbsp;<a title="Importação ja foi realizada" name="importarAC" id=".$row[0]."><img src="img/btn/bt_importar_disabled.png" border="0"/></a>';
+							$s_html .= '&nbsp;<a title="Importação ja foi realizada" name="importarAC" id='.$row[0].'><img src="img/btn/bt_importar_disabled.png" border="0"/></a>';
 						}
 					}
 					
-					$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="javascript:void(0)" name="gerarEtiqueta" id=".$row[0]."><img class="link02" src="img/btn/bt_etiqueta.png" border="0"/></a>';
+					if($abilita!=true){
+						$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="javascript:gerarEtiqueta('.$row[0].','.$row[1].')" name="gerarEtiqueta" id='.$row[0].'><img class="link02" src="img/btn/bt_etiqueta.png" border="0"/></a>';
+					}else{
+						
+					}
 					$s_html .= '</td>';
 					$s_html .= '</tr>';
 				

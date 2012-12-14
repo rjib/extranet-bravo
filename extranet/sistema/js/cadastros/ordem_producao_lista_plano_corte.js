@@ -139,12 +139,14 @@ $(document).ready(function(){
 	    })
 
 });
+
 function importarAC(co_pcp_ad,no_pcp_ad){
 		$("#arquivoOrigem").html(no_pcp_ad+'.ad');
 		$("#boxImportarAC").dialog('open');
 		$("#nomeAD").val(no_pcp_ad);
 		$("#co_pcp_ad").val(co_pcp_ad);
 }
+
 function getNameArquivo(){
 	$nomeArquivo = $("#arquivo_ac").val();
 	if ($nomeArquivo != "") {
@@ -152,5 +154,15 @@ function getNameArquivo(){
 	} else {
 		$("#arquivoSelecionado").html('Nenhum');
 	}
+	
+}
+
+function gerarEtiqueta(co_pcp_ad, no_pcp_ad){
+	$.post('cadastros/ordem_producao/gerarEtiqueta.php',{co_pcp_ad:co_pcp_ad, no_pcp_ad:no_pcp_ad}, function(data){
+			if(data.sucesso==true){
+				
+			}
+		
+	});
 	
 }

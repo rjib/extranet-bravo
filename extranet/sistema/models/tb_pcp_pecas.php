@@ -103,5 +103,25 @@ class tb_pcp_pecas{
 		return $result;
 	
 	}
+	
+	/**
+	 * Metodo para buscar pecas para gerar etiqueta
+	 * @param int $co_pcp_ad	chave primaria da tabela de arquivo ad
+	 * @author Ricardo S. Alvarenga
+	 * @since 10/12/2012
+	 */
+	public function findPecasByAD($co_pcp_ad){
+		$query = "select 
+					sum(qtd_pecas) QTD_PECAS, 
+					PCP_PECA.CO_PCP_OP, 
+					PCP_PECA.CO_PCP_AC,
+					PCP_PECA.CO_INT_PRODUTO
+				   from tb_pcp_ac PCP_AC inner join tb_pcp_ac_peca PCP_PECA
+				  on PCP_AC.co_pcp_ac = PCP_PECA.co_pcp_ac 
+				   where co_pcp_ad = ".$co_pcp_ad. " group by co_pcp_op";
+		$result = mysql_query($query, $this->conexaoERP);
+		return $result;
+		
+	}
 }
 ?>
