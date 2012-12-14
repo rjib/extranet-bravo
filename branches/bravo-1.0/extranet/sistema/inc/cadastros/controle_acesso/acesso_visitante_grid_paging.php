@@ -70,7 +70,7 @@
 			
 			$sth = $this->dbh->prepare('SELECT COUNT(*) 
 										FROM tb_acesso_visitante ACESSO_VISITANTE
-										WHERE '.$this->s_where);
+										');
 			$sth->execute();
 			$row = $sth->fetch(PDO::FETCH_NUM);
 			return $row[0];

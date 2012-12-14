@@ -32,7 +32,7 @@ $(function($) {
 		width: 530,
 		modal: true,
 		resizable: false,
-		title: 'Adicionar novo Acesso Consultor',
+		title: 'Adicionar novo Acesso Prestador de Serviço',
 		buttons: {
 			'Salvar': function() {
 												

@@ -247,5 +247,38 @@ class tb_pcp_op{
 		return true;
 		
 	}
+	
+	/**
+	 * Metodo para retornar uma op
+	 * @param int $co_pcp_op	Primary key da tabela pcp_op
+	 * @author Ricardo S. Alvarenga
+	 * @since 23/11/2012
+	 * @return multitype:
+	 */
+	public function getProduto($co_pcp_op){
+		$query  = "SELECT 
+					    CONCAT(co_num, co_item, co_sequencia) NUM_OP,
+					    OP.QTD_PRODUTO,
+					    OP.DT_EMISSAO,
+					    OP.NU_LOTE,
+					    PRODUTO.DS_PRODUTO,
+					    PRODUTO.CO_INT_PRODUTO,
+					    PRODUTO.TP_PRODUTO,
+					    COR.NO_COR,
+					    PRODUTO.NU_ESPESSURA,
+					    PRODUTO.NU_COMPRIMENTO,
+					    PRODUTO.NU_LARGURA
+					FROM
+					    tb_pcp_op OP
+					        INNER JOIN
+					    tb_pcp_produto PRODUTO ON OP.co_produto = PRODUTO.co_produto
+					        INNER JOIN
+					    tb_pcp_cor COR ON PRODUTO.co_cor = COR.co_cor
+					WHERE
+					    OP.co_pcp_op = ".$co_pcp_op;
+		$result = mysql_query($query, $this->conexaoERP);
+		$row    = mysql_fetch_array($result);
+		return $row;
+	}
 		
 }//fim classe
