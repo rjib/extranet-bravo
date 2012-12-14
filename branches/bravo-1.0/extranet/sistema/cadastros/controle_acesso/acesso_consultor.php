@@ -98,7 +98,7 @@ if($acoes['NO_MODULO'] == CONTROLE_DE_ACESSO_CONSULTORES){
                             <form id="formularioAcessoConsultor" action="javascript:func()" method="post">
 		                    <table width="490" border="0" cellspacing="2" cellpadding="3">
 		                        <tr>
-		                          <td width="95" align="left"><font class="FONT04"><b>Consultor:</b></font></td>
+		                          <td width="95" align="left"><font class="FONT04"><b>Prestador de Serviço:</b></font></td>
 		                          <td colspan="3" align="left">
                                   <input title="Consultor" name="nomeConsultor" id="nomeConsultor" type="text" class="INPUT01" size="55" maxlength="80" autocomplete="off"/>
                                   <input type="hidden" id="codigoConsultor" name="codigoConsultor"/>

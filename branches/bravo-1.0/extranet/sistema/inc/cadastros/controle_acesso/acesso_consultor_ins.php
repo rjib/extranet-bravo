@@ -87,7 +87,7 @@
 				if($query){
 					echo false;
 				}else{
-					echo "[Erro] - Não foi possível inserir o Acesso Consultor no momento.";
+					echo "[Erro] - Não foi possível inserir o Acesso Prestador de serviço no momento.";
 				}
 			}
 			
