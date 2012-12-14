@@ -1,0 +1,290 @@
+CREATE TABLE "TOPTES01"."TOTVS_LOG"(
+    "CO_LOG"   NUMBER NOT NULL ENABLE,
+    "TB_LOG"   VARCHAR2(6) NOT NULL ENABLE,
+    "TP_LOG"   VARCHAR2(6) NOT NULL ENABLE,
+	"R_E_C_N_O_" NUMBER NOT NULL ENABLE,
+    "FL_LOG"   CHAR(1) NOT NULL ENABLE
+)
+
+####################
+
+CREATE SEQUENCE "TOPTES01"."SEQ_TOTVS_LOG" 
+    MINVALUE 1 
+	MAXVALUE 999999999999999999 
+	INCREMENT BY 1 
+	START WITH 1 
+	NOCACHE 
+	NOORDER 
+	NOCYCLE; 
+
+####################
+
+create or replace
+TRIGGER TOPTES01.TRG_SB1010_TOTVS_LOG 
+
+    AFTER INSERT OR UPDATE OR DELETE ON SB1010
+    REFERENCING NEW AS NEW OLD AS OLD       
+    FOR EACH ROW  
+    BEGIN  
+		
+        IF INSERTING THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SB1010'
+                , 'Insert'
+                , :new.R_E_C_N_O_
+                , 'N'); 
+        ELSIF UPDATING('D_E_L_E_T_') THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SB1010'
+                , 'Delete'
+                , :new.R_E_C_N_O_
+                , 'N');
+        ELSIF UPDATING THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SB1010'
+                , 'Update'
+                , :new.R_E_C_N_O_
+                , 'N');
+        ELSIF DELETING THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SB1010'
+                , 'Delete'
+                , :old.R_E_C_N_O_
+                , 'N');		 
+        END IF;
+    
+    END;
+
+####################
+
+create or replace
+TRIGGER TOPTES01.TRG_SC2010_TOTVS_LOG 
+
+    AFTER INSERT OR UPDATE OR DELETE ON SC2010
+    REFERENCING NEW AS NEW OLD AS OLD       
+    FOR EACH ROW  
+    BEGIN  
+		
+        IF INSERTING THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SC2010'
+                , 'Insert'
+                , :new.R_E_C_N_O_
+                , 'N'); 
+        ELSIF UPDATING('D_E_L_E_T_') THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SC2010'
+                , 'Delete'
+                , :new.R_E_C_N_O_
+                , 'N');
+        ELSIF UPDATING THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SC2010'
+                , 'Update'
+                , :new.R_E_C_N_O_
+                , 'N');
+        ELSIF DELETING THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SC2010'
+                , 'Delete'
+                , :old.R_E_C_N_O_
+                , 'N');			 
+        END IF;
+    
+    END;
+
+####################
+
+create or replace
+TRIGGER TOPTES01.TRG_SX5010_TOTVS_LOG 
+
+    AFTER INSERT OR UPDATE OR DELETE ON SX5010
+    REFERENCING NEW AS NEW OLD AS OLD       
+    FOR EACH ROW  
+    BEGIN  
+		
+        IF INSERTING THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SX5010'
+                , 'Insert'
+                , :new.R_E_C_N_O_
+                , 'N'); 
+        ELSIF UPDATING('D_E_L_E_T_') THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SX5010'
+                , 'Delete'
+                , :new.R_E_C_N_O_
+                , 'N');
+        ELSIF UPDATING THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SX5010'
+                , 'Update'
+                , :new.R_E_C_N_O_
+                , 'N');
+        ELSIF DELETING THEN
+            INSERT INTO TOTVS_LOG (CO_LOG
+                , TB_LOG
+                , TP_LOG
+                , R_E_C_N_O_
+                , FL_LOG) 
+            VALUES (SEQ_TOTVS_LOG.nextval
+                , 'SX5010'
+                , 'Delete'
+                , :old.R_E_C_N_O_
+                , 'N');			 
+        END IF;
+    
+    END;
+
+####################
+	
+Conexão Totvs Teste01
+
+IP: 192.168.0.8
+Porta: 1521
+SID: TOPORA
+Usuario: TOPTES01
+Senha: TOPTES01
+
+####################
+
+Conexão MySQL
+
+IP: 192.168.0.6
+Porta: 3306
+Usuario: root
+Senha: [SEM SENHA]
+
+####################
+
+SELECT CO_LOG, TB_LOG, TP_LOG, R_E_C_N_O_ FROM TOTVS_LOG WHERE FL_LOG = 'N'
+
+####################
+
+SELECT C2_NUM
+    , C2_ITEM
+    , C2_SEQUEN
+    , C2_PRODUTO
+    , C2_QUANT
+    , C2_QUJE
+    , C2_EMISSAO
+    , C2_DATRF
+    , C2_LOTBRA
+    , R_E_C_N_O_
+FROM SC2010
+WHERE R_E_C_N_O_ = ''
+
+INSERT INTO tb_pcp_op (CO_NUM
+    , CO_ITEM
+    , CO_SEQUENCIA
+    , CO_PRODUTO
+    , QTD_PRODUTO
+    , QTD_PRODUZIDA
+    , DT_EMISSAO
+    , DT_FIM
+    , NU_LOTE
+    , CO_RECNO)
+VALUES()
+
+SELECT B1_COD
+    , B1_CODINT
+    , B1_COR
+    , B1_DESC
+    , B1_TIPO
+    , B1_UM
+    , B1_LINHA
+    , B1_X
+    , B1_Y
+    , B1_Z
+    , B1_PESO
+    , R_E_C_N_O_
+FROM SB1010 
+WHERE R_E_C_N_O_ = ''
+
+INSERT INTO tb_pcp_produto (CO_PRODUTO
+    , CO_INT_PRODUTO
+    , CO_COR
+    , DS_PRODUTO
+    , TP_PRODUTO
+    , TP_UNIDADE
+    , CO_LINHA
+    , NU_COMPRIMENTO
+    , NU_LARGURA
+    , NU_ESPESSURA
+    , NU_PESO
+    , CO_RECNO)
+VALUES()
+
+SELECT X5_CHAVE
+    , X5_DESCRI
+    , X5_DESCSPA
+    , R_E_C_N_O_
+FROM SX5010
+WHERE R_E_C_N_O_ = ''
+
+INSERT INTO tb_pcp_cor (CO_COR
+    , NO_COR
+    , DS_COR
+    , CO_RECNO)
+VALUES()
+
+####################
+
+UPDATE TOTVS_LOG SET 
+    FL_LOG = 'S'
+WHERE CO_LOG = ''
