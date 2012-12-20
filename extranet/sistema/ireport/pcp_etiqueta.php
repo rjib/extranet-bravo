@@ -49,6 +49,11 @@ $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db);
 //$PHPJasperXML->outpage("F",APP_PATH.'barcodes'.DS.date("dmYhis").".pdf");    //page output method I:standard output  D:Download file
 $PHPJasperXML->outpage("I",date("dmYhis"));    //page output method I:standard output  D:Download file
 
+$result = $_etiqueta->listaCodigoBarra($co_pcp_ac);
+while ($dados = mysql_fetch_array($result)){
+	unlink(APP_PATH.'barcodes'.DS.$dados['NU_PCP_OP'].'.gif');
+}
+
 $data=true;
 
 
