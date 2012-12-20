@@ -59,6 +59,5 @@ $co_pcp_ac	   = $dados['CO_PCP_AC'];
 gerar($co_pcp_ac);
 $data=true;
 //echo json_encode($data);
-
 ?>
 

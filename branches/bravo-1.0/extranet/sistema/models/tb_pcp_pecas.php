@@ -118,7 +118,7 @@ class tb_pcp_pecas{
 					PCP_PECA.CO_INT_PRODUTO
 				   from tb_pcp_ac PCP_AC inner join tb_pcp_ac_peca PCP_PECA
 				  on PCP_AC.co_pcp_ac = PCP_PECA.co_pcp_ac 
-				   where co_pcp_ad = ".$co_pcp_ad. " group by co_pcp_op";
+				   where co_pcp_ad = ".$co_pcp_ad. " group by co_pcp_op order by PCP_PECA.co_int_produto asc";
 		$result = mysql_query($query, $this->conexaoERP);
 		return $result;
 		

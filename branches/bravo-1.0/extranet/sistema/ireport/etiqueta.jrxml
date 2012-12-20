@@ -17,7 +17,7 @@
 FROM
     TB_PCP_ETIQUETA ETIQUETA
 WHERE
-    ETIQUETA.CO_PCP_AC = $P{CO_PCP_AC};]]>
+    ETIQUETA.CO_PCP_AC = $P{CO_PCP_AC} ORDER BY ETIQUETA.CO_INT_PRODUTO ASC]]>
 	</queryString>
 	<field name="EMP_MAX" class="java.lang.Double"/>
 	<field name="DT_EMISSAO" class="java.lang.String">
@@ -302,7 +302,7 @@ WHERE
 				<text><![CDATA[Inicio:]]></text>
 			</staticText>
 			<line>
-				<reportElement uuid="78e05b7b-5685-408b-ab2c-2b2229915145" x="172" y="44" width="212" height="1" forecolor="#CCCCCC"/>
+				<reportElement uuid="78e05b7b-5685-408b-ab2c-2b2229915145" x="171" y="44" width="212" height="1" forecolor="#CCCCCC"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Dashed"/>
 				</graphicElement>
@@ -314,7 +314,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[Descrição:]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="dd/MM/yyyy">
 				<reportElement uuid="1eea070f-8254-4158-ae68-9d50e2fb421f" x="325" y="23" width="60" height="17"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{DT_EMISSAO}]]></textFieldExpression>
@@ -333,7 +333,7 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DS_PRODUTO}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy">
 				<reportElement uuid="1eea070f-8254-4158-ae68-9d50e2fb421f" x="221" y="23" width="66" height="17"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{DT_EMISSAO}]]></textFieldExpression>
@@ -345,13 +345,6 @@ WHERE
 				</textElement>
 				<text><![CDATA[Quantidade à Produzir:]]></text>
 			</staticText>
-			<textField>
-				<reportElement uuid="c07d198c-9f69-4a88-b130-60b34300479e" x="127" y="93" width="51" height="15" forecolor="#FFFFFF"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{QTD_PRODUTO}]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement uuid="aa7bed86-ec32-4ec9-82e7-ce96aada297e" x="177" y="93" width="42" height="16"/>
 				<textElement textAlignment="Center">
@@ -448,6 +441,13 @@ WHERE
 					<font size="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TIMESTAMP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1730f5e0-8379-4d42-bad6-3692f724d0bd" x="128" y="89" width="40" height="20" forecolor="#FFFFFF"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{QTD_PRODUZIR}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
