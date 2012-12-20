@@ -1,3 +1,4 @@
+X5_CHAVE;X5_DESCRI;X5_DESCSPA;R_E_C_N_O_
 000100;NOCE                                                   ;NB/NB                                                  ;2435
 000103;NOCE/TABACO                                            ;NC/TB                                                  ;5320
 000104;NOCE/CARVALHO                                          ;NB/TB                                                  ;5202
@@ -112,6 +113,7 @@
 008170;GRIS MONTANO                                           ;GRMO/BR                                                ;30153
 008910;CARV.GRIS/PRETO BRILHANTE                              ;CG/PRBL                                                ;23117
 009000;CINZA/CINZA                                            ;CZ/CZ                                                  ;4335
+009060;PRETO / NOCE AMADO                                     ;PR/NA                                                  ;30162
 009100;PRETO BRILHANTE                                        ;PRB                                                    ;5337
 009200;PRISMA NOGUEIRA CADIZ                                  ;PNC                                                    ;30110
 009300;NOCE VERONA                                            ;NOVE                                                   ;30111
@@ -123,6 +125,8 @@
 009570;CARVALHO AMETISTA                                      ;CVAM/BR                                                ;30150
 009600;NOCE AREZZO                                            ;NOAR                                                   ;30137
 009670;NOCE AREZZO                                            ;NOAR/BR                                                ;30151
+009700;CARVALHO MASISA                                        ;CVMS                                                   ;30160
+009770;CARVALHO MASISA / BRANCO                               ;CVMS / BR                                              ;30161
 AMAREL;Amarelo                                                ;Amarillo                                               ;9281
 AZUL  ;Azul                                                   ;Azul                                                   ;9282
 BRANCO;Branco                                                 ;Blanco                                                 ;9283

@@ -297,7 +297,7 @@ require_once APP_PATH.'sistema/helper.class.php';
 					}
 					
 					if($abilita!=true){
-						$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="javascript:gerarEtiqueta('.$row[0].','.$row[1].')" name="gerarEtiqueta" id='.$row[0].'><img class="link02" src="img/btn/bt_etiqueta.png" border="0"/></a>';
+						$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="#" onClick="javascript:gerarEtiqueta('.$row[0].','.$row[1].');" name="gerarEtiqueta" id='.$row[0].'><img class="link02" src="img/btn/bt_etiqueta.png" border="0"/></a>';
 					}else{
 						
 					}
