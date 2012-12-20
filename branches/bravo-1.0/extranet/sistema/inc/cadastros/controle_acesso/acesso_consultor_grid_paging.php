@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	session_start();
     require("../../../setup.php");
 
@@ -212,7 +212,7 @@
 			
 			//Formula a query
 			$sql = '
-				SELECT ACESSO_CONSULTOR.CO_ACESSO_CONSULTOR
+				SELECT ACESSO_CONSULTOR.CO_ACESSO_PRESTADOR
 				    , ACESSO_CONSULTOR.DT_CADAS
 					, ACESSO_CONSULTOR.HR_ENTRADA
 					, ACESSO_CONSULTOR.HR_SAIDA		

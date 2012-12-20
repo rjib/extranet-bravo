@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
     require("../../../setup.php");
 	
@@ -32,7 +32,7 @@
 							      , CO_TIPO_VEICULO         = '".$tipoVeiculoAlterar."'
 							      , PL_VEICULO              = '".$placaVeiculoAlterar."'
 							      , CO_CARTAO_IDENTIFICACAO = '".$numeroCartaoAlterar."'
-							  WHERE CO_ACESSO_CONSULTOR = '".$codigoAcessoConsultor."'");
+							  WHERE CO_ACESSO_PRESTADOR = '".$codigoAcessoConsultor."'");
 		if($query){
 			echo false;
 		}else{
