@@ -16,13 +16,14 @@ $_etiqueta = new tb_pcp_etiqueta($conexaoERP);
 
 $result    	   = $_peca->findPecasByAD($co_pcp_ad);
 $dados 		   = mysql_fetch_array($result);
+$row    	   = $_peca->findPecasByAD($co_pcp_ad);
 $gerouEtiqueta = $_etiqueta->findByAc($dados['CO_PCP_AC']);
 $co_pcp_ac 	   = $dados['CO_PCP_AC'];
 $data=false;
 
 if($gerouEtiqueta == 0){//se nao tiver gerado etiqueta
 	
-	while($PECA = mysql_fetch_array($result)){		
+	while($PECA = mysql_fetch_array($row)){		
 		$ORDEM_PRODUCAO     = $_op->getProduto($PECA['CO_PCP_OP']);	
 		$qtd_peca_por_pilha = floor(MAX_PILHA/$ORDEM_PRODUCAO['NU_ESPESSURA']);
 		$qtd_etiqueta = 1;
