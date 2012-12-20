@@ -1,7 +1,7 @@
 <?php
 	
 	//CONECTA COM O BANCO DE DADOS LOCAL
-	$conexao = mysql_connect ("localhost","root","")
+	$conexao = mysql_connect ("192.168.0.6","root","")
 	or die (mysql_error ());
 	
 	//SELECIONA O BANCO DE DADOS LOCAL
