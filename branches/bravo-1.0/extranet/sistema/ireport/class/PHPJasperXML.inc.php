@@ -3192,6 +3192,10 @@ if(isset($this->arraygroup)&&($this->global_pointer>0)&&($this->arraysqltable[$t
     public function display($arraydata,$y_axis=0,$fielddata=false,$maxheight=0) {
   //print_r($arraydata);echo "<br/>";
     //    $this->pdf->Cell(10,10,"SSSS");
+    
+    //$arraydata["txt"]=utf8_decode($arraydata["txt"]);
+    $arraydata["txt"]=utf8_encode($arraydata["txt"]);
+    
     $this->Rotate($arraydata["rotation"]);
     
     if($arraydata["rotation"]!=""){
@@ -3222,6 +3226,7 @@ if(isset($this->arraygroup)&&($this->global_pointer>0)&&($this->arraysqltable[$t
 
     }
 
+    
         if($arraydata["type"]=="SetFont") {
             if($arraydata["font"]=='uGB')
                 $this->pdf->isUnicode=true;
@@ -3285,6 +3290,7 @@ if(isset($this->arraygroup)&&($this->global_pointer>0)&&($this->arraysqltable[$t
          
         if(file_exists($path))
             $this->pdf->Image($path,$arraydata["x"]+$this->arrayPageSetting["leftMargin"],$arraydata["y"]+$y_axis,$arraydata["width"],$arraydata["height"],$imgtype,$arraydata["link"]);
+        
         }
 
         elseif($arraydata["type"]=="SetTextColor") {

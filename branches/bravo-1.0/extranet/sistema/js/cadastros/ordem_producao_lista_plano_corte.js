@@ -96,6 +96,18 @@ $(document).ready(function(){
 		title: 'Importando Arquivo...'
 	}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();
 	
+	//boxLoadingEtiqueta
+	$( "#boxLoadingEtiqueta" ).dialog({
+		autoOpen: false,
+        modal: true,
+		height: 150,
+		width: 250,
+        closeOnEscape:false,
+		resizable:false,
+		draggable:false,
+		title: 'Gerando etiquetas.'
+	}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();
+	
 	//upload do arquivo	
 	 $('#btEnviarAC').click(function(){
 	        $('#formUpload').ajaxForm({ 
@@ -158,11 +170,35 @@ function getNameArquivo(){
 }
 
 function gerarEtiqueta(co_pcp_ad, no_pcp_ad){
+	$("#boxLoadingEtiqueta").dialog("open");
+	//$(window.document.location).attr('href','ireport/pcp_etiqueta.php?co_pcp_ad='+co_pcp_ad);
 	$.post('cadastros/ordem_producao/gerarEtiqueta.php',{co_pcp_ad:co_pcp_ad, no_pcp_ad:no_pcp_ad}, function(data){
-			if(data.sucesso==true){
+			if(data=="true"){
+				$("#temp").load('ireport/gerarBarCode128.php',{co_pcp_ad:co_pcp_ad}, function(data,status){
+					 if (status == "success") {
+						// $("#temp").load('ireport/pcp_etiqueta.php',{co_pcp_ad:co_pcp_ad}, function(data,status){
+							 //if (status == "success") {	
+								// $("#boxLoadingEtiqueta").dialog("close");
+								$(window.document.location).attr('href','ireport/pcp_etiqueta.php?co_pcp_ad='+co_pcp_ad);
+							 }
+						// });						  
+						    
+					 //}
+					
+				});
+				//$(window.document.location).attr('href','ireport/gerarBarCode128.php?co_pcp_ad='+co_pcp_ad);
+				//$(window.document.location).attr('href','ireport/pcp_etiqueta.php?co_pcp_ad='+co_pcp_ad);
 				
-			}
+			}else{
+				$("#boxLoadingEtiqueta").dialog("close");
+				$("#boxErro").html("Não foi possivel gerar etiqueta, favor entre em contato com o suporte!");
+				$("#boxErro").dialog("open");
+			}				
 		
 	});
+
+	
+
+	
 	
 }
