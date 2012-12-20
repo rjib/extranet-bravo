@@ -265,6 +265,14 @@ if(isset($_POST['co_pcp_ad'])){
 						$_adPecaModel->insert($co_pcp_ad, $peca['co_pcp_op']);
 						
 					}
+				 }else{
+				 	## EM CASO DE ERRO ROLLBACK
+				 	unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
+				 	$_acModel->delete($co_pcp_ac);
+				 	$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois a OP permite apenas a inclusão de <strong>".$op[0]."</strong> peça(s) e você esta tentando incluir <strong style='color:red;'>".$aprocessar."</strong> peça(s)</p>";
+				 	echo json_encode($data);
+				 	exit;
+				 	
 				 }
 				
 			}
