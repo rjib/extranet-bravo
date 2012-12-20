@@ -1,13 +1,13 @@
-<?php
+﻿<?php
 
     require("../../../setup.php");
 	
 	$codigoAcessoConsultor = $_GET['codigoAcessoConsultor'];
 	
-	$sqlAcessoConsultor = mysql_query("SELECT ACESSO_CONSULTOR.CO_ACESSO_CONSULTOR
+	$sqlAcessoConsultor = mysql_query("SELECT ACESSO_CONSULTOR.CO_ACESSO_PRESTADOR
 									       , DATE_FORMAT(ACESSO_CONSULTOR.DT_CADAS, '%d/%m/%Y %H:%i:%S') AS DT_CADAS
 										   , CONCAT(PESSOA_FISICA.CPF_PESSOA_FISICA,' - ',PESSOA.NO_PESSOA) AS NOME_PESSOA
-									       , DATE_FORMAT(ACESSO_CONSULTOR.DT_ACESSO_CONSULTOR, '%d/%m/%Y %H:%i:%S') AS DT_ACESSO_CONSULTOR
+									       , DATE_FORMAT(ACESSO_CONSULTOR.DT_ACESSO_PRESTADOR, '%d/%m/%Y %H:%i:%S') AS DT_ACESSO_PRESTADOR
 									       , ACESSO_CONSULTOR.HR_ENTRADA
 									       , ACESSO_CONSULTOR.HR_SAIDA
 									       , ACESSO_CONSULTOR.CO_TIPO_VEICULO
@@ -26,7 +26,7 @@
 										       ON ACESSO_CONSULTOR.CO_USUARIO_ENTRADA = USUARIO_ENTRADA.CO_USUARIO
 										   LEFT JOIN tb_usuario USUARIO_SAIDA
 										       ON ACESSO_CONSULTOR.CO_USUARIO_SAIDA = USUARIO_SAIDA.CO_USUARIO
-									   WHERE ACESSO_CONSULTOR.CO_ACESSO_CONSULTOR = '".$codigoAcessoConsultor."'")
+									   WHERE ACESSO_CONSULTOR.CO_ACESSO_PRESTADOR = '".$codigoAcessoConsultor."'")
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			    history.back(-1);
@@ -85,8 +85,8 @@
   <table width="100%" border="0" cellspacing="2" cellpadding="3">
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>C&oacute;digo:</b></font></td>
-		                          <td colspan="3" align="left"><input title="Código" name="codigoAcessoConsultor02" type="text" class="INPUT01" size="10" maxlength="10" value="<?php echo $rowAcessoConsultor['CO_ACESSO_CONSULTOR']; ?>" disabled="disabled"/>
-                                  <input name="codigoAcessoConsultor" id="codigoAcessoConsultor" type="hidden" value="<?php echo $rowAcessoConsultor['CO_ACESSO_CONSULTOR']; ?>"/></td>
+		                          <td colspan="3" align="left"><input title="Código" name="codigoAcessoConsultor02" type="text" class="INPUT01" size="10" maxlength="10" value="<?php echo $rowAcessoConsultor['CO_ACESSO_PRESTADOR']; ?>" disabled="disabled"/>
+                                  <input name="codigoAcessoConsultor" id="codigoAcessoConsultor" type="hidden" value="<?php echo $rowAcessoConsultor['CO_ACESSO_PRESTADOR']; ?>"/></td>
     </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Data Cadastro:</b></font></td>

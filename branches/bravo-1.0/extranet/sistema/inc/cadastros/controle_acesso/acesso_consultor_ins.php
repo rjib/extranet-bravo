@@ -69,7 +69,7 @@
 			if(mysql_num_rows($sqlAcessoConsultor) > 0 || mysql_num_rows($sqlAcessoVisitante)>0){
 				echo "[Erro] - Já existe um Acesso para este Prestador de Serviço em aberto.";
 			}else{
-				$query = mysql_query("INSERT INTO tb_acesso_prestador (DT_ACESSO_CONSULTOR
+				$query = mysql_query("INSERT INTO tb_acesso_prestador (DT_ACESSO_PRESTADOR
 										  , CO_PRESTADOR
 										  , HR_ENTRADA
 										  , CO_TIPO_VEICULO
