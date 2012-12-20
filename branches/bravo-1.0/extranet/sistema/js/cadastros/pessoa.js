@@ -414,6 +414,7 @@ $(function($) {
 				$("#cobrancaLogradouro").attr('checked', false); 
 				$("#correspondenciaLogradouro").attr('checked', false); 
 				
+				
 			}
 		},
 		close: function() {

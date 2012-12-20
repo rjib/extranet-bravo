@@ -107,6 +107,7 @@
 			</script>");
 			 
 ?>
+<script type="text/javascript" src="js/cadastros/pessoa.js"></script>
 <script type="text/javascript" language="javascript">
 
 $(document).ready(function(){
@@ -280,7 +281,7 @@ $(function($) {
 	
 	$("#formularioEndereco").dialog({
 		autoOpen: false,
-		height: 380,
+		height: 420,
 		width: 600,
 		modal: true,
 		resizable: false,
@@ -393,6 +394,8 @@ $(function($) {
 				$("#cobrancaLogradouro").attr('checked', false); 
 				$("#correspondenciaLogradouro").attr('checked', false); 
 				
+				$("#gridEndereco").load("inc/cadastros/pessoa_alt_grid_endereco.php?codigoPessoa=<?php echo $rowPessoa['CO_PESSOA']; ?>");
+				
 			}
 		},
 		close: function() {
@@ -456,6 +459,7 @@ $(function($) {
 		},
 		close: function() {
 		    $("#gridContato").load("inc/cadastros/pessoa_alt_grid_contato.php?codigoPessoa=<?php echo $rowPessoa['CO_PESSOA']; ?>");
+		    
 		}
 	});
 	
@@ -519,6 +523,8 @@ $(function($) {
 		},
 		close: function() {
 		    $("#gridTelefone").load("inc/cadastros/pessoa_alt_grid_telefone.php?codigoPessoa=<?php echo $rowPessoa['CO_PESSOA']; ?>");
+		    
+		    
 		}
 	});
 	
@@ -582,6 +588,7 @@ $(function($) {
 		},
 		close: function() {
 		    $("#gridEmail").load("inc/cadastros/pessoa_alt_grid_email.php?codigoPessoa=<?php echo $rowPessoa['CO_PESSOA']; ?>");
+		    
 		}
 	});
 		
@@ -630,7 +637,7 @@ $(function($) {
 });
 
 </script>
-<script type="text/javascript" src="js/cadastros/pessoa.js"></script>
+
 <div id="header-wrap">
 <table width="100%"  border="0" cellpadding="0" cellspacing="0" background="img/bg_header.jpg">
     <tr>
