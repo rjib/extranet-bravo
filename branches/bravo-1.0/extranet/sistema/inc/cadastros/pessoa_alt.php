@@ -6,7 +6,7 @@
 	
 	$pessoaTipo         = $_POST["pessoaTipo"];
 	$codigoPessoa       = $_POST["codigoPessoa"];
-	$nome               = $_POST["nome"];
+	$nome               = addslashes(trim(ucwords(strtolower($_POST["nome"]))));
 	$email              = $_POST["email"];
 	$site               = $_POST["site"];
 		
@@ -26,8 +26,8 @@
 	$codigoCidade       = $_POST["codigoCidade"];
 	$nivelFormacao      = $_POST["nivelFormacao"];
 	$profissao          = $_POST["profissao"];
-	$nomePai            = $_POST["nomePai"];
-	$nomeMae            = $_POST["nomeMae"];
+	$nomePai            = addslashes(trim(ucwords(strtolower($_POST["nomePai"]))));
+	$nomeMae            = addslashes(trim(ucwords(strtolower($_POST["nomeMae"]))));
 	
 	if($pessoaTipo == "J"){
 		if (empty($nome)) {

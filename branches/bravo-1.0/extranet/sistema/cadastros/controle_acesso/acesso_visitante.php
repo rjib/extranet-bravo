@@ -47,11 +47,11 @@ if($acoes['NO_MODULO'] == CONTROLE_DE_ACESSO_VISITANTE){
     										NOT EXISTS(SELECT null 
 														FROM tb_acesso_visitante ACESSO_VISITANTE 
 														WHERE ACESSO_VISITANTE.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO 
-														AND ACESSO_VISITANTE.HR_SAIDA = '')
+														AND ACESSO_VISITANTE.HR_SAIDA IS NULL)
 											AND NOT EXISTS(SELECT null 
-														   FROM tb_acesso_prestador ACESSO_CONSULTOR
-        												   WHERE ACESSO_CONSULTOR.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
-               											   AND ACESSO_CONSULTOR.HR_SAIDA = '')
+														   FROM tb_acesso_prestador ACESSO_PRESTADOR
+        												   WHERE ACESSO_PRESTADOR.CO_CARTAO_IDENTIFICACAO = CARTAO_IDENTIFICACAO.CO_CARTAO_IDENTIFICACAO
+               											   AND ACESSO_PRESTADOR.HR_SAIDA IS NULL)
 											ORDER BY CARTAO_IDENTIFICACAO.NU_CARTAO_IDENTIFICACAO")
 	or die("<script>
 			    alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');

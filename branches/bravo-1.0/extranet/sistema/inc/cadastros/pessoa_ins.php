@@ -5,7 +5,7 @@
     require("../../setup.php");
 	
 	$pessoaTipo      = $_POST["pessoaTipo"];
-	$nome            = $_POST["nome"];
+	$nome            = addslashes(trim(ucwords(strtolower($_POST["nome"]))));
 	$email           = $_POST["email"];
 	$site            = $_POST["site"];
 		
@@ -25,8 +25,8 @@
 	$codigoCidade    = $_POST["codigoCidade"];
 	$nivelFormacao   = $_POST["nivelFormacao"];
 	$profissao       = $_POST["profissao"];
-	$nomePai         = $_POST["nomePai"];
-	$nomeMae         = $_POST["nomeMae"];
+	$nomePai         = addslashes(trim(ucwords(strtolower($_POST["nomePai"]))));
+	$nomeMae         = addslashes(trim(ucwords(strtolower($_POST["nomeMae"]))));
 	
 	if($pessoaTipo == 'F'){
 		
@@ -52,7 +52,7 @@
 							          , TP_PESSOA
 							          , EM_PESSOA
 							          , SITE_PESSOA) 
-							      VALUES ('".$nome."' 
+							      VALUES ('".addslashes(trim(ucwords(strtolower($nome))))."' 
 							          , '".$pessoaTipo."'
 							          , '".$email."'
 							          , '".$site."')");
@@ -93,8 +93,8 @@
 							    , '".$codigoEstado."'
 							    , '".$codigoCidade."'
 							    , '".$nivelFormacao."'
-							    , '".$nomePai."'
-							    , '".$nomeMae."')";					
+							    , '".addslashes(trim(ucwords(strtolower($nomePai))))."'
+							    , '".addslashes(trim(ucwords(strtolower($nomeMae))))."')";					
 				}else{
 			
 					$sql = "INSERT INTO tb_pessoa_fisica (CO_PESSOA
@@ -125,8 +125,8 @@
 							    , '".$codigoCidade."'
 							    , '".$nivelFormacao."'
 							    , '".$profissao."'
-							    , '".$nomePai."'
-							    , '".$nomeMae."')";
+							    , '".addslashes(trim(ucwords(strtolower($nomePai))))."'
+							    , '".addslashes(trim(ucwords(strtolower($nomeMae))))."')";
 				}
 				
 				$query = mysql_query($sql);		
@@ -161,7 +161,7 @@
 							          , TP_PESSOA
 							          , EM_PESSOA
 							          , SITE_PESSOA) 
-							      VALUES ('".$nome."' 
+							      VALUES ('".addslashes(trim(ucwords(strtolower($nome))))."' 
 							          , 'J'
 							          , '".$email."'
 							          , '".$site."')");
