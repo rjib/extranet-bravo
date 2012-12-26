@@ -124,23 +124,23 @@ $(function($) {
 	});		
 		
 });
-
+//$("#searching").mask("99999-999");
 	/**** INICIO CONFIGURACAO SCRIPT TABLESORTER *****/
 
 	 /* Variaveis de configuracao dos controles do grid*/
-	 var controlsdivclass	=	'.controls';		//Classe para aplicar a estilização nos controles
-	 var controlsscript		=	'inc/cep_grid.php';			//Documento com o conteúdo do grid em formato html
+	 var controlsdivclass	=	'.controls';		//Classe para aplicar a estilizaï¿½ï¿½o nos controles
+	 var controlsscript		=	'inc/cep_grid.php';			//Documento com o conteï¿½do do grid em formato html
 	 var controlsclass		= 	'tablesorter';		//Nome da classe aplicada aos controles do grid
 	
 	 /* Variaveis de configuracao do grid*/
-	 var griddivid 	=	'#grid';					//Div onde o grid será carregado
-	 var gridscript	=	'inc/cep_grid.php';					//Documento com o conteúdo do grid em formato html
+	 var griddivid 	=	'#grid';					//Div onde o grid serï¿½ carregado
+	 var gridscript	=	'inc/cep_grid.php';					//Documento com o conteï¿½do do grid em formato html
 	 var gridclass	= 	'tablesorter';				//Nome da classe aplicada ao grid
-	 var gridheaders =	{};							//Parâmetros utilizados pelo plugin tablesorter para manipular os headers da tabela
+	 var gridheaders =	{};							//Parï¿½metros utilizados pelo plugin tablesorter para manipular os headers da tabela
 	
 	 /* Variaveis para a exibicao de mensagens e carregamento */
-	 var consolediv = '#console';					//Div responsável por mostrar as mensagens de erro, info etc
-	 var loadmsg = 'Carregando...aguarde';			//Mensagem ou animação durante a fase de carregamento
+	 var consolediv = '#console';					//Div responsï¿½vel por mostrar as mensagens de erro, info etc
+	 var loadmsg = 'Carregando...aguarde';			//Mensagem ou animaï¿½ï¿½o durante a fase de carregamento
      var searchdiv = '#searching';					//Div utilizada para realizar o search
 	
      /***** FIM CONFIGURACAO SCRIPT TABLESORTER *****/
