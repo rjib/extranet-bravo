@@ -314,7 +314,7 @@ class tb_pcp_op{
 				 from tb_pcp_op op 
 					inner join tb_pcp_produto prod on op.co_produto = prod.co_produto
 				where prod.co_produto = '".$co_produto."' 
-				and op.co_pcp_op = 11317";
+				and op.co_pcp_op = ".$co_pcp_op;
 		$result = mysql_query(strtoupper($query), $this->conexaoERP);
 		$row    = mysql_fetch_array($result);
 		return $row;
