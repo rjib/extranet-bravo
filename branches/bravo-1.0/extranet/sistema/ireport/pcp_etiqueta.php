@@ -2,6 +2,7 @@
 $data=false;
 require_once('class/tcpdf/tcpdf.php');
 require_once("class/PHPJasperXML.inc.php");
+//require_once("class/PHPJasperXMLSubReport.inc.php");
 require_once('../setup.php');
 require_once '../models/tb_pcp_etiqueta.php';
 require_once APP_PATH.'sistema/models/tb_pcp_pecas.php';
