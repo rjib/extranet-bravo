@@ -96,6 +96,18 @@ $(document).ready(function(){
 		title: 'Importando Arquivo...'
 	}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();
 	
+	//boxloading
+	$( "#boxLoadingCasadei" ).dialog({
+		autoOpen: false,
+        modal: true,
+		height: 110,
+		width: 250,
+        closeOnEscape:false,
+		resizable:false,
+		draggable:false,
+		title: 'Enviando Casadei...'
+	}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();
+	
 	//boxLoadingEtiqueta
 	$( "#boxLoadingEtiqueta" ).dialog({
 		autoOpen: false,
@@ -105,7 +117,7 @@ $(document).ready(function(){
         closeOnEscape:false,
 		resizable:false,
 		draggable:false,
-		title: 'Gerando etiquetas.'
+		title: 'Gerando etiquetas...'
 	}).dialog("widget").find("a.ui-dialog-titlebar-close").remove();
 	
 	//upload do arquivo	
@@ -169,6 +181,19 @@ function getNameArquivo(){
 	
 }
 
+function enviarCasadei(co_pcp_ad, no_pcp_ad){
+	$("#boxLoadingCasadei").dialog('open');
+	$.post('cadastros/ordem_producao/enviar_casaDei.php',{co_pcp_ad:co_pcp_ad, no_pcp_ad:no_pcp_ad}, function(data){
+		if(data=="true"){
+			$("#boxLoadingCasadei").dialog('close');
+			search();	
+			gridLoader(searchfor, page);
+		}
+		});
+	
+	
+}
+
 function gerarEtiqueta(co_pcp_ad, no_pcp_ad){
 	$("#boxLoadingEtiqueta").dialog("open");
 	//$(window.document.location).attr('href','ireport/pcp_etiqueta.php?co_pcp_ad='+co_pcp_ad);
@@ -196,9 +221,5 @@ function gerarEtiqueta(co_pcp_ad, no_pcp_ad){
 			}				
 		
 	});
-
-	
-
-	
 	
 }

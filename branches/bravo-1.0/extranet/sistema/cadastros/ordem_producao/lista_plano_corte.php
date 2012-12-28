@@ -131,6 +131,11 @@ if($acoes['NO_MODULO'] == PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE){
        Etiqueta esta sendo gerada, por favor aguarde...
     </p>
  </div>
+   <div id="boxLoadingCasadei" style="display: none;"> <p align="center">
+        <span><img src="img/ajax-loader.gif"/></span><br>
+       Enviando para Casadei, por favor aguarde...
+    </p>
+ </div>
   <div id="temp" style="display: none;"> <p align="center">
  </div>
  <div id="boxDivergencias" style="display: none;"></div>

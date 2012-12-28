@@ -17,6 +17,21 @@ class tb_pcp_op{
 		$this->_helper = new helper();
 	
 	}
+	
+	/**
+	 * Metodo para retornar o codigo do produto
+	 * @param int $co_pc_op
+	 * @return multitype:
+	 * @author Ricardo S. Alvarenga
+	 * @since 27/12/2012
+	 */
+	public function getCoProduto($co_pc_op){
+		$query  = "select CO_PRODUTO, (qtd_produto-qtd_processada) QTD_PROCESSADA from tb_pcp_op where co_pcp_op = ".$co_pc_op;
+		$result = mysql_query($query, $this->conexaoERP);
+		$row 	= mysql_fetch_array($result);
+		return $row;
+		
+	}
 
 	/**
 	 * Metodo para listar PIs de acordo com os parametros desejados
@@ -280,5 +295,31 @@ class tb_pcp_op{
 		$row    = mysql_fetch_array($result);
 		return $row;
 	}
+	
+	/**
+	 * Metodo para retornar parametros para enviar a casadei
+	 * @param int $co_pcp_op
+	 * @param int $co_produto
+	 * @return multitype:
+	 * @author Ricardo S. Alvarenga
+	 * @since 27/12/2012
+	 */
+	public function getParametrosCasadei($co_pcp_op, $co_produto){
+		$query = "SELECT prod.co_int_produto 
+					, prod.co_cor 
+					, op.nu_lote 
+					, prod.nu_comprimento 
+					, prod.nu_espessura 
+					, prod.nu_largura 
+				 from tb_pcp_op op 
+					inner join tb_pcp_produto prod on op.co_produto = prod.co_produto
+				where prod.co_produto = '".$co_produto."' 
+				and op.co_pcp_op = 11317";
+		$result = mysql_query(strtoupper($query), $this->conexaoERP);
+		$row    = mysql_fetch_array($result);
+		return $row;
+		
+	}
+	
 		
 }//fim classe
