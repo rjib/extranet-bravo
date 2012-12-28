@@ -257,7 +257,7 @@ require_once APP_PATH.'sistema/helper.class.php';
 				}
 				
 			}
-			$s_html .= '<th align="center" width="5px">'.utf8_encode('A&ccedil;&otilde;es').'</th>';						
+			$s_html .= '<th align="left" width="165px">'.utf8_encode('A&ccedil;&otilde;es').'</th>';						
 			$s_html .= '</tr></thead><tbody>';
 			
 			//Se n�o forem inseridas colunas manualmente, ent�o apenas mostra os resultados do banco
@@ -282,7 +282,7 @@ require_once APP_PATH.'sistema/helper.class.php';
 						}
 					}
 					
-					$s_html .= '<td align="center" width="120px">';
+					$s_html .= '<td align="left" width="120px">';
 					
 					if($acoes['FL_ADICIONAR']==1 || $acoes['FL_EXCLUIR']==1 || $acoes['FL_EDITAR']==1){
 						//22/11/2012 10:29:28
@@ -291,8 +291,10 @@ require_once APP_PATH.'sistema/helper.class.php';
 						$s_html .= '<a title="Download Arquivo .Ad" href="../downloadAD.php?arquivo='.$row[1].'&ano='.$ano.'" name="downloadArquivo"><img  class="link01" src="img/btn/bt_download.png" border="0"/></a>';
 						if($abilita==true){	
 							$s_html .= '&nbsp;<a title="Importar AC" href="javascript:importarAC('.$row[0].','.$row[1].')" name="importarAC" id='.$row[0].'><img class="link01" src="img/btn/bt_importar.png" border="0"/></a>';
+							$s_html .= '&nbsp;<a title="Enviar Casadei" href="javascript:enviarCasadei('.$row[0].','.$row[1].')" name="enviarCasadei" id='.$row[0].'><img class="link02" src="img/btn/bt_enviarCasadei.png" border="0"/></a>';
 						}else{
 							$s_html .= '&nbsp;<a title="Importação ja foi realizada" name="importarAC" id='.$row[0].'><img src="img/btn/bt_importar_disabled.png" border="0"/></a>';
+							$s_html .= '&nbsp;<a title="Enviar Casadei" name="enviarCasadei" id='.$row[0].'><img src="img/btn/bt_enviarCasadei_disabled.png" border="0"/></a>';
 						}
 					}
 					
