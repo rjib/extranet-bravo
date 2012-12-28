@@ -56,6 +56,4 @@ while ($dados = mysql_fetch_array($result)){
 
 $data=true;
 
-
-
 ?>

@@ -51,6 +51,7 @@ $(document).ready(function(){
 			$("#grid").show();
 			$("#pesquisaListaPi").show();
 			$("#btGerarArquivo").show();
+			$("#btEnviarCasadei").show();
 			$("#grid").show();
 			$("#controls").show();
 			$("#console").show();
@@ -59,6 +60,7 @@ $(document).ready(function(){
 			$('#boxAlerta').dialog('open');	
 		}
 	});
+	
 	//Ação clique gerar arquivo AD
 	$("#btGerarArquivo").click(function(){
 		
@@ -80,7 +82,8 @@ $(document).ready(function(){
 		//pega valores selecionados
 		$("input[type=checkbox][name='pi_selecionado[]']:checked").each(function(){
 			co_pi.push($(this).val());
-		});
+		});		
+		
 		//Box gerar arquivo AD
 		$( "#formularioGerarArquivoAD" ).dialog({
 				autoOpen: true,
@@ -91,7 +94,7 @@ $(document).ready(function(){
 	            buttons: {
 	                'Cancelar': function() {
 	                	$( this ).dialog( "close" );
-						var nomeArquivo			= $("#nomeArquivo").val('');
+						var nomeArquivo			=  $("#nomeArquivo").val('');
 						var unidadeComplementar =  $("#unidadeComplementar").val('');
 	                    
 	                },
@@ -230,6 +233,7 @@ $(document).ready(function(){
 function ocultarBotoes(){	
 	$("#btSelecionarTudo").hide();
 	$("#btGerarArquivo").hide();
+	$("#btEnviarCasadei").hide();
 }
 
 function legenda(){

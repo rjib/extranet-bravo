@@ -31,5 +31,19 @@ class tb_pcp_ad_peca{
 			throw new Exception('Erro na inserção dos dados, favor contacte o suporte!');
 		}
 	}
+	
+	/**
+	 * Metodo para retornar o codigo da op
+	 * @param int $co_pcp_ad
+	 * @return resource
+	 * @since 27/12/2012
+	 * @author Ricardo S. Alvarenga
+	 */
+	public function getCodigoOP($co_pcp_ad){
+		$query = "SELECT DISTINCT CO_PCP_OP FROM tb_pcp_ad_peca WHERE CO_PCP_AD = ".$co_pcp_ad;
+		$result = mysql_query($query, $this->conexaoERP);
+		return $result;
+		
+	}
 }
 ?>
