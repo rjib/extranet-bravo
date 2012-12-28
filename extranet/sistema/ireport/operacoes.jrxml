@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="operacoes" language="groovy" pageWidth="554" pageHeight="802" columnWidth="554" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a635fd73-73ce-42f0-a787-842d9fbda374">
-	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
@@ -128,6 +128,8 @@
 		<parameter name="CO_PRODUTO" class="java.lang.String">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
+		<parameter name="NU_PCP_OP" class="java.lang.String"/>
+		<parameter name="CODIGO_BARRA" class="java.lang.String"/>
 		<queryString>
 			<![CDATA[SELECT PCP_RECURSO.NO_RECURSO
 FROM tb_pcp_operacao PCP_OPERACAO
@@ -144,6 +146,8 @@ ORDER BY PCP_OPERACAO.CO_OPERACAO]]>
 		</group>
 	</subDataset>
 	<parameter name="CO_PRODUTO" class="java.lang.String"/>
+	<parameter name="CODIGO_BARRA" class="java.lang.String"/>
+	<parameter name="NU_PCP_OP" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT PCP_RECURSO.NO_RECURSO
 FROM tb_pcp_operacao PCP_OPERACAO
@@ -156,25 +160,26 @@ ORDER BY PCP_OPERACAO.CO_OPERACAO;]]>
 		<fieldDescription><![CDATA[Nome do recurso.]]></fieldDescription>
 	</field>
 	<pageHeader>
-		<band height="24">
+		<band height="25">
 			<rectangle>
-				<reportElement uuid="2fb1df5c-3fb1-494d-b2ca-2b1ec724cfae" x="295" y="4" width="63" height="20"/>
+				<reportElement uuid="2fb1df5c-3fb1-494d-b2ca-2b1ec724cfae" x="218" y="5" width="77" height="20"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement uuid="2fb1df5c-3fb1-494d-b2ca-2b1ec724cfae" x="218" y="4" width="77" height="20"/>
+				<reportElement uuid="2fb1df5c-3fb1-494d-b2ca-2b1ec724cfae" x="2" y="5" width="216" height="20"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
-			<rectangle>
-				<reportElement uuid="2fb1df5c-3fb1-494d-b2ca-2b1ec724cfae" x="2" y="4" width="216" height="20"/>
-				<graphicElement>
-					<pen lineWidth="0.5"/>
-				</graphicElement>
-			</rectangle>
+			<staticText>
+				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="226" y="8" width="60" height="15"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUANTIDADE]]></text>
+			</staticText>
 			<staticText>
 				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="92" y="8" width="52" height="14"/>
 				<textElement textAlignment="Center">
@@ -182,42 +187,44 @@ ORDER BY PCP_OPERACAO.CO_OPERACAO;]]>
 				</textElement>
 				<text><![CDATA[MAQUINA]]></text>
 			</staticText>
-			<staticText>
-				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="227" y="8" width="60" height="15"/>
-				<textElement textAlignment="Center">
-					<font size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[QUANTIDADE]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="299" y="8" width="58" height="13"/>
-				<textElement textAlignment="Center">
-					<font size="8" isBold="false"/>
-				</textElement>
-				<text><![CDATA[PERDA]]></text>
-			</staticText>
 			<rectangle>
-				<reportElement uuid="2fb1df5c-3fb1-494d-b2ca-2b1ec724cfae" x="358" y="4" width="199" height="20"/>
+				<reportElement uuid="2fb1df5c-3fb1-494d-b2ca-2b1ec724cfae" x="358" y="5" width="196" height="20"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="358" y="8" width="216" height="14"/>
+				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="358" y="9" width="196" height="14"/>
 				<textElement textAlignment="Center">
 					<font size="8" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[OBSERVACOES]]></text>
 			</staticText>
+			<rectangle>
+				<reportElement uuid="2fb1df5c-3fb1-494d-b2ca-2b1ec724cfae" x="295" y="5" width="63" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="297" y="8" width="58" height="13"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[PERDA]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
-	<columnHeader>
-		<band/>
-	</columnHeader>
 	<detail>
-		<band height="19" splitType="Stretch">
+		<band height="21" splitType="Prevent">
 			<rectangle>
-				<reportElement uuid="ac30ba3f-ccde-43ed-8d67-9c1d15a8a681" x="2" y="-1" width="555" height="20"/>
+				<reportElement uuid="ac30ba3f-ccde-43ed-8d67-9c1d15a8a681" x="2" y="1" width="552" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="9352538f-fefa-4111-bf65-6d03454add23" x="218" y="1" width="77" height="20"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
@@ -230,38 +237,29 @@ ORDER BY PCP_OPERACAO.CO_OPERACAO;]]>
 				<textFieldExpression><![CDATA[$F{NO_RECURSO}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement uuid="9352538f-fefa-4111-bf65-6d03454add23" x="218" y="-1" width="77" height="20"/>
-				<graphicElement>
-					<pen lineWidth="0.5"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle>
-				<reportElement uuid="9352538f-fefa-4111-bf65-6d03454add23" x="295" y="-1" width="63" height="20"/>
+				<reportElement uuid="9352538f-fefa-4111-bf65-6d03454add23" x="295" y="1" width="63" height="20"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
 		</band>
 	</detail>
-	<columnFooter>
-		<band/>
-	</columnFooter>
 	<pageFooter>
-		<band height="23">
+		<band height="21">
 			<rectangle>
-				<reportElement uuid="ac30ba3f-ccde-43ed-8d67-9c1d15a8a681" x="2" y="0" width="555" height="20"/>
+				<reportElement uuid="ac30ba3f-ccde-43ed-8d67-9c1d15a8a681" x="2" y="1" width="552" height="20"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement uuid="9352538f-fefa-4111-bf65-6d03454add23" x="295" y="0" width="63" height="20"/>
+				<reportElement uuid="9352538f-fefa-4111-bf65-6d03454add23" x="295" y="1" width="63" height="20"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>
-				<reportElement uuid="9352538f-fefa-4111-bf65-6d03454add23" x="218" y="0" width="77" height="20"/>
+				<reportElement uuid="9352538f-fefa-4111-bf65-6d03454add23" x="218" y="1" width="77" height="20"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
