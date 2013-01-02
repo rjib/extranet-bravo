@@ -181,8 +181,8 @@ ORDER BY PCP_OPERACAO.CO_OPERACAO;]]>
 				<text><![CDATA[QUANTIDADE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="92" y="8" width="52" height="14"/>
-				<textElement textAlignment="Center">
+				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="7" y="8" width="208" height="14"/>
+				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[MAQUINA]]></text>

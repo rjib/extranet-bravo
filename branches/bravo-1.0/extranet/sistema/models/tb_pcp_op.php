@@ -254,7 +254,7 @@ class tb_pcp_op{
 		$lote = $row[3];
 		for($i=0;$i<count($co_pcp_op); $i++){
 			$row = $this->getQtdProduto($co_pcp_op[$i]);
-			if($lote != $row[3]){
+			if(trim($lote) != trim($row[3])){
 				return false;
 			}
 			
