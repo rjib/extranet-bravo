@@ -15,9 +15,8 @@
 		<![CDATA[SELECT
    (1350/ETIQUETA.NU_ESPESSURA) EMP_MAX,
    DATE_FORMAT(ETIQUETA.DT_EMISSAO,'%m/%d/%Y') DT_EMISSAO,
-   (SELECT CO_PRODUTO FROM tb_pcp_ac_peca PECA INNER JOIN tb_pcp_op ORDEM_PRODUCAO ON
-PECA.co_pcp_op = ORDEM_PRODUCAO.co_pcp_op
-WHERE PECA.co_pcp_ac = ETIQUETA.co_pcp_ac) CO_PRODUTO,
+ (SELECT CO_PRODUTO FROM tb_pcp_op ORDEM_PRODUCAO
+WHERE CONCAT(CO_NUM,CO_ITEM,CO_SEQUENCIA) = ETIQUETA.NU_PCP_OP) CO_PRODUTO,
    ETIQUETA.*
 FROM
     TB_PCP_ETIQUETA ETIQUETA
@@ -71,7 +70,7 @@ WHERE
 		<fieldDescription><![CDATA[codigo do arquivo ac (FK)]]></fieldDescription>
 	</field>
 	<pageHeader>
-		<band height="4"/>
+		<band height="46"/>
 	</pageHeader>
 	<detail>
 		<band height="337" splitType="Stretch">
@@ -271,7 +270,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{NU_ESPESSURA}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="69400c6d-4554-4310-b804-689b4bdf6e5a" x="208" y="65" width="81" height="9"/>
+				<reportElement uuid="69400c6d-4554-4310-b804-689b4bdf6e5a" x="208" y="66" width="81" height="9"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
