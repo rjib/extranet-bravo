@@ -41,6 +41,9 @@ define('PCP_GERAR_PLANO_DE_CORTE', 'Gerar Plano de Corte');
 define('PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE', 'Importar Plano de Corte Optisave');
 define('PCP_LISTA_DE_CORES', 'Lista de Cores');
 define('PCP_ORDEM_DE_PRODUCAO', 'Ordem de Produção');
+define('PCP_APONTAMENTO', 'Apontamento');
+define('PCP_MOTIVO_PARADA', 'Motivo Parada');
+define('PCP_RECURSO', 'Recursos');
 
 define('TIPOS_SANGUINEO', 'Sanguineo');
 define('TIPOS_EMAIL', 'E-mail');
