@@ -1,11 +1,11 @@
 <?php
-require_once 'setup.php';
-require_once 'models/tb_modulos.php';
-require_once 'helper.class.php';
 
-$moduloModel = new tb_modulos($conexaoERP);
-$co_papel = $_SESSION['codigoPapel'];
-
+	require_once 'setup.php';
+	require_once 'models/tb_modulos.php';
+	require_once 'helper.class.php';
+	
+	$moduloModel = new tb_modulos($conexaoERP);
+	$co_papel = $_SESSION['codigoPapel'];
 
 ?>
 
@@ -156,9 +156,28 @@ $co_papel = $_SESSION['codigoPapel'];
                                             if($pcpOrdem){
                                             ?>
                                             <li><a href="inicio.php?pg=lista_op">Ordem de Produção</a></li>
-                                            <?php }
-                                            
-                                            ?>                                            
+                                            <?php 
+											}
+                                            $pcpApontamento = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'PCP', 'Apontamento');
+                                            if($pcpApontamento){
+                                            ?> 
+                                            <li><a href="inicio.php?pg=apontamento">Apontamento</a></li>
+                                            <?php 
+											}
+											$pcpMotivoParada = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'PCP', 'Motivo Parada');
+                                            if($pcpMotivoParada){
+											?> 
+                                            <li><a href="inicio.php?pg=motivo_parada">Motivo Parada</a></li>
+                                            <?php 
+											}
+											$pcpRecurso = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'PCP', 'Recursos');
+                                            if($pcpRecurso){
+											?>  
+                                            <li><a href="inicio.php?pg=recurso">Recursos</a></li>
+                                            <?php 
+											}
+											?>
+                                                                                    
                         				</ul>
 									</li>   
 									<?php }     
