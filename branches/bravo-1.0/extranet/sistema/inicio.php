@@ -62,7 +62,7 @@
 	    $inicio	= "cadastros/colaborador_alt.php";
 	}
 	
-	if($pg	== "usuario" && !$sub){
+	elseif($pg	== "usuario" && !$sub){
 	    $inicio	= "cadastros/usuario.php";
 	}elseif($pg	== "usuario_ins" && !$sub){
 	    $inicio	= "cadastros/usuario_ins.php";
@@ -70,7 +70,7 @@
 	    $inicio	= "cadastros/usuario_alt.php";
 	}
 	
-	if($pg	== "pessoa" && !$sub){
+	elseif($pg	== "pessoa" && !$sub){
 	    $inicio	= "cadastros/pessoa.php";
 	}elseif($pg	== "pessoa_ins" && !$sub){
 	    $inicio	= "cadastros/pessoa_ins.php";
@@ -102,7 +102,6 @@
 	    $inicio	= "cadastros/nacionalidade_alt.php";
 	}
 
-	
 	elseif($pg	== "papel" && !$sub){
 	    $inicio	= "cadastros/papel.php";
 	}elseif($pg	== "papel_ins" && !$sub){
@@ -160,7 +159,7 @@
 	}
 	
 	/****** Controle de Acesso ******/
-	if($pg	== "acesso_consultor" && !$sub){
+	elseif($pg	== "acesso_consultor" && !$sub){
 	    $inicio	= "cadastros/controle_acesso/acesso_consultor.php";
 	}elseif($pg	== "acesso_consultor_ins" && !$sub){
 	    $inicio	= "cadastros/controle_acesso/acesso_consultor_ins.php";
@@ -168,7 +167,7 @@
 	    $inicio	= "cadastros/controle_acesso/acesso_consultor_alt.php";
 	}
 	
-	if($pg	== "acesso_visitante" && !$sub){
+	elseif($pg	== "acesso_visitante" && !$sub){
 	    $inicio	= "cadastros/controle_acesso/acesso_visitante.php";
 	}elseif($pg	== "acesso_visitante_ins" && !$sub){
 	    $inicio	= "cadastros/controle_acesso/acesso_visitante_ins.php";
@@ -176,7 +175,7 @@
 	    $inicio	= "cadastros/controle_acesso/acesso_visitante_alt.php";
 	}
 	
-	/**	Ordem de Produção **/
+	/**	PCP **/
 	elseif($pg	== "ordem_producao" && !$sub){
 	    $inicio	= "cadastros/ordem_producao/ordem_producao.php";
 	}elseif($pg	== "importar_ad" && !$sub){
@@ -187,10 +186,28 @@
 		$inicio	= "cadastros/ordem_producao/lista_op.php";
 	}elseif($pg	== "lista_plano_corte" && !$sub){
 		$inicio	= "cadastros/ordem_producao/lista_plano_corte.php";
+		
+	}elseif($pg	== "apontamento" && !$sub){
+	    $inicio	= "cadastros/pcp/apontamento.php";
+	}elseif($pg	== "apontamento_ins" && !$sub){
+	    $inicio	= "cadastros/pcp/apontamento_ins.php";
+	}elseif($pg	== "apontamento_alt" && !$sub){
+	    $inicio	= "cadastros/pcp/apontamento_alt.php";
+	
+	}elseif($pg	== "motivo_parada" && !$sub){
+	    $inicio	= "cadastros/pcp/motivo_parada.php";
+	}elseif($pg	== "motivo_parada_ins" && !$sub){
+	    $inicio	= "cadastros/pcp/motivo_parada_ins.php";
+	}elseif($pg	== "motivo_parada_alt" && !$sub){
+	    $inicio	= "cadastros/pcp/motivo_parada_alt.php";
+	
+	}elseif($pg	== "recurso" && !$sub){
+	    $inicio	= "cadastros/pcp/recurso.php";
 	}
 	
+	
 	/** Modulos **/
-	if($pg == "modulos" && !$sub){
+	elseif($pg == "modulos" && !$sub){
 		$inicio = "cadastros/modulos/modulos.php";		
 	}
 	
@@ -230,20 +247,20 @@
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" bgcolor="FFFFFF">
 <?php
-//VERIFICA PRIMEIRO ACESSO
-$primeiroAcesso = $_SESSION['qt_acesso'];
 
-if($primeiroAcesso==0){
-	include 'configuracoes/form_alterar_senha.php';
-
-}else{
-
-	if( (isset($inicio)) and (file_exists($inicio)) ) {
-		include($inicio);
+	//VERIFICA PRIMEIRO ACESSO
+	$primeiroAcesso = $_SESSION['qt_acesso'];
+	
+	if($primeiroAcesso==0){
+		include 'configuracoes/form_alterar_senha.php';
 	}else{
-		include ("principal.php");
+		if( (isset($inicio)) and (file_exists($inicio)) ) {
+			include($inicio);
+		}else{
+			include ("principal.php");
+		}
 	}
-}
+
 ?>
 </body>
 </html>
