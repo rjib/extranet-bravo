@@ -1,4 +1,4 @@
-<?phP
+<?php
 /**
  * Constantes do sistema
  * @author Ricardo S. Alvarenga

@@ -8,6 +8,7 @@ require_once APP_PATH.'sistema/models/tb_pcp_cor.php';
 require_once APP_PATH.'sistema/models/tb_pcp_op.php';
 require_once APP_PATH.'sistema/models/tb_pcp_ad.php';
 require_once APP_PATH.'sistema/models/tb_pcp_ad_peca.php';
+$logRollback = array();
 
 if(isset($_POST['co_pcp_ad'])){
 	
@@ -88,10 +89,24 @@ if(isset($_POST['co_pcp_ad'])){
 			
 							try{
 								$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorteExistente($co_int_produto, $co_cor, $lote, $co_pcp_ad); //produtos dentro do arquivo AD
+								
 								$processadas=0;
 								
-								if($co_pcp_op!=false){	
-									$total = $co_pcp_op[1];
+								if($co_pcp_op!=false){
+									$vet_temp = array();
+											if(count($logRollback)>0){
+												for($ix=0;$ix<count($logRollback);$ix++){
+													array_push($vet_temp, $logRollback[$ix]['co_pcp_op']);													
+													
+												}
+												if(array_search($co_pcp_op[0], $vet_temp) ===false){
+													array_push($logRollback,array('co_pcp_op'=>$co_pcp_op[0],'qtd_processada_anterior'=>$co_pcp_op[2]));													
+										}
+									}else{
+										array_push($logRollback,array('co_pcp_op'=>$co_pcp_op[0],'qtd_processada_anterior'=>$co_pcp_op[2]));
+									}
+									
+								$total = $co_pcp_op[1];
 									
 								## CONTABILIZAR VALOR PEÇA COM LARGURA OU ESPESSURA ABAIXO NO VALOR MINIMO
 									
@@ -117,6 +132,12 @@ if(isset($_POST['co_pcp_ad'])){
 								if($co_pcp_op[4]< DIMENSAO_MINIMA && $co_pcp_op[5]< DIMENSAO_MINIMA){
 									unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
 									$_acModel->delete($co_pcp_ac);
+									for($di = 0; $di<count($divergencias);$di++){
+										$_adPecaModel->delete($divergencias[$di], $co_pcp_ad);
+									}
+									for($ix=0;$ix<count($logRollback);$ix++){
+										$_opModel->atualizaProcessadoComQuantidade($logRollback[$ix]['co_pcp_op'], $logRollback[$ix]['qtd_processada_anterior']);
+									}
 									$data['sucesso']= false;
 									$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois este arquivo contém produto com as duas dimensões abaixo da dimensão minima permitida.</p>";
 									echo json_encode($data);
@@ -132,109 +153,240 @@ if(isset($_POST['co_pcp_ad'])){
 									## FIM CONTABILIZAR
 									
 									if($total >= $processadas){																					
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtPeca, $co_int_produto, $co_pcp_ac);
-										//$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtPeca, $co_int_produto, $co_pcp_ac);										
+										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas);
 										
 									}else{
 										
 										$diferenca = $processadas-$total;
 										
 										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $dif2, $co_int_produto, $co_pcp_ac);
-										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
+										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $dif2+$co_pcp_op[2]);
 										
-										$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($co_int_produto, $co_cor, $lote); //produtos fora do arquivo AD ou com outra op + produtos
-										if($co_pcp_op!=false){
-											if($diferenca<=$co_pcp_op[1]){
-												array_push($divergencias, $co_pcp_op[0]);//lista os produtos divergentes
-												$divergencias = array_unique($divergencias);
-												$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $diferenca, $co_int_produto, $co_pcp_ac);
-												//$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
-											}else{
-												unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);//producao a mais para nova op aberta processo nao permitido
+										
+										$result = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($co_int_produto, $co_cor, $lote); //produtos fora do arquivo AD ou com outra op + produtos
+										$co_pcp_op = mysql_fetch_array($result);
+											
+											if($co_pcp_op!=false){
+												
+												if($diferenca<=$co_pcp_op[1]){
+													array_push($divergencias, $co_pcp_op[0]);//lista os produtos divergentes
+													$divergencias = array_unique($divergencias);
+													$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $diferenca, $co_int_produto, $co_pcp_ac);
+													$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $diferenca);
+													$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
+												}else{
+													unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);//producao a mais para nova op aberta processo nao permitido
+													$_acModel->delete($co_pcp_ac);
+													for($di = 0; $di<count($divergencias);$di++){
+														$_adPecaModel->delete($divergencias[$di], $co_pcp_ad);
+													}
+													for($ix=0;$ix<count($logRollback);$ix++){
+														$_opModel->atualizaProcessadoComQuantidade($logRollback[$ix]['co_pcp_op'], $logRollback[$ix]['qtd_processada_anterior']);
+													}
+													$data['sucesso']= false;
+													$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois a OP: ".$co_pcp_op[2]." permite apenas a inclusão de <strong>".$co_pcp_op[1]."</strong> peça(s) e você esta tentando incluir <strong style='color:red;'>".$diferenca."</strong> peça(s)</p>";
+													echo json_encode($data);
+													exit;
+												}
+												
+											}else{//erro nao possui op cadastrado para os produtos adicionados a mais 											
+												unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
 												$_acModel->delete($co_pcp_ac);
-												$data['sucesso']= false;
-												$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois a OP: ".$co_pcp_op[2]." permite apenas a inclusão de <strong>".$co_pcp_op[1]."</strong> peça(s) e você esta tentando incluir <strong style='color:red;'>".$diferenca."</strong> peça(s)</p>";
+												for($di = 0; $di<count($divergencias);$di++){
+													$_adPecaModel->delete($divergencias[$di], $co_pcp_ad);
+												}
+												for($ix=0;$ix<count($logRollback);$ix++){
+													$_opModel->atualizaProcessadoComQuantidade($logRollback[$ix]['co_pcp_op'], $logRollback[$ix]['qtd_processada_anterior']);
+												}
+												$data['sucesso']= false;										
+												$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois não foi aberta OP para produção de <strong style='color:red;'>".$diferenca."</strong> peça(s) a mais para o produto ".$co_int_produto."</p>";
 												echo json_encode($data);
 												exit;
 											}
-											
-										}else{//erro nao possui op cadastrado para os produtos adicionados a mais 											
-											unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
-											$_acModel->delete($co_pcp_ac);
-											$data['sucesso']= false;										
-											$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois não foi aberta OP para produção de <strong style='color:red;'>".$diferenca."</strong> peça(s) a mais para o produto ".$co_int_produto."</p>";
-											echo json_encode($data);
-											exit;
 										}
-									}
 								}else{
 									
-									$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($co_int_produto, $co_cor, $lote); //produtos fora do arquivo AD								
+									$result = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($co_int_produto, $co_cor, $lote); //produtos fora do arquivo AD
 									
 									
-									if($co_pcp_op!=false){
-										if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
-											$processadas += $qtd_pecas*4;
-										}elseif($co_pcp_op[6]<56){
-											$processadas += $qtd_pecas*8;									
-										}elseif($co_pcp_op[6]>=100 && $co_pcp_op[6]<240){									
-											$processadas += $qtd_pecas*2;
-										}	
-		
-										if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //comprimento
-											$processadas += $qtd_pecas*4;
-										}elseif($co_pcp_op[5]<56){
-											$processadas += $qtd_pecas*8;
-										}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
-											$processadas += $qtd_pecas*2;
-										}
-										if($processadas==0){
-											$processadas+= $qtd_pecas*1;
-										}
-										array_push($divergencias, $co_pcp_op[0]);	//lista os produtos divergentes
-										$divergencias = array_unique($divergencias);
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $co_int_produto, $co_pcp_ac);
-										
-									}else{
-											$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorteExistenteAD($co_int_produto, $co_cor, $lote); //se nao existir nenhuma nova op, procura op pendente
-											if($co_pcp_op !=false){												
-												if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
-													$processadas += $qtd_pecas*4;
-												}elseif($co_pcp_op[6]<56){
-													$processadas += $qtd_pecas*8;
-												}elseif($co_pcp_op[6]>=100 && $co_pcp_op[6]<240){
-													$processadas += $qtd_pecas*2;
+									$temp = 0;
+
+									
+									
+									$result = mysql_fetch_array($result);
+									if($result!=false){
+										$result = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($co_int_produto, $co_cor, $lote); //produtos fora do arquivo AD
+										while($co_pcp_op = mysql_fetch_array($result)){
+											$vet_temp = array();
+											if(count($logRollback)>0){
+												for($ix=0;$ix<count($logRollback);$ix++){
+													array_push($vet_temp, $logRollback[$ix]['co_pcp_op']);													
+													
 												}
-												
-												if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //comprimento
-													$processadas += $qtd_pecas*4;
-												}elseif($co_pcp_op[5]<56){
-													$processadas += $qtd_pecas*8;
-												}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
-													$processadas += $qtd_pecas*2;
+												if(array_search($co_pcp_op[0], $vet_temp) ===false){
+													array_push($logRollback,array('co_pcp_op'=>$co_pcp_op[0],'qtd_processada_anterior'=>$co_pcp_op[3]));													
 												}
-												if($processadas==0){
-													$processadas+= $qtd_pecas*1;
+											}else{
+												array_push($logRollback,array('co_pcp_op'=>$co_pcp_op[0],'qtd_processada_anterior'=>$co_pcp_op[3]));
+											}
+										}
+										$result = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($co_int_produto, $co_cor, $lote); //produtos fora do arquivo AD
+										$continue = true;
+										while($co_pcp_op = mysql_fetch_array($result)){
+											if($continue == true){ //somente continue se ainda tiver produtos a serem processados										
+												if($temp==0){//se ja estiver feito os calculos nao precisa calcular novamente																					
+													if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
+														$processadas += $qtd_pecas*4;
+													}elseif($co_pcp_op[6]<56){
+														$processadas += $qtd_pecas*8;									
+													}elseif($co_pcp_op[6]>=100 && $co_pcp_op[6]<240){									
+														$processadas += $qtd_pecas*2;
+													}	
+					
+													if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //comprimento
+														$processadas += $qtd_pecas*4;
+													}elseif($co_pcp_op[5]<56){
+														$processadas += $qtd_pecas*8;
+													}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
+														$processadas += $qtd_pecas*2;
+													}
+													if($processadas==0){
+														$processadas+= $qtd_pecas*1;
+													}
+												}else{
+													$processadas = $temp;
 												}
 												array_push($divergencias, $co_pcp_op[0]);	//lista os produtos divergentes
 												$divergencias = array_unique($divergencias);
-												$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $co_int_produto, $co_pcp_ac);
+												if(($processadas+$co_pcp_op[3]) > $co_pcp_op[1]){
+													
+													$temp = $processadas - ($co_pcp_op[1]-$co_pcp_op[3]);
+													$processadas = $processadas - $temp;
+													$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas+$co_pcp_op[3], $co_int_produto, $co_pcp_ac);
+													$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
+													$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
+													$continue = true;
+													
+												}elseif (($processadas+$co_pcp_op[3]) <$co_pcp_op[1]){
+													$processadas = $processadas+$co_pcp_op[3];
+													$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $co_int_produto, $co_pcp_ac);													
+													$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
+													$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
+													$continue = false;
+												}elseif(($processadas+$co_pcp_op[3]) == $co_pcp_op[1]){
+													$processadas = $processadas+$co_pcp_op[3];
+													$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $co_int_produto, $co_pcp_ac);
+													$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
+													$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
+													$continue = false;
+												}
+											
+											}
+										}
+									}else{
+											$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorteExistenteAD($co_int_produto, $co_cor, $lote); //se nao existir nenhuma nova op, procura op pendente
+											
+											
+											
+											$temp = 0;
+											
+											if($co_pcp_op !=false){
+												
+													$vet_temp = array();
+														if(count($logRollback)>0){
+															for($ix=0;$ix<count($logRollback);$ix++){
+																array_push($vet_temp, $logRollback[$ix]['co_pcp_op']);													
+																
+															}
+															if(array_search($co_pcp_op[0], $vet_temp) ===false){
+																array_push($logRollback,array('co_pcp_op'=>$co_pcp_op[0],'qtd_processada_anterior'=>$co_pcp_op[3]));													
+															}
+													}else{
+														array_push($logRollback,array('co_pcp_op'=>$co_pcp_op[0],'qtd_processada_anterior'=>$co_pcp_op[3]));
+													}
+												
+												$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorteExistenteAD($co_int_produto, $co_cor, $lote); //se nao existir nenhuma nova op, procura op pendente
+												$continue = true;
+												
+													if($continue == true){ //somente continue se ainda tiver produtos a serem processados
+														if($temp==0){//se ja estiver feito os calculos nao precisa calcular novamente
+															
+															if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
+																$processadas += $qtd_pecas*4;
+															}elseif($co_pcp_op[6]<56){
+																$processadas += $qtd_pecas*8;
+															}elseif($co_pcp_op[6]>=100 && $co_pcp_op[6]<240){
+																$processadas += $qtd_pecas*2;
+															}
+															
+															if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //comprimento
+																$processadas += $qtd_pecas*4;
+															}elseif($co_pcp_op[5]<56){
+																$processadas += $qtd_pecas*8;
+															}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
+																$processadas += $qtd_pecas*2;
+															}
+															if($processadas==0){
+																$processadas+= $qtd_pecas*1;
+															}
+														}else{
+														$processadas = $temp;
+														}
+														array_push($divergencias, $co_pcp_op[0]);	//lista os produtos divergentes
+														$divergencias = array_unique($divergencias);
+													if(($processadas+$co_pcp_op[3]) > $co_pcp_op[1]){
+														
+														$temp = $processadas - ($co_pcp_op[1]-$co_pcp_op[3]);
+														$processadas = $processadas - $temp;
+														$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas+$co_pcp_op[3], $co_int_produto, $co_pcp_ac);
+														$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
+														$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
+														$continue = true;
+														
+													}elseif (($processadas+$co_pcp_op[3]) <$co_pcp_op[1]){
+														$processadas = $processadas+$co_pcp_op[3];
+														$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $co_int_produto, $co_pcp_ac);													
+														$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
+														$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
+														$continue = false;
+													}elseif(($processadas+$co_pcp_op[3]) == $co_pcp_op[1]){
+														$processadas = $processadas+$co_pcp_op[3];
+														$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $co_int_produto, $co_pcp_ac);
+														$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
+														$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
+														$continue = false;
+													}
+												}
+											
 											}else{
 											unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
 											$_acModel->delete($co_pcp_ac);
+											for($di = 0; $di<count($divergencias);$di++){
+												$_adPecaModel->delete($divergencias[$di], $co_pcp_ad);
+											}
+											for($ix=0;$ix<count($logRollback);$ix++){
+												$_opModel->atualizaProcessadoComQuantidade($logRollback[$ix]['co_pcp_op'], $logRollback[$ix]['qtd_processada_anterior']);												
+											}
+											
 											$data['sucesso']= false;
-											$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois este arquivo contém produto de lote diferente do arquivo <strong> ".$no_pcp_ad.".ad </strong>original.</p>";
+											$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois este arquivo contém produto de lote diferente do arquivo <strong> ".$no_pcp_ad.".ad </strong>original. Ou o produto ".$co_int_produto." possui uma quantidade maior que a permitida. </p>";
 											echo json_encode($data);
 											exit;	
 										}									
 									}								
 									
 								}
-								
 							}catch(Exception $e){
 								## EM CASO DE ERRO ROLLBACK
 								unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
 								$_acModel->delete($co_pcp_ac);
+								for($di = 0; $di<count($divergencias);$di++){
+									$_adPecaModel->delete($divergencias[$di], $co_pcp_ad);
+								}
+								for($ix=0;$ix<count($logRollback);$ix++){
+									$_opModel->atualizaProcessadoComQuantidade($logRollback[$ix]['co_pcp_op'], $logRollback[$ix]['qtd_processada_anterior']);
+								}
 								$data['msg'] = $e;
 								echo json_encode($data);
 								exit;
@@ -250,14 +402,16 @@ if(isset($_POST['co_pcp_ad'])){
 
 			}
 			
+			$divergencias = array_unique($divergencias);
 			sort($divergencias);
 			$co_ops = array();//codigo das ops
-			$result = $_pecasModel->findByPecas($co_pcp_ac);
+			/* $result = $_pecasModel->findByPecas($co_pcp_ac);
 			while ($peca = mysql_fetch_array($result)){
 				$op = $_opModel->getQtdProduto($peca['co_pcp_op']);
+				$ordem_producao = $_opModel->getTotalProduto($op['co_int_produto'], $op['lote'], $op['co_produto']);
 				$aprocessar  = $op[1]+$peca['qtd_processada'];
 				$nu_op 		 = $op[2];
-				 if($aprocessar<=$op[0]){//se quantidade processadas for menor ou igual ao total de pecas
+				 if($aprocessar<=$ordem_producao['QTD_PRODUTO']){//se quantidade processadas for menor ou igual ao total de pecas
 					if($op[0]>$op[1]){//quantidade produto é menor que a quantidade processada?
 						array_push($co_ops, $peca['co_pcp_op'].'.'.$peca['qtd_processada']);
 						$qtd_processada = $op[1]+$peca['qtd_processada'];
@@ -275,9 +429,10 @@ if(isset($_POST['co_pcp_ad'])){
 				 	
 				 }
 				
-			}
+			} */
 			
 			## DIVERGENCIA
+			
 			if(count($divergencias)>0){
 				$data['divergencia']=true;
 				$data['dadosDivergencia'] = $divergencias;

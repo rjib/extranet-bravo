@@ -45,5 +45,18 @@ class tb_pcp_ad_peca{
 		return $result;
 		
 	}
+	
+	/**
+	 * Metodo para remover um relacionamento de um produto que nao esteja no ad
+	 * @param int $co_pcp_op
+	 * @param int $co_pcp_ad
+	 * @author Ricardo S. Alvarenga
+	 * @since 07/01/2013
+	 */
+	public function delete($co_pcp_op,$co_pcp_ad){
+		$query = "DELETE FROM tb_pcp_ad_peca WHERE co_pcp_ad=".$co_pcp_ad." AND co_pcp_op = ".$co_pcp_op;
+		mysql_query($query, $this->conexaoERP);		
+		
+	}
 }
 ?>
