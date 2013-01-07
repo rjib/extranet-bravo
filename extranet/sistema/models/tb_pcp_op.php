@@ -26,7 +26,7 @@ class tb_pcp_op{
 	 * @since 27/12/2012
 	 */
 	public function getCoProduto($co_pc_op){
-		$query  = "select CO_PRODUTO, (qtd_produto-qtd_processada) QTD_PROCESSADA from tb_pcp_op where co_pcp_op = ".$co_pc_op;
+		$query  = "select CO_PRODUTO, (qtd_produto-qtd_processada) QTD_PROCESSADA, QTD_PROCESSADA QTD_PROCESSADA_ATUAL from tb_pcp_op where co_pcp_op = ".$co_pc_op;
 		$result = mysql_query($query, $this->conexaoERP);
 		$row 	= mysql_fetch_array($result);
 		return $row;
@@ -131,7 +131,7 @@ class tb_pcp_op{
 				 AND PRODUTO.co_cor = '".$co_cor."'
 				 AND ORDEM_PRODUCAO.nu_lote = '".$nu_lote."'
 				 AND ORDEM_PRODUCAO.co_pcp_op NOT IN (SELECT DISTINCT co_pcp_op FROM tb_pcp_ad_peca AD_PECA)";
-		$row = mysql_fetch_row(mysql_query($sql,$this->conexaoERP));		
+		$row = mysql_query($sql,$this->conexaoERP);		
 		return $row;
 	}
 	
@@ -187,7 +187,7 @@ class tb_pcp_op{
 				WHERE PRODUTO.co_int_produto = '".$co_int_prod."'
 				 AND PRODUTO.co_cor = '".$co_cor."'
 				 AND ORDEM_PRODUCAO.nu_lote = '".$nu_lote."'
-				 AND PCP_AD.co_pcp_ad = ".$co_pcp_ad;
+				 AND PCP_AD.co_pcp_ad = ".$co_pcp_ad."  AND ORDEM_PRODUCAO.qtd_produto <> ORDEM_PRODUCAO.qtd_processada";
 		$row = mysql_fetch_row(mysql_query($sql,$this->conexaoERP));
 		return $row;
 	}
@@ -235,11 +235,30 @@ class tb_pcp_op{
 	 * @return multitype:
 	 */
 	public function getQtdProduto($co_pcp_op){
-		$query = "SELECT qtd_produto, qtd_processada, CONCAT(co_num,co_item,co_sequencia) nu_op, nu_lote FROM tb_pcp_op WHERE co_pcp_op = ".$co_pcp_op;
+		$query = "SELECT qtd_produto, qtd_processada, CONCAT(co_num,co_item,co_sequencia) nu_op, nu_lote, co_produto FROM tb_pcp_op WHERE co_pcp_op = ".$co_pcp_op;
 		$result = mysql_query($query, $this->conexaoERP);
 		$row = mysql_fetch_row($result);
 		return $row;
 		
+	}
+	/**
+	 * Metodo retornar a quantidade maxima de produtos a serem produzidas
+	 * @param string $co_int_produto
+	 * @param string $lote
+	 * @param string $co_produto
+	 * @author Ricardo S. Alvarenga
+	 * @since 03/01/2012
+	 * @return multitype:
+	 */
+	public function getTotalProduto($co_int_produto,$lote,$co_produto){
+		$query = "select sum(qtd_produto) QTD_PRODUTO from tb_pcp_op OP 
+					inner join tb_pcp_produto PROD on OP.CO_PRODUTO = PROD.CO_PRODUTO
+				  where PROD.co_int_produto = '".$co_int_produto."' and OP.nu_lote = '".$lote."' AND OP.CO_PRODUTO = '".$co_produto."' group by OP.co_produto";
+		
+		$result = mysql_query($query, $this->conexaoERP);
+		$row = mysql_fetch_row($result);
+		return $row;
+	
 	}
 	
 	/**

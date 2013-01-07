@@ -97,7 +97,7 @@ class tb_pcp_pecas{
 					co_cor
 				  FROM tb_pcp_ac_peca
 					WHERE co_pcp_ac = ".$co_pcp_ac."
-					GROUP BY co_pcp_op;";
+					GROUP BY co_pcp_op";
 		$result = mysql_query($query, $this->conexaoERP);
 		
 		return $result;
