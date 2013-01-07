@@ -146,6 +146,17 @@ A.STYLE02:hover{
 	text-decoration:underline;
 }
 
+A.STYLE03 {
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+	font-size:11px;
+	text-decoration: none; 
+	font-weight: bold; 
+	color: #FFFFFF;
+}
+A.STYLE03:hover{
+	text-decoration:underline;
+}
+
 /***********************************************/
 /* FORMULARIOS                                 */
 /***********************************************/
