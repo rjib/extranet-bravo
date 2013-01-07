@@ -120,16 +120,22 @@
                                 <th width="120" align="center"><font class="FONT05"><b>Tipo</b></font></td>
                               </tr>
                               <?php
-							      while($rowApontamento=mysql_fetch_array($sqlApontamento)){ 	 
-							  ?>
-                              <tr>
-                                <td align="center"><?php echo $rowApontamento['NU_OP']; ?></td>
-                                <td align="center"><?php echo $rowApontamento['NO_RECURSO']; ?></td>
-                                <td align="center"><?php echo $rowApontamento['HR_INICIO']; ?></td>
-                                <td align="center"><a title="Detalhes" href="#" name="detalhesApontamento" id="<?php echo $rowApontamento['CO_PCP_APONTAMENTO']; ?>" style="font-family: Arial, Tahoma, Helvetica, sans-serif;font-size:11px;text-decoration: none; font-weight: bold; color: #990000;"><?php echo $rowApontamento['FL_APONTAMENTO']; ?></a></td>
-                              </tr>
-                              <?php
-							      }
+							      if(mysql_num_rows($sqlApontamento) == 0){
+								      echo "<tr>";
+									  echo "<td colspan='4' align='center'><font class='FONT06'><b>N&atilde;o h&aacute; apontamentos abertos no momento!</b></font></td>";
+									  echo "</tr>";
+								  }else{
+								      while($rowApontamento=mysql_fetch_array($sqlApontamento)){ 
+									      echo "<tr>";
+										  echo "<td align='center'>".$rowApontamento['NU_OP']."</td>";
+										  echo "<td align='center'>".$rowApontamento['NO_RECURSO']."</td>";
+										  echo "<td align='center'>".$rowApontamento['HR_INICIO']."</td>";
+										  echo "<td align='center'>";
+										  echo "<a title='Detalhes' href='#' name='detalhesApontamento' id='".$rowApontamento['CO_PCP_APONTAMENTO']."' style='font-family: Arial, Tahoma, Helvetica, sans-serif;font-size:11px;text-decoration: none; font-weight: bold; color: #990000;'>".$rowApontamento['FL_APONTAMENTO']."</a>";
+										  echo "</td>";
+									      echo "</tr>";
+									  }
+								  }  	 
 							  ?>
                             </table></td>
                           </tr>
