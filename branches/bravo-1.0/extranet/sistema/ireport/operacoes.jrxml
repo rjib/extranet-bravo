@@ -136,7 +136,8 @@ FROM tb_pcp_operacao PCP_OPERACAO
     INNER JOIN tb_pcp_recurso PCP_RECURSO
         ON PCP_OPERACAO.CO_RECURSO = PCP_RECURSO.CO_RECURSO
 WHERE PCP_OPERACAO.CO_PRODUTO = '$P{CO_PRODUTO}'
-ORDER BY PCP_OPERACAO.CO_OPERACAO]]>
+ORDER BY PCP_OPERACAO.CO_OPERACAO
+LIMIT 5;]]>
 		</queryString>
 		<field name="NO_RECURSO" class="java.lang.String">
 			<fieldDescription><![CDATA[Nome do recurso.]]></fieldDescription>
@@ -154,7 +155,8 @@ FROM tb_pcp_operacao PCP_OPERACAO
     INNER JOIN tb_pcp_recurso PCP_RECURSO
         ON PCP_OPERACAO.CO_RECURSO = PCP_RECURSO.CO_RECURSO
 WHERE PCP_OPERACAO.CO_PRODUTO = '$P{CO_PRODUTO}'
-ORDER BY PCP_OPERACAO.CO_OPERACAO;]]>
+ORDER BY PCP_OPERACAO.CO_OPERACAO
+LIMIT 5;]]>
 	</queryString>
 	<field name="NO_RECURSO" class="java.lang.String">
 		<fieldDescription><![CDATA[Nome do recurso.]]></fieldDescription>
@@ -209,7 +211,7 @@ ORDER BY PCP_OPERACAO.CO_OPERACAO;]]>
 			<staticText>
 				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="297" y="8" width="58" height="13"/>
 				<textElement textAlignment="Center">
-					<font size="8" isBold="false"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PERDA]]></text>
 			</staticText>
@@ -245,7 +247,7 @@ ORDER BY PCP_OPERACAO.CO_OPERACAO;]]>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="21">
+		<band height="22">
 			<rectangle>
 				<reportElement uuid="ac30ba3f-ccde-43ed-8d67-9c1d15a8a681" x="2" y="1" width="552" height="20"/>
 				<graphicElement>
