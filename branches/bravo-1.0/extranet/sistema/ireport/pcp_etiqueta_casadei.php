@@ -10,18 +10,9 @@ require_once APP_PATH.'sistema/models/tb_pcp_pecas.php';
 date_default_timezone_set('America/Sao_Paulo');
 
 $_peca 	   = new tb_pcp_pecas($conexaoERP);
-isset($_GET['co_pcp_ad'])? $co_pcp_ad = $_GET['co_pcp_ad']:$co_pcp_ad = $_POST['co_pcp_ad'];
+$nu_op= $_POST['nu_op'];
 
-try{
-	$result    	   = $_peca->findPecasByAD($co_pcp_ad);
-	$dados 		   = mysql_fetch_array($result);
-	$co_pcp_ac 	   = $dados['CO_PCP_AC'];
-}catch (Exception $e){
-	$data=false;
-	echo json_encode($data);
-	exit;
 
-}
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
@@ -35,11 +26,12 @@ $pchartfolder="class/pchart2";
 $timestamp = date("d/m/Y")."  ".date("h:i:s");
 
 $_etiqueta = new tb_pcp_etiqueta($conexaoERP);
+$_etiqueta->proc_etiqueta_casadei($nu_op);
 
-$xml =  simplexml_load_file("etiqueta.jrxml");
+$xml =  simplexml_load_file("etiqueta_casadei.jrxml");
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-$PHPJasperXML->arrayParameter=array("CO_PCP_AC"=>$co_pcp_ac, "CODIGO_BARRA"=>APP_PATH.'barcodes'.DS, "TIMESTAMP"=>$timestamp);
+$PHPJasperXML->arrayParameter=array("NU_OP"=>$nu_op);
 $PHPJasperXML->xml_dismantle($xml);
 
 //$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db); * use this line if you want to connect with mysql
@@ -50,10 +42,7 @@ $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db);
 //$PHPJasperXML->outpage("F",APP_PATH.'barcodes'.DS.date("dmYhis").".pdf");    //page output method I:standard output  D:Download file
 $PHPJasperXML->outpage("I",date("dmYhis"));    //page output method I:standard output  D:Download file
 
-$result = $_etiqueta->listaCodigoBarra($co_pcp_ac);
-while ($dados = mysql_fetch_array($result)){
-	unlink(APP_PATH.'barcodes'.DS.$dados['NU_PCP_OP'].'.gif');
-}
+$_etiqueta->limparTemporaria();
 
 $data=true;
 

@@ -15,6 +15,7 @@ define('CONTROLE_DE_ACESSO', 'Controle de Acesso');
 define('CADASTROS', 'Cadastros');
 define('PCP', 'PCP');
 define('TIPOS', 'Tipos');
+define('RELATORIOS', 'Relatórios');
 define('CONFIGURACOES', 'Configurações');
 
 
