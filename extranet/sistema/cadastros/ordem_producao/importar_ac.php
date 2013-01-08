@@ -111,22 +111,22 @@ if(isset($_POST['co_pcp_ad'])){
 								## CONTABILIZAR VALOR PEÇA COM LARGURA OU ESPESSURA ABAIXO NO VALOR MINIMO
 									
 								if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //largura
-									$processadas += $qtd_pecas*4;
+									$processadas += floor($qtd_pecas/4);
 								}elseif($co_pcp_op[5]<56){
-									$processadas += $qtd_pecas*8;									
+									$processadas += floor($qtd_pecas/8);									
 								}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){									
-									$processadas += $qtd_pecas*2;
+									$processadas += floor($qtd_pecas/2);
 								}	
 
 								if($co_pcp_op[4]>=56 && $co_pcp_op[4]<100){ //comprimento
-									$processadas += $qtd_pecas*4;
+									$processadas += floor($qtd_pecas/4);
 								}elseif($co_pcp_op[4]<56){
-									$processadas += $qtd_pecas*8;
+									$processadas += floor($qtd_pecas/8);
 								}elseif($co_pcp_op[4]>=100 && $co_pcp_op[4]<240){
-									$processadas += $qtd_pecas*2;
+									$processadas += floor($qtd_pecas*2);
 								}
 								if($processadas==0){
-									$processadas+= $qtd_pecas*1;
+									$processadas+= floor($qtd_pecas*1);
 								}	
 								
 								if($co_pcp_op[4]< DIMENSAO_MINIMA && $co_pcp_op[5]< DIMENSAO_MINIMA){
@@ -237,19 +237,19 @@ if(isset($_POST['co_pcp_ad'])){
 											if($continue == true){ //somente continue se ainda tiver produtos a serem processados										
 												if($temp==0){//se ja estiver feito os calculos nao precisa calcular novamente																					
 													if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
-														$processadas += $qtd_pecas*4;
+														$processadas += floor($qtd_pecas/4);
 													}elseif($co_pcp_op[6]<56){
-														$processadas += $qtd_pecas*8;									
+														$processadas += floor($qtd_pecas/8);									
 													}elseif($co_pcp_op[6]>=100 && $co_pcp_op[6]<240){									
-														$processadas += $qtd_pecas*2;
+														$processadas += floor($qtd_pecas/2);
 													}	
 					
 													if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //comprimento
-														$processadas += $qtd_pecas*4;
+														$processadas += floor($qtd_pecas/4);
 													}elseif($co_pcp_op[5]<56){
-														$processadas += $qtd_pecas*8;
+														$processadas += floor($qtd_pecas/8);
 													}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
-														$processadas += $qtd_pecas*2;
+														$processadas += floor($qtd_pecas/2);
 													}
 													if($processadas==0){
 														$processadas+= $qtd_pecas*1;
@@ -313,19 +313,19 @@ if(isset($_POST['co_pcp_ad'])){
 														if($temp==0){//se ja estiver feito os calculos nao precisa calcular novamente
 															
 															if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
-																$processadas += $qtd_pecas*4;
+																$processadas += floor($qtd_pecas/4);
 															}elseif($co_pcp_op[6]<56){
-																$processadas += $qtd_pecas*8;
+																$processadas += floor($qtd_pecas/8);
 															}elseif($co_pcp_op[6]>=100 && $co_pcp_op[6]<240){
-																$processadas += $qtd_pecas*2;
+																$processadas += floor($qtd_pecas/2);
 															}
 															
 															if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //comprimento
-																$processadas += $qtd_pecas*4;
+																$processadas += floor($qtd_pecas/4);
 															}elseif($co_pcp_op[5]<56){
-																$processadas += $qtd_pecas*8;
+																$processadas += floor($qtd_pecas/8);
 															}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
-																$processadas += $qtd_pecas*2;
+																$processadas += floor($qtd_pecas/2);
 															}
 															if($processadas==0){
 																$processadas+= $qtd_pecas*1;
