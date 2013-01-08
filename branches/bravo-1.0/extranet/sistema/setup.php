@@ -46,6 +46,9 @@ define('PCP_APONTAMENTO', 'Apontamento');
 define('PCP_MOTIVO_PARADA', 'Motivo Parada');
 define('PCP_RECURSO', 'Recursos');
 
+define('RELATORIOS_ETIQUETAS', 'Etiquetas');
+define('RELATORIOS_ETIQUETA_CASADEI', 'Etiqueta de Peça (CasaDei)');
+
 define('TIPOS_SANGUINEO', 'Sanguineo');
 define('TIPOS_EMAIL', 'E-mail');
 define('TIPOS_TELEFONE', 'Telefone');
