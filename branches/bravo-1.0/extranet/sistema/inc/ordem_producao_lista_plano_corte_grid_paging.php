@@ -282,7 +282,7 @@ require_once APP_PATH.'sistema/helper.class.php';
 						}
 					}
 					
-					$s_html .= '<td align="left" width="120px">';
+					$s_html .= '<td align="center" width="120px">';
 					
 					if($acoes['FL_ADICIONAR']==1 || $acoes['FL_EXCLUIR']==1 || $acoes['FL_EDITAR']==1){
 						//22/11/2012 10:29:28

@@ -211,6 +211,29 @@
                                             <?php } ?>
                         				</ul>
                         			</li>
+                        			  <?php }
+                                      $principalConfig = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, array('Relatórios'));
+                                      if($principalConfig){
+                                     
+                                      ?>                                                            
+                                    <li>
+                                    
+                        				<a href="#" class="sub">Relatórios</a>
+                        				<ul>
+                        				<?php 
+                        				$configuracoesModulos = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Relatórios', 'Etiquetas');
+                        				if($configuracoesModulos){
+                        				?>
+                            				<li class="topline"><a href="inicio.php?pg=modulos">Módulos</a></li> 
+                            			<?php  }
+                            			$configuracoesPapel = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Relatórios', 'Gráficos');
+                            			if($configuracoesPapel){
+                            			?>	                            				
+                            				<li><a href="inicio.php?pg=papel">Parada de Máquina</a></li>  
+                            				<?php }?>
+                            				
+                        				</ul>
+									</li> 
                                       <?php }
                                       $principalConfig = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, array('Configurações'));
                                       if($principalConfig){

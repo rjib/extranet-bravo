@@ -106,5 +106,32 @@ class tb_pcp_etiqueta{
 		$result = mysql_query($query, $this->conexaoERP);
 		return $result;
 	}
+	
+	/**
+	 * Metodo para executar a procedure e gravar na tabela temporaria os dados da etiqueta
+	 * @param int $co_pcp_ac
+	 * @author Ricardo S. Alvarenga
+	 * @since 08/01/2013
+	 */
+	public function proc_etiqueta_casadei($nu_op){
+		try{
+			$query = "CALL etiqueta_casadei(".$nu_op.")";
+			mysql_query($query, $this->conexaoERP);
+		}catch (Exception $e){
+			return false;
+		}
+		return true;
+	}
+	
+	
+	/**
+	 * Metodo para limpar a tabela
+	 * @author Ricardo S. Alvarenga
+	 * @since 08/01/2013
+	 */
+	public function limparTemporaria(){
+		$query = "TRUNCATE tb_tmp_etiqueta";
+		mysql_query($query, $this->conexaoERP);
+	}
 }
 ?>
