@@ -133,5 +133,23 @@ class tb_pcp_etiqueta{
 		$query = "TRUNCATE tb_tmp_etiqueta";
 		mysql_query($query, $this->conexaoERP);
 	}
+	
+	/**
+	 * Metodo para buscar um numero da tabela temporaria
+	 * @author Ricardo S. Alvarenga
+	 * @since 08/01/2013
+	 * @param string $co_pcp_apontamento
+	 */
+	public function getOPFind($co_pcp_apontamento){
+		$query = "SELECT CONCAT(ORDEM_PRODUCAO.CO_NUM,ORDEM_PRODUCAO.CO_ITEM,ORDEM_PRODUCAO.CO_SEQUENCIA) NU_OP 
+					FROM TB_PCP_APONTAMENTO APONTAMENTO 
+					INNER JOIN TB_PCP_OP ORDEM_PRODUCAO 
+						ON APONTAMENTO.CO_PCP_OP = ORDEM_PRODUCAO.CO_PCP_OP WHERE CO_PCP_APONTAMENTO = ".$co_pcp_apontamento;
+		$result = mysql_query($query, $this->conexaoERP);
+		$row = mysql_fetch_array($result);
+		return $row;
+		
+	}
+	
 }
 ?>
