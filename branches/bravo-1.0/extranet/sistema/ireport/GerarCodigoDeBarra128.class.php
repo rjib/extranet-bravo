@@ -20,15 +20,15 @@ class GerarCodigoDeBarra128{
 	 * @since 18/12/2012
 	 */
 	
-	public function gerar($valor, $filename){
+	public function gerar($valor, $filename,$font1,$marg,$x1,$y1,$height1,$width1,$angle1,$x2,$y2,$x3,$y3){
 		
-		  $fontSize = 10;   // GD1 in px ; GD2 in point
-		  $marge    = 10;   // between barcode and hri in pixel
-		  $x        = 125;  // barcode center
-		  $y        = 275;  // barcode center
-		  $height   = 30;   // barcode height in 1D ; module size in 2D
-		  $width    = 2;    // barcode height in 1D ; not use in 2D
-		  $angle    = 180;   // rotation in degrees : nb : non horizontable barcode might not be usable because of pixelisation
+		  $fontSize = $font1;   // GD1 in px ; GD2 in point
+		  $marge    = $marg;   // between barcode and hri in pixel
+		  $x        = $x1;  // barcode center
+		  $y        = $y1;  // barcode center
+		  $height   = $height1;   // barcode height in 1D ; module size in 2D
+		  $width    = $width1;    // barcode height in 1D ; not use in 2D
+		  $angle    = $angle1;   // rotation in degrees : nb : non horizontable barcode might not be usable because of pixelisation
 		
 		$code     = $valor; // barcode, of course ;)
 		$type     = 'code128';
@@ -37,12 +37,12 @@ class GerarCodigoDeBarra128{
 		// -------------------------------------------------- //
 		//            ALLOCATE GD RESSOURCE
 		// -------------------------------------------------- //
-		$im     = imagecreatetruecolor(300, 300);
+		$im     = imagecreatetruecolor($x2, $y2);
 		$black  = ImageColorAllocate($im,0x00,0x00,0x00);
 		$white  = ImageColorAllocate($im,0xff,0xff,0xff);
 		$red    = ImageColorAllocate($im,0xff,0x00,0x00);
 		$blue   = ImageColorAllocate($im,0x00,0x00,0xff);
-		imagefilledrectangle($im, 0, 0, 300, 300, $white);
+		imagefilledrectangle($im, 0, 0, $x3, $y3, $white);
 		
 		// -------------------------------------------------- //
 		//                      BARCODE

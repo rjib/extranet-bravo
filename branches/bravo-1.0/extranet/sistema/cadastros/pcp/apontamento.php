@@ -51,7 +51,21 @@
 		$rowVerificaApontamentoAberto=mysql_fetch_array($sqlVerificaApontamentoAberto);		
 		 
 ?>
-<script type="text/javascript" src="js/pcp/apontamento.js"></script>
+<script type="text/javascript" src="js/pcp/apontamento.js"> </script>
+<script type="text/javascript">
+function gerarEtiquetaPeca(co_pcp_apontamento){
+	 //javascript:gerarEtiquetaPeca
+    		$("#boxLoadingEtiqueta").dialog("open");
+    					$("#temp").load('ireport/gerarCodeBarEtiquetaPecaCasaDei.php',{co_pcp_apontamento:co_pcp_apontamento}, function(data,status){
+    						 if (status == "success") {
+    									$(window.document.location).attr('href','ireport/pcp_etiqueta_casadei.php?co_pcp_apontamento='+co_pcp_apontamento);
+    						}
+    						
+    					});		
+    	}
+ 
+ </script>
+
 <script type="text/javascript" src="js/paging.js"></script>
 <div id="header-wrap">
 <table width="100%"  border="0" cellpadding="0" cellspacing="0" background="img/bg_header.jpg">
@@ -176,7 +190,13 @@
 		            <td valign="top">
                     <div id="grid" class="grid"></div>
                     <div class="controls"></div>
-                    <div id="console"></div>     
+                    <div id="console"></div>
+                    <div id="temp" style="display: none;"></div>  
+                     <div id="boxLoadingEtiqueta" style="display: none;"> <p align="center">
+       						 <span><img src="img/ajax-loader.gif"/></span><br>
+       							Etiqueta esta sendo gerada, por favor aguarde...
+   							 </p>
+ 					</div>
                     </td>
 	            </tr>
 	        </table>

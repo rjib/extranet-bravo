@@ -3,37 +3,32 @@ date_default_timezone_set('America/Sao_Paulo');
 require_once('GerarCodigoDeBarra128.class.php');
 require_once('../setup.php');
 require_once '../models/tb_pcp_etiqueta.php';
-require_once '../models/tb_pcp_pecas.php';
+
 
 $_etiqueta = new tb_pcp_etiqueta($conexaoERP);
 $_barcode128 = new GerarCodigoDeBarra128();
-$_peca = new tb_pcp_pecas($conexaoERP);
 
 /**
  * Metodo para criar e salvar o codigo de barra no diretorio
  * @author Ricardo S. Alvarenga
- * @since 19/12/2012
+ * @since 09/01/2013
  * @param int $co_pcp_ac codigo do ac
  *
  */
 $data=false;
 
-function gerar($co_pcp_ac){
+function gerar($nu_op){
 	date_default_timezone_set('America/Sao_Paulo');
 	require_once('GerarCodigoDeBarra128.class.php');
 	require_once('../setup.php');
 	require_once '../models/tb_pcp_etiqueta.php';
 	require_once '../models/tb_pcp_pecas.php';
 	
-	$_etiqueta = new tb_pcp_etiqueta(CONEXAOERP);
-	$_barcode128 = new GerarCodigoDeBarra128();
-	$_peca = new tb_pcp_pecas(CONEXAOERP);
+	$_barCasaDei = new GerarCodigoDeBarra128();
 
-	$result = $_etiqueta->listaCodigoBarra($co_pcp_ac);
 	try {
-		while ($dados = mysql_fetch_array($result)){
-			$_barcode128->gerar($dados["NU_PCP_OP"], APP_PATH.'barcodes'.DS.$dados['NU_PCP_OP'].'.gif',10,10,125,275,30,2,180,300,300,300,300);
-		}
+		$_barCasaDei->gerar($nu_op, APP_PATH.'barcodes'.DS.'casadei_'.$nu_op.'.gif',10,0,75,40,20,1,180,150,50,300,300);
+		
 	}catch (Exception $e){
 		$data=false;
 		echo json_encode($data);
@@ -43,21 +38,10 @@ function gerar($co_pcp_ac){
 	$data=true;
 }
 
-$co_pcp_ad = $_POST['co_pcp_ad'];
-
-try {
-	$result    	   = $_peca->findPecasByAD($co_pcp_ad);
-	$dados 		   = mysql_fetch_array($result);
-}catch (Exception $e){
-	$data=false;
-	echo json_encode($data);
-	exit;
-}
-
-$co_pcp_ac	   = $dados['CO_PCP_AC'];
-
-gerar($co_pcp_ac);
+$co_pcp_apontamento = $_POST['co_pcp_apontamento'];
+$row = $_etiqueta->getOPFind($co_pcp_apontamento);
+$nu_op = $row[0];
+gerar($nu_op);
 $data=true;
 //echo json_encode($data);
 ?>
-
