@@ -9,8 +9,8 @@ require_once APP_PATH.'sistema/models/tb_pcp_pecas.php';
 
 date_default_timezone_set('America/Sao_Paulo');
 
-$_peca 	   = new tb_pcp_pecas($conexaoERP);
-$nu_op= $_POST['nu_op'];
+$_peca 	           = new tb_pcp_pecas($conexaoERP);
+$co_pcp_apontamento= $_GET['co_pcp_apontamento'];
 
 
 
@@ -26,12 +26,13 @@ $pchartfolder="class/pchart2";
 $timestamp = date("d/m/Y")."  ".date("h:i:s");
 
 $_etiqueta = new tb_pcp_etiqueta($conexaoERP);
-$_etiqueta->proc_etiqueta_casadei($nu_op);
+$_etiqueta->proc_etiqueta_casadei($co_pcp_apontamento);
+$row = $_etiqueta->getOPFind($co_pcp_apontamento);
 
 $xml =  simplexml_load_file("etiqueta_casadei.jrxml");
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-$PHPJasperXML->arrayParameter=array("NU_OP"=>$nu_op);
+$PHPJasperXML->arrayParameter=array("co_pcp_apontamento"=>$co_pcp_apontamento, "PATH"=>APP_PATH.'barcodes'.DS);
 $PHPJasperXML->xml_dismantle($xml);
 
 //$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db); * use this line if you want to connect with mysql
@@ -43,6 +44,8 @@ $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db);
 $PHPJasperXML->outpage("I",date("dmYhis"));    //page output method I:standard output  D:Download file
 
 $_etiqueta->limparTemporaria();
+//APP_PATH.'barcodes'.DS.'casadei_'.$nu_op.'.gif'
+unlink(APP_PATH.'barcodes'.DS.'casadei_'.$row[0].'.gif');
 
 $data=true;
 

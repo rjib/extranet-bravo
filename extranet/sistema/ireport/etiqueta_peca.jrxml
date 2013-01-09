@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiqueta_peca" language="groovy" pageWidth="170" pageHeight="36" columnWidth="170" leftMargin="0" rightMargin="0" topMargin="5" bottomMargin="5" uuid="48adde4b-9af4-421f-b26f-6ddd3ef4b146">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT * FROM tb_pcp_apontamento WHERE HR_FIM <>'';]]>
+	</queryString>
+	<field name="CO_PCP_APONTAMENTO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Codigo do apontamento (Primary Key).]]></fieldDescription>
+	</field>
+	<field name="DT_CADAS" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[Data e Hora cadastro do apontamento.]]></fieldDescription>
+	</field>
+	<field name="DT_APONTAMENTO" class="java.sql.Date">
+		<fieldDescription><![CDATA[Data do apontamento.]]></fieldDescription>
+	</field>
+	<field name="CO_RECURSO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Codigo do recurso (Foreign Key).]]></fieldDescription>
+	</field>
+	<field name="HR_INICIO" class="java.lang.String">
+		<fieldDescription><![CDATA[Hora de Inicio do apontamento.]]></fieldDescription>
+	</field>
+	<field name="HR_FIM" class="java.lang.String">
+		<fieldDescription><![CDATA[Hora Fim do apontamento.]]></fieldDescription>
+	</field>
+	<field name="FL_APONTAMENTO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Flag tipo apontamento 1 - Parada de maquina, 2 - Producao.]]></fieldDescription>
+	</field>
+	<field name="CO_MOTIVO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Codigo do motivo (Foreign Key).]]></fieldDescription>
+	</field>
+	<field name="CO_PCP_OP" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Codigo do pcp op (Foreign Key).]]></fieldDescription>
+	</field>
+	<field name="QTD_PRODUTO" class="java.lang.String">
+		<fieldDescription><![CDATA[Quantidade do produto.]]></fieldDescription>
+	</field>
+	<field name="CO_USUARIO_INICIO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Codigo do usuario que inseriu o inicio do apontamento (Foreign Key).]]></fieldDescription>
+	</field>
+	<field name="CO_USUARIO_FIM" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Codigo do usuario que inseriu o fim do apontamento (Foreign Key).]]></fieldDescription>
+	</field>
+	<pageHeader>
+		<band height="50">
+			<staticText>
+				<reportElement uuid="c189e3fe-4d1f-43af-b1f3-dc9b527534a3" x="30" y="11" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="50">
+			<staticText>
+				<reportElement uuid="a277a564-122f-4572-b50c-5ec925f59adf" x="64" y="26" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="746baacf-a0e5-4a25-adf5-05c89140e23c" x="18" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{QTD_PRODUTO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50"/>
+	</pageFooter>
+</jasperReport>
