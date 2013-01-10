@@ -9,7 +9,7 @@
 	<parameter name="PATH" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT *
-FROM tb_tmp_etiqueta
+FROM tb_tmp_etiqueta_peca_casadei
 WHERE co_pcp_apontamento = $P{co_pcp_apontamento}
 ORDER BY CO_TMP_ETIQUETA]]>
 	</queryString>

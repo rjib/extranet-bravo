@@ -108,14 +108,29 @@ class tb_pcp_etiqueta{
 	}
 	
 	/**
-	 * Metodo para executar a procedure e gravar na tabela temporaria os dados da etiqueta
+	 * Metodo para executar a procedure e gravar na tabela temporaria os dados da etiqueta peca casadei
 	 * @param int $co_pcp_ac
 	 * @author Ricardo S. Alvarenga
 	 * @since 08/01/2013
 	 */
-	public function proc_etiqueta_casadei($nu_op){
+	public function proc_etiqueta_casadei($co_pcp_apontamento){
 		try{
-			$query = "CALL etiqueta_casadei(".$nu_op.")";
+			$query = " CALL etiquetaCasadei(".$co_pcp_apontamento.")";
+			mysql_query($query, $this->conexaoERP);
+		}catch (Exception $e){
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * Metodo para executar a procedure e gravar na tabela temporaria os dados da etiqueta de peca
+	 * @param int $co_pcp_ac
+	 * @author Ricardo S. Alvarenga
+	 * @since 10/01/2013
+	 */
+	public function proc_etiqueta_peca($co_pcp_apontamento){
+		try{
+			$query = " CALL etiquetaPeca(".$co_pcp_apontamento.")";
 			mysql_query($query, $this->conexaoERP);
 		}catch (Exception $e){
 			return false;
@@ -130,7 +145,16 @@ class tb_pcp_etiqueta{
 	 * @since 08/01/2013
 	 */
 	public function limparTemporaria(){
-		$query = "TRUNCATE tb_tmp_etiqueta";
+		$query = "TRUNCATE tb_tmp_etiqueta_peca_casadei";
+		mysql_query($query, $this->conexaoERP);
+	}
+	/**
+	 * Metodo para limpar a tabela temporaria etiqueta peca 6x1,53cm
+	 * @author Ricardo S. Alvarenga
+	 * @since 10/01/2013
+	 */
+	public function limparTemporariaEtiquetaPeca(){
+		$query = "TRUNCATE tb_tmp_etiqueta_peca";
 		mysql_query($query, $this->conexaoERP);
 	}
 	

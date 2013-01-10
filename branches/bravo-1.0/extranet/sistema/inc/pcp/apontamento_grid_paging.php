@@ -10,7 +10,7 @@
 		public $s_fields		= ''; 		//String com os campos da tabela, separados por v�rgula. Ex: id,name
 		public $s_labels		= ''; 		//String com as labels que ficar�o no cabe�alho da tabela. Ex: ID,Nome
 		public $s_where			= '1'; 		//Claus�la where, se houver
-		public $s_orderby		= 'PCP_APONTAMENTO.HR_FIM, PCP_APONTAMENTO.CO_PCP_APONTAMENTO'; 	//Campo utilizado para ordena��o inicial
+		public $s_orderby		= 'PCP_APONTAMENTO.CO_PCP_APONTAMENTO'; 	//Campo utilizado para ordena��o inicial
 		public $s_orientation	= 'DESC';	//ASC ou DESC
 		public $i_rowsperpage	= 50;		//Limite de registros visualizados por p�gina
 		public $i_page			= 1;		//P�gina atual
@@ -301,7 +301,8 @@
 					}else{
 						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
 						if($row[5]=="Produção"){
-							$s_html .= '<a title="Etiqueta de Peça" href="#" onClick="javascript:gerarEtiquetaPeca('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/btn_print.gif" width="25" height="19" border="0"/></a>';
+							$s_html .= '<a title="Etiqueta de Peça (Casadei)" href="#" onClick="javascript:gerarEtiquetaPeca('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta1.gif" width="25" height="19" border="0"/></a>';
+							$s_html .= '<a title="Etiqueta de Peça" href="#" onClick="javascript:gerarEtiquetaPeca2('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta2.gif" width="25" height="19" border="0"/></a>';
 						}
 					}
 					
