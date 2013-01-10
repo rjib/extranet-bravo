@@ -8,6 +8,9 @@ define ('DS', DIRECTORY_SEPARATOR);
 define ('APP_PATH',realpath(dirname(__FILE__).DS.'..').DS);
 define('DIMENSAO_MINIMA', 240);
 define('MAX_PILHA',1350);
+define('DSN','localhost');
+define('USER','root');
+define('PASS','');
 
 
 //MODULOS PRINCIPAIS
@@ -63,7 +66,7 @@ define('CONFIGURACOES_TROCA_SENHA', 'Trocar Senha');
 	
 	
 	header('Content-Type: text/html; charset=utf-8');	
-	$conexaoERP = mysql_connect("localhost","root","")
+	$conexaoERP = mysql_connect(DSN,USER,PASS)
 	or die ("<script>
 			     alert('[Erro] - CONFIGURAÇÃO DO BANCO DE DADOS!');
 				 window.location = 'index.php';
@@ -78,10 +81,9 @@ define('CONFIGURACOES_TROCA_SENHA', 'Trocar Senha');
 			 </script>");	
 	
 	class Connection extends PDO {
-
 	    private $dsn = 'mysql:dbname=extranet;host=localhost';
-	    private $user = 'root';
-	    private $pass = '';
+	    private $user = USER;
+	    private $pass = PASS;
         protected $dbh = null;
 
         public function __construct(){
