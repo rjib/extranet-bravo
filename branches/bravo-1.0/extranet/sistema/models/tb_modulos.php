@@ -245,7 +245,7 @@ class tb_modulos{
 					$j++;
 					$this->recursivaSubcaterorias(TRUE, $dados['CO_MODULO'], $this->_j, $this->_html);
 				}
-				$this->setJ(1);
+				$this->setJ($j);
 		}
 		$this->setHtml($this->_html);
 		

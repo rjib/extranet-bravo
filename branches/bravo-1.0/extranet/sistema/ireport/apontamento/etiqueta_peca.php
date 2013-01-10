@@ -1,39 +1,34 @@
-<?php 
+<?php
+ 
 $data=false;
-require_once('class/tcpdf/tcpdf.php');
-require_once("class/PHPJasperXML.inc.php");
+require_once('../class/tcpdf/tcpdf.php');
+require_once("../class/PHPJasperXML.inc.php");
 //require_once("class/PHPJasperXMLSubReport.inc.php");
-require_once('../setup.php');
-require_once '../models/tb_pcp_etiqueta.php';
-require_once APP_PATH.'sistema/models/tb_pcp_pecas.php';
+require_once('../../setup.php');
+require_once '../../models/tb_pcp_etiqueta.php';
 
 date_default_timezone_set('America/Sao_Paulo');
 
-$_peca 	           = new tb_pcp_pecas($conexaoERP);
 $co_pcp_apontamento= $_GET['co_pcp_apontamento'];
-
-
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
-$server="localhost";
+$server=DSN;
 $db="extranet";
-$user="root";
-$pass="";
+$user=USER;
+$pass=PASS;
 $version="0.8b";
 $pgport=5432;
-$pchartfolder="class/pchart2";
-$timestamp = date("dmY").date("his");
-$nomeTemp = 'TMP_TABLE_'.$timestamp.sha1(rand(0, 10));
+$pchartfolder="../class/pchart2";
+$timestamp = date("d/m/Y")."  ".date("h:i:s");
 
 $_etiqueta = new tb_pcp_etiqueta($conexaoERP);
-$_etiqueta->proc_etiqueta_casadei($co_pcp_apontamento);
-$row = $_etiqueta->getOPFind($co_pcp_apontamento);
+$_etiqueta->proc_etiqueta_peca($co_pcp_apontamento);
 
-$xml =  simplexml_load_file("etiqueta_casadei.jrxml");
+$xml =  simplexml_load_file("etiqueta_peca.jrxml");
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-$PHPJasperXML->arrayParameter=array("co_pcp_apontamento"=>$co_pcp_apontamento, "PATH"=>APP_PATH.'barcodes'.DS);
+$PHPJasperXML->arrayParameter=array("CO_PCP_APONTAMENTO"=>$co_pcp_apontamento);
 $PHPJasperXML->xml_dismantle($xml);
 
 //$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db); * use this line if you want to connect with mysql
@@ -44,9 +39,7 @@ $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db);
 //$PHPJasperXML->outpage("F",APP_PATH.'barcodes'.DS.date("dmYhis").".pdf");    //page output method I:standard output  D:Download file
 $PHPJasperXML->outpage("I",date("dmYhis"));    //page output method I:standard output  D:Download file
 
-$_etiqueta->limparTemporaria();
-//APP_PATH.'barcodes'.DS.'casadei_'.$nu_op.'.gif'
-unlink(APP_PATH.'barcodes'.DS.'casadei_'.$row[0].'.gif');
+$_etiqueta->limparTemporariaEtiquetaPeca();
 
 $data=true;
 

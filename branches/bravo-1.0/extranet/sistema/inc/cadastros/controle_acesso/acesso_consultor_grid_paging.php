@@ -8,8 +8,8 @@
 		public $s_fields		= ''; 		//String com os campos da tabela, separados por v�rgula. Ex: id,name
 		public $s_labels		= ''; 		//String com as labels que ficar�o no cabe�alho da tabela. Ex: ID,Nome
 		public $s_where			= '1'; 		//Claus�la where, se houver
-		public $s_orderby		= 'ACESSO_CONSULTOR.HR_SAIDA'; 	//Campo utilizado para ordena��o inicial
-		public $s_orientation	= 'ASC';	//ASC ou DESC
+		public $s_orderby		= 'ACESSO_CONSULTOR.CO_ACESSO_CONSULTOR'; 	//Campo utilizado para ordena��o inicial
+		public $s_orientation	= 'DESC';	//ASC ou DESC
 		public $i_rowsperpage	= 50;		//Limite de registros visualizados por p�gina
 		public $i_page			= 1;		//P�gina atual
 		public $i_link_limit	= 5;		//N�mero de links de p�ginas

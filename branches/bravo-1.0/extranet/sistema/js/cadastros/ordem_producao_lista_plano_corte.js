@@ -201,10 +201,12 @@ function gerarEtiqueta(co_pcp_ad, no_pcp_ad){
 			if(data=="true"){
 				$("#temp").load('ireport/gerarBarCode128.php',{co_pcp_ad:co_pcp_ad}, function(data,status){
 					 if (status == "success") {
+						 $("#boxLoadingEtiqueta").dialog("close");
 						// $("#temp").load('ireport/pcp_etiqueta.php',{co_pcp_ad:co_pcp_ad}, function(data,status){
 							 //if (status == "success") {	
 								// $("#boxLoadingEtiqueta").dialog("close");
-								$(window.document.location).attr('href','ireport/pcp_etiqueta.php?co_pcp_ad='+co_pcp_ad);
+								//$(window.document.location).attr('href','ireport/pcp_etiqueta.php?co_pcp_ad='+co_pcp_ad);
+								window.open("ireport/pcp_etiqueta.php?co_pcp_ad="+co_pcp_ad,"Etiqueta de Pilha","menubar=0,resizable=0,width=810,height=800,location=0");
 							 }
 						// });						  
 						    
