@@ -17,7 +17,7 @@
 
 	if($acoes['NO_MODULO'] == PCP_APONTAMENTO){
 
-		$sqlRecurso = mysql_query("SELECT CO_PCP_RECURSO, NO_RECURSO FROM tb_pcp_recurso ORDER BY NO_RECURSO")
+		$sqlRecurso = mysql_query("SELECT CO_PCP_RECURSO, NO_RECURSO FROM tb_pcp_recurso WHERE fl_delet is null ORDER BY NO_RECURSO")
 		or die("<script>
 					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 					history.back(-1);

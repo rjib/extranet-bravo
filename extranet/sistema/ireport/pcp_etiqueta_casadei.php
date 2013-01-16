@@ -11,6 +11,7 @@ date_default_timezone_set('America/Sao_Paulo');
 
 $_peca 	           = new tb_pcp_pecas($conexaoERP);
 $co_pcp_apontamento= $_GET['co_pcp_apontamento'];
+$onde			= $_GET['onde']; //de onde esta vindo
 
 
 
@@ -24,10 +25,14 @@ $version="0.8b";
 $pgport=5432;
 $pchartfolder="class/pchart2";
 $timestamp = date("dmY").date("his");
-$nomeTemp = 'TMP_TABLE_'.$timestamp.sha1(rand(0, 10));
 
 $_etiqueta = new tb_pcp_etiqueta($conexaoERP);
-$_etiqueta->proc_etiqueta_casadei($co_pcp_apontamento);
+
+if($onde=='1'){
+	$_etiqueta->proc_etiqueta_casadei_relatorio($co_pcp_apontamento);
+}else{
+	$_etiqueta->proc_etiqueta_casadei($co_pcp_apontamento);
+}
 $row = $_etiqueta->getOPFind($co_pcp_apontamento);
 
 $xml =  simplexml_load_file("etiqueta_casadei.jrxml");

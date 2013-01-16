@@ -6,6 +6,7 @@ require_once APP_PATH.'sistema/models/tb_pcp_ac.php';
 require_once APP_PATH.'sistema/models/tb_pcp_cor.php';
 require_once APP_PATH.'sistema/models/tb_pcp_op.php';
 require_once APP_PATH.'sistema/models/tb_pcp_ad_peca.php';
+require_once APP_PATH.'sistema/models/tb_pcp_ad.php';
 
 $data = false;
 if(isset($_POST['co_pcp_ad'])){
@@ -20,7 +21,7 @@ if(isset($_POST['co_pcp_ad'])){
 	$_acModel 	 = new tb_pcp_ac($conexaoERP);
 	$_corModel 	 = new tb_pcp_cor($conexaoERP);
 	$_opModel	 = new tb_pcp_op($conexaoERP);
-	
+	$_adPeca     = new tb_pcp_ad($conexaoERP);
 	$co_pcp_ac = $_acModel->insertReturnId($co_pcp_ad);
 	
 	$ops    = $_pecaAd->getCodigoOP($co_pcp_ad);
@@ -33,6 +34,8 @@ if(isset($_POST['co_pcp_ad'])){
 		$_opModel->atualizaProcessadoComQuantidade($rows['CO_PCP_OP'],$processada);
 		
 	}
+	
+	$_adPeca->setCasaDei($co_pcp_ad);
 	
 	$data = true;	
 	

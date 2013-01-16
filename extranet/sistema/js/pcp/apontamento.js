@@ -18,8 +18,8 @@ $(function($) {
 			   
 	$("#formularioApontamento").dialog({
 		autoOpen: false,
-		height: 270,
-		width: 660,
+		height: 300,
+		width: 670,
 		modal: true,
 		resizable: false,
 		title: 'Adicionar novo Apontamento',
@@ -110,7 +110,7 @@ $(function($) {
 		$("#formularioInserirHoraFimApontamento").load("inc/pcp/apontamento_form_hora_fim.php?codigoApontamento="+$(this).attr("id"));
 		$("#formularioInserirHoraFimApontamento").dialog({
 			autoOpen: true,
-			height: 450,
+			height: 480,
 			width: 730,
 			modal: true,
 			resizable: false,
@@ -172,7 +172,7 @@ $(function($) {
 		$("#formularioDetalhesApontamento").load("inc/pcp/apontamento_form_detalhe.php?codigoApontamento="+$(this).attr("id"));
 		$("#formularioDetalhesApontamento").dialog({
 			autoOpen: true,
-			height: 400,
+			height: 430,
 			width: 730,
 			modal: true,
 			resizable: false,
@@ -206,7 +206,7 @@ function getMotivoParada() {
 			  $("#codigoMotivo").val(resposta.codigoPcpMotivoParada);
 			  $("#descricaoMotivo").val(resposta.descricaoMotivoParada);
 			}else{
-				alert("Motivo Parada n�o encontrada!");		
+				alert("Motivo Parada não encontrada!");		
 			}
 		  }, 'json');  
 		}
@@ -223,7 +223,7 @@ function getOrdemProducao() {
 			  $("#loteOp").val(resposta.loteOp);
 			  $("#dataEmissaoOp").val(resposta.dataEmissaoOP);
 			}else{
-				alert("OP n�o encontrada!");		
+				alert("OP não encontrada!");		
 			}
 		  }, 'json');  
 		}
@@ -250,6 +250,7 @@ function getValidaOrdemProducao(ordemProducao) {
 				$('#colunaQuantidade02').show('fast');
 				$('#colunaHoraFim01').show('fast');
 				$('#colunaHoraFim02').show('fast');
+				$('#quantidadeProduto').focus();
 			}
 			  
 		}
@@ -269,6 +270,7 @@ function verificaApontamento(v){
 		$("#loteOp").val("");
 		$("#dataEmissaoOp").val("");
 		$("input[name='flagApontamentoProducao']").attr('checked', false);
+		
    }else if(v=='2'){
 		$('#apontamentoParada').hide('fast');
 		$('#apontamentoProducao01').show('fast');
@@ -277,6 +279,7 @@ function verificaApontamento(v){
 		$("#codigoMotivo").val(""); 
 		$("#descricaoMotivo").val(""); 
 		$("input[name='flagApontamentoParada']").attr('checked', false);
+		$("#ordemProducao").focus();
    }
    
 }

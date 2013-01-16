@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiqueta_peca_pcp" language="groovy" pageWidth="170" pageHeight="36" columnWidth="170" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="111c6d46-8973-42e9-8127-77ee6993667b">
+	<property name="ireport.zoom" value="5.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="CO_PCP_AD" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM TB_TMP_ETIQUETA_PECA_PCP WHERE CO_PCP_AD = $P{CO_PCP_AD};]]>
+	</queryString>
+	<field name="CO_TMP_ETIQUETA_PECA" class="java.lang.Integer">
+		<fieldDescription><![CDATA[chave primaria da tabela temporaria]]></fieldDescription>
+	</field>
+	<field name="CO_INTERNO" class="java.lang.String">
+		<fieldDescription><![CDATA[codigo interno do produto]]></fieldDescription>
+	</field>
+	<field name="CO_PCP_AD" class="java.lang.Integer">
+		<fieldDescription><![CDATA[codigo do arquivo ad]]></fieldDescription>
+	</field>
+	<field name="NU_LOTE" class="java.lang.String">
+		<fieldDescription><![CDATA[Numero do lote]]></fieldDescription>
+	</field>
+	<field name="NU_OP" class="java.lang.String">
+		<fieldDescription><![CDATA[Numero da ordem de producao]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<textField>
+				<reportElement uuid="560ba0da-a40f-4d07-b96f-a13e96e0ced4" x="8" y="4" width="131" height="25"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CO_INTERNO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="52654134-7bfb-42c5-93d9-0483a31d327b" x="66" y="18" width="100" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NU_OP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="df1645b7-186a-47ee-ac5f-2809fd500b60" x="67" y="3" width="100" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NU_LOTE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+</jasperReport>
