@@ -183,7 +183,7 @@
 	
 			$subControleAcessoVisitantes = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Peça (CasaDei)');
 			if($subControleAcessoVisitantes){
-				echo "<li class='topline'><a href='inicio.php?pg=acesso_visitante'>Etiqueta de Peça (CasaDei)</a></li>";
+				echo "<li class='topline'><a onClick='openBoxEtiquetaPecaCasadei();' href='javascript:void(0);'>Etiqueta de Peça (CasaDei)</a></li>";
 			}
 			
 			echo "</ul>";
@@ -248,9 +248,12 @@
 	echo "</ul>";
 
 ?>
+
+
 	<script type="text/javascript">
         var menu=new menu.dd("menu");
          menu.init("menu","menuhover");
+    
     </script>
                         </td>
                         <td><img src="img/menu_header_separador.jpg" width="2" height="50" /></td>
@@ -273,3 +276,106 @@
                 </table></td>
             </tr>
         </table>
+
+        <div id="boxEtiquetaPecaCasadeiStep1" style="display: none;">
+				<table width="325" border="0" cellspacing="2" cellpadding="3">
+					<tr>
+						<td align="left" style="border: 2px solid rgb(255, 204, 0); padding: 7px;">
+							<table width="100%" border="0" cellspacing="2" cellpadding="3">
+								<tr>
+									<td width="4%"><font class="FONT05"><b>OP:</b></font></td>
+									<td id="colunaOrdemProducaoStep1" width="96%">
+										<input title="Ordem de Produção" type="text" name="numeroOrdemProducaoStep1" id="numeroOrdemProducaoStep1" class="INPUT03" style="text-align: left;" size="15" maxlength="15" onblur='getValidaOrdemProducaoPecaCasadei("")' /> 									
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div id="step1" style="display: none;">
+							<table width="325" border="0" cellspacing="2" cellpadding="3">
+								<tr>
+									<td width="5%"><font class="FONT05"><b>Produto:&nbsp;&nbsp;</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="descricaoProdutoStep1" id="descricaoProdutoStep1" class="INPUT03" style="text-align: left;" size="50" value="descricao do produto" disabled="disabled" />
+										</td>
+										<td width="5%"><font class="FONT05"><b>Quantidade:</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="quantidadeProdutoStep1" id="quantidadeProdutoStep1" class="INPUT03" size="4" style="text-align: left;" value="6" disabled="disabled" />
+										</td>
+								</tr>
+								<tr>
+										<td width="5%"><font class="FONT05"><b>Lote:</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="loteStep1" id="loteStep1" class="INPUT03" size="15" style="text-align: left;" value="T000S-13" disabled="disabled" />
+										</td>
+								</tr>
+								</table>
+							</div>						
+						</td>
+					</tr>
+				</table>
+		</div>
+
+<script type="text/javascript"> 
+    
+        //$(document).ready(function(){
+        $("#boxEtiquetaPecaCasadeiStep1").dialog({
+     		autoOpen: false,
+    		height: 250,
+    		width:550,
+    		modal: true,
+    		resizable: false,
+    		title: "Etiqueta Peca Casadei"	,
+    		buttons:{
+    		'Imprimir Etiquetas': function() {
+        		if($("#numeroOrdemProducaoStep1").val()!='' && $("#descricaoProdutoStep1").val()!=''){
+        			$("#boxLoadingEtiquetaStep1").dialog("open");
+        			$("#tempStep1").load('ireport/gerarCodeBarEtiquetaPecaCasaDei.php',{co_pcp_apontamento:co_pcp_apontamento}, function(data,status){
+        				if (status == "success") {
+        					$("#boxLoadingEtiquetaStep1").dialog("close");
+        					
+        					window.open("ireport/pcp_etiqueta_casadei.php?co_pcp_apontamento="+co_pcp_apontamento+"&onde=1","Etiqueta Peça (Casadei)","menubar=0,resizable=1,width=410,height=500,location=0");
+        				}
+        			});
+            		}else{
+                		alert("Nenhuma OP válida foi encontrada!");
+
+                    	}
+    			},
+    		'Cancelar': function(){ $(this).dialog('close');$("#numeroOrdemProducaoStep1").val('')}
+			}
+			});
+    	//}
+    	$("#step1").hide();
+
+     function openBoxEtiquetaPecaCasadei(){
+			$("#boxEtiquetaPecaCasadeiStep1").dialog('open');
+			$("#numeroOrdemProducaoStep1").focus();
+			$("#step1").hide();
+			//alert('teste');
+     }
+     function getValidaOrdemProducaoPecaCasadei(){
+    	 //alert($("#numeroOrdemProducaoStep1").val());
+    	 if($.trim($("#numeroOrdemProducaoStep1").val()) != ""){
+    			if($("#numeroOrdemProducaoStep1").val() != null && $("#numeroOrdemProducaoStep1").val() != ""){
+    			  $.get('inc/relatorios/etiquetas/etiqueta_casadei_pesquisa_op.php', {'numeroOrdemProducaoStep1': $("#numeroOrdemProducaoStep1").val()}, function(resposta){
+    				if(resposta){			  			  
+    				  $("#descricaoProdutoStep1").val(resposta.ds_produto);
+    				  $("#quantidadeProdutoStep1").val(resposta.qtd_produto);
+    				  $("#loteStep1").val(resposta.nu_lote);    				  
+    				  $("#step1").show('fast');
+    				}else{
+    					alert("OP não encontrada!");
+      				  $("#descricaoProdutoStep1").val('');
+    				  $("#quantidadeProdutoStep1").val('');
+    				  $("#loteStep1").val('');    				  
+    				  $("#step1").hide('fast');		
+    				}
+    			  }, 'json');  
+    			}
+    		}			
+         }
+     
+     </script>

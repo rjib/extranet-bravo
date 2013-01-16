@@ -31,12 +31,13 @@
 					AND PCP_OP.DT_EMISSAO BETWEEN "'.$dataInicial.'" AND "'.$dataFinal.'"
 					AND PCP_PRODUTO.CO_COR ="'.$co_cor.'" 
 					AND PCP_PRODUTO.NU_ESPESSURA ="'.$espessura.'"
-					AND PCP_OP.CO_PCP_OP NOT IN (SELECT DISTINCT CO_PCP_OP FROM TB_PCP_AD_PECA)');
+					AND PCP_OP.CO_PCP_OP NOT IN (SELECT DISTINCT CO_PCP_OP FROM TB_PCP_AD_PECA) 
+					AND PCP_OP.FL_DELET IS NULL');
 	}else{
 	$paging->where('PCP_PRODUTO.CO_INT_PRODUTO LIKE "%'.$searchfor.'%"
 					AND PCP_OP.DT_EMISSAO BETWEEN "'.$dataInicial.'" AND "'.$dataFinal.'"
 					AND PCP_PRODUTO.CO_COR ="'.$co_cor.'"
-					AND PCP_PRODUTO.NU_ESPESSURA ="'.$espessura.'"');
+					AND PCP_PRODUTO.NU_ESPESSURA ="'.$espessura.'" AND PCP_OP.FL_DELET IS NULL');
 		
 	}
 	$paging->_title = array("Status", "Numero da Ordem de Produção", "Código Interno", "Descrição do Produto","Quantidade do Produto", "Quantidade Processadas", "Quantidade Produzida", "Lote", "Data Emissão");

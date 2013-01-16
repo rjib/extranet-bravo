@@ -22,7 +22,7 @@ class tb_pcp_cor{
 	 */
 	public function listaTodasCores(){
 		try {
-			$sql = "SELECT CO_COR, DS_COR, CO_RECNO FROM tb_pcp_cor ORDER BY DS_COR ASC";
+			$sql = "SELECT CO_COR, DS_COR, CO_RECNO FROM tb_pcp_cor WHERE FL_DELET IS NULL ORDER BY DS_COR ASC";
 			$row = mysql_query($sql,$this->conexaoERP);
 		}catch (Exception $e){
 			return false;
@@ -41,7 +41,7 @@ class tb_pcp_cor{
 	{
 		$sql = "SELECT co_cor
 				FROM tb_pcp_cor
-				WHERE DS_COR = '".$ds_cor."'";
+				WHERE DS_COR = '".$ds_cor."' AND FL_DELET IS NULL";
 		$row = mysql_fetch_assoc(mysql_query($sql,$this->conexaoERP));
 		return $row;
 

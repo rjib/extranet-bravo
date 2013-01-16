@@ -225,3 +225,28 @@ function gerarEtiqueta(co_pcp_ad, no_pcp_ad){
 	});
 	
 }
+
+//gerarEtiquetaPeca CASADEI
+function gerarEtiquetaPeca(co_pcp_ad){
+	$("#boxLoadingEtiqueta").dialog("open");	
+				$("#temp").load('ireport/pcp/gerarCodeBarEtiquetaPecaCasadeiPorAD.php',{co_pcp_ad:co_pcp_ad}, function(data,status){
+					 if (status == "success") {
+						 $("#boxLoadingEtiqueta").dialog("close");
+						// $("#temp").load('ireport/pcp_etiqueta.php',{co_pcp_ad:co_pcp_ad}, function(data,status){
+							 //if (status == "success") {	
+								// $("#boxLoadingEtiqueta").dialog("close");
+								//$(window.document.location).attr('href','ireport/pcp_etiqueta.php?co_pcp_ad='+co_pcp_ad);
+								window.open("ireport/pcp/pcp_etiqueta_casadei.php?co_pcp_ad="+co_pcp_ad,"Etiqueta de Pilha","menubar=0,resizable=1,width=410,height=500,location=0");
+							 }
+				});
+
+}			
+
+//gerarEtiquetaPeca CASADEI
+function gerarEtiquetaPecaPI(co_pcp_ad) {
+
+	window.open('ireport/pcp/pcp_etiqueta_peca_pi.php?co_pcp_ad='
+			+ co_pcp_ad, "Etiqueta Peça (Casadei)",
+			"menubar=0,resizable=1,width=410,height=500,location=0");
+
+}

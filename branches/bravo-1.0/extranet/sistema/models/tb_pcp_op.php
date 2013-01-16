@@ -130,6 +130,7 @@ class tb_pcp_op{
 				WHERE PRODUTO.co_int_produto = '".$co_int_prod."'
 				 AND PRODUTO.co_cor = '".$co_cor."'
 				 AND ORDEM_PRODUCAO.nu_lote = '".$nu_lote."'
+				 AND ORDEM_PRODUCAO.fl_delet IS NULL
 				 AND ORDEM_PRODUCAO.co_pcp_op NOT IN (SELECT DISTINCT co_pcp_op FROM tb_pcp_ad_peca AD_PECA)";
 		$row = mysql_query($sql,$this->conexaoERP);		
 		return $row;
@@ -156,6 +157,7 @@ class tb_pcp_op{
 		$sql .="PRODUTO.co_int_produto = '".$co_int_prod."'
 				        AND PRODUTO.co_cor = '".$co_cor."'
 				        AND ORDEM_PRODUCAO.nu_lote = '".$nu_lote."'
+				        AND ORDEM_PRODUCAO.fl_delet IS NULL
 				        AND ORDEM_PRODUCAO.co_pcp_op IN (SELECT DISTINCT AD_PECA2.co_pcp_op FROM tb_pcp_ad_peca AD_PECA2 INNER JOIN tb_pcp_op ORDEM_PRODUCAO2 ON ORDEM_PRODUCAO2.co_pcp_op = AD_PECA2.co_pcp_op WHERE ORDEM_PRODUCAO2.qtd_processada <> ORDEM_PRODUCAO2.qtd_produto)";
 		$row = mysql_fetch_row(mysql_query($sql,$this->conexaoERP));
 		return $row;
@@ -187,6 +189,7 @@ class tb_pcp_op{
 				WHERE PRODUTO.co_int_produto = '".$co_int_prod."'
 				 AND PRODUTO.co_cor = '".$co_cor."'
 				 AND ORDEM_PRODUCAO.nu_lote = '".$nu_lote."'
+				 AND ORDEM_PRODUCAO.fl_delet IS NULL 
 				 AND PCP_AD.co_pcp_ad = ".$co_pcp_ad."  AND ORDEM_PRODUCAO.qtd_produto <> ORDEM_PRODUCAO.qtd_processada";
 		$row = mysql_fetch_row(mysql_query($sql,$this->conexaoERP));
 		return $row;
@@ -253,7 +256,7 @@ class tb_pcp_op{
 	public function getTotalProduto($co_int_produto,$lote,$co_produto){
 		$query = "select sum(qtd_produto) QTD_PRODUTO from tb_pcp_op OP 
 					inner join tb_pcp_produto PROD on OP.CO_PRODUTO = PROD.CO_PRODUTO
-				  where PROD.co_int_produto = '".$co_int_produto."' and OP.nu_lote = '".$lote."' AND OP.CO_PRODUTO = '".$co_produto."' group by OP.co_produto";
+				  where PROD.co_int_produto = '".$co_int_produto."' and OP.nu_lote = '".$lote."' AND OP.CO_PRODUTO = '".$co_produto."' AND OP.FL_DELET IS NULL group by OP.co_produto";
 		
 		$result = mysql_query($query, $this->conexaoERP);
 		$row = mysql_fetch_row($result);

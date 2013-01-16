@@ -1,4 +1,3 @@
-X5_CHAVE;X5_DESCRI;X5_DESCSPA;R_E_C_N_O_
 000100;NOCE                                                   ;NB/NB                                                  ;2435
 000103;NOCE/TABACO                                            ;NC/TB                                                  ;5320
 000104;NOCE/CARVALHO                                          ;NB/TB                                                  ;5202
@@ -74,6 +73,8 @@ X5_CHAVE;X5_DESCRI;X5_DESCSPA;R_E_C_N_O_
 003200;WENGUE                                                 ;WG                                                     ;30112
 003207;WENGUE / BRANCO                                        ;WG/BR                                                  ;30113
 003270;WENGUE                                                 ;WG/BR                                                  ;30154
+003290;WENGE / PRETO                                          ;WG/PR                                                  ;30205
+003291;WENGE / PRETO BRILHANTE                                ;WG/PRBL                                                ;30197
 004000;CARVALHO MEZZO                                         ;CVMZ                                                   ;6169
 004031;CARVALHO MEZZO / TABACO WENGE                          ;CVMZ/TW                                                ;4358
 004070;CARVALHO MEZZO/BRANCO                                  ;CVMZ/BR                                                ;6218
@@ -91,11 +92,15 @@ X5_CHAVE;X5_DESCRI;X5_DESCSPA;R_E_C_N_O_
 004291;CARVALHO IBIZA/PRETO BRILHANTE                         ;CVIZ/PRBL                                              ;6189
 004300;CARVALHO MALVA                                         ;CAMA                                                   ;30121
 004370;CARVALHO MALVA                                         ;CVMA/BR                                                ;30152
+004390;CARVALHO MALVA / PRETO                                 ;CVMA/PR                                                ;30207
+004391;CARVALHO MALVA / PRETO BRILHANTE                       ;CVMA/PRBL                                              ;30199
 005000;MOGNO IGUACU                                           ;MI                                                     ;6229
 005100;TABACO AMBAR                                           ;TA                                                     ;6230
 005200;CARVALHO EBANO                                         ;CE                                                     ;6231
 005300;ROVERE CINZA                                           ;RC                                                     ;6232
 005400;ROVERE SERENO                                          ;ROSE                                                   ;30122
+005490;ROVERE SERENO / PRETO                                  ;ROSE/PR                                                ;30208
+005491;ROVERE SERENO / BRANCO                                 ;ROSE/PRBL                                              ;30200
 006000;NOCE AMADO                                             ;NA                                                     ;5333
 006001;NA / NC                                                ;NA / NC                                                ;5349
 006003;NA / TB                                                ;NA / TB                                                ;5350
@@ -111,6 +116,8 @@ X5_CHAVE;X5_DESCRI;X5_DESCSPA;R_E_C_N_O_
 008000;CARVALHO GRIS                                          ;CG                                                     ;5334
 008100;GRIS MONTANO                                           ;GRMO                                                   ;30119
 008170;GRIS MONTANO                                           ;GRMO/BR                                                ;30153
+008190;GRIS MONTANO / PRETO                                   ;GRMO/PR                                                ;30212
+008191;GRIS MONTANO / PRETO BRILHANTE                         ;GRMO/PRBL                                              ;30203
 008910;CARV.GRIS/PRETO BRILHANTE                              ;CG/PRBL                                                ;23117
 009000;CINZA/CINZA                                            ;CZ/CZ                                                  ;4335
 009060;PRETO / NOCE AMADO                                     ;PR/NA                                                  ;30162
@@ -118,40 +125,47 @@ X5_CHAVE;X5_DESCRI;X5_DESCSPA;R_E_C_N_O_
 009200;PRISMA NOGUEIRA CADIZ                                  ;PNC                                                    ;30110
 009300;NOCE VERONA                                            ;NOVE                                                   ;30111
 009370;NOCE VERONA                                            ;NOVE/BR                                                ;30148
+009390;NOCE VERONA / PRETO                                    ;NOVE/PR                                                ;30211
 009391;NOCE VERONA/PRETO BRILHANTE                            ; NOVE/PRBL                                             ;22979
 009400;NOCE CALIFORNIA                                        ;NOCA                                                   ;30118
 009470;NOCE CALIFORNIA                                        ;NOCA/BR                                                ;30149
+009490;NOCE CALIFORNIA / PRETO                                ;NOCA/PR                                                ;30210
+009491;NOCE CALIFORNIA / PRETO BRILHANTE                      ;NOCA/PRBL                                              ;30202
 009500;CARVALHO AMETISTA                                      ;CVAM                                                   ;30120
 009570;CARVALHO AMETISTA                                      ;CVAM/BR                                                ;30150
+009590;CARVALHO AMETISTA / PRETO                              ;CVAM/PR                                                ;30206
+009591;CARVALHO AMETISTA / PRETO BRILHANTE                    ;CVAM /PRBL                                             ;30198
 009600;NOCE AREZZO                                            ;NOAR                                                   ;30137
 009670;NOCE AREZZO                                            ;NOAR/BR                                                ;30151
+009690;NOCE AREZZO / PRETO                                    ;NOAR/PR                                                ;30209
+009691;NOCE  AREZZO / PRETO BRILHANTE                         ;ROSE/PRBL                                              ;30201
 009700;CARVALHO MASISA                                        ;CVMS                                                   ;30160
 009770;CARVALHO MASISA / BRANCO                               ;CVMS / BR                                              ;30161
 AMAREL;Amarelo                                                ;Amarillo                                               ;9281
 AZUL  ;Azul                                                   ;Azul                                                   ;9282
 BRANCO;Branco                                                 ;Blanco                                                 ;9283
 CINZA ;Cinza                                                  ;Gris                                                   ;9284
-PRETO ;Preto                                                  ;Negro                                                  ;9285
+PRETO                                                  ;Preto                                                  ;Negro                                                  ;9285
 VERDE ;Verde                                                  ;Verde                                                  ;9286
 VERMEL;Vermelho                                               ;Rojo                                                   ;9287
 AMAREL;Amarelo                                                ;Amarillo                                               ;14847
 AZUL  ;Azul                                                   ;Azul                                                   ;14848
 BRANCO;Branco                                                 ;Blanco                                                 ;14849
 CINZA ;Cinza                                                  ;Gris                                                   ;14850
-PRETO ;Preto                                                  ;Negro                                                  ;14851
+PRETO                                                  ;Preto                                                  ;Negro                                                  ;14851
 VERDE ;Verde                                                  ;Verde                                                  ;14852
 VERMEL;Vermelho                                               ;Rojo                                                   ;14853
 AMAREL;Amarelo                                                ;Amarillo                                               ;20459
 AZUL  ;Azul                                                   ;Azul                                                   ;20460
 BRANCO;Branco                                                 ;Blanco                                                 ;20461
 CINZA ;Cinza                                                  ;Gris                                                   ;20462
-PRETO ;Preto                                                  ;Negro                                                  ;20463
+PRETO                                                  ;Preto                                                  ;Negro                                                  ;20463
 VERDE ;Verde                                                  ;Verde                                                  ;20464
 VERMEL;Vermelho                                               ;Rojo                                                   ;20465
 AMAREL;Amarelo                                                ;Amarillo                                               ;26202
 AZUL  ;Azul                                                   ;Azul                                                   ;26203
 BRANCO;Branco                                                 ;Blanco                                                 ;26204
 CINZA ;Cinza                                                  ;Gris                                                   ;26205
-PRETO ;Preto                                                  ;Negro                                                  ;26206
+PRETO                                                  ;Preto                                                  ;Negro                                                  ;26206
 VERDE ;Verde                                                  ;Verde                                                  ;26207
 VERMEL;Vermelho                                               ;Rojo                                                   ;26208

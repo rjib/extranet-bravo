@@ -195,6 +195,13 @@ require_once APP_PATH.'sistema/helper.class.php';
 			$row = $sth->fetch(PDO::FETCH_NUM);
 			return $row;
 		}
+		public function getCasadei($co_pcp_ad){
+			$sql = "SELECT FL_CASADEI FROM TB_PCP_AD WHERE CO_PCP_AD = ".$co_pcp_ad;
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			$row = $sth->fetch(PDO::FETCH_NUM);
+			return $row;
+		}
 		
 		
 		//Imprime a tabela de resultados
@@ -267,6 +274,7 @@ require_once APP_PATH.'sistema/helper.class.php';
 				//Cria o corpo da tabela
 				while($row = $sth->fetch(PDO::FETCH_NUM)){
 					$result = $this->adUploaded($row[0]);
+					$casadei = $this->getCasadei($row[0]);
 					$abilita = false;
 					$result[0]==0?$abilita=true:$abilita=false;
 					$result[0]==0?$result[0]="<img title='Importação não realizada' vspace='4px' src='img/status-nao.gif'/>":$result[0]="<img title='Importação realizada' src='img/status-sim.gif'/>";
@@ -282,7 +290,7 @@ require_once APP_PATH.'sistema/helper.class.php';
 						}
 					}
 					
-					$s_html .= '<td align="center" width="120px">';
+					$s_html .= '<td align="center" width="230px">';
 					
 					if($acoes['FL_ADICIONAR']==1 || $acoes['FL_EXCLUIR']==1 || $acoes['FL_EDITAR']==1){
 						//22/11/2012 10:29:28
@@ -299,7 +307,11 @@ require_once APP_PATH.'sistema/helper.class.php';
 					}
 					
 					if($abilita!=true){
-						$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="#" onClick="javascript:gerarEtiqueta('.$row[0].','.$row[1].');" name="gerarEtiqueta" id='.$row[0].'><img class="link02" src="img/btn/bt_etiqueta.png" border="0"/></a>';
+						$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="#" onClick="javascript:gerarEtiqueta('.$row[0].','.$row[1].');" name="gerarEtiqueta" id='.$row[0].'><img class="link02" src="img/btn/bt_etiqueta.png" border="0"/></a>&nbsp;';
+						if($casadei[0]==1){
+							$s_html .= '<a title="Etiqueta de Peça (Casadei)" href="#" onClick="javascript:gerarEtiquetaPeca('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta4.png" width="25" height="19" border="0"/></a>&nbsp;';
+						}
+						$s_html .= '<a title="Etiqueta de Peça (PI)" href="#" onClick="javascript:gerarEtiquetaPecaPI('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta3.png" width="25" height="19" border="0"/></a>&nbsp;';
 					}else{
 						
 					}
