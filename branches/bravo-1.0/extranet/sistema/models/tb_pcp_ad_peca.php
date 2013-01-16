@@ -58,5 +58,24 @@ class tb_pcp_ad_peca{
 		mysql_query($query, $this->conexaoERP);		
 		
 	}
+	
+	/**
+	 * Metodo para retornar uma numero das ops de um ad
+	 * @param int $co_pcp_ad
+	 * @author Ricardo S. Alvarenga
+	 * @since 15/01/2013
+	 */
+	public function getOPbyAD($co_pcp_ad){
+		$query = "SELECT DISTINCT CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA) NU_OP
+					FROM
+					    tb_pcp_ad_peca AD_PECA
+					        INNER JOIN
+					    tb_pcp_op PCP_OP ON AD_PECA.co_pcp_op = PCP_OP.co_pcp_op
+					WHERE
+					    AD_PECA.co_pcp_ad = ".$co_pcp_ad;
+		$row = mysql_query($query, $this->conexaoERP);
+		return $row;
+		
+	}
 }
 ?>

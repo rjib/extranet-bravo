@@ -99,6 +99,7 @@ if(isset($_POST['co_pcp_ad'])){
 						if($arrayDadosCorte[$i]["co_int_produto"]==$arrayDadosCorte[$j]["co_int_produto"]){
 							$arrayDadosCorte[$i]["qtd_pecas"] += $arrayDadosCorte[$j]["qtd_pecas"];
 							unset($arrayDadosCorte[$j]);
+							sort($arrayDadosCorte);
 						}
 					}
 						
@@ -106,8 +107,26 @@ if(isset($_POST['co_pcp_ad'])){
 			}
 				
 			sort($arrayDadosCorte);//REORDENANDO INDICE DA MATRIZ
+			$temp = 0;
 				
 			for($i=0;$i<count($arrayDadosCorte);$i++){
+				
+				if($temp!=0){
+					unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);//producao a mais para nova op aberta processo nao permitido
+					$_acModel->delete($co_pcp_ac);
+					for($di = 0; $di<count($divergencias);$di++){
+						$_adPecaModel->delete($divergencias[$di], $co_pcp_ad);
+					}
+					for($ix=0;$ix<count($logRollback);$ix++){
+						$_opModel->atualizaProcessadoComQuantidade($logRollback[$ix]['co_pcp_op'], $logRollback[$ix]['qtd_processada_anterior']);
+					}
+					$data['sucesso']= false;
+					$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois a OP: ".$co_pcp_op[2]." permite apenas a inclusão de <strong>".$co_pcp_op[1]."</strong> peça(s) e você esta tentando incluir <strong style='color:red;'>".($co_pcp_op[1]+$temp)."</strong> peça(s).</p>";
+					echo json_encode($data);
+					exit;
+				}
+				
+				
 				$co_cor 		 = $_corModel->buscarCodCor($arrayDadosCorte[$i]['ds_cor']);
 				$co_cor			 = $co_cor['co_cor'];
 				$lote			 = $_adModel->findByLote($co_pcp_ad);
@@ -135,19 +154,19 @@ if(isset($_POST['co_pcp_ad'])){
 						## CONTABILIZAR VALOR PEÇA COM LARGURA OU ESPESSURA ABAIXO NO VALOR MINIMO
 							
 						if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //largura
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/4);
+							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
 						}elseif($co_pcp_op[5]<56){
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/8);
+							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
 						}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/2);
+							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
 						}
 
 						if($co_pcp_op[4]>=56 && $co_pcp_op[4]<100){ //comprimento
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/4);
+							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
 						}elseif($co_pcp_op[4]<56){
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/8);
+							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
 						}elseif($co_pcp_op[4]>=100 && $co_pcp_op[4]<240){
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/2);
+							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
 						}
 						if($processadas==0){
 							$processadas+= floor($arrayDadosCorte[$i]['qtd_pecas']*1);
@@ -263,19 +282,19 @@ if(isset($_POST['co_pcp_ad'])){
 								if($continue == true){ //somente continue se ainda tiver produtos a serem processados
 									if($temp==0){//se ja estiver feito os calculos nao precisa calcular novamente
 										if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/4);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
 										}elseif($co_pcp_op[6]<56){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/8);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
 										}elseif($co_pcp_op[6]>=100 && $co_pcp_op[6]<240){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/2);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
 										}
 
 										if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //comprimento
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/4);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
 										}elseif($co_pcp_op[5]<56){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/8);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
 										}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/2);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
 										}
 										if($processadas==0){
 											$processadas+= $arrayDadosCorte[$i]['qtd_pecas']*1;
@@ -289,7 +308,7 @@ if(isset($_POST['co_pcp_ad'])){
 
 										$temp = $processadas - ($co_pcp_op[1]-$co_pcp_op[3]);
 										$processadas = $processadas - $temp;
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas+$co_pcp_op[3], $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$continue = true;
@@ -299,12 +318,14 @@ if(isset($_POST['co_pcp_ad'])){
 										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
+										$temp = 0;
 										$continue = false;
 									}elseif(($processadas+$co_pcp_op[3]) == $co_pcp_op[1]){
 										$processadas = $processadas+$co_pcp_op[3];
 										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
+										$temp = 0;
 										$continue = false;
 									}
 
@@ -339,19 +360,19 @@ if(isset($_POST['co_pcp_ad'])){
 									if($temp==0){//se ja estiver feito os calculos nao precisa calcular novamente
 
 										if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/4);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
 										}elseif($co_pcp_op[6]<56){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/8);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
 										}elseif($co_pcp_op[6]>=100 && $co_pcp_op[6]<240){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/2);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
 										}
 
 										if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //comprimento
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/4);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
 										}elseif($co_pcp_op[5]<56){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/8);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
 										}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']/2);
+											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
 										}
 										if($processadas==0){
 											$processadas+= $arrayDadosCorte[$i]['qtd_pecas']*1;
@@ -364,9 +385,10 @@ if(isset($_POST['co_pcp_ad'])){
 									if(($processadas+$co_pcp_op[3]) > $co_pcp_op[1]){
 											
 										$temp = $processadas - ($co_pcp_op[1]-$co_pcp_op[3]);
+										$dif3 = $co_pcp_op[1]-$co_pcp_op[3];
 										$processadas = $processadas - $temp;
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas+$co_pcp_op[3], $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
-										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $dif3, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $dif3+$co_pcp_op[3]);
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$continue = true;
 											
@@ -375,12 +397,14 @@ if(isset($_POST['co_pcp_ad'])){
 										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
+										$temp = 0;
 										$continue = false;
 									}elseif(($processadas+$co_pcp_op[3]) == $co_pcp_op[1]){
 										$processadas = $processadas+$co_pcp_op[3];
 										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
+										$temp = 0;
 										$continue = false;
 									}
 								}
@@ -424,7 +448,22 @@ if(isset($_POST['co_pcp_ad'])){
 
 			}
 				
-				
+
+			if($temp!=0){
+				unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);//producao a mais para nova op aberta processo nao permitido
+				$_acModel->delete($co_pcp_ac);
+				for($di = 0; $di<count($divergencias);$di++){
+					$_adPecaModel->delete($divergencias[$di], $co_pcp_ad);
+				}
+				for($ix=0;$ix<count($logRollback);$ix++){
+					$_opModel->atualizaProcessadoComQuantidade($logRollback[$ix]['co_pcp_op'], $logRollback[$ix]['qtd_processada_anterior']);
+				}
+				$data['sucesso']= false;
+				$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois a OP: ".$co_pcp_op[2]." permite apenas a inclusão de <strong>".$co_pcp_op[1]."</strong> peça(s) e você esta tentando incluir <strong style='color:red;'>".($co_pcp_op[1]+$temp)."</strong> peça(s).</p>";
+				echo json_encode($data);
+				exit;
+			}
+			
 				
 			$divergencias = array_unique($divergencias);
 			sort($divergencias);

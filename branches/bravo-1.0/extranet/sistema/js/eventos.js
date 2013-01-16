@@ -33,7 +33,7 @@ function NoneLine(idLine){
 
 //INICIO FUNCAO CONFIRMA EXCLUSAO
   function confirmaExclusao(aURL) {
-    if(confirm('Você tem certeza que deseja excluir?')) {
+    if(confirm('Vocï¿½ tem certeza que deseja excluir?')) {
       location.href = aURL;
     }
   }
@@ -64,7 +64,7 @@ function pula(maxlength, idObj, idNext){
 }
 //FIM PULA PARA A CAIXA DE TEXTO DEFINIDA AO ALCANCAR O TAMANHO MAXIMO DE CARACTERES
 
-//INICIO FUNÇÃO PERMITE DIGITAR SOMENTE NÚMERO EM DETERMINADOS CAMPOS
+//INICIO FUNï¿½ï¿½O PERMITE DIGITAR SOMENTE Nï¿½MERO EM DETERMINADOS CAMPOS
 function isNum(caractere){
 	var strValidos = "0123456789"
 	if ( strValidos.indexOf( caractere ) == -1 )
@@ -89,7 +89,7 @@ function validaTecla(campo, event){
  		return true;
  		return (isNum(key));
  	}
-//FIM FUNÇÃO PERMITE DIGITAR SOMENTE NÚMERO EM DETERMINADOS CAMPOS
+//FIM FUNï¿½ï¿½O PERMITE DIGITAR SOMENTE Nï¿½MERO EM DETERMINADOS CAMPOS
 
 //INICIO FUNCAO PARA CONTROLE DE ESTADO E CIDADES
    function BuscaCidade(valor) {
@@ -106,14 +106,14 @@ function validaTecla(campo, event){
                ajax = new XMLHttpRequest();
             }
 	        catch(exc) {
-               alert("Esse browser não tem recursos para uso do Ajax");
+               alert("Esse browser nÃ£o tem recursos para uso do Ajax");
                ajax = null;
             }
          }
       }
 	  //SE TIVER SUPORTE AJAX
 	  if(ajax) {
-	     //DEIXA APENAS O ELEMENTO 1 NO OPTION, OS OUTROS SÃO EXCLUIDOS
+	     //DEIXA APENAS O ELEMENTO 1 NO OPTION, OS OUTROS Sï¿½O EXCLUIDOS
 		 document.forms[0].codigoCidade.options.length = 1;
 
 		 idOpcao  = document.getElementById("opcoes");
@@ -126,18 +126,18 @@ function validaTecla(campo, event){
 			if(ajax.readyState == 1) {
 			   idOpcao.innerHTML = "Carregando...";
 	        }
-			//após ser processado - chama função processXMLCidade que vai varrer os dados
+			//apï¿½s ser processado - chama funï¿½ï¿½o processXMLCidade que vai varrer os dados
             if(ajax.readyState == 4 ) {
 			   if(ajax.responseXML) {
 			      processXMLCidade(ajax.responseXML);
 			   }
 			   else {
-			       //caso não seja um arquivo XML emite a mensagem abaixo
+			       //caso nï¿½o seja um arquivo XML emite a mensagem abaixo
 				   idOpcao.innerHTML = "--Primeiro selecione o estado--";
 			   }
             }
          }
-		 //passa o código do estado escolhido
+		 //passa o cï¿½digo do estado escolhido
 	     var params = "estado="+valor;
          ajax.send(params);
       }
@@ -152,7 +152,7 @@ function validaTecla(campo, event){
 	     //percorre o arquivo XML paara extrair os dados
          for(var i = 0 ; i < dataArray.length ; i++) {
             var item = dataArray[i];
-			//contéudo dos campos no arquivo XML
+			//contï¿½udo dos campos no arquivo XML
 			var codigo    =  item.getElementsByTagName("codigo")[0].firstChild.nodeValue;
 			var descricao =  item.getElementsByTagName("descricao")[0].firstChild.nodeValue;
 
@@ -192,14 +192,14 @@ function validaTecla(campo, event){
                ajax = new XMLHttpRequest();
             }
 	        catch(exc) {
-               alert("Esse browser não tem recursos para uso do Ajax");
+               alert("Esse browser nï¿½o tem recursos para uso do Ajax");
                ajax = null;
             }
          }
       }
 	  //SE TIVER SUPORTE AJAX
 	  if(ajax) {
-	     //DEIXA APENAS O ELEMENTO 1 NO OPTION, OS OUTROS SÃO EXCLUIDOS
+	     //DEIXA APENAS O ELEMENTO 1 NO OPTION, OS OUTROS Sï¿½O EXCLUIDOS
 		 document.forms[0].codigoBairro.options.length = 1;
 
 		 idOpcao  = document.getElementById("opcoes");
@@ -212,18 +212,18 @@ function validaTecla(campo, event){
 			if(ajax.readyState == 1) {
 			   idOpcao.innerHTML = "Carregando...";
 	        }
-			//após ser processado - chama função processXMLCidade que vai varrer os dados
+			//apï¿½s ser processado - chama funï¿½ï¿½o processXMLCidade que vai varrer os dados
             if(ajax.readyState == 4 ) {
 			   if(ajax.responseXML) {
 			      processXMLBairro(ajax.responseXML);
 			   }
 			   else {
-			       //caso não seja um arquivo XML emite a mensagem abaixo
+			       //caso nï¿½o seja um arquivo XML emite a mensagem abaixo
 				   idOpcao.innerHTML = "--Primeiro selecione o municipio--";
 			   }
             }
          }
-		 //passa o código do estado escolhido
+		 //passa o cï¿½digo do estado escolhido
 	     var params = "cidade="+valor;
          ajax.send(params);
       }
@@ -238,7 +238,7 @@ function validaTecla(campo, event){
 	     //percorre o arquivo XML paara extrair os dados
          for(var i = 0 ; i < dataArray.length ; i++) {
             var item = dataArray[i];
-			//contéudo dos campos no arquivo XML
+			//contï¿½udo dos campos no arquivo XML
 			var codigo    =  item.getElementsByTagName("codigo")[0].firstChild.nodeValue;
 			var descricao =  item.getElementsByTagName("descricao")[0].firstChild.nodeValue;
 

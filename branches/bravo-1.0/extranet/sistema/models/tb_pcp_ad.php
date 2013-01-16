@@ -120,5 +120,15 @@ class tb_pcp_ad{
 		return $row[0];
 		
 	}
+	/**
+	 * Metodo para atualizar flag casadei
+	 * @author Ricardo S. Alvarenga
+	 * @return String
+	 * @since 15/01/2013
+	 */
+	public function setCasaDei($co_pcp_ad){
+		$sql = "UPDATE tb_pcp_ad SET fl_casadei=1 WHERE co_pcp_ad = ".$co_pcp_ad;
+		mysql_query($sql,$this->conexaoERP);
+	}
 }
 ?>
