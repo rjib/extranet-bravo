@@ -113,9 +113,9 @@ class tb_pcp_etiqueta{
 	 * @author Ricardo S. Alvarenga
 	 * @since 08/01/2013
 	 */
-	public function proc_etiqueta_casadei($co_pcp_apontamento){
+	public function proc_etiqueta_casadei($co_pcp_apontamento,$co_usuario){
 		try{
-			$query = " CALL etiquetaCasadei(".$co_pcp_apontamento.")";
+			$query = " CALL etiquetaCasadei(".$co_pcp_apontamento.",".$co_usuario.")";
 			mysql_query($query, $this->conexaoERP);
 		}catch (Exception $e){
 			return false;
@@ -128,9 +128,9 @@ class tb_pcp_etiqueta{
 	 * @author Ricardo S. Alvarenga
 	 * @since 15/01/2013
 	 */
-	public function proc_etiqueta_casadei_relatorio($co_pcp_apontamento){
+	public function proc_etiqueta_casadei_relatorio($nu_op,$co_usuario){
 		try{
-			$query = " CALL etiquetaCasadeiRelatorio(".$co_pcp_apontamento.")";
+			$query = " CALL etiquetaRelatorioCasadei('".$nu_op."',".$co_usuario.")";
 			mysql_query($query, $this->conexaoERP);
 		}catch (Exception $e){
 			return false;
@@ -143,9 +143,9 @@ class tb_pcp_etiqueta{
 	 * @author Ricardo S. Alvarenga
 	 * @since 15/01/2013
 	 */
-	public function proc_etiqueta_casadei_pcp($co_pcp_ad){
+	public function proc_etiqueta_casadei_pcp($co_pcp_ad,$co_usuario){
 		try{
-			$query = " CALL etiquetaPecaCasadeiPcp(".$co_pcp_ad.")";
+			$query = " CALL etiquetaPecaCasadeiPcp(".$co_pcp_ad.",".$co_usuario.")";
 			mysql_query($query, $this->conexaoERP);
 		}catch (Exception $e){
 			return false;
@@ -159,9 +159,9 @@ class tb_pcp_etiqueta{
 	 * @author Ricardo S. Alvarenga
 	 * @since 10/01/2013
 	 */
-	public function proc_etiqueta_peca($co_pcp_apontamento){
+	public function proc_etiqueta_peca($co_pcp_apontamento,$co_usuario){
 		try{
-			$query = " CALL etiquetaPeca(".$co_pcp_apontamento.")";
+			$query = " CALL etiquetaPeca(".$co_pcp_apontamento.",".$co_usuario.")";
 			mysql_query($query, $this->conexaoERP);
 		}catch (Exception $e){
 			return false;
@@ -175,9 +175,9 @@ class tb_pcp_etiqueta{
 	 * @author Ricardo S. Alvarenga
 	 * @since 10/01/2013
 	 */
-	public function proc_etiqueta_peca_pi($co_pcp_ad){
+	public function proc_etiqueta_peca_pi($co_pcp_ad,$co_usuario){
 		try{
-			$query = " CALL etiquetaPecaPcp(".$co_pcp_ad.")";
+			$query = " CALL etiquetaPecaPcp(".$co_pcp_ad.",".$co_usuario.")";
 			mysql_query($query, $this->conexaoERP);
 		}catch (Exception $e){
 			return false;
@@ -187,12 +187,12 @@ class tb_pcp_etiqueta{
 	
 	
 	/**
-	 * Metodo para limpar a tabela
+	 * Metodo para limpar a tabela tb_tmp_etiqueta_peca_casadei (RELATORIO, APONTAMENTO)
 	 * @author Ricardo S. Alvarenga
 	 * @since 08/01/2013
 	 */
-	public function limparTemporaria(){
-		$query = "TRUNCATE tb_tmp_etiqueta_peca_casadei";
+	public function limparTemporaria($co_usuario){
+		$query = "DELETE FROM tb_tmp_etiqueta_peca_casadei WHERE co_usuario = ".$co_usuario;
 		mysql_query($query, $this->conexaoERP);
 	}
 	
@@ -201,8 +201,8 @@ class tb_pcp_etiqueta{
 	 * @author Ricardo S. Alvarenga
 	 * @since 15/01/2013
 	 */
-	public function limparTemporariaCasadeiPcp(){
-		$query = "TRUNCATE tb_tmp_etiqueta_peca_casadei_pcp";
+	public function limparTemporariaCasadeiPcp($co_usuario){
+		$query = "DELETE FROM tb_tmp_etiqueta_peca_casadei_pcp WHERE co_usuario = ".$co_usuario;
 		mysql_query($query, $this->conexaoERP);
 	}
 	
@@ -211,8 +211,8 @@ class tb_pcp_etiqueta{
 	 * @author Ricardo S. Alvarenga
 	 * @since 15/01/2013
 	 */
-	public function limparTemporariaPiPcp(){
-		$query = "TRUNCATE tb_tmp_etiqueta_peca_pcp";
+	public function limparTemporariaPiPcp($co_usuario){
+		$query = "DELETE FROM tb_tmp_etiqueta_peca_pcp WHERE co_usuario = ".$co_usuario;
 		mysql_query($query, $this->conexaoERP);
 	}
 	
@@ -221,8 +221,8 @@ class tb_pcp_etiqueta{
 	 * @author Ricardo S. Alvarenga
 	 * @since 10/01/2013
 	 */
-	public function limparTemporariaEtiquetaPeca(){
-		$query = "TRUNCATE tb_tmp_etiqueta_peca";
+	public function limparTemporariaEtiquetaPeca($co_usuario){
+		$query = "DELETE FROM tb_tmp_etiqueta_peca WHERE co_usuario = ".$co_usuario;
 		mysql_query($query, $this->conexaoERP);
 	}
 	

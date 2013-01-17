@@ -1,5 +1,8 @@
 <?php
- 
+session_start();
+ini_set("max_execution_time",3600);
+ini_set("memory_limit","50M");
+set_time_limit(0);
 $data=false;
 require_once('../class/tcpdf/tcpdf.php');
 require_once("../class/PHPJasperXML.inc.php");
@@ -20,26 +23,27 @@ $pass=PASS;
 $version="0.8b";
 $pgport=5432;
 $pchartfolder="../class/pchart2";
-
+$co_usuario = $_SESSION['codigoUsuario'];
 
 $_etiqueta = new tb_pcp_etiqueta($conexaoERP);
-$_etiqueta->proc_etiqueta_peca_pi($co_pcp_ad);
+$_etiqueta->proc_etiqueta_peca_pi($co_pcp_ad,$co_usuario);
 
 $xml =  simplexml_load_file("pcp_etiqueta_peca_pi.jrxml");
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-$PHPJasperXML->arrayParameter=array("CO_PCP_AD"=>$co_pcp_ad);
+$PHPJasperXML->arrayParameter=array("CO_PCP_AD"=>$co_pcp_ad, "CO_USUARIO"=>$co_usuario);
 $PHPJasperXML->xml_dismantle($xml);
 
 //$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db); * use this line if you want to connect with mysql
 
 //if you want to use universal odbc connection, please create a dsn connection in odbc first
 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db);
+$_etiqueta->limparTemporariaPiPcp($co_usuario);
 
 //$PHPJasperXML->outpage("F",APP_PATH.'barcodes'.DS.date("dmYhis").".pdf");    //page output method I:standard output  D:Download file
 $PHPJasperXML->outpage("I",date("dmYhis"));    //page output method I:standard output  D:Download file
 
-$_etiqueta->limparTemporariaPiPcp();
+
 
 $data=true;
 

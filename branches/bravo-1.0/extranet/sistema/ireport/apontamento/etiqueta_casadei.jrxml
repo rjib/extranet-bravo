@@ -3,7 +3,7 @@
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="co_pcp_ad" class="java.lang.String">
+	<parameter name="co_pcp_apontamento" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="PATH" class="java.lang.String"/>
@@ -12,8 +12,8 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT *
-FROM tb_tmp_etiqueta_peca_casadei_pcp
-WHERE co_pcp_ad = $P{co_pcp_ad} AND co_usuario = $P{co_usuario}
+FROM tb_tmp_etiqueta_peca_casadei
+WHERE co_pcp_apontamento = $P{co_pcp_apontamento} AND co_usuario = $P{co_usuario}
 ORDER BY CO_TMP_ETIQUETA]]>
 	</queryString>
 	<field name="CO_TMP_ETIQUETA" class="java.lang.Integer">
@@ -37,8 +37,8 @@ ORDER BY CO_TMP_ETIQUETA]]>
 	<field name="DT_FIM" class="java.lang.String">
 		<fieldDescription><![CDATA[data de fim]]></fieldDescription>
 	</field>
-	<field name="CO_PCP_AD" class="java.lang.Integer">
-		<fieldDescription><![CDATA[codigo do arquivo ad]]></fieldDescription>
+	<field name="CO_PCP_APONTAMENTO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[codigo do apontamento]]></fieldDescription>
 	</field>
 	<field name="NU_LOTE" class="java.lang.String">
 		<fieldDescription><![CDATA[Numero do lote]]></fieldDescription>
@@ -47,7 +47,7 @@ ORDER BY CO_TMP_ETIQUETA]]>
 		<fieldDescription><![CDATA[Numero da ordem de producao]]></fieldDescription>
 	</field>
 	<field name="CO_USUARIO" class="java.lang.Integer">
-		<fieldDescription><![CDATA[Codigo do usuario para controle de sessao]]></fieldDescription>
+		<fieldDescription><![CDATA[Codigo do usuario que gerou a etiqueta para controle de sessao]]></fieldDescription>
 	</field>
 	<pageHeader>
 		<band height="3" splitType="Stretch"/>
@@ -55,73 +55,73 @@ ORDER BY CO_TMP_ETIQUETA]]>
 	<detail>
 		<band height="125" splitType="Stretch">
 			<textField>
-				<reportElement uuid="38299596-8382-4dbe-b6d5-b5498978a146" x="39" y="0" width="231" height="33"/>
+				<reportElement uuid="38299596-8382-4dbe-b6d5-b5498978a146" x="38" y="1" width="231" height="33"/>
 				<textElement>
 					<font fontName="Arial" size="26" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{NU_LOTE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="cd32af3e-47b6-4c3f-8d9a-df0b8769fea0" x="11" y="1" width="33" height="16"/>
+				<reportElement uuid="cd32af3e-47b6-4c3f-8d9a-df0b8769fea0" x="10" y="2" width="33" height="16"/>
 				<textElement/>
 				<text><![CDATA[Lote:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="d39967ed-5f79-4953-9234-779ad35abef8" x="11" y="42" width="276" height="27"/>
+				<reportElement uuid="d39967ed-5f79-4953-9234-779ad35abef8" x="10" y="43" width="276" height="27"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DS_PRODUTO}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="1a9615eb-4ab5-4154-84ad-d36ce77097da" x="11" y="29" width="276" height="20"/>
+				<reportElement uuid="1a9615eb-4ab5-4154-84ad-d36ce77097da" x="10" y="30" width="276" height="20"/>
 				<textElement>
 					<font size="15" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{CO_INTERNO_COR_ESP}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="cd32af3e-47b6-4c3f-8d9a-df0b8769fea0" x="11" y="107" width="58" height="16"/>
+				<reportElement uuid="cd32af3e-47b6-4c3f-8d9a-df0b8769fea0" x="10" y="108" width="58" height="16"/>
 				<textElement/>
 				<text><![CDATA[Etiqueta.:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="cd32af3e-47b6-4c3f-8d9a-df0b8769fea0" x="11" y="79" width="58" height="16"/>
+				<reportElement uuid="cd32af3e-47b6-4c3f-8d9a-df0b8769fea0" x="10" y="80" width="58" height="16"/>
 				<textElement/>
 				<text><![CDATA[Inicio......:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="cd32af3e-47b6-4c3f-8d9a-df0b8769fea0" x="11" y="92" width="58" height="16"/>
+				<reportElement uuid="cd32af3e-47b6-4c3f-8d9a-df0b8769fea0" x="10" y="93" width="58" height="16"/>
 				<textElement/>
 				<text><![CDATA[Fim........:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="f7c2d602-9a01-4c93-9c6b-845afa3ced1b" x="56" y="110" width="55" height="13"/>
+				<reportElement uuid="f7c2d602-9a01-4c93-9c6b-845afa3ced1b" x="55" y="111" width="55" height="13"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{NU_CONTADOR}+"/"+$F{NU_TOTAL}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="c5f26423-5c69-4e0f-87cd-2d4c95dadeff" x="157" y="112" width="112" height="13"/>
+				<reportElement uuid="c5f26423-5c69-4e0f-87cd-2d4c95dadeff" x="156" y="112" width="112" height="13"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{NU_OP}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement uuid="0b6bda9e-1e11-4985-ad29-d4164e8de7d7" x="136" y="63" width="150" height="50"/>
-				<imageExpression><![CDATA[$P{PATH}+$P{co_usuario}+"_pcp_casadei_"+$F{NU_OP}+".gif"]]></imageExpression>
+				<reportElement uuid="0b6bda9e-1e11-4985-ad29-d4164e8de7d7" x="135" y="63" width="150" height="50"/>
+				<imageExpression><![CDATA[$P{PATH}+$F{CO_USUARIO}+"_casadei_"+$F{NU_OP}+".gif"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement uuid="96f6c5a4-044b-48eb-9a0e-af2dfb59a1a7" x="56" y="92" width="100" height="20"/>
+				<reportElement uuid="96f6c5a4-044b-48eb-9a0e-af2dfb59a1a7" x="55" y="93" width="100" height="20"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DT_FIM}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="867d3817-49cf-4a54-863e-99c40000de35" x="56" y="79" width="100" height="20"/>
+				<reportElement uuid="5470b65a-5eba-420d-b7f1-4a45bbacfc4a" x="55" y="80" width="100" height="20"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>

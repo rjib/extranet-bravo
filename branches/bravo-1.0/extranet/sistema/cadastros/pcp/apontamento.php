@@ -55,11 +55,11 @@
 <script type="text/javascript">
 function gerarEtiquetaPeca(co_pcp_apontamento){ //casadei
 	$("#boxLoadingEtiqueta").dialog("open");
-	$("#temp").load('ireport/gerarCodeBarEtiquetaPecaCasaDei.php',{co_pcp_apontamento:co_pcp_apontamento}, function(data,status){
+	$("#temp").load('ireport/apontamento/gerarCodeBarEtiquetaPecaCasaDei.php',{co_pcp_apontamento:co_pcp_apontamento}, function(data,status){
 		if (status == "success") {
 			$("#boxLoadingEtiqueta").dialog("close");
 			//$(window.document.location).attr('href','ireport/pcp_etiqueta_casadei.php?co_pcp_apontamento='+co_pcp_apontamento);
-			window.open("ireport/pcp_etiqueta_casadei.php?co_pcp_apontamento="+co_pcp_apontamento,"Etiqueta Peça (Casadei)","menubar=0,resizable=1,width=410,height=500,location=0");
+			window.open("ireport/apontamento/etiqueta_casadei.php?co_pcp_apontamento="+co_pcp_apontamento,"Etiqueta Peça (Casadei)","menubar=0,resizable=1,width=410,height=500,location=0");
 		}
 	});		
 }
