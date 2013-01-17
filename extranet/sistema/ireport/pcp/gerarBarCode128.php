@@ -1,9 +1,10 @@
 <?php 
+session_start();
 date_default_timezone_set('America/Sao_Paulo');
-require_once('GerarCodigoDeBarra128.class.php');
-require_once('../setup.php');
-require_once '../models/tb_pcp_etiqueta.php';
-require_once '../models/tb_pcp_pecas.php';
+require_once('../GerarCodigoDeBarra128.class.php');
+require_once('../../setup.php');
+require_once '../../models/tb_pcp_etiqueta.php';
+require_once '../../models/tb_pcp_pecas.php';
 
 $_etiqueta = new tb_pcp_etiqueta($conexaoERP);
 $_barcode128 = new GerarCodigoDeBarra128();
@@ -18,12 +19,12 @@ $_peca = new tb_pcp_pecas($conexaoERP);
  */
 $data=false;
 
-function gerar($co_pcp_ac){
+function gerar($co_pcp_ac,$co_usuario){
 	date_default_timezone_set('America/Sao_Paulo');
-	require_once('GerarCodigoDeBarra128.class.php');
-	require_once('../setup.php');
-	require_once '../models/tb_pcp_etiqueta.php';
-	require_once '../models/tb_pcp_pecas.php';
+	require_once('../GerarCodigoDeBarra128.class.php');
+	require_once('../../setup.php');
+	require_once '../../models/tb_pcp_etiqueta.php';
+	require_once '../../models/tb_pcp_pecas.php';
 	
 	$_etiqueta = new tb_pcp_etiqueta(CONEXAOERP);
 	$_barcode128 = new GerarCodigoDeBarra128();
@@ -32,7 +33,7 @@ function gerar($co_pcp_ac){
 	$result = $_etiqueta->listaCodigoBarra($co_pcp_ac);
 	try {
 		while ($dados = mysql_fetch_array($result)){
-			$_barcode128->gerar($dados["NU_PCP_OP"], APP_PATH.'barcodes'.DS.$dados['NU_PCP_OP'].'.gif',10,10,125,275,30,2,180,300,300,300,300);
+			$_barcode128->gerar($dados["NU_PCP_OP"], APP_PATH.'barcodes'.DS.$co_usuario.'_'.$dados['NU_PCP_OP'].'.gif',10,10,125,275,30,2,180,300,300,300,300);
 		}
 	}catch (Exception $e){
 		$data=false;
@@ -55,8 +56,9 @@ try {
 }
 
 $co_pcp_ac	   = $dados['CO_PCP_AC'];
+$co_usuario = $_SESSION['codigoUsuario'];
 
-gerar($co_pcp_ac);
+gerar($co_pcp_ac,$co_usuario);
 $data=true;
 //echo json_encode($data);
 ?>

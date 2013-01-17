@@ -44,7 +44,7 @@
 	$paging->labels('Status,Num. Op.,C&oacuted. Int.,Desc. Produto,Quantidade,Qtd. Proces.,Qtd. Produzida,Lote, Dt. Emiss&atilde;o');
 	$paging->fields('PCP_OP.CO_PCP_AD,NUM_OP,PCP_PCP_OP, PCP_PRODUTO.CO_INT_PRODUTO,PCP_PRODUTO.DS_PRODUTO,PCP_OP.QTD_PRODUTO,PCP_OP.QTD_PROCESSADA, PCP_OP.QTD_PRODUZIDA,PCP_NU_LOTE,PCP_OP.DT_EMISSAO');
 	$paging->cols_width('47,8,60,380,80,60,65,49,80');
-	$paging->rowsperpage(30);
+	$paging->rowsperpage(100);
 	$paging->page(isset($_GET['p']) ? $_GET['p'] : 1);	
 	
 	
