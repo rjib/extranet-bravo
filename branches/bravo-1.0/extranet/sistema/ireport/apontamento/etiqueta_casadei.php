@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 $data=false;
 require_once('../class/tcpdf/tcpdf.php');
@@ -6,30 +6,41 @@ require_once("../class/PHPJasperXML.inc.php");
 //require_once("class/PHPJasperXMLSubReport.inc.php");
 require_once('../../setup.php');
 require_once '../../models/tb_pcp_etiqueta.php';
+require_once APP_PATH.'sistema/models/tb_pcp_pecas.php';
 
 date_default_timezone_set('America/Sao_Paulo');
 
+$_peca 	           = new tb_pcp_pecas($conexaoERP);
 $co_pcp_apontamento= $_GET['co_pcp_apontamento'];
+$onde			= $_GET['onde']; //de onde esta vindo
+
+
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
-$server=DSN;
+$server="localhost";
 $db="extranet";
-$user=USER;
-$pass=PASS;
+$user="root";
+$pass="";
 $version="0.8b";
 $pgport=5432;
 $pchartfolder="../class/pchart2";
-$timestamp = date("d/m/Y")."  ".date("h:i:s");
+$timestamp = date("dmY").date("his");
 $co_usuario = $_SESSION['codigoUsuario'];
 
 $_etiqueta = new tb_pcp_etiqueta($conexaoERP);
-$_etiqueta->proc_etiqueta_peca($co_pcp_apontamento,$co_usuario);
 
-$xml =  simplexml_load_file("etiqueta_peca.jrxml");
+if($onde=='1'){
+	$_etiqueta->proc_etiqueta_casadei_relatorio($co_pcp_apontamento, $co_usuario);
+}else{
+	$_etiqueta->proc_etiqueta_casadei($co_pcp_apontamento,$co_usuario);
+}
+$row = $_etiqueta->getOPFind($co_pcp_apontamento);
+
+$xml =  simplexml_load_file("etiqueta_casadei.jrxml");
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-$PHPJasperXML->arrayParameter=array("CO_PCP_APONTAMENTO"=>$co_pcp_apontamento, "CO_USUARIO"=>$co_usuario);
+$PHPJasperXML->arrayParameter=array("co_pcp_apontamento"=>$co_pcp_apontamento,"co_usuario"=>$co_usuario, "PATH"=>APP_PATH.'barcodes'.DS);
 $PHPJasperXML->xml_dismantle($xml);
 
 //$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db); * use this line if you want to connect with mysql
@@ -40,7 +51,9 @@ $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db);
 //$PHPJasperXML->outpage("F",APP_PATH.'barcodes'.DS.date("dmYhis").".pdf");    //page output method I:standard output  D:Download file
 $PHPJasperXML->outpage("I",date("dmYhis"));    //page output method I:standard output  D:Download file
 
-$_etiqueta->limparTemporariaEtiquetaPeca($co_usuario);
+$_etiqueta->limparTemporaria($co_usuario);
+//APP_PATH.'barcodes'.DS.'casadei_'.$nu_op.'.gif'
+unlink(APP_PATH.'barcodes'.DS.$co_usuario.'_casadei_'.$row[0].'.gif');
 
 $data=true;
 

@@ -199,14 +199,14 @@ function gerarEtiqueta(co_pcp_ad, no_pcp_ad){
 	//$(window.document.location).attr('href','ireport/pcp_etiqueta.php?co_pcp_ad='+co_pcp_ad);
 	$.post('cadastros/ordem_producao/gerarEtiqueta.php',{co_pcp_ad:co_pcp_ad, no_pcp_ad:no_pcp_ad}, function(data){
 			if(data=="true"){
-				$("#temp").load('ireport/gerarBarCode128.php',{co_pcp_ad:co_pcp_ad}, function(data,status){
+				$("#temp").load('ireport/pcp/gerarBarCode128.php',{co_pcp_ad:co_pcp_ad}, function(data,status){
 					 if (status == "success") {
 						 $("#boxLoadingEtiqueta").dialog("close");
 						// $("#temp").load('ireport/pcp_etiqueta.php',{co_pcp_ad:co_pcp_ad}, function(data,status){
 							 //if (status == "success") {	
 								// $("#boxLoadingEtiqueta").dialog("close");
 								//$(window.document.location).attr('href','ireport/pcp_etiqueta.php?co_pcp_ad='+co_pcp_ad);
-								window.open("ireport/pcp_etiqueta.php?co_pcp_ad="+co_pcp_ad,"Etiqueta de Pilha","menubar=0,resizable=0,width=810,height=800,location=0");
+								window.open("ireport/pcp/pcp_etiqueta_pilha.php?co_pcp_ad="+co_pcp_ad,"Etiqueta de Pilha","menubar=0,resizable=0,width=810,height=800,location=0");
 							 }
 						// });						  
 						    

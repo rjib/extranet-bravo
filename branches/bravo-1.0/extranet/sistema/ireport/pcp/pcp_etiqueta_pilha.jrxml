@@ -11,6 +11,7 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\wamp\\www\\extranet-bravo\\extranet\\sistema\\ireport\\"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="CO_USUARIO" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
    FLOOR(1350/ETIQUETA.NU_ESPESSURA) EMP_MAX,
@@ -76,7 +77,7 @@ WHERE
 		<band height="337" splitType="Stretch">
 			<image>
 				<reportElement uuid="6d2fdf38-7c46-4c78-8491-894904f3d6f8" x="326" y="17" width="300" height="300"/>
-				<imageExpression><![CDATA[$P{CODIGO_BARRA}+$F{NU_PCP_OP}+".gif"]]></imageExpression>
+				<imageExpression><![CDATA[$P{CODIGO_BARRA}+$P{CO_USUARIO}+"_"+$F{NU_PCP_OP}+".gif"]]></imageExpression>
 			</image>
 			<rectangle>
 				<reportElement uuid="a6f87b07-5172-403d-9307-8ee0fb2665b8" x="187" y="18" width="245" height="91" forecolor="#FFFFFF"/>
@@ -96,7 +97,7 @@ WHERE
 					<subreportParameterExpression><![CDATA[$F{NU_PCP_OP}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "operacoes.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "pcp_etiqueta_operacoes.jasper"]]></subreportExpression>
 			</subreport>
 			<line>
 				<reportElement uuid="e8f345d8-c8bb-4068-a99c-fa9649267495" x="18" y="323" width="555" height="1"/>

@@ -69,6 +69,7 @@
 		 
 ?>
 <script type="text/javascript" src="js/pcp/apontamento.js"></script>
+
 <div id="formularioDetalhesApontamento"></div>
 <div id="header-wrap">
 <table width="100%"  border="0" cellpadding="0" cellspacing="0" background="img/bg_header.jpg">
