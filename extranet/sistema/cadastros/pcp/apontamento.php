@@ -70,6 +70,12 @@ function gerarEtiquetaPeca2(co_pcp_apontamento){ //peca
 	window.open('ireport/apontamento/etiqueta_peca.php?co_pcp_apontamento='+co_pcp_apontamento,"Etiqueta Peça (Casadei)","menubar=0,resizable=1,width=410,height=500,location=0");
 
 }
+
+function getDesenhoPeca(arquivo){ //peca
+	
+	window.open('desenhos_producao/'+arquivo+'.pdf',"Desenho de Produção","menubar=0,resizable=1,width=840,height=640,location=0");
+
+}
  
  </script>
 

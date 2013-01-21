@@ -186,6 +186,11 @@
 				echo "<li class='topline'><a onClick='openBoxEtiquetaPecaCasadei();' href='javascript:void(0);'>Etiqueta de Peça (CasaDei)</a></li>";
 			}
 			
+			$subControleAcessoVisitantes = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Peça (PI)');
+			if($subControleAcessoVisitantes){
+				echo "<li class='topline'><a onClick='openBoxEtiquetaPecaPI();' href='javascript:void(0);'>Etiqueta de Peça (PI)</a></li>";
+			}
+			
 			echo "</ul>";
 			echo "</li>";
 		}
@@ -309,6 +314,48 @@
 										<td width="5%"><font class="FONT05"><b>Lote:</b></font></td>
 										<td>
 											<input title="Hora Fim" type="text" name="loteStep1" id="loteStep1" class="INPUT03" size="15" style="text-align: left;" value="T000S-13" disabled="disabled" />
+										</td>
+								</tr>
+								</table>
+							</div>						
+						</td>
+					</tr>
+				</table>
+		</div>
+		
+		<!--  GERAR ETIQUETA PECA PI -->		
+		<div id="boxEtiquetaPecaStep2" style="display: none;">
+				<table width="325" border="0" cellspacing="2" cellpadding="3">
+					<tr>
+						<td align="left" style="border: 2px solid rgb(255, 204, 0); padding: 7px;">
+							<table width="100%" border="0" cellspacing="2" cellpadding="3">
+								<tr>
+									<td width="4%"><font class="FONT05"><b>OP:</b></font></td>
+									<td id="colunaOrdemProducaoStep2" width="96%">
+										<input title="Ordem de Produção" type="text" name="numeroOrdemProducaoStep2" id="numeroOrdemProducaoStep2" class="INPUT03" style="text-align: left;" size="15" maxlength="15" onblur='getValidaOrdemProducaoPecaStep2()' /> 									
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div id="step2" style="display: none;">
+							<table width="325" border="0" cellspacing="2" cellpadding="3">
+								<tr>
+									<td width="5%"><font class="FONT05"><b>Produto:&nbsp;&nbsp;</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="descricaoProdutoStep2" id="descricaoProdutoStep2" class="INPUT03" style="text-align: left;" size="50" value="descricao do produto" disabled="disabled" />
+										</td>
+										<td width="5%"><font class="FONT05"><b>Quantidade:</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="quantidadeProdutoStep2" id="quantidadeProdutoStep2" class="INPUT03" size="4" style="text-align: left;" value="6" disabled="disabled" />
+										</td>
+								</tr>
+								<tr>
+										<td width="5%"><font class="FONT05"><b>Lote:</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="loteStep2" id="loteStep2" class="INPUT03" size="15" style="text-align: left;" value="T000S-13" disabled="disabled" />
 										</td>
 								</tr>
 								</table>
