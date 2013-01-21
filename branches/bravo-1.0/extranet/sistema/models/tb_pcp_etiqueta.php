@@ -138,6 +138,21 @@ class tb_pcp_etiqueta{
 		return true;
 	}
 	/**
+	 * Metodo para executar a procedure e gravar na tabela temporaria os dados da etiqueta peca PI (relatorio)
+	 * @param int $co_pcp_ac
+	 * @author Ricardo S. Alvarenga
+	 * @since 17/01/2013
+	 */
+	public function proc_etiqueta_peca_relatorio($nu_op,$co_usuario){
+		try{
+			$query = " CALL etiquetaRelatorioPeca('".$nu_op."',".$co_usuario.")";
+			mysql_query($query, $this->conexaoERP);
+		}catch (Exception $e){
+			return false;
+		}
+		return true;
+	}
+	/**
 	 * Metodo para executar a procedure e gravar na tabela temporaria os dados da etiqueta peca casadei (pcp)
 	 * @param int $co_pcp_ac
 	 * @author Ricardo S. Alvarenga

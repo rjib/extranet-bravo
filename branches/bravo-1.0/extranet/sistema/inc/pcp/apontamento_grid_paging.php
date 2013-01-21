@@ -180,6 +180,18 @@
 			
 		}
 		
+		public function getCodigoInterno($co_pcp_apontamento){
+			
+			$sql = "SELECT PRODUTO.CO_INT_PRODUTO FROM TB_PCP_APONTAMENTO APONTAMENTO INNER JOIN TB_PCP_OP PCP_OP
+					ON PCP_OP.CO_PCP_OP = APONTAMENTO.CO_PCP_OP INNER JOIN TB_PCP_PRODUTO PRODUTO
+					ON PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
+					WHERE APONTAMENTO.CO_PCP_APONTAMENTO = ".$co_pcp_apontamento;
+			
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			$row = $sth->fetch(PDO::FETCH_NUM);
+			return $row;
+		}
 		
 		//Imprime a tabela de resultados
 		public function show_table(){
@@ -273,7 +285,7 @@
 				
 			}
 			
-			$s_html .= '<th align="center" width="80">Ações</th>';
+			$s_html .= '<th align="center" width="110">Ações</th>';
 			
 			$s_html .= '</tr></thead><tbody>';
 			
@@ -301,8 +313,15 @@
 					}else{
 						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
 						if($row[5]=="Produção"){
+							
 							$s_html .= '<a title="Etiqueta de Peça (Casadei)" href="#" onClick="javascript:gerarEtiquetaPeca('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta1.gif" width="25" height="19" border="0"/></a>';
 							$s_html .= '<a title="Etiqueta de Peça (PI)" href="#" onClick="javascript:gerarEtiquetaPeca2('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta2.gif" width="25" height="19" border="0"/></a>';
+							$codigo_interno = $this->getCodigoInterno($row[0]);
+							$filename = APP_PATH.'sistema'.DS.'desenhos_producao'.DS.$codigo_interno[0].'.pdf';
+							if(file_exists($filename)){
+								$s_html .= '<a title="Desenho da Peça('.$codigo_interno[0].')" href="#" onClick="javascript:getDesenhoPeca(\'C1033\');" name="desenhoPeca" id="'.$row[0].'"><img src="img/pencil_ruler.png" width="25" height="19" border="0"/></a>';
+							}
+							
 						}
 					}
 					
