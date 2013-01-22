@@ -144,11 +144,11 @@ $moduloPai  = $_modModel->getPai(0);
 		</tr>			
 		<tr>
 			<td><font class="FONT04"><b>Ativo:</b></font></td>
-			<td><input type="radio" id="fl_ativo_add_sub" name="fl_ativo_add_sub[]" value="1" checked="checked" />Sim <input type="radio" id="fl_ativo_add_sub" name="fl_ativo_add_sub[]" value="0" />Não</td>
+			<td><input type="radio" id="fl_ativo_add_sub" name="fl_ativo_add_sub" value="1" checked="checked" />Sim <input type="radio" id="fl_ativo_add_sub" name="fl_ativo_add_sub" value="0" />Não</td>
 		</tr>
 		<tr>
 			<td><font class="FONT04"><b>Módulo possui ações?</b></font></td>
-			<td><input type="radio" id="fl_acoes_add_sub" name="fl_acoes_add_sub[]" value="1" />Sim <input  checked="checked" type="radio" id="fl_acoes_add_sub" name="fl_acoes_add_sub[]" value="0" />Não</td>
+			<td><input type="radio" id="fl_acoes_add_sub" name="fl_acoes_add_sub" value="1" />Sim <input  checked="checked" type="radio" id="fl_acoes_add_sub" name="fl_acoes_add_sub" value="0" />Não</td>
 		</tr>		
 	</table>
 </div>

@@ -186,7 +186,7 @@ function addSub(id){
                 'Salvar':function(){
                 	var no_modulo 	= $("#no_modulo_add_sub").val();
                 	var co_pai 		=  id;
-                	var fl_status 	= $("#fl_status_add_sub").val();
+                	var fl_status 	= $("#fl_ativo_add_sub").val();
 	                	//$.post('inc/cadastros/ordem_producao_pi_gerar_ad.php', {
 	                	$.post('inc/configuracoes/modulo_ins.php',
 	                			{
