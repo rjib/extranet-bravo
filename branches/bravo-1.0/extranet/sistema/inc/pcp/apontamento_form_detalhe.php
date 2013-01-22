@@ -28,6 +28,8 @@
 									   , PCP_APONTAMENTO.QTD_PRODUTO
 									   , PCP_OP.NU_LOTE
 									   , DATE_FORMAT(PCP_OP.DT_EMISSAO, '%d/%m/%Y') AS DT_EMISSAO
+			                     	   , PCP_PRODUTO.CO_PRODUTO
+                     				   , PCP_PRODUTO.CO_INT_PRODUTO
 								   FROM tb_pcp_apontamento PCP_APONTAMENTO
 								       INNER JOIN tb_pcp_recurso PCP_RECURSO
 									       ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
@@ -102,8 +104,8 @@
     </tr>
     <tr <?php if($rowApontamento['FL_APONTAMENTO'] == "1"){echo "style='display:none'"; } ?>>
       <td align="left"><font class="FONT04"><b>Quantidade:</b></font></td>
-      <td align="left"><input title="Quantidade" type="text" name="quantidadeProduto" id="quantidadeProduto" class="INPUT03" size="5" maxlength="10" value="<?php echo $rowApontamento['QTD_PRODUTO']; ?>" disabled="disabled" /></td>
-      <td align="left">&nbsp;</td>
-      <td align="left">&nbsp;</td>
+      <td align="left"><input title="Quantidade" type="text" name="codigoInterno" id="codigoInterno" class="INPUT03" size="8" maxlength="10" value="<?php echo $rowApontamento['QTD_PRODUTO']; ?>" disabled="disabled" /></td>
+      <td align="left"><font class="FONT04"><b>Código Interno:</b></font></td>
+      <td align="left"><input title="Quantidade" type="text" name="codigoInterno" id="codigoInterno" class="INPUT03" size="8" maxlength="10" value="<?php echo $rowApontamento['CO_INT_PRODUTO']; ?>" disabled="disabled" />&nbsp;&nbsp;&nbsp;<font class="FONT04"><b>Código do Produto:</b>&nbsp;&nbsp;[ <?php echo $rowApontamento['CO_PRODUTO'];?> ]</font></td>
     </tr>
   </table>
