@@ -152,6 +152,23 @@ class tb_pcp_etiqueta{
 		}
 		return true;
 	}
+	
+	/**
+	 * Metodo para executar a procedure e gravar na tabela temporaria os dados da etiqueta de pacote
+	 * @param int $co_usuario
+	 * @author Ricardo S. Alvarenga
+	 * @since 22/01/2013
+	 */
+	public function proc_etiqueta_relatorio_pacote($nu_op,$co_usuario){
+		try{
+			$query = " CALL etiquetaRelatorioPacote('".$nu_op."',".$co_usuario.")";
+			mysql_query($query, $this->conexaoERP);
+		}catch (Exception $e){
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * Metodo para executar a procedure e gravar na tabela temporaria os dados da etiqueta peca casadei (pcp)
 	 * @param int $co_pcp_ac
@@ -200,6 +217,7 @@ class tb_pcp_etiqueta{
 		return true;
 	}
 	
+
 	
 	/**
 	 * Metodo para limpar a tabela tb_tmp_etiqueta_peca_casadei (RELATORIO, APONTAMENTO)
@@ -238,6 +256,15 @@ class tb_pcp_etiqueta{
 	 */
 	public function limparTemporariaEtiquetaPeca($co_usuario){
 		$query = "DELETE FROM tb_tmp_etiqueta_peca WHERE co_usuario = ".$co_usuario;
+		mysql_query($query, $this->conexaoERP);
+	}
+	/**
+	 * Metodo para limpar a tabela temporaria etiqueta pacote 10x5cm
+	 * @author Ricardo S. Alvarenga
+	 * @since 22/01/2013
+	 */
+	public function limparTemporariaEtiquetaPacote($co_usuario){
+		$query = "DELETE FROM tb_tmp_etiqueta_pacote WHERE co_usuario = ".$co_usuario;
 		mysql_query($query, $this->conexaoERP);
 	}
 	

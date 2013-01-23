@@ -169,27 +169,33 @@
 	   echo "</li>";
 	}
 
-	$principalCadastros = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, array('Relatórios','Etiquetas'));
-	if($principalCadastros){
+	$principalRelatorios = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, array('Relatórios','Etiquetas'));
+	if($principalRelatorios){
 		echo "<li>";
 		echo "<a href='#' class='sub'>Relatórios</a>";
 		echo "<ul>";
 	
-		$subControleAcesso = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, array('Etiquetas'));
-		if($subControleAcesso){
+		$subRelatorioEtiquetas = $moduloModel->verificaPermissaoModuloPrincipal($co_papel, array('Etiquetas'));
+		if($subRelatorioEtiquetas){
 			echo "<li class='topline'>";
 			echo "<a href='#' class='sub'>Etiquetas</a>";
 			echo "<ul>";
 	
-			$subControleAcessoVisitantes = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Peça (CasaDei)');
-			if($subControleAcessoVisitantes){
+			$subRelatorioEtiquetaPecaCasadei = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Peça (CasaDei)');
+			if($subRelatorioEtiquetaPecaCasadei){
 				echo "<li class='topline'><a onClick='openBoxEtiquetaPecaCasadei();' href='javascript:void(0);'>Etiqueta de Peça (CasaDei)</a></li>";
 			}
 			
-			$subControleAcessoVisitantes = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Peça (PI)');
-			if($subControleAcessoVisitantes){
+			$subRelatorioEtiquetaPecaPI = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Peça (PI)');
+			if($subRelatorioEtiquetaPecaPI){
 				echo "<li class='topline'><a onClick='openBoxEtiquetaPecaPI();' href='javascript:void(0);'>Etiqueta de Peça (PI)</a></li>";
 			}
+			
+			$subRelatorioEtiquetaPacote = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Pacote');
+			if($subRelatorioEtiquetaPacote){
+				echo "<li class='topline'><a onClick='javascript:openBoxEtiquetaPacote();' href='javascript:void(0);'>Etiqueta de Pacote</a></li>";
+			}
+				
 			
 			echo "</ul>";
 			echo "</li>";
@@ -301,17 +307,17 @@
 							<div id="step1" style="display: none;">
 							<table width="325" border="0" cellspacing="2" cellpadding="3">
 								<tr>
-									<td width="5%"><font class="FONT05"><b>Produto:&nbsp;&nbsp;</b></font></td>
+									<td width="5%"><font class="FONT04"><b>Produto:&nbsp;&nbsp;</b></font></td>
 										<td>
 											<input title="Hora Fim" type="text" name="descricaoProdutoStep1" id="descricaoProdutoStep1" class="INPUT03" style="text-align: left;" size="50" value="descricao do produto" disabled="disabled" />
 										</td>
-										<td width="5%"><font class="FONT05"><b>Quantidade:</b></font></td>
+										<td width="5%"><font class="FONT04"><b>Quantidade:</b></font></td>
 										<td>
 											<input title="Hora Fim" type="text" name="quantidadeProdutoStep1" id="quantidadeProdutoStep1" class="INPUT03" size="4" style="text-align: left;" value="6" disabled="disabled" />
 										</td>
 								</tr>
 								<tr>
-										<td width="5%"><font class="FONT05"><b>Lote:</b></font></td>
+										<td width="5%"><font class="FONT04"><b>Lote:</b></font></td>
 										<td>
 											<input title="Hora Fim" type="text" name="loteStep1" id="loteStep1" class="INPUT03" size="15" style="text-align: left;" value="T000S-13" disabled="disabled" />
 										</td>
@@ -343,19 +349,70 @@
 							<div id="step2" style="display: none;">
 							<table width="325" border="0" cellspacing="2" cellpadding="3">
 								<tr>
-									<td width="5%"><font class="FONT05"><b>Produto:&nbsp;&nbsp;</b></font></td>
+									<td width="5%"><font class="FONT04"><b>Produto:&nbsp;&nbsp;</b></font></td>
 										<td>
 											<input title="Hora Fim" type="text" name="descricaoProdutoStep2" id="descricaoProdutoStep2" class="INPUT03" style="text-align: left;" size="50" value="descricao do produto" disabled="disabled" />
 										</td>
-										<td width="5%"><font class="FONT05"><b>Quantidade:</b></font></td>
+										<td width="5%"><font class="FONT04"><b>Quantidade:</b></font></td>
 										<td>
 											<input title="Hora Fim" type="text" name="quantidadeProdutoStep2" id="quantidadeProdutoStep2" class="INPUT03" size="4" style="text-align: left;" value="6" disabled="disabled" />
 										</td>
 								</tr>
 								<tr>
-										<td width="5%"><font class="FONT05"><b>Lote:</b></font></td>
+										<td width="5%"><font class="FONT04"><b>Lote:</b></font></td>
 										<td>
 											<input title="Hora Fim" type="text" name="loteStep2" id="loteStep2" class="INPUT03" size="15" style="text-align: left;" value="T000S-13" disabled="disabled" />
+										</td>
+								</tr>
+								</table>
+							</div>						
+						</td>
+					</tr>
+				</table>
+		</div>
+		
+		<!--  GERAR ETIQUETA PACOTE -->		
+		<div id="boxEtiquetaPecaStep3" style="display: none;">
+				<table width="325" border="0" cellspacing="2" cellpadding="3">
+					<tr>
+						<td align="left" style="border: 2px solid rgb(255, 204, 0); padding: 7px;">
+							<table width="100%" border="0" cellspacing="2" cellpadding="3">
+								<tr>
+									<td width="4%"><font class="FONT05"><b>OP:</b></font></td>
+									<td id="colunaOrdemProducaoStep3" width="96%">
+										<input title="Ordem de Produção" type="text" name="numeroOrdemProducaoStep3" id="numeroOrdemProducaoStep3" class="INPUT03" style="text-align: left;" size="15" maxlength="15" onblur='getValidaOrdemProducaoPecaStep3()' /> 									
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div id="step3" style="display: none;">
+							<table width="325" border="0" cellspacing="2" cellpadding="3">
+								<tr>
+									<td><font class="FONT04"><b>Tipo:</b></font></td>
+									<td>
+										<input type="radio" name="FlTipoEtiqueta" id="FlTipoEtiqueta" value="Bravo" checked="checked"> Bravo Movéis
+										<input type="radio" name="FlTipoEtiqueta" id="FlTipoEtiqueta" value="Encantos"> Encantos
+									</td>
+								</tr>
+							</table>
+							<table width="325" border="0" cellspacing="2" cellpadding="3">
+								<tr>
+									<td width="5%"><font class="FONT04"><b>Produto:&nbsp;&nbsp;</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="descricaoProdutoStep3" id="descricaoProdutoStep3" class="INPUT03" style="text-align: left;" size="50" value="descricao do produto" disabled="disabled" />
+										</td>
+										<td width="5%"><font class="FONT04"><b>Quantidade:</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="quantidadeProdutoStep3" id="quantidadeProdutoStep3" class="INPUT03" size="4" style="text-align: left;" value="6" disabled="disabled" />
+										</td>
+								</tr>
+								<tr>
+										<td width="5%"><font class="FONT04"><b>Lote:</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="loteStep3" id="loteStep3" class="INPUT03" size="15" style="text-align: left;" value="T000S-13" disabled="disabled" />
 										</td>
 								</tr>
 								</table>
