@@ -399,9 +399,9 @@ if(isset($_POST['co_pcp_ad'])){
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$temp = 0;
 										$continue = false;
-									}elseif(($processadas+$co_pcp_op[3]) == $co_pcp_op[1]){
-										$processadas = $processadas+$co_pcp_op[3];
+									}elseif(($processadas+$co_pcp_op[3]) == $co_pcp_op[1]){										
 										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+										$processadas = $processadas+$co_pcp_op[3];
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas);
 										$temp = 0;

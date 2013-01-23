@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiqueta_pacote_encantos" language="groovy" pageWidth="283" pageHeight="141" columnWidth="283" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryNewPage="true" uuid="39ee3842-16a7-4615-934c-0f3a68d05fbb">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="PATH" class="java.lang.String"/>
+	<parameter name="CO_USUARIO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT *
+FROM tb_tmp_etiqueta_pacote
+WHERE co_usuario = $P{CO_USUARIO}
+ORDER BY CO_TMP_ETIQUETA]]>
+	</queryString>
+	<field name="CO_TMP_ETIQUETA" class="java.lang.Integer">
+		<fieldDescription><![CDATA[chave primaria da tabela temporaria]]></fieldDescription>
+	</field>
+	<field name="CO_INTERNO" class="java.lang.String">
+		<fieldDescription><![CDATA[codigo interno do produto]]></fieldDescription>
+	</field>
+	<field name="NU_CONTADOR" class="java.lang.Integer">
+		<fieldDescription><![CDATA[numero do contador de registros, mostra a atual etiqueta]]></fieldDescription>
+	</field>
+	<field name="NU_TOTAL" class="java.lang.Integer">
+		<fieldDescription><![CDATA[numero total de etiquetas a serem geradas]]></fieldDescription>
+	</field>
+	<field name="DS_PRODUTO" class="java.lang.String">
+		<fieldDescription><![CDATA[Descricao do produto]]></fieldDescription>
+	</field>
+	<field name="NU_LOTE" class="java.lang.String">
+		<fieldDescription><![CDATA[Numero do lote]]></fieldDescription>
+	</field>
+	<field name="NU_OP" class="java.lang.String">
+		<fieldDescription><![CDATA[Numero da ordem de producao]]></fieldDescription>
+	</field>
+	<field name="CO_USUARIO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Codigo do usuario para controle de sessao]]></fieldDescription>
+	</field>
+	<field name="DS_COR" class="java.lang.String">
+		<fieldDescription><![CDATA[nome da cor]]></fieldDescription>
+	</field>
+	<field name="NU_PESO" class="java.lang.String">
+		<fieldDescription><![CDATA[Peso do produto]]></fieldDescription>
+	</field>
+	<field name="CO_PRODUTO" class="java.lang.String">
+		<fieldDescription><![CDATA[Codigo do produto]]></fieldDescription>
+	</field>
+	<pageHeader>
+		<band height="3" splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="778fba4b-943a-461e-b432-08b49543f4dd" x="1" y="1" width="277" height="124"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="d57375c5-9763-4aaf-9fab-c45a8c3c5028" x="1" y="1" width="277" height="14" backcolor="#000000"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="cd32af3e-47b6-4c3f-8d9a-df0b8769fea0" x="176" y="89" width="31" height="10" forecolor="#000000"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[LT:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="d39967ed-5f79-4953-9234-779ad35abef8" x="2" y="3" width="277" height="13" forecolor="#FFFFFF">
+					<printWhenExpression><![CDATA[$F{DS_PRODUTO}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DS_PRODUTO}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement uuid="0b6bda9e-1e11-4985-ad29-d4164e8de7d7" x="7" y="59" width="150" height="50"/>
+				<imageExpression><![CDATA[$P{PATH}+$F{CO_USUARIO}+"_relatorio_pacote_encantos_"+$F{NU_OP}+".gif"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement uuid="b1e3a7b0-c02e-47a8-bbdc-8d4337174c3e" x="208" y="83" width="67" height="16" backcolor="#000000"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Double"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement uuid="38299596-8382-4dbe-b6d5-b5498978a146" x="209" y="83" width="65" height="17" forecolor="#FFFFFF">
+					<printWhenExpression><![CDATA[$F{NU_LOTE}]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NU_LOTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="403cb513-a72c-473c-8b11-ce4a0f2a828e" x="181" y="70" width="84" height="13" forecolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NU_PESO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a747824f-10cd-4920-9978-fa650fd0712a" x="253" y="69" width="23" height="13" forecolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kg]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="a620f76b-f183-4f41-9cd1-7567a5ae58d4" x="31" y="110" width="100" height="14"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NU_OP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bbfb689b-6241-425a-ba96-3a94d3ce7bea" x="7" y="24" width="158" height="57" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="35" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CO_INTERNO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="37eca478-8a60-40c1-a22d-d00bedb0808e" x="174" y="25" width="100" height="46" forecolor="#000000"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Arial Black" size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DS_COR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="692adbba-0fb0-42fc-9466-9f94c209bb57" x="192" y="105" width="83" height="18" forecolor="#000000"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CO_PRODUTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cd32af3e-47b6-4c3f-8d9a-df0b8769fea0" x="165" y="107" width="31" height="10" forecolor="#000000"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[PT:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="8"/>
+	</pageFooter>
+</jasperReport>
