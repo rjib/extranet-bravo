@@ -156,11 +156,13 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	
 	//removendo casas decimais
 	if(strstr($row['NU_COMPRIMENTO'],',')){
-		$row['NU_COMPRIMENTO'] =  substr($row['NU_COMPRIMENTO'], 0,strpos($row['NU_COMPRIMENTO'], ','));	
+		$row['NU_COMPRIMENTO'] =  substr($row['NU_COMPRIMENTO'], 0,strpos($row['NU_COMPRIMENTO'], ','));
+			
 		
 	}
 	if(strstr($row['NU_LARGURA'],',')){
 		$row['NU_LARGURA'] =  substr($row['NU_LARGURA'], 0,strpos($row['NU_LARGURA'], ','));
+		$row['NU_LARGURA'] = str_pad($row['NU_LARGURA'],$_LARGURA['numCaracter'],0,STR_PAD_LEFT);
 		
 	}
 	

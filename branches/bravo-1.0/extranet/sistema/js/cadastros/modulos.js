@@ -186,13 +186,18 @@ function addSub(id){
                 'Salvar':function(){
                 	var no_modulo 	= $("#no_modulo_add_sub").val();
                 	var co_pai 		=  id;
-                	var fl_status 	= $("#fl_ativo_add_sub").val();
-	                	//$.post('inc/cadastros/ordem_producao_pi_gerar_ad.php', {
+            		var fl_acoes	= $("input[name='fl_acoes_add_sub']:checked").val();
+            		var fl_ativo 	= $("input[name='fl_ativo_add_sub']:checked").val();
+                	//var fl_status 	= $("input[name='fl_ativo_add_sub']:checked").val();
+                	//var fl_ativo	= $("input[name='no_modulo_add_sub']:checked").val();
+	                //$.post('inc/cadastros/ordem_producao_pi_gerar_ad.php', {
+                	
 	                	$.post('inc/configuracoes/modulo_ins.php',
 	                			{
 	                			 no_modulo:no_modulo, 
 	                			 co_pai:co_pai, 
-	                			 fl_status:fl_status
+	                			 fl_ativo:fl_ativo,
+	                			 fl_acoes:fl_acoes
 	                			 },
 	                			 function (resposta){
 	                				 switch(resposta){
