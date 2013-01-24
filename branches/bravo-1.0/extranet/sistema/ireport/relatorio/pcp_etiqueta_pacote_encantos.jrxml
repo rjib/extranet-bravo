@@ -91,7 +91,7 @@ ORDER BY CO_TMP_ETIQUETA]]>
 				<imageExpression><![CDATA[$P{PATH}+$F{CO_USUARIO}+"_relatorio_pacote_encantos_"+$F{NU_OP}+".gif"]]></imageExpression>
 			</image>
 			<rectangle>
-				<reportElement uuid="f0b0106f-8ec0-4cd4-a05c-bb941894fdee" x="6" y="45" width="152" height="29" backcolor="#000000"/>
+				<reportElement uuid="f0b0106f-8ec0-4cd4-a05c-bb941894fdee" x="6" y="45" width="159" height="29" backcolor="#000000"/>
 			</rectangle>
 			<rectangle>
 				<reportElement uuid="b1e3a7b0-c02e-47a8-bbdc-8d4337174c3e" x="208" y="83" width="67" height="16"/>

@@ -225,6 +225,7 @@ class tb_modulos{
 	 $j = 1;
 		if($continua){
 			$filho = $this->getFilho($co_pai);
+			
 				while($dados = mysql_fetch_array($filho)){
 					$dados['FL_ATIVO']==0? $class="class='INATIVO'":$class="";
 					$this->_html.="<tr ".$class.">";
@@ -241,13 +242,16 @@ class tb_modulos{
 				    }
 					
 					$this->_html.="</td></tr>";
+					
 					$this->_j .= '.'.$j	;
 					$j++;
-					$this->recursivaSubcaterorias(TRUE, $dados['CO_MODULO'], $this->_j, $this->_html);
+					$this->recursivaSubcaterorias(true, $dados['CO_MODULO'], $this->_j, $this->_html);
+					$this->setJ($i);
 				}
-				$this->setJ($j);
+				$this->setJ($j);				
 		}
 		$this->setHtml($this->_html);
+		$this->setJ($j);
 		
 		
 	}
@@ -333,6 +337,9 @@ class tb_modulos{
 		$this->_j = $j;
 	}
 	
+	public function getJ(){
+		return $this->_j ;
+	}
 	/**
 	 * Metodo para verificar permissao de um modulo princial, que nao possua ações
 	 * @param unknown_type $co_papel	codigo do papel
