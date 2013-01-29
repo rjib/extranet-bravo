@@ -8,7 +8,7 @@
 		public $s_fields		= ''; 		//String com os campos da tabela, separados por v�rgula. Ex: id,name
 		public $s_labels		= ''; 		//String com as labels que ficar�o no cabe�alho da tabela. Ex: ID,Nome
 		public $s_where			= ''; 		//Claus�la where, se houver
-		public $s_orderby		= 'PCP_PRODUTO.CO_COR'; 	//Campo utilizado para ordena��o inicial
+		public $s_orderby		= 'PCP_PRODUTO.NU_ESPESSURA'; 	//Campo utilizado para ordena��o inicial
 		public $s_orientation	= 'ASC';	//ASC ou DESC
 		public $i_rowsperpage	= 50;		//Limite de registros visualizados por p�gina
 		public $i_page			= 1;		//P�gina atual

@@ -86,7 +86,7 @@ WHERE
 				</graphicElement>
 			</rectangle>
 			<subreport>
-				<reportElement uuid="f2be8333-b5ad-48b3-b7d8-f242917ab333" x="17" y="103" width="559" height="139"/>
+				<reportElement uuid="f2be8333-b5ad-48b3-b7d8-f242917ab333" stretchType="RelativeToBandHeight" mode="Transparent" x="17" y="103" width="559" height="187" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true"/>
 				<subreportParameter name="CO_PRODUTO">
 					<subreportParameterExpression><![CDATA[$F{CO_PRODUTO}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -284,7 +284,7 @@ WHERE
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="21" y="325" width="66" height="10" forecolor="#FFFFFF"/>
+				<reportElement uuid="0b48d79d-479a-4802-93e6-780648ad6ccf" x="21" y="326" width="66" height="10" forecolor="#FFFFFF"/>
 				<textElement textAlignment="Center">
 					<font size="8" isBold="false"/>
 				</textElement>

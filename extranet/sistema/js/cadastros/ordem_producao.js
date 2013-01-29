@@ -88,7 +88,7 @@ $(document).ready(function(){
 		$( "#formularioGerarArquivoAD" ).dialog({
 				autoOpen: true,
 	            modal: true,
-				height: 200,
+				height: 220,
 				width: 400,
 				title: 'Gerar Arquivo .AD',
 	            buttons: {
@@ -105,6 +105,7 @@ $(document).ready(function(){
 						var cor = $("#cor").val();
 						var flag = $("#ck:checked").val();
 						var espessura = $("#espessura").val();
+						var tockstok = $("#tockstok:checked").val();
 						
 						controlsscript		=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
 						gridscript			=	'inc/ordem_producao_pi_grid.php?dataInicial='+dataInicial+'&dataFinal='+dataFinal+'&cor='+cor+'&flag='+flag+'&espessura='+espessura;
@@ -134,7 +135,8 @@ $(document).ready(function(){
 									,flag:flag
 									,espessura:espessura
 									,nomeArquivo:nomeArquivo
-									,unidadeComplementar:unidadeComplementar}, function(resposta) {
+									,unidadeComplementar:unidadeComplementar
+									,tockstok:tockstok}, function(resposta) {
 									
 									if (resposta != false) {
 										$( "#boxGerando" ).dialog('close');

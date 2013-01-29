@@ -38,10 +38,10 @@ class tb_pcp_ad{
 	 * @author Ricardo S. Alvarenga
 	 * @since 31/10/2012
 	 */
-	public function insert($no_pcp_ad, $un_complementar)
+	public function insert($no_pcp_ad, $un_complementar,$tockstok=0)
 	{
-		$sql = "INSERT INTO tb_pcp_ad (no_pcp_ad, un_complementar)
-				VALUES (".addslashes($no_pcp_ad).",".addslashes($un_complementar).")";
+		$sql = "INSERT INTO tb_pcp_ad (no_pcp_ad, un_complementar, fl_tockstok)
+				VALUES (".addslashes($no_pcp_ad).",".addslashes($un_complementar).",".$tockstok.")";
 		if(!mysql_query($sql,$this->conexaoERP)){
 			throw new Exception('Erro na inserção dos dados, favor contacte o suporte!');
 		}

@@ -43,6 +43,8 @@ if(isset($_POST['dataInicial']) && isset($_POST['dataFinal']) && isset($_POST['c
 	$nomeArquivo			= $_POST['nomeArquivo'];
 	$unidadeComplementar	= $_POST['unidadeComplementar'];
 	$mesmoLote 				= $piModel->getMesmoLote($co_pcp_op);
+	$tockstok				= $_POST['tockstok'];
+	
 }else{
 	$_helper->alertError('Não existe dados enviados, favor entrar em contato com o suporte!');
 	exit;
@@ -52,6 +54,7 @@ $ordem = 2; //ordem dos PIs de acordo com a quantidade selecionada
 $nQuantidade = 0;
 $veio = 0;
 $dadosArquivo = array();
+if($espessura =='18/37'){$espessura = "'18','37'";}
 if($mesmoLote==false){ //passa somete se for do mesmo lote
 	//$_helper->alertError('Não se pode gerar o arquivo com lotes diferentes, favor selecionar produtos do mesmo lote.');
 	$resposta = "<img src='img/atencao.png' hspace='3' /> N&atilde;o &eacute; poss&iacute;vel gerar o arquivo AD com produtos de lotes diferentes, favor selecionar apenas produtos do mesmo lote.";
@@ -96,7 +99,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 		if($nQuantidade==0){
 			$nQuantidade = ($row['QTD_PRODUTO']-$row['QTD_PROCESSADA']);
 		}
-		$nQuantidade = $nQuantidade/$n1;
+		$nQuantidade = ($nQuantidade/$n1);
 		$row['NU_LARGURA'] = $row['NU_LARGURA']*$n1+(($n1-1)* $_MM_ENTRE_PECA);
 
 	}
@@ -121,20 +124,28 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 		if($nQuantidade==0){
 			$nQuantidade = ($row['QTD_PRODUTO']-$row['QTD_PROCESSADA']);
 		}
-		$nQuantidade = $nQuantidade/$n1;
+		$nQuantidade = ($nQuantidade/$n1);
 		$row['NU_COMPRIMENTO'] = $row['NU_COMPRIMENTO']*$n1+(($n1-1)* $_MM_ENTRE_PECA);
 
 	}
 
 	$row['NU_COMPRIMENTO'] = $row['NU_COMPRIMENTO']+$unidadeComplementar;
 	if($nQuantidade!=0){
-		$row['QTD_PRODUTO'] = intval($nQuantidade);
+		$row['QTD_PRODUTO'] = $nQuantidade;
 		//$nQuantidade = 0; //zerando o temp quantidade
 	}else{
-		$row['QTD_PRODUTO'] = intval($row['QTD_PRODUTO']-$row['QTD_PROCESSADA']);
+		$row['QTD_PRODUTO'] = ($row['QTD_PRODUTO']-$row['QTD_PROCESSADA']);
 		$nQuantidade=0;
 	}
 
+	if($tockstok == 1){
+		if($row['NU_ESPESSURA'] == 370){
+			$row['QTD_PRODUTO'] = $row['QTD_PRODUTO'] *2;
+	
+		}
+	
+	}
+	$row['QTD_PRODUTO'] = ceil($row['QTD_PRODUTO']);
 	//COMPRIMENTO
 	$_COMPRIMENTO['multiplicadorAtivo']==0? $_COMPRIMENTO['multiplicadorAtivo']=1:$_COMPRIMENTO['multiplicadorAtivo']=$_COMPRIMENTO['multiplicadorAtivo'];
 	$row['NU_COMPRIMENTO'] = $row['NU_COMPRIMENTO']*$_COMPRIMENTO['multiplicadorAtivo'];
@@ -166,6 +177,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 		
 	}
 	
+
 	array_push($dadosArquivo, $row['DS_COR'].$row['NU_ESPESSURA'].'        '.$ordemProducao.$row['NU_COMPRIMENTO'].' '.$row['NU_LARGURA'].$row['QTD_PRODUTO'].$veio.trim($row['CO_INT_PRODUTO']).' - '.$tempComprimento.'X'.$tempLargura.'X'.$tempEspessura);
 	$ordem++;
 	$nQuantidade=0;
@@ -200,7 +212,8 @@ fclose($handle);
 //Atualizando status pi como processado (gerado arquivo AD) caso o arquivo tenha sido gravado com sucesso
 if($handle){
 	try {
-		$adModel->insert($nomeArquivo, $unidadeComplementar);
+		
+		$adModel->insert($nomeArquivo, $unidadeComplementar, $tockstok);
 		$co_pcp_ad = mysql_insert_id();
 	}catch (Exception $e){
 		unlink($_PATH.$nomeArquivo.".ad");
