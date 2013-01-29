@@ -62,7 +62,7 @@
       <td align="left"><font class="FONT04"><b>Data Apontamento:</b></font></td>
       <td align="left"><input title="Data" name="dataApontamento02" id="dataApontamento02" type="text" class="INPUT03" size="8" maxlength="10" value="<?php echo date("d-m-Y"); ?>" disabled="disabled"/>
         <input type="hidden" id="dataApontamento" name="dataApontamento" value="<?php echo date("Y-m-d"); ?>"/></td>
-      <td align="left"><font class="FONT04"><b>Usuário:</b></font></td>
+      <td align="right"><font class="FONT04"><b>Usuário:</b></font></td>
       <td align="left"><input title="Usuário" type="text" name="usuario" id="usuario" class="INPUT01" size="50" value="<?php echo $_SESSION['codigoUsuario']." - ".$_SESSION['nomePessoa']." [".$_SESSION['loginUsuario']."]"; ?>" disabled="disabled" /></td>
     </tr>
     <tr>
@@ -92,9 +92,9 @@
     </tr>
     <tr id="apontamentoProducao01" <?php if($rowApontamento['FL_APONTAMENTO'] == "1"){echo "style='display:none'"; } ?>>
       <td align="left"><font class="FONT04"><b>OP:</b></font></td>
-      <td align="left"><input title="OP" name="ordemProducao" id="ordemProducao" type="text" class="INPUT03" size="9" maxlength="11" value="<?php echo $rowApontamento['NU_OP']; ?>" disabled="disabled"/></td>
+      <td align="left"><input title="OP" name="ordemProducao" id="ordemProducao" type="text" class="INPUT03" size="10" maxlength="11" value="<?php echo $rowApontamento['NU_OP']; ?>" disabled="disabled"/></td>
       <td align="left"><font class="FONT04"><b>Produto:</b></font></td>
-      <td align="left"><input title="Produto" type="text" name="descricaoProduto" id="descricaoProduto" class="INPUT01" size="50" value="<?php echo $rowApontamento['DS_PRODUTO']; ?>" disabled="disabled" /></td>
+      <td align="left"><input title="Produto" type="text" name="descricaoProduto" id="descricaoProduto" class="INPUT01" size="52" value="<?php echo $rowApontamento['DS_PRODUTO']; ?>" disabled="disabled" /></td>
     </tr>
     <tr id="apontamentoProducao02" <?php if($rowApontamento['FL_APONTAMENTO'] == "1"){echo "style='display:none'"; } ?>>
       <td align="left"><font class="FONT04"><b>Lote:</b></font></td>
@@ -104,8 +104,9 @@
     </tr>
     <tr <?php if($rowApontamento['FL_APONTAMENTO'] == "1"){echo "style='display:none'"; } ?>>
       <td align="left"><font class="FONT04"><b>Quantidade:</b></font></td>
-      <td align="left"><input title="Quantidade" type="text" name="codigoInterno" id="codigoInterno" class="INPUT03" size="8" maxlength="10" value="<?php echo $rowApontamento['QTD_PRODUTO']; ?>" disabled="disabled" /></td>
+      <td align="left"><input title="Quantidade" type="text" name="codigoInterno" id="codigoInterno" class="INPUT03" size="10" maxlength="10" value="<?php echo $rowApontamento['QTD_PRODUTO']; ?>" disabled="disabled" /></td>
       <td align="left"><font class="FONT04"><b>Código Interno:</b></font></td>
-      <td align="left"><input title="Quantidade" type="text" name="codigoInterno" id="codigoInterno" class="INPUT03" size="8" maxlength="10" value="<?php echo $rowApontamento['CO_INT_PRODUTO']; ?>" disabled="disabled" />&nbsp;&nbsp;&nbsp;<font class="FONT04"><b>Código do Produto:</b>&nbsp;&nbsp;[ <?php echo $rowApontamento['CO_PRODUTO'];?> ]</font></td>
+      <td align="left"><input title="Quantidade" type="text" name="codigoInterno" id="codigoInterno" class="INPUT03" size="8" maxlength="10" value="<?php echo $rowApontamento['CO_INT_PRODUTO']; ?>" disabled="disabled" /><font class="FONT04">&nbsp;&nbsp;<b>Código do Produto:</b></font><input title="Quantidade" type="text" name="codigoInterno" id="codigoInterno" class="INPUT03" size="14" maxlength="15" value="<?php echo $rowApontamento['CO_PRODUTO'];?>" disabled="disabled" /></td>
+      
     </tr>
   </table>

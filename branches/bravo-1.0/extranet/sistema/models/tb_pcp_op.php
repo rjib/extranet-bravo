@@ -69,7 +69,7 @@ class tb_pcp_op{
 								WHERE								
 									PCP_OP.DT_EMISSAO BETWEEN '".$dataInicial."' AND '".$dataFinal."'
 									AND PCP_PRODUTO.CO_COR ='".$cor."' 
-									AND PCP_PRODUTO.NU_ESPESSURA ='".$espessura."'
+									AND PCP_PRODUTO.NU_ESPESSURA in (".$espessura.")
 									AND PCP_OP.CO_PCP_OP = ".$co_pcp_op."
 								ORDER BY PCP_PRODUTO.CO_COR ASC ";
 		$row = mysql_query($query,$this->conexaoERP)
@@ -136,6 +136,20 @@ class tb_pcp_op{
 		return $row;
 	}
 	
+	/**
+	 * Metodo para retornar se o produto é tock stok ou não
+	 * @param int $co_pcp_ad
+	 * @author Ricardo S. Alvarenga
+	 * @since 28/01/2013
+	 */
+	public function getTockStok($co_pcp_ad){
+		$sql = "SELECT fl_tockstok FROM tb_pcp_ad WHERE co_pcp_ad = ".$co_pcp_ad;
+		$result = mysql_query($sql, $this->conexaoERP);
+		$row = mysql_fetch_array($result);
+		return $row[0];
+		
+	}
+	
 	public function getCoPcpOPPisDeUmPlanoDeCorteExistenteAD($co_int_prod,$co_cor,$nu_lote){
 		$sql = "SELECT DISTINCT
 				    ORDEM_PRODUCAO.co_pcp_op,
@@ -178,7 +192,8 @@ class tb_pcp_op{
 					ORDEM_PRODUCAO.qtd_processada, 
 					ORDEM_PRODUCAO.co_pcp_op,
 					PRODUTO.nu_comprimento,
-					PRODUTO.nu_largura
+					PRODUTO.nu_largura,
+					PCP_AD.fl_tockstok
 				FROM tb_pcp_op ORDEM_PRODUCAO
 					INNER JOIN
 					tb_pcp_produto PRODUTO ON ORDEM_PRODUCAO.co_produto = PRODUTO.co_produto

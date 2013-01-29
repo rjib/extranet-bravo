@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="operacoes" language="groovy" pageWidth="554" pageHeight="802" columnWidth="554" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a635fd73-73ce-42f0-a787-842d9fbda374">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="operacoes" language="groovy" pageWidth="554" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="554" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a635fd73-73ce-42f0-a787-842d9fbda374">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -154,9 +154,8 @@ LIMIT 5;]]>
 FROM tb_pcp_operacao PCP_OPERACAO
     INNER JOIN tb_pcp_recurso PCP_RECURSO
         ON PCP_OPERACAO.CO_RECURSO = PCP_RECURSO.CO_RECURSO
-WHERE PCP_OPERACAO.CO_PRODUTO = '$P{CO_PRODUTO}'
-ORDER BY PCP_OPERACAO.CO_OPERACAO
-LIMIT 5;]]>
+WHERE PCP_OPERACAO.CO_PRODUTO = '$P{CO_PRODUTO}' AND PCP_OPERACAO.FL_DELET IS NULL
+ORDER BY PCP_OPERACAO.CO_OPERACAO LIMIT 6;]]>
 	</queryString>
 	<field name="NO_RECURSO" class="java.lang.String">
 		<fieldDescription><![CDATA[Nome do recurso.]]></fieldDescription>
@@ -246,26 +245,4 @@ LIMIT 5;]]>
 			</rectangle>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="22">
-			<rectangle>
-				<reportElement uuid="ac30ba3f-ccde-43ed-8d67-9c1d15a8a681" x="2" y="1" width="552" height="20"/>
-				<graphicElement>
-					<pen lineWidth="0.5"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle>
-				<reportElement uuid="9352538f-fefa-4111-bf65-6d03454add23" x="295" y="1" width="63" height="20"/>
-				<graphicElement>
-					<pen lineWidth="0.5"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle>
-				<reportElement uuid="9352538f-fefa-4111-bf65-6d03454add23" x="218" y="1" width="77" height="20"/>
-				<graphicElement>
-					<pen lineWidth="0.5"/>
-				</graphicElement>
-			</rectangle>
-		</band>
-	</pageFooter>
 </jasperReport>

@@ -18,7 +18,7 @@ $(function($) {
 			   
 	$("#formularioApontamento").dialog({
 		autoOpen: false,
-		height: 300,
+		height: 330,
 		width: 670,
 		modal: true,
 		resizable: false,
@@ -222,6 +222,8 @@ function getOrdemProducao() {
 			  $("#descricaoProduto").val(resposta.descricaoProduto);
 			  $("#loteOp").val(resposta.loteOp);
 			  $("#dataEmissaoOp").val(resposta.dataEmissaoOP);
+				$("#codigoInternoProduto").val(resposta.codigoInterno); 
+				$("#codigoProduto").val(resposta.codigoProduto); 
 			}else{
 				alert("OP não encontrada!");		
 			}
@@ -263,10 +265,13 @@ function verificaApontamento(v){
 		$('#apontamentoParada').show('fast');
 		$('#apontamentoProducao01').hide('fast');
 		$('#apontamentoProducao02').hide('fast');
+		$('#apontamentoProducao03').hide('fast');
 		$("#ordemProducao").val("");
 		$("#codigoPcpOp").val("");
 		$("#descricaoProduto").val("");
 		$("#quantidadeProduto").val("");
+		$("#codigoInternoProduto").val(""); 
+		$("#codigoProduto").val(""); 
 		$("#loteOp").val("");
 		$("#dataEmissaoOp").val("");
 		$("input[name='flagApontamentoProducao']").attr('checked', false);
@@ -275,9 +280,11 @@ function verificaApontamento(v){
 		$('#apontamentoParada').hide('fast');
 		$('#apontamentoProducao01').show('fast');
 		$('#apontamentoProducao02').show('fast');
+		$('#apontamentoProducao03').show('fast');
 		$("#nomeMotivo").val(""); 
 		$("#codigoMotivo").val(""); 
-		$("#descricaoMotivo").val(""); 
+		$("#descricaoMotivo").val("")
+
 		$("input[name='flagApontamentoParada']").attr('checked', false);
 		$("#ordemProducao").focus();
    }

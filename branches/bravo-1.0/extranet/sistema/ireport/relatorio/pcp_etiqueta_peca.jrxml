@@ -30,23 +30,23 @@
 	<detail>
 		<band height="36" splitType="Stretch">
 			<textField>
-				<reportElement uuid="560ba0da-a40f-4d07-b96f-a13e96e0ced4" x="8" y="4" width="131" height="25"/>
+				<reportElement uuid="560ba0da-a40f-4d07-b96f-a13e96e0ced4" x="5" y="5" width="131" height="25"/>
 				<textElement>
-					<font size="16" isBold="true"/>
+					<font size="20" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{CO_INTERNO}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="52654134-7bfb-42c5-93d9-0483a31d327b" x="66" y="18" width="100" height="12"/>
+				<reportElement uuid="52654134-7bfb-42c5-93d9-0483a31d327b" x="70" y="19" width="100" height="12"/>
 				<textElement textAlignment="Center">
-					<font size="8"/>
+					<font size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{NU_OP}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="df1645b7-186a-47ee-ac5f-2809fd500b60" x="67" y="3" width="100" height="14"/>
+				<reportElement uuid="df1645b7-186a-47ee-ac5f-2809fd500b60" x="71" y="4" width="100" height="14"/>
 				<textElement textAlignment="Center">
-					<font fontName="Times New Roman" size="9" isBold="false"/>
+					<font fontName="Times New Roman" size="12" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{NU_LOTE}]]></textFieldExpression>
 			</textField>
