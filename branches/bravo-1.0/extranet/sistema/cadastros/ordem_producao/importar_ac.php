@@ -151,41 +151,31 @@ if(isset($_POST['co_pcp_ad'])){
 							
 						$total = $co_pcp_op[1];
 							
-						## CONTABILIZAR VALOR PEÇA COM LARGURA OU ESPESSURA ABAIXO NO VALOR MINIMO
-							
+						## CONTABILIZAR VALOR PEÇA COM LARGURA OU COMPRIMENTO ABAIXO DO VALOR MINIMO
+						$processadas = $arrayDadosCorte[$i]['qtd_pecas'];
 						if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //largura
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
+							$processadas = ceil($processadas*4);
 						}elseif($co_pcp_op[5]<56){
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
+							$processadas = ceil($processadas*8);
 						}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
+							$processadas = ceil($processadas*2);
 						}
 
 						if($co_pcp_op[4]>=56 && $co_pcp_op[4]<100){ //comprimento
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
+							$processadas = ceil($processadas*4);
 						}elseif($co_pcp_op[4]<56){
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
+							$processadas = ceil($processadas*8);
 						}elseif($co_pcp_op[4]>=100 && $co_pcp_op[4]<240){
-							$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
+							$processadas = ceil($processadas*2);
 						}
 						if($processadas==0){
-							$processadas+= floor($arrayDadosCorte[$i]['qtd_pecas']*1);
+							$processadas = ceil($processadas*1);
 						}
 
-						if($co_pcp_op[4]< DIMENSAO_MINIMA && $co_pcp_op[5]< DIMENSAO_MINIMA){
-							unlink(APP_PATH.'arquivosAC'.DS.$ano.DS.$novoNomeArquivo);
-							$_acModel->delete($co_pcp_ac);
-							for($di = 0; $di<count($divergencias);$di++){
-								$_adPecaModel->delete($divergencias[$di], $co_pcp_ad);
-							}
-							for($ix=0;$ix<count($logRollback);$ix++){
-								$_opModel->atualizaProcessadoComQuantidade($logRollback[$ix]['co_pcp_op'], $logRollback[$ix]['qtd_processada_anterior']);
-							}
-							$data['sucesso']= false;
-							$data['msg'] = "<p><span> <img src='img/atencao.png' hspace='3' /></span>Não é possivel concluir a operação, pois este arquivo contém produto com as duas dimensões abaixo da dimensão minima permitida.</p>";
-							echo json_encode($data);
-							exit;
-
+						if($co_pcp_op[6]==1){
+							if($nu_espessura ==37){
+								$processadas = $processadas/2;
+							} 
 						}
 
 						$qtPeca = $processadas;
@@ -281,23 +271,31 @@ if(isset($_POST['co_pcp_ad'])){
 							while($co_pcp_op = mysql_fetch_array($result)){
 								if($continue == true){ //somente continue se ainda tiver produtos a serem processados
 									if($temp==0){//se ja estiver feito os calculos nao precisa calcular novamente
+										$processadas = $arrayDadosCorte[$i]['qtd_pecas'];
 										if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
+											$processadas = ceil($processadas*4);
 										}elseif($co_pcp_op[6]<56){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
+											$processadas = ceil($processadas*8);
 										}elseif($co_pcp_op[6]>=100 && $co_pcp_op[6]<240){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
+											$processadas = ceil($processadas*2);
 										}
 
 										if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //comprimento
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
+											$processadas = ceil($processadas*4);
 										}elseif($co_pcp_op[5]<56){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
+											$processadas = ceil($processadas*8);
 										}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
+											$processadas = ceil($processadas*2);
 										}
 										if($processadas==0){
-											$processadas+= $arrayDadosCorte[$i]['qtd_pecas']*1;
+											$processadas= $processadas*1;
+										}
+										$tockstok = $_opModel->getTockStok($co_pcp_ad);
+										
+										if($tockstok==1){
+											if($nu_espessura ==370){
+												$processadas = $processadas/2;
+											}
 										}
 									}else{
 										$processadas = $temp;
@@ -358,24 +356,31 @@ if(isset($_POST['co_pcp_ad'])){
 									
 								if($continue == true){ //somente continue se ainda tiver produtos a serem processados
 									if($temp==0){//se ja estiver feito os calculos nao precisa calcular novamente
-
+										$processadas = $arrayDadosCorte[$i]['qtd_pecas'];
 										if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
+											$processadas = ceil($processadas*4);
 										}elseif($co_pcp_op[6]<56){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
+											$processadas = ceil($processadas*8);
 										}elseif($co_pcp_op[6]>=100 && $co_pcp_op[6]<240){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
+											$processadas = ceil($processadas*2);
 										}
 
 										if($co_pcp_op[5]>=56 && $co_pcp_op[5]<100){ //comprimento
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*4);
+											$processadas = ceil($processadas*4);
 										}elseif($co_pcp_op[5]<56){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*8);
+											$processadas = ceil($processadas*8);
 										}elseif($co_pcp_op[5]>=100 && $co_pcp_op[5]<240){
-											$processadas += floor($arrayDadosCorte[$i]['qtd_pecas']*2);
+											$processadas = ceil($processadas*2);
 										}
 										if($processadas==0){
-											$processadas+= $arrayDadosCorte[$i]['qtd_pecas']*1;
+											$processadas= $processadas*1;
+										}
+										$tockstok = $_opModel->getTockStok($co_pcp_ad);
+										
+										if($tockstok==1){
+											if($nu_espessura ==370){
+												$processadas = $processadas/2;
+											}
 										}
 									}else{
 										$processadas = $temp;

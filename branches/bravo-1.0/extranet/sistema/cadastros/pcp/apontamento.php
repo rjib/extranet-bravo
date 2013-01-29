@@ -166,10 +166,17 @@ function getDesenhoPeca(arquivo){ //peca
 						      </tr>
 							  <tr id="apontamentoProducao02" style="display:none">
 							    <td align="left"><font class="FONT04"><b>Lote:</b></font></td>
-							    <td align="left"><input title="Lote" type="text" name="loteOp" id="loteOp" class="INPUT03" size="10" maxlength="10" disabled="disabled"/></td>
+							    <td align="left"><input  style="text-align: left;" title="Lote" type="text" name="loteOp" id="loteOp" class="INPUT03" size="10" maxlength="10" disabled="disabled"/></td>
 							    <td align="left"><font class="FONT04"><b>Data Emissão:</b></font></td>
 							    <td align="left"><input title="Data Emissão" name="dataEmissaoOp" id="dataEmissaoOp" type="text" class="INPUT03" size="8" maxlength="10" disabled="disabled"/></td>
-						      </tr>
+							 </tr>
+							 <tr  id="apontamentoProducao03" style="display: none">
+							    <td align="left"><font class="FONT04"><b>Código Interno:</b></font></td>
+							    <td align="left"><input title="Lote" type="text" name="loteOp" id="codigoInternoProduto"  style="text-align: left;" class="INPUT03" size="8" maxlength="10" disabled="disabled"/></td>
+							    <td align="left"><font class="FONT04"><b>Código do Produto:</b></font></td>
+							    <td align="left"><input title="Data Emissão" style="text-align: left;" name="dataEmissaoOp" id="codigoProduto" type="text" class="INPUT03" size="20" maxlength="20" disabled="disabled"/></td>
+      							
+							 </tr>
                               
 							  </table>
                     </form>

@@ -141,7 +141,8 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 					                	<!-- BEGIN BLOCK_ESPESSURA -->
 					  				<?php while($row=mysql_fetch_array($rowEspessura)){ 	
 					                    echo "<option value='".$row['ESPESSURA']."'>".$row['ESPESSURA']."</option>";
-					         		 }?>  
+					         		 }?> 
+					         		  	<option value='18/37'>18/37</option> 
 					                    <!-- END BLOCK_ESPESSURA -->
 					                </select>
 					            </td>
@@ -198,6 +199,14 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 					<td width="142" align="left"><font class="FONT04"><b>Unidade Complementar:</b></font></td>
 					<td colspan="3" align="left">
 						<input title="Valor adicionado a largura e comprimento da peça" name="unidadeComplementar" id="unidadeComplementar" type="text" class="INPUT01" size="15" maxlength="3" />
+					</td>
+				</tr>
+				<tr>
+					<td><font class="FONT04"><b>Tock Stok?</b></font></td>
+					<td colspan="3" align="left">
+						<input  name="tockstok" id="tockstok" type="radio" value="1" class="INPUT01" />Sim
+						<input  name="tockstok" id="tockstok" type="radio" value="0" class="INPUT01" checked="checked" />Não
+						
 					</td>
 				</tr>
 				<tr>
