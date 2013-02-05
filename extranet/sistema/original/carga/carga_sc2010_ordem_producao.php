@@ -17,7 +17,7 @@
 	
    	$outputPath = "";
 	
-	$arquivo[0]="importar_SC2010.csv";
+	$arquivo[0]="SC2010.csv";
 	
 	$ArquivoImportar = $arquivo;
 	$loops = count ($ArquivoImportar);

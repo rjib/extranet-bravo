@@ -6,7 +6,6 @@
 */
 
 
-
 require_once 'models/tb_pcp_cor.php';
 require_once 'models/tb_pcp_produto.php';
 require_once 'models/tb_pcp_ad.php';
@@ -202,7 +201,7 @@ if($acoes['NO_MODULO'] == PCP_GERAR_PLANO_DE_CORTE){
 					</td>
 				</tr>
 				<tr>
-					<td><font class="FONT04"><b>Tock Stok?</b></font></td>
+					<td><font class="FONT04"><b>Tok & Stok?</b></font></td>
 					<td colspan="3" align="left">
 						<input  name="tockstok" id="tockstok" type="radio" value="1" class="INPUT01" />Sim
 						<input  name="tockstok" id="tockstok" type="radio" value="0" class="INPUT01" checked="checked" />Não

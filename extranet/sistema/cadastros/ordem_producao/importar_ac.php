@@ -100,10 +100,19 @@ if(isset($_POST['co_pcp_ad'])){
 							$arrayDadosCorte[$i]["qtd_pecas"] += $arrayDadosCorte[$j]["qtd_pecas"];
 							unset($arrayDadosCorte[$j]);
 							sort($arrayDadosCorte);
+							
 						}
 					}
 						
 				}
+			}
+			
+			for($i=0; $i<count($arrayDadosCorte);$i++){
+				if($arrayDadosCorte[$i]["co_int_produto"]=='PAINEL'){
+					unset($arrayDadosCorte[$i]);
+					sort($arrayDadosCorte);
+				}
+					
 			}
 				
 			sort($arrayDadosCorte);//REORDENANDO INDICE DA MATRIZ
@@ -134,6 +143,7 @@ if(isset($_POST['co_pcp_ad'])){
 				try{
 					$co_pcp_op = $_opModel->getCoPcpOPPisDeUmPlanoDeCorteExistente($arrayDadosCorte[$i]['co_int_produto'], $co_cor, $lote, $co_pcp_ad); //produtos dentro do arquivo AD
 					$processadas=0;
+					$nu_espessura = trim($co_pcp_op[7]);
 						
 					if($co_pcp_op!=false){
 						$vet_temp = array();
@@ -243,7 +253,7 @@ if(isset($_POST['co_pcp_ad'])){
 
 
 						$result = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($arrayDadosCorte[$i]['co_int_produto'], $co_cor, $lote); //produtos fora do arquivo AD
-
+						
 
 						$temp = 0;
 							
@@ -269,6 +279,7 @@ if(isset($_POST['co_pcp_ad'])){
 							$result = $_opModel->getCoPcpOPPisDeUmPlanoDeCorte($arrayDadosCorte[$i]['co_int_produto'], $co_cor, $lote); //produtos fora do arquivo AD
 							$continue = true;
 							while($co_pcp_op = mysql_fetch_array($result)){
+								$nu_espessura = trim($co_pcp_op[7]);
 								if($continue == true){ //somente continue se ainda tiver produtos a serem processados
 									if($temp==0){//se ja estiver feito os calculos nao precisa calcular novamente
 										$processadas = $arrayDadosCorte[$i]['qtd_pecas'];
@@ -293,7 +304,7 @@ if(isset($_POST['co_pcp_ad'])){
 										$tockstok = $_opModel->getTockStok($co_pcp_ad);
 										
 										if($tockstok==1){
-											if($nu_espessura ==370){
+											if($nu_espessura ==37){
 												$processadas = $processadas/2;
 											}
 										}
@@ -355,6 +366,7 @@ if(isset($_POST['co_pcp_ad'])){
 								$continue = true;
 									
 								if($continue == true){ //somente continue se ainda tiver produtos a serem processados
+									$nu_espessura = trim($co_pcp_op[7]);
 									if($temp==0){//se ja estiver feito os calculos nao precisa calcular novamente
 										$processadas = $arrayDadosCorte[$i]['qtd_pecas'];
 										if($co_pcp_op[6]>=56 && $co_pcp_op[6]<100){ //largura
@@ -378,7 +390,7 @@ if(isset($_POST['co_pcp_ad'])){
 										$tockstok = $_opModel->getTockStok($co_pcp_ad);
 										
 										if($tockstok==1){
-											if($nu_espessura ==370){
+											if($nu_espessura ==37){
 												$processadas = $processadas/2;
 											}
 										}

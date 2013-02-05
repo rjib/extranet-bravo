@@ -191,9 +191,16 @@ class helper{
 			$findme   = 'PAINEL';
 			$pos = strpos($matrizDados[$i][0], $findme);
 			if ($pos === false) { // nao encontrou o schema
+				$sequenciaLinha = (int)substr($matrizDados[$i][0], 20,1);
+				if($sequencia>$sequenciaLinha){	
+					$sequencia++;
+					$matrizDados[$i][0] = substr_replace($matrizDados[$i][0], $sequencia, 20, 1);
+				}
+				
 			} else { // encontrou o schema
 				//BR/BR          1800110011127500184000001PAINEL      561,66   10,11000039
 				$numEsquema = (int)substr($matrizDados[$i][0], 18,2);
+				$sequencia  = (int)substr($matrizDados[$i][0], 20,1);
 			}
 			$schema[$numEsquema][$i] = $matrizDados[$i][0];
 

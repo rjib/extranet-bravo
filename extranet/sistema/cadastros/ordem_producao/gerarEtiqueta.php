@@ -21,14 +21,37 @@ $gerouEtiqueta = $_etiqueta->findByAc($dados['CO_PCP_AC']);
 $co_pcp_ac 	   = $dados['CO_PCP_AC'];
 $data=false;
 
+
 if($gerouEtiqueta == 0){//se nao tiver gerado etiqueta
 	
-	while($PECA = mysql_fetch_array($row)){		
-		$ORDEM_PRODUCAO     = $_op->getProduto($PECA['CO_PCP_OP']);	
-		$qtd_peca_por_pilha = floor(MAX_PILHA/$ORDEM_PRODUCAO['NU_ESPESSURA']);
-		$qtd_etiqueta = 1;
+	while($PECA = mysql_fetch_array($row)){	
+		$comprimento_menor 					  = false;
+		$ORDEM_PRODUCAO     				  = $_op->getProduto($PECA['CO_PCP_OP']);	
+		$qtd_peca_por_pilha 				  = floor(MAX_PILHA/$ORDEM_PRODUCAO['NU_ESPESSURA']);
+		$tmp_empilhamento_maximo_diferenciado = $qtd_peca_por_pilha;
+		$qtd_etiqueta 						  = 1;
+		if($ORDEM_PRODUCAO['NU_COMPRIMENTO']<=300){
+			$tmp_empilhamento_maximo_diferenciado = $qtd_peca_por_pilha*4;
+			$comprimento_menor = true;
+			
+		}elseif($ORDEM_PRODUCAO['NU_COMPRIMENTO']>300 && $ORDEM_PRODUCAO['NU_COMPRIMENTO']<=600){
+			$tmp_empilhamento_maximo_diferenciado = $qtd_peca_por_pilha*2;
+			$comprimento_menor = true;
+			
+		}
 		
-		if($PECA['QTD_PECAS'] <= $qtd_peca_por_pilha){
+		if($ORDEM_PRODUCAO['NU_LARGURA']<=300 && $comprimento_menor ==false){
+			$tmp_empilhamento_maximo_diferenciado = $qtd_peca_por_pilha*4;
+			$comprimento_menor = false;
+				
+		}elseif($ORDEM_PRODUCAO['NU_LARGURA']>300 && $ORDEM_PRODUCAO['NU_LARGURA']<=600 && $comprimento_menor ==false){
+			$tmp_empilhamento_maximo_diferenciado = $qtd_peca_por_pilha*2;
+			$comprimento_menor = false;
+				
+		}
+		
+		
+		if($PECA['QTD_PECAS'] <= $tmp_empilhamento_maximo_diferenciado){ // se a quantidade total de peças for inferior ao empilhamento maximo insere apenas uma etiqueta
 			try {
 				$_etiqueta->insert(
 						$ORDEM_PRODUCAO['NUM_OP']
@@ -53,8 +76,8 @@ if($gerouEtiqueta == 0){//se nao tiver gerado etiqueta
 			}
 			
 		}else{		
-			$qtd_etiqueta       = floor($PECA['QTD_PECAS']/$qtd_peca_por_pilha);			
-			$resto              = $PECA['QTD_PECAS'] - ($qtd_peca_por_pilha * $qtd_etiqueta);
+			$qtd_etiqueta       = floor($PECA['QTD_PECAS']/$tmp_empilhamento_maximo_diferenciado);			
+			$resto              = $PECA['QTD_PECAS'] - ($tmp_empilhamento_maximo_diferenciado * $qtd_etiqueta);
 			if($resto == 0){
 				$qtd_etiqueta=$qtd_etiqueta;
 			}else{
@@ -82,7 +105,7 @@ if($gerouEtiqueta == 0){//se nao tiver gerado etiqueta
 						}else{
 							$_etiqueta->insert(
 									$ORDEM_PRODUCAO['NUM_OP']
-									, $qtd_peca_por_pilha
+									, $tmp_empilhamento_maximo_diferenciado
 									, $ORDEM_PRODUCAO['QTD_PRODUTO']
 									, $ORDEM_PRODUCAO['DT_EMISSAO']
 									, $ORDEM_PRODUCAO['DS_PRODUTO']
@@ -98,7 +121,7 @@ if($gerouEtiqueta == 0){//se nao tiver gerado etiqueta
 					}else{
 						$_etiqueta->insert(
 								$ORDEM_PRODUCAO['NUM_OP']
-								, $qtd_peca_por_pilha
+								, $tmp_empilhamento_maximo_diferenciado
 								, $ORDEM_PRODUCAO['QTD_PRODUTO']
 								, $ORDEM_PRODUCAO['DT_EMISSAO']
 								, $ORDEM_PRODUCAO['DS_PRODUTO']

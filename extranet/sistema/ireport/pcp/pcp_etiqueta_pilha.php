@@ -1,5 +1,8 @@
 <?php 
 session_start();
+ini_set("max_execution_time",3600);
+ini_set("memory_limit","50M");
+set_time_limit(0);
 $data=false;
 require_once('../class/tcpdf/tcpdf.php');
 require_once("../class/PHPJasperXML.inc.php");
@@ -37,11 +40,12 @@ $timestamp = date("d/m/Y")."  ".date("h:i:s");
 $co_usuario = $_SESSION['codigoUsuario'];
 
 $_etiqueta = new tb_pcp_etiqueta($conexaoERP);
+$no_pcp_ad = $_etiqueta->getJob($co_pcp_ad);
 
 $xml =  simplexml_load_file("pcp_etiqueta_pilha.jrxml");
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-$PHPJasperXML->arrayParameter=array("CO_PCP_AC"=>$co_pcp_ac, "CO_USUARIO"=>$co_usuario, "CODIGO_BARRA"=>APP_PATH.'barcodes'.DS, "TIMESTAMP"=>$timestamp);
+$PHPJasperXML->arrayParameter=array("CO_PCP_AC"=>$co_pcp_ac, "CO_USUARIO"=>$co_usuario, "NO_PCP_AD"=>$no_pcp_ad, "CODIGO_BARRA"=>APP_PATH.'barcodes'.DS, "TIMESTAMP"=>$timestamp);
 $PHPJasperXML->xml_dismantle($xml);
 
 //$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db); * use this line if you want to connect with mysql
