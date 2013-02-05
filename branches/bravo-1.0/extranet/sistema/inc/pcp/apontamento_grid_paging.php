@@ -67,12 +67,34 @@
 			$this->i_link_limit = $i_link_limit;
 		}
 		
+		public function getAcoes(){
+						//CONTROLE DE ACESSO ACOES
+			require_once '../../models/tb_modulos.php';
+			
+			$co_papel = $_SESSION['codigoPapel'];
+			$modulos = new tb_modulos(CONEXAOERP);
+			$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO);
+			//FIM CONTROLE DE ACESSO
+			return $acoes;
+				
+		}
+		
 		//Retorna o total de linhas encontradas, usado para montar o n�mero de p�ginas principalmente
 		public function total_rows(){
 			
-			$sth = $this->dbh->prepare('SELECT COUNT(*) FROM tb_pcp_apontamento PCP_APONTAMENTO');
+			$acoes = $this->getAcoes();
+			if($acoes['FL_EXCLUIR'] == 1 && $acoes['FL_EDITAR'] == 1 && $acoes['FL_ADICIONAR'] == 1){
+			    $sth = $this->dbh->prepare('SELECT COUNT(*) 
+				                            FROM tb_pcp_apontamento PCP_APONTAMENTO');
+			}else{
+				$sth = $this->dbh->prepare('SELECT COUNT(*) 
+				                            FROM tb_pcp_apontamento PCP_APONTAMENTO
+				                            WHERE PCP_APONTAMENTO.CO_USUARIO_INICIO = '.$_SESSION['codigoUsuario'].'');
+			}
+						
 			$sth->execute();
 			$row = $sth->fetch(PDO::FETCH_NUM);
+			
 			return $row[0];
 			
 		}
@@ -182,9 +204,12 @@
 		
 		public function getCodigoInterno($co_pcp_apontamento){
 			
-			$sql = "SELECT PRODUTO.CO_INT_PRODUTO FROM TB_PCP_APONTAMENTO APONTAMENTO INNER JOIN TB_PCP_OP PCP_OP
-					ON PCP_OP.CO_PCP_OP = APONTAMENTO.CO_PCP_OP INNER JOIN TB_PCP_PRODUTO PRODUTO
-					ON PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
+			$sql = "SELECT PRODUTO.CO_INT_PRODUTO 
+			        FROM TB_PCP_APONTAMENTO APONTAMENTO 
+			            INNER JOIN TB_PCP_OP PCP_OP
+					        ON PCP_OP.CO_PCP_OP = APONTAMENTO.CO_PCP_OP 
+						INNER JOIN TB_PCP_PRODUTO PRODUTO
+					        ON PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
 					WHERE APONTAMENTO.CO_PCP_APONTAMENTO = ".$co_pcp_apontamento;
 			
 			$sth = $this->dbh->prepare($sql);
@@ -196,15 +221,8 @@
 		//Imprime a tabela de resultados
 		public function show_table(){
 			
-			//CONTROLE DE ACESSO ACOES
-			require_once '../../models/tb_modulos.php';
-			
-			$co_papel = $_SESSION['codigoPapel'];
-			$modulos = new tb_modulos(CONEXAOERP);
-			$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO);
-			
-			//FIM CONTROLE DE ACESSO
-			
+			$acoes = $this->getAcoes();
+						
 			//Guarda o conte�do tempor�rio da tabela
 			$s_html = '';
 			
@@ -228,15 +246,16 @@
 							, PCP_RECURSO.NO_RECURSO
 							, PCP_APONTAMENTO.HR_INICIO
 							, PCP_APONTAMENTO.HR_FIM
-							, CASE WHEN FL_APONTAMENTO = "1" THEN "Parada de Maquina"
-								  WHEN FL_APONTAMENTO = "2" THEN "Produção"
+							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "Parada de Maquina"
+								  WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN "Produção"
 							  END AS FL_APONTAMENTO
-							, CASE WHEN FL_APONTAMENTO = "1" THEN "-----"
-								  WHEN FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
+							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "-----"
+								  WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
 							  END AS NU_OP
 						FROM tb_pcp_apontamento PCP_APONTAMENTO
 							INNER JOIN tb_pcp_recurso PCP_RECURSO
 								ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
+								AND PCP_RECURSO.FL_DELET IS NULL
 							LEFT JOIN tb_pcp_op PCP_OP
 								ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
 						WHERE '.$this->s_where.'
@@ -248,15 +267,16 @@
 							, PCP_RECURSO.NO_RECURSO
 							, PCP_APONTAMENTO.HR_INICIO
 							, PCP_APONTAMENTO.HR_FIM
-							, CASE WHEN FL_APONTAMENTO = "1" THEN "Parada de Maquina"
-								  WHEN FL_APONTAMENTO = "2" THEN "Produção"
+							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "Parada de Maquina"
+								  WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN "Produção"
 							  END AS FL_APONTAMENTO
-							, CASE WHEN FL_APONTAMENTO = "1" THEN "-----"
-								  WHEN FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
+							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "-----"
+								  WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
 							  END AS NU_OP
 						FROM tb_pcp_apontamento PCP_APONTAMENTO
 							INNER JOIN tb_pcp_recurso PCP_RECURSO
 								ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
+								AND PCP_RECURSO.FL_DELET IS NULL
 							LEFT JOIN tb_pcp_op PCP_OP
 								ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
 						WHERE '.$this->s_where.'
