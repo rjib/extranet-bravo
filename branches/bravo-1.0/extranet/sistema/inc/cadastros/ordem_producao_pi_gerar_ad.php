@@ -25,6 +25,11 @@ $_DESCRICAO  	 = array('numCaracter'=>150,'posPrimeiroCaracterer'=>46,'multiplic
 DEFINE('$_PAINEL','4012750018400001001PAINEL');
 $_ano			 = date('Y');
 $_PATH			 = APP_PATH.'arquivosAD'.DS.$_ano.DS;
+$nu_espessura 	 = 0; //ESPESSURA PADRÃO PARA TODOS, SÓ ASSIM O OPTISAVE CONSEGUE RECONHECER
+
+$tmLargura 		= "";
+$tmComprimento  = "";
+$tmEspessura 	= "";
 
 
 $piModel 	 = new tb_pcp_op($conexaoERP);
@@ -62,6 +67,7 @@ if($mesmoLote==false){ //passa somete se for do mesmo lote
 	exit;
 }
 
+$co_pcp_op = $piModel->ordenaOrdemDeProducaoPorMedida($co_pcp_op);
 for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 
 	$row = mysql_fetch_assoc($piModel->listaPi($cor,$espessura,$dataInicial,$dataFinal,$co_pcp_op[$i]));
@@ -77,13 +83,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	}else{
 		$row['NU_ESPESSURA']=str_pad($row['NU_ESPESSURA'],$_ESPESSURA['numCaracter'],0,STR_PAD_LEFT);
 	}
-	$ordemProducao = $ordem; //sequencia
 
-	if(strlen($ordem)>1 ){
-		$ordemProducao = '2'.substr($ordemProducao,(strlen($ordemProducao)-strlen($ordemProducao)-2),strlen($ordemProducao));
-	}else{
-		$ordemProducao = '2'.str_pad(substr($ordemProducao,(strlen($ordemProducao)-strlen($ordemProducao)-1),strlen($ordemProducao)),$_ORDEM['numCaracter'],'0',STR_PAD_LEFT);
-	}
 
 	$row['NU_LARGURA'] =  str_replace(',','.',$row['NU_LARGURA']);
 	if($row['NU_LARGURA']<$_DIMENSAOMINIMA){
@@ -168,6 +168,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 	//removendo casas decimais
 	if(strstr($row['NU_COMPRIMENTO'],',')){
 		$row['NU_COMPRIMENTO'] =  substr($row['NU_COMPRIMENTO'], 0,strpos($row['NU_COMPRIMENTO'], ','));
+		$row['NU_COMPRIMENTO'] = str_pad($row['NU_COMPRIMENTO'],$_COMPRIMENTO['numCaracter'],0,STR_PAD_LEFT);
 			
 		
 	}
@@ -176,10 +177,37 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 		$row['NU_LARGURA'] = str_pad($row['NU_LARGURA'],$_LARGURA['numCaracter'],0,STR_PAD_LEFT);
 		
 	}
+	if($nu_espessura == 0){
+		$nu_espessura = $row['NU_ESPESSURA'];
+	}else{
+		if($nu_espessura !=$row['NU_ESPESSURA']){
+			$row['NU_ESPESSURA'] = $nu_espessura;
+		}
+	}
 	
-
+	if($tmLargura==""){
+		$tmLargura 		= $row['NU_LARGURA'];
+		$tmComprimento  = $row['NU_COMPRIMENTO'];
+		$tmEspessura 	= $row['NU_ESPESSURA'];
+	}else{
+		if($tmComprimento!=$row['NU_COMPRIMENTO'] || $tmEspessura !=$row['NU_ESPESSURA'] || $tmLargura !=$row['NU_LARGURA']){
+		$tmLargura 		= $row['NU_LARGURA'];
+		$tmComprimento  = $row['NU_COMPRIMENTO'];
+		$tmEspessura 	= $row['NU_ESPESSURA'];
+			$ordem++;//incrementa sequencia
+		}
+	}
+	
+	$ordemProducao = $ordem; //sequencia
+	
+	if(strlen($ordem)>1 ){
+		$ordemProducao = '2'.substr($ordemProducao,(strlen($ordemProducao)-strlen($ordemProducao)-2),strlen($ordemProducao));
+	}else{
+		$ordemProducao = '2'.str_pad(substr($ordemProducao,(strlen($ordemProducao)-strlen($ordemProducao)-1),strlen($ordemProducao)),$_ORDEM['numCaracter'],'0',STR_PAD_LEFT);
+	}
+	
 	array_push($dadosArquivo, $row['DS_COR'].$row['NU_ESPESSURA'].'        '.$ordemProducao.$row['NU_COMPRIMENTO'].' '.$row['NU_LARGURA'].$row['QTD_PRODUTO'].$veio.trim($row['CO_INT_PRODUTO']).' - '.$tempComprimento.'X'.$tempLargura.'X'.$tempEspessura);
-	$ordem++;
+
 	$nQuantidade=0;
 }//fim for
 

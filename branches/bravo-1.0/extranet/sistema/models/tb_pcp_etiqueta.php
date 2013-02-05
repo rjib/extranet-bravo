@@ -88,6 +88,13 @@ class tb_pcp_etiqueta{
 		
 	}
 	
+	public function getJob($co_pcp_ad){
+		$query = "SELECT no_pcp_ad FROM tb_pcp_ad WHERE co_pcp_ad = ".$co_pcp_ad;
+		$result = mysql_query($query, $this->conexaoERP);
+		$row = mysql_fetch_array($result);
+		return $row[0];
+	}
+	
 	/**
 	 * Metodo para listar todas as etiquetas de um plano de corte
 	 * @param int $co_pcp_ac

@@ -7,7 +7,7 @@ define('URL', 'http://localhost/extranet-bravo/extranet/');
 define ('DS', DIRECTORY_SEPARATOR);
 define ('APP_PATH',realpath(dirname(__FILE__).DS.'..').DS);
 define('DIMENSAO_MINIMA', 240);
-define('MAX_PILHA',1350);
+define('MAX_PILHA',1600);
 define('DSN','localhost');
 define('USER','root');
 define('PASS','');

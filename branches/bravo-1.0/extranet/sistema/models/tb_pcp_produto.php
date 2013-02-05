@@ -23,9 +23,8 @@ class tb_pcp_produto{
 	public function listaTodasEspessuras(){
 		try {
 			$sql = "SELECT DISTINCT(NU_ESPESSURA) ESPESSURA 
-					FROM tb_pcp_produto WHERE NU_ESPESSURA <>'' 
-					AND NU_ESPESSURA>0
-					AND FL_DELET IS NULL  
+					FROM tb_pcp_produto WHERE NU_ESPESSURA <>''	OR NU_ESPESSURA >1				
+					AND FL_DELET IS NULL OR FL_DELET = '' 
 					ORDER BY ABS(NU_ESPESSURA) ASC";
 			$row = mysql_query($sql,$this->conexaoERP);
 		}catch (Exception $e){			

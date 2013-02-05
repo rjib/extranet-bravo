@@ -122,6 +122,7 @@ class tb_pcp_op{
 					   , ORDEM_PRODUCAO.co_pcp_op
 					   , PRODUTO.nu_comprimento
 				       , PRODUTO.nu_largura
+					   , PRODUTO.nu_espessura
 				FROM tb_pcp_op ORDEM_PRODUCAO
 			        INNER JOIN
 			    tb_pcp_produto PRODUTO ON ORDEM_PRODUCAO.co_produto = PRODUTO.co_produto
@@ -160,7 +161,8 @@ class tb_pcp_op{
 				    ORDEM_PRODUCAO.qtd_processada,
 				    ORDEM_PRODUCAO.co_pcp_op,
 				    PRODUTO.nu_comprimento,
-				    PRODUTO.nu_largura
+				    PRODUTO.nu_largura,
+					PRODUTO.nu_espessura
 				FROM
 				    tb_pcp_op ORDEM_PRODUCAO
 				        INNER JOIN
@@ -193,7 +195,8 @@ class tb_pcp_op{
 					ORDEM_PRODUCAO.co_pcp_op,
 					PRODUTO.nu_comprimento,
 					PRODUTO.nu_largura,
-					PCP_AD.fl_tockstok
+					PCP_AD.fl_tockstok,
+					PRODUTO.nu_espessura
 				FROM tb_pcp_op ORDEM_PRODUCAO
 					INNER JOIN
 					tb_pcp_produto PRODUTO ON ORDEM_PRODUCAO.co_produto = PRODUTO.co_produto
@@ -358,5 +361,34 @@ class tb_pcp_op{
 		
 	}
 	
+	/**
+	 * Metodo para ordenar o arquivo .ad em ordem decrescente
+	 * @param array $co_pcp_op
+	 * @author Ricardo S. Alvarenga
+	 * @since 30/01/2013
+	 */
+	public function ordenaOrdemDeProducaoPorMedida ($co_pcp_op){
+		$in = "";
+		for($i = 0; $i<count($co_pcp_op); $i++){
+			if($i==(count($co_pcp_op)-1)){
+				$in .=$co_pcp_op[$i];
+			}else{
+				$in .=$co_pcp_op[$i].",";
+			}
+		}
+		$query = "SELECT op.co_pcp_op, pd.ds_produto, pd.nu_comprimento, pd.nu_largura, pd.nu_espessura
+					FROM tb_pcp_op op INNER JOIN tb_pcp_produto pd ON op.co_produto = pd.co_produto
+					WHERE op.co_pcp_op IN(".$in.")
+					ORDER BY pd.nu_comprimento, pd.nu_largura, pd.nu_espessura DESC";
+		
+		$result = mysql_query($query, $this->conexaoERP);
+		$dados = array();
+		$i=0;
+		while($row = mysql_fetch_array($result)){
+			array_push($dados, $row[0]);
+		}
+		return $dados;
+		
+	}
 		
 }//fim classe
