@@ -62,8 +62,8 @@
       <td align="left"><font class="FONT04"><b>Data Apontamento:</b></font></td>
       <td align="left"><input title="Data" name="dataApontamento02" id="dataApontamento02" type="text" class="INPUT03" size="8" maxlength="10" value="<?php echo date("d-m-Y"); ?>" disabled="disabled"/>
         <input type="hidden" id="dataApontamento" name="dataApontamento" value="<?php echo date("Y-m-d"); ?>"/></td>
-      <td align="right"><font class="FONT04"><b>Usuário:</b></font></td>
-      <td align="left"><input title="Usuário" type="text" name="usuario" id="usuario" class="INPUT01" size="50" value="<?php echo $_SESSION['codigoUsuario']." - ".$_SESSION['nomePessoa']." [".$_SESSION['loginUsuario']."]"; ?>" disabled="disabled" /></td>
+      <td align="right">&nbsp;</td>
+      <td align="left">&nbsp;</td>
     </tr>
     <tr>
       <td width="106" align="left"><font class="FONT04"><b>Recurso:</b></font></td>
