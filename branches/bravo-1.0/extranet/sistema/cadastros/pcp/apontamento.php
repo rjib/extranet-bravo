@@ -5,6 +5,7 @@
 	 * 
 	 * @author Euripedes B. Silva Junior <ejunior@bravomoveis.com>
 	 * @version 1.0 - 04/01/2013 09:00
+	 * @version 1.1 - 11/02/2013 16:00 - Alterado para associar o recurso ao usuario $sqlRecurso.
 	 * 
 	 */
 	 
@@ -13,33 +14,27 @@
 	
 	$co_papel = $_SESSION['codigoPapel'];
 	$modulos = new tb_modulos($conexaoERP);
-	$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO);
+	$acoesApontamento = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO);
+	$acoesApontamentoJob = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO_JOB);
 
-	if($acoes['NO_MODULO'] == PCP_APONTAMENTO){
+	if($acoesApontamento['NO_MODULO'] == PCP_APONTAMENTO){
+		
+		unset($_SESSION['numeroJob']);
+		unset($_SESSION['jobOrdemProducaoImporta']);
 
-		$sqlRecurso = mysql_query("SELECT CO_PCP_RECURSO, NO_RECURSO FROM tb_pcp_recurso WHERE fl_delet is null ORDER BY NO_RECURSO")
+		$sqlRecurso = mysql_query("SELECT PCP_RECURSO.CO_PCP_RECURSO, PCP_RECURSO.NO_RECURSO 
+		                           FROM tb_pcp_recurso PCP_RECURSO
+								   WHERE PCP_RECURSO.FL_DELET IS NULL
+								   AND EXISTS(SELECT null 
+								              FROM tb_pcp_usuario_recurso PCP_USUARIO_RECURSO
+											  WHERE PCP_USUARIO_RECURSO.CO_PCP_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
+											  AND PCP_USUARIO_RECURSO.CO_USUARIO = '".$_SESSION['codigoUsuario']."')
+								   ORDER BY PCP_RECURSO.NO_RECURSO")
 		or die("<script>
 					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 					history.back(-1);
 				</script>");
-		
-		if(mysql_num_rows($sqlRecurso) == 0){
-			echo "<script type='text/javascript' language='javascript'>
-				  $(function($) {
-					  $('<p>[Erro] - N&atilde;o existe Recurso cadastrado, por favor entre em contato com o Suporte.</p>').dialog({
-						  modal: true,
-						  resizable: false,
-						  title: 'Aten&ccedil;&atilde;o',
-						  buttons: {
-						  Ok: function() {
-							  $( this ).dialog( 'close' );
-							  $(window.document.location).attr('href','inicio.php');
-						  }
-					  }
-				  }); });
-				  </script>";
-		}
-		
+				
 		$sqlVerificaApontamentoAberto = mysql_query("SELECT COUNT(*) QTD_APONTAMENTO_ABERTO
 													 FROM tb_pcp_apontamento
 													 WHERE HR_FIM IS NULL 
@@ -52,32 +47,30 @@
 		 
 ?>
 <script type="text/javascript" src="js/pcp/apontamento.js"> </script>
+
 <script type="text/javascript">
-function gerarEtiquetaPeca(co_pcp_apontamento){ //casadei
-	$("#boxLoadingEtiqueta").dialog("open");
-	$("#temp").load('ireport/apontamento/gerarCodeBarEtiquetaPecaCasaDei.php',{co_pcp_apontamento:co_pcp_apontamento}, function(data,status){
-		if (status == "success") {
-			$("#boxLoadingEtiqueta").dialog("close");
-			//$(window.document.location).attr('href','ireport/pcp_etiqueta_casadei.php?co_pcp_apontamento='+co_pcp_apontamento);
-			window.open("ireport/apontamento/etiqueta_casadei.php?co_pcp_apontamento="+co_pcp_apontamento,"Etiqueta Peça (Casadei)","menubar=0,resizable=1,width=410,height=500,location=0");
-		}
-	});		
-}
 
-function gerarEtiquetaPeca2(co_pcp_apontamento){ //peca
-	//$("#boxLoadingEtiqueta").dialog("open");
-	//$(window.document.location).attr('href','ireport/apontamento/etiqueta_peca.php?co_pcp_apontamento='+co_pcp_apontamento);
-	window.open('ireport/apontamento/etiqueta_peca.php?co_pcp_apontamento='+co_pcp_apontamento,"Etiqueta Peça (Casadei)","menubar=0,resizable=1,width=410,height=500,location=0");
+	function gerarEtiquetaPeca(co_pcp_apontamento){ //casadei
+		$("#boxLoadingEtiqueta").dialog("open");
+		$("#temp").load('ireport/apontamento/gerarCodeBarEtiquetaPecaCasaDei.php',{co_pcp_apontamento:co_pcp_apontamento}, function(data,status){
+			if (status == "success") {
+				$("#boxLoadingEtiqueta").dialog("close");
+				//$(window.document.location).attr('href','ireport/pcp_etiqueta_casadei.php?co_pcp_apontamento='+co_pcp_apontamento);
+				window.open("ireport/apontamento/etiqueta_casadei.php?co_pcp_apontamento="+co_pcp_apontamento,"Etiqueta Peça (Casadei)","menubar=0,resizable=1,width=410,height=500,location=0");
+			}
+		});		
+	}
 
-}
-
-function getDesenhoPeca(arquivo){ //peca
+	function gerarEtiquetaPeca2(co_pcp_apontamento){ //peca
+		window.open('ireport/apontamento/etiqueta_peca.php?co_pcp_apontamento='+co_pcp_apontamento,"Etiqueta Peça (Casadei)","menubar=0,resizable=1,width=410,height=500,location=0"	);
 	
-	window.open('desenhos_producao/'+arquivo+'.pdf',"Desenho de Produção","menubar=0,resizable=1,width=840,height=640,location=0");
-
-}
+	}
+	
+	function getDesenhoPeca(arquivo){ //peca
+		window.open('desenhos_producao/'+arquivo+'.pdf',"Desenho de Produção","menubar=0,resizable=1,width=840,height=640,location=0");
+	}
  
- </script>
+</script>
 
 <script type="text/javascript" src="js/paging.js"></script>
 <div id="header-wrap">
@@ -123,11 +116,11 @@ function getDesenhoPeca(arquivo){ //peca
                                   <input type="hidden" id="dataApontamento" name="dataApontamento" value="<?php echo date("Y-m-d"); ?>"/>
                                   </td>
 		                          <td align="left"><font class="FONT04"><b>Usuário:</b></font></td>
-		                          <td align="left"><input title="Usuário" type="text" name="usuario" id="usuario" class="INPUT01" size="50" value="<?php echo $_SESSION['codigoUsuario']." - ".$_SESSION['nomePessoa']." [".$_SESSION['loginUsuario']."]"; ?>" disabled="disabled" /></td>
+		                          <td colspan="3" align="left"><input title="Usuário" type="text" name="usuario" id="usuario" class="INPUT01" size="50" value="<?php echo $_SESSION['codigoUsuario']." - ".$_SESSION['nomePessoa']." [".$_SESSION['loginUsuario']."]"; ?>" disabled="disabled" /></td>
                               </tr>
 		                        <tr>
-		                          <td width="82" align="left"><font class="FONT04"><b>Recurso:</b></font></td>
-		                          <td colspan="3" align="left">
+		                          <td width="88" align="left"><font class="FONT04"><b>Recurso:</b></font></td>
+		                          <td colspan="5" align="left">
                                   <select title="Recurso" name="codigoRecurso" id="codigoRecurso" class="SELECT01" style="width:250px">
 		                            <option value="0">Selecione...</option>
 		                            <?php
@@ -135,14 +128,15 @@ function getDesenhoPeca(arquivo){ //peca
                                             echo "<option value='".$rowRecurso['CO_PCP_RECURSO']."'>".$rowRecurso['NO_RECURSO']."</option>";
                                         }	
                                     ?>
-	                              </select></td>
+	                              </select>
+                                  </td>
 	                          </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Hora Início:</b></font></td>
-		                          <td width="99" align="left">
+		                          <td width="79" align="left">
                                   <input title="Hora Início" type="text" name="horaInicioInserir" id="horaInicioInserir" class="INPUT03" size="4" maxlength="4" /></td>
-		                          <td width="125" align="left"><font class="FONT04"><b>Tipo Apontamento:</b></font></td>
-		                          <td width="300" align="left">
+		                          <td width="118" align="left"><font class="FONT04"><b>Tipo Apontamento:</b></font></td>
+		                          <td colspan="3" align="left">
                                   <input title="Tipo Apontamento" type="radio" name="flagApontamentoParada" id="flagApontamento" value="1" onclick="verificaApontamento(1);"/>
 	                              Parada de Máquina
 	                                <input title="Tipo Apontamento" type="radio" name="flagApontamentoProducao" id="flagApontamento" value="2" onclick="verificaApontamento(2);"/>
@@ -154,27 +148,31 @@ function getDesenhoPeca(arquivo){ //peca
 		                          <td align="left"><input title="Motivo" name="nomeMotivo" id="nomeMotivo" type="text" class="INPUT03" size="3" maxlength="5" onblur="getMotivoParada()"/>
                                   <input type="hidden" id="codigoMotivo" name="codigoMotivo"/></td>
 		                          <td align="left"><font class="FONT04"><b>Descrição:</b></font></td>
-		                          <td align="left"><input title="Descrição" type="text" name="descricaoMotivo" id="descricaoMotivo" class="INPUT01" size="50" disabled="disabled" /></td>
+		                          <td colspan="3" align="left"><input title="Descrição" type="text" name="descricaoMotivo" id="descricaoMotivo" class="INPUT01" size="50" disabled="disabled" /></td>
 	                          </tr>
                              
 							  <tr id="apontamentoProducao01" style="display:none">
 							    <td align="left"><font class="FONT04"><b>OP:</b></font></td>
-							    <td align="left"><input title="OP" name="ordemProducao" id="ordemProducao" type="text" class="INPUT03" size="9" maxlength="11" onblur="getOrdemProducao()"/>
+							    <td align="left"><input title="OP" name="ordemProducao" id="ordemProducao" type="text" class="INPUT03" size="10" maxlength="11" onblur="getOrdemProducao()"/>
                                 <input type="hidden" id="codigoPcpOp" name="codigoPcpOp"/></td>
 							    <td align="left"><font class="FONT04"><b>Produto:</b></font></td>
-							    <td align="left"><input title="Produto" type="text" name="descricaoProduto" id="descricaoProduto" class="INPUT01" size="50" disabled="disabled" /></td>
+							    <td colspan="3" align="left"><input title="Produto" type="text" name="descricaoProduto" id="descricaoProduto" class="INPUT01" size="50" disabled="disabled" /></td>
 						      </tr>
 							  <tr id="apontamentoProducao02" style="display:none">
 							    <td align="left"><font class="FONT04"><b>Lote:</b></font></td>
 							    <td align="left"><input  style="text-align: left;" title="Lote" type="text" name="loteOp" id="loteOp" class="INPUT03" size="10" maxlength="10" disabled="disabled"/></td>
-							    <td align="left"><font class="FONT04"><b>Data Emissão:</b></font></td>
-							    <td align="left"><input title="Data Emissão" name="dataEmissaoOp" id="dataEmissaoOp" type="text" class="INPUT03" size="8" maxlength="10" disabled="disabled"/></td>
-							 </tr>
-							 <tr  id="apontamentoProducao03" style="display: none">
-							    <td align="left"><font class="FONT04"><b>Código Interno:</b></font></td>
-							    <td align="left"><input title="Lote" type="text" name="loteOp" id="codigoInternoProduto"  style="text-align: left;" class="INPUT03" size="8" maxlength="10" disabled="disabled"/></td>
 							    <td align="left"><font class="FONT04"><b>Código do Produto:</b></font></td>
-							    <td align="left"><input title="Data Emissão" style="text-align: left;" name="dataEmissaoOp" id="codigoProduto" type="text" class="INPUT03" size="20" maxlength="20" disabled="disabled"/></td>
+							    <td width="186" align="left"><input title="Data Emissão" style="text-align: left;" name="dataEmissaoOp" id="codigoProduto" type="text" class="INPUT03" size="20" maxlength="20" disabled="disabled"/></td>
+							    <td width="52" align="left"><font class="FONT04"><b>Cód. Int.:</b></font></td>
+							    <td width="67" align="left"><input title="Lote" type="text" name="codigoInternoProduto" id="codigoInternoProduto"  style="text-align: left;" class="INPUT03" size="8" maxlength="10" disabled="disabled"/></td>
+							  </tr>
+							 <tr  id="apontamentoProducao03" style="display: none">
+							    <td align="left"><font class="FONT04"><b>Data Emissão:</b></font></td>
+							    <td align="left"><input title="Data Emissão" name="dataEmissaoOp2" id="dataEmissaoOp" type="text" class="INPUT03" size="10" maxlength="10" disabled="disabled"/></td>
+							    <td align="left">&nbsp;</td>
+							    <td align="left">&nbsp;</td>
+						       <td align="left">&nbsp;</td>
+							    <td align="left">&nbsp;</td>
       							
 							 </tr>
                               
@@ -182,8 +180,9 @@ function getDesenhoPeca(arquivo){ //peca
                     </form>
                   </div>
                   <?php 
-				      if($acoes['FL_ADICIONAR']==1){
-						  if($acoes['FL_EXCLUIR'] == 1 && $acoes['FL_EDITAR'] == 1 && $acoes['FL_ADICIONAR'] == 1){
+				  
+				      if($acoesApontamento['FL_ADICIONAR']==1){
+						  if($acoesApontamento['FL_EXCLUIR'] == 1 && $acoesApontamento['FL_EDITAR'] == 1 && $acoesApontamento['FL_ADICIONAR'] == 1){
 							  echo "<button type='button' id='adicionarApontamento' title='Adicionar Apontamento'>Adicionar Apontamento</button>";
 						  }else{
 						      if($rowVerificaApontamentoAberto['QTD_APONTAMENTO_ABERTO'] <= "0"){
@@ -191,6 +190,12 @@ function getDesenhoPeca(arquivo){ //peca
 					          }
 						  }						  
 					  }
+					  
+					  if($acoesApontamentoJob['FL_ADICIONAR']==1){
+						 echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+						 echo "<button type='button' id='adicionarApontamentoJob' title='Adicionar Apontamento Job'>Adicionar Apontamento Job</button>";						  
+					  }
+					  
 				  ?>
                   </td>
               </tr>
