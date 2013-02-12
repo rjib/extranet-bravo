@@ -148,9 +148,9 @@ if($acoes['NO_MODULO'] == CADASTROS_COLABORADORES){
                             <form id="formularioColaborador" action="javascript:func()" method="post">
 		                    <table width="100%" border="0" cellspacing="2" cellpadding="3">
 		                        <tr>
-		                          <td width="205" align="left"><font class="FONT04"><b>Pessoa:</b></font></td>
-		                          <td width="780" align="left">
-                                  <input type="text" id="nomePessoa" name="nomePessoa" autocomplete="off" class="INPUT01" size="70" maxlength="80"/>
+		                          <td width="229" align="left"><font class="FONT04"><b>Pessoa:</b></font></td>
+		                          <td width="756" align="left">
+                                  <input type="text" id="nomePessoa" name="nomePessoa" autocomplete="off" class="INPUT01" size="60" maxlength="80"/>
                                   <input type="hidden" id="codigoPessoa" name="codigoPessoa"/>
                                   </td>
 	                          </tr>
