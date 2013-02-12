@@ -92,7 +92,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 			$n1 = 4;
 		}elseif($row['NU_LARGURA']<56){
 			$n1 = 8;
-		}elseif($row['NU_LARGURA']>=100 && $row['NU_LARGURA']<240){
+		}elseif($row['NU_LARGURA']>=100 && $row['NU_LARGURA']<238){
 			$n1 = 2;
 		}
 		
@@ -117,7 +117,7 @@ for($i=0;$i< count($co_pcp_op); $i++){//varre os valores co_pcp_op selecionados
 			$n1 = 4; 
 		}elseif($row['NU_COMPRIMENTO']<56){
 			$n1 = 8;			
-		}elseif($row['NU_COMPRIMENTO']>=100 && $row['NU_COMPRIMENTO']<240){
+		}elseif($row['NU_COMPRIMENTO']>=100 && $row['NU_COMPRIMENTO']<238){
 			$n1 = 2;			
 		}
 
