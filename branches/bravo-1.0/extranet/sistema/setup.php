@@ -46,6 +46,7 @@ define('PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE', 'Importar Plano de Corte Optisave
 define('PCP_LISTA_DE_CORES', 'Lista de Cores');
 define('PCP_ORDEM_DE_PRODUCAO', 'Ordem de Produção');
 define('PCP_APONTAMENTO', 'Apontamento');
+define('PCP_APONTAMENTO_JOB', 'Apontamento Job');
 define('PCP_MOTIVO_PARADA', 'Motivo Parada');
 define('PCP_RECURSO', 'Recursos');
 
