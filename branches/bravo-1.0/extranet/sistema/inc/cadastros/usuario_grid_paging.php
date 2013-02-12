@@ -234,6 +234,7 @@ session_start();
 			$s_html .= '<script type="text/javascript" src="js/cadastros/usuario.js"></script>
 						<div id="confirmaExcluirUsuario"><p>Deseja realmente excluir esse registro?</p></div>
 						<div id="formularioAlterarUsuario"></div>
+						<div id="formularioVincularUsuarioRecurso"></div>
 						<div id="formularioAlterarSenhaUsuario"></div>';
 			
 			//Cria o cabe�alho da tabela
@@ -249,7 +250,7 @@ session_start();
 				
 			}
 			
-			$s_html .= '<th align="center" width="80">Ações</th>';
+			$s_html .= '<th align="center" width="100">Ações</th>';
 			
 			$s_html .= '</tr></thead><tbody>';
 			
@@ -279,6 +280,7 @@ session_start();
 					}if($acoes['FL_EDITAR']==1){
 					$s_html .= '<a title="Alterar Senha" href="#" name="alterarSenhaUsuario" id="'.$row[0].'"><img src="img/btn/btn_key.gif" width="25" height="19" border="0"/></a>';
 					$s_html .= '<a title="Editar" href="#" name="alterarUsuario" id="'.$row[0].'"><img src="img/btn/btn_editar.gif" width="25" height="19" border="0"/></a>';
+					$s_html .= '<a title="Vincular Recursos" href="#" name="vincularUsuarioRecurso" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
 					}
 					$s_html .= '</td>';
 					
