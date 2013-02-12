@@ -195,6 +195,12 @@ $(function($) {
 		.click(function() {
 		$("#formularioApontamento").dialog("open");
 	});
+	
+	$("#adicionarApontamentoJob")
+	    .button()
+		.click(function() {
+		$(window.document.location).attr('href','inicio.php?pg=apontamento_job');	
+	});
 		
 });
 
