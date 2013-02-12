@@ -80,7 +80,7 @@ if($acoes['NO_MODULO'] == CADASTROS_USUARIOS){
 		                        <tr>
 		                          <td width="76" align="left"><font class="FONT04"><b>Colaborador:</b></font></td>
 		                          <td width="909" colspan="4" align="left">
-                                  <input title="Colaborador" name="nomeColaborador" id="nomeColaborador" type="text" class="INPUT01" size="80" maxlength="80" autocomplete="off"/>
+                                  <input title="Colaborador" name="nomeColaborador" id="nomeColaborador" type="text" class="INPUT01" size="60" maxlength="80" autocomplete="off"/>
                                   <input type="hidden" id="codigoColaborador" name="codigoColaborador"/>
                                   </td>
 	                          </tr>
