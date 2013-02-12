@@ -26,7 +26,7 @@ class tb_pcp_op{
 	 * @since 27/12/2012
 	 */
 	public function getCoProduto($co_pc_op){
-		$query  = "select CO_PRODUTO, (qtd_produto-qtd_processada) QTD_PROCESSADA, QTD_PROCESSADA QTD_PROCESSADA_ATUAL from tb_pcp_op where co_pcp_op = ".$co_pc_op;
+		$query  = "select CO_PRODUTO, QTD_PROCESSADA, QTD_PRODUTO from tb_pcp_op where co_pcp_op = ".$co_pc_op;
 		$result = mysql_query($query, $this->conexaoERP);
 		$row 	= mysql_fetch_array($result);
 		return $row;
@@ -350,7 +350,12 @@ class tb_pcp_op{
 					, op.nu_lote 
 					, prod.nu_comprimento 
 					, prod.nu_espessura 
-					, prod.nu_largura 
+					, prod.nu_largura
+					, op.qtd_produto
+					, op.qtd_produzida
+					, op.qtd_processada
+					, prod.ds_produto
+					, op.co_pcp_op
 				 from tb_pcp_op op 
 					inner join tb_pcp_produto prod on op.co_produto = prod.co_produto
 				where prod.co_produto = '".$co_produto."' 

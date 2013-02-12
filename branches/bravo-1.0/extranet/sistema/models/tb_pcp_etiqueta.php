@@ -9,11 +9,28 @@ class tb_pcp_etiqueta{
 
 	private $conexaoERP;
 
+	/**
+	 * @param string $conexaoERP
+	 * @return objeto
+	 */
 	public function __construct($conexaoERP){
 		$this->conexaoERP = $conexaoERP;
-
 	}
 	
+	/**
+	 * Metodo para retornar as medidas do plano de corte
+	 * @param int $co_pcp_ac
+	 * @param string $co_int_produto
+	 * @author Ricardo S. Alvarenga
+	 * @since 06/02/2013
+	 */
+	public function getMedidaCorte($co_pcp_ac, $co_int_produto){
+		$query = "SELECT NU_COMPRIMENTO, NU_LARGURA, NU_ESPESSURA FROM TB_PCP_AC_PECA WHERE CO_PCP_AC = ".$co_pcp_ac." AND CO_INT_PRODUTO = '".$co_int_produto."' LIMIT 1";		
+		$result = mysql_query($query, $this->conexaoERP);
+		$row = mysql_fetch_array($result);
+		return $row;
+		
+	}
 
 	/**
 	 * Metodo para inserir novas etiquetas por pilha
@@ -34,8 +51,9 @@ class tb_pcp_etiqueta{
 	 * @author Ricardo S. Alvarenga
 	 * @since 11/12/2012
 	 */
-	public function insert($nu_pcp_op, $qtd_produzir, $qtd_produto,$dt_emissao, $ds_produto, $co_int_produto, $nu_lote, $nu_comprimento, $nu_largura, $nu_espessura, $co_pcp_ac, $tp_produto, $no_cor)
+	public function insert($nu_pcp_op, $qtd_produzir, $qtd_produto,$dt_emissao, $ds_produto, $co_int_produto, $nu_lote, $nu_comprimento, $nu_largura, $nu_espessura,$corte_espessura, $co_pcp_ac, $tp_produto, $no_cor,$fator)
 	{
+		$row = $this->getMedidaCorte($co_pcp_ac, $co_int_produto);
 		$sql = "INSERT INTO tb_pcp_etiqueta (
 					nu_pcp_op
 				,	qtd_produzir
@@ -46,10 +64,14 @@ class tb_pcp_etiqueta{
 				,	nu_lote
 				,	nu_comprimento
 				,	nu_largura
+				,	corte_nu_comprimento
+				,	corte_nu_largura
+				,	corte_nu_espessura
 				,	nu_espessura
 				,	co_pcp_ac
 				,	tp_produto
-				,	no_cor)
+				,	no_cor
+				,	nu_fator_multiplicador)
 				VALUES (
 				'".addslashes($nu_pcp_op)."'
 				, '".addslashes($qtd_produzir)."'
@@ -60,10 +82,14 @@ class tb_pcp_etiqueta{
 				, '".addslashes($nu_lote)."'
 				, '".addslashes($nu_comprimento)."'
 				, '".addslashes($nu_largura)."'
+				, '".addslashes($row[0])."'
+				, '".addslashes($row[1])."'
+				, '".addslashes($corte_espessura)."'
 				, '".addslashes($nu_espessura)."'
 				, ".$co_pcp_ac."
 				, '".addslashes($tp_produto)."'
-				, '".addslashes($no_cor)."')";
+				, '".addslashes($no_cor)."'
+				, '".addslashes($fator)."')";
 		mysql_query($sql,$this->conexaoERP);
 	}
 	
@@ -89,10 +115,10 @@ class tb_pcp_etiqueta{
 	}
 	
 	public function getJob($co_pcp_ad){
-		$query = "SELECT no_pcp_ad FROM tb_pcp_ad WHERE co_pcp_ad = ".$co_pcp_ad;
+		$query = "SELECT no_pcp_ad, fl_tockstok FROM tb_pcp_ad WHERE co_pcp_ad = ".$co_pcp_ad;
 		$result = mysql_query($query, $this->conexaoERP);
 		$row = mysql_fetch_array($result);
-		return $row[0];
+		return $row;
 	}
 	
 	/**

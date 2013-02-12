@@ -7,10 +7,13 @@ define('URL', 'http://localhost/extranet-bravo/extranet/');
 define ('DS', DIRECTORY_SEPARATOR);
 define ('APP_PATH',realpath(dirname(__FILE__).DS.'..').DS);
 define('DIMENSAO_MINIMA', 240);
-define('MAX_PILHA',1600);
+define('MAX_PILHA',1350);
 define('DSN','localhost');
 define('USER','root');
 define('PASS','');
+define('PAINEL_900X600', 900);
+define('PAINEL_1600X600', 1600);
+define('PAINEL_2400X600', 2400);
 
 
 //MODULOS PRINCIPAIS
