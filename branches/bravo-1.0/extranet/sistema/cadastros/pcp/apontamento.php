@@ -190,10 +190,17 @@
 					          }
 						  }						  
 					  }
-					  
+										  
 					  if($acoesApontamentoJob['FL_ADICIONAR']==1){
-						 echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-						 echo "<button type='button' id='adicionarApontamentoJob' title='Adicionar Apontamento Job'>Adicionar Apontamento Job</button>";						  
+						  if($acoesApontamentoJob['FL_EXCLUIR'] == 1 && $acoesApontamentoJob['FL_EDITAR'] == 1 && $acoesApontamentoJob['FL_ADICIONAR'] == 1){
+							  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+						 	  echo "<button type='button' id='adicionarApontamentoJob' title='Adicionar Apontamento Job'>Adicionar Apontamento Job</button>";
+						  }else{
+						      if($rowVerificaApontamentoAberto['QTD_APONTAMENTO_ABERTO'] <= "0"){
+						          echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+						 		  echo "<button type='button' id='adicionarApontamentoJob' title='Adicionar Apontamento Job'>Adicionar Apontamento Job</button>";
+					          }
+						  }						  
 					  }
 					  
 				  ?>
