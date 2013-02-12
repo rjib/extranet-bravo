@@ -780,11 +780,12 @@ $(function($) {
 		.click(function() {
 		$( "#formularioEndereco" ).dialog( "open" );
 	});
+	
 	$("#adicionarEmpresa")
-    .button()
-	.click(function() {
-	$( "#formularioEmpresa" ).dialog( "open" );
-});
+    	.button()
+		.click(function() {
+		$( "#formularioEmpresa" ).dialog( "open" );
+	});
 		
 	$("#adicionarContato")
 	    .button()
