@@ -107,6 +107,7 @@ function marcarTodosModuloSelecao() {
 
 		});
 }
+
 function marcarTodosIncluir() {
 	$("input[name='acao_incluir[]']").each(function() {
 
@@ -120,6 +121,7 @@ function marcarTodosIncluir() {
 
 	});
 }
+
 function marcarTodosEditar() {
 	$("input[name='acao_editar[]']").each(function() {
 
@@ -146,4 +148,17 @@ function marcarTodosExcluir() {
 		}
 
 	});
+}
+
+function marcarTodosUsuarioRecursoSelecao() {
+		$("input[name='codigoRecurso[]']").each(function() {
+
+			if ($("#btSelecionarTodosRecursos").is(":checked")) {
+				$(this).attr("checked", "checked");
+			} else {
+				$(this).removeAttr("checked");
+
+			}
+
+		});
 }
