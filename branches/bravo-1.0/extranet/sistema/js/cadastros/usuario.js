@@ -252,6 +252,67 @@ $(function($) {
 			});
 	});
 	
+	$("a[name=vincularUsuarioRecurso]").click(function (event){
+		event.preventDefault();
+		$("#formularioVincularUsuarioRecurso").load("inc/cadastros/usuario_form_recurso.php?codigoUsuario="+$(this).attr("id"));
+		$("#formularioVincularUsuarioRecurso").dialog({
+			autoOpen: true,
+			height: 500,
+			width: 600,
+			modal: true,
+			resizable: false,
+			title: "Vincular Usuario Recurso",
+			buttons: {
+				"Salvar": function() {
+																	
+					var codigoUsuario = $("#codigoUsuario").val();				
+					var codigoRecurso = new Array();
+					
+					//pega valores selecionados
+					$("input[type=checkbox][name='codigoRecurso[]']:checked").each(function(){
+						codigoRecurso.push($(this).val());
+					});	
+											
+					$.post("inc/cadastros/usuario_recurso.php", {codigoUsuario: codigoUsuario, codigoRecurso: codigoRecurso}, function(resposta) {
+																																																																																																											
+					if (resposta != false) {
+						$("<p>" + resposta + "</p>").dialog({
+						modal: true,
+						resizable: false,
+						title: "Aten&ccedil;&atilde;o",
+						buttons: {
+							Ok: function() {
+								$(this).dialog("close");
+							}
+						}
+						});
+					}else{		
+						$("<p>Vinculo efetuado com sucesso!</p>").dialog({
+						modal: true,
+						resizable: false,
+						title: "Aten&ccedil;&atilde;o",
+						buttons: {
+							Ok: function() {
+								$("#formularioVincularUsuarioRecurso").dialog("close");
+								$(this).dialog("close");
+								$(window.document.location).attr('href','inicio.php?pg=usuario');
+							}
+						}
+						});																											
+					}
+				});
+											
+			},
+			"Cancelar": function() {
+				$(this).dialog("close");
+			}
+			},
+			close: function() {
+				$("#grid").load("inc/cadastros/usuario_grid.php");									
+			}
+			});
+	});
+	
 	$("#adicionarUsuario")
 	    .button()
 		.click(function() {
