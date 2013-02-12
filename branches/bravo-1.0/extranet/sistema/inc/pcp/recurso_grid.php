@@ -7,7 +7,7 @@
 	
 	$paging->table('tb_pcp_recurso');
 	$paging->where('CO_PCP_RECURSO = "'.$searchfor.'" OR NO_RECURSO LIKE "%'.$searchfor.'%" AND FL_DELET IS NULL');
-	$paging->labels('C�digo,Nome,Descri��o');
+	$paging->labels('Código,Nome,Descrição');
 	$paging->fields('CO_PCP_RECURSO,CO_RECURSO,NO_RECURSO');
 	$paging->cols_width('60,120');
 	$paging->rowsperpage(30);
