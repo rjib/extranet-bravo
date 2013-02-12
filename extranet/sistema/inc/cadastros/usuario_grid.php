@@ -9,7 +9,7 @@
 	$paging->where('USUARIO.CO_USUARIO = "'.$searchfor.'" OR PESSOA_FISICA.CPF_PESSOA_FISICA LIKE "%'.$searchfor.'%" OR PESSOA.NO_PESSOA LIKE "%'.$searchfor.'%" OR PAPEL.NO_PAPEL LIKE "%'.$searchfor.'%"');
 	$paging->labels('Código,Data Cadastro,CPF,Nome,Papel');
 	$paging->fields('USUARIO.CO_USUARIO,DT_CADAS,CPF_PESSOA_FISICA,PESSOA.NO_PESSOA,PAPEL.NO_PAPEL');
-	$paging->cols_width('60,120,120');
+	$paging->cols_width('60,100,120,250,120');
 	$paging->rowsperpage(30);
 	$paging->page(isset($_GET['p']) ? $_GET['p'] : 1);
 	

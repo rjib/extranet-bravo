@@ -63,8 +63,8 @@
 		                          <td align="left"><input title="Data/Hora" name="dataCadastro" type="text" class="INPUT01" size="20" value="<?php echo $rowUsuario['DT_CADAS']; ?>" disabled="disabled"/></td>
     </tr>
 		                        <tr>
-		                          <td width="478" align="left"><font class="FONT04"><b>Pessoa:</b></font></td>
-		                          <td align="left"><input title="Nome" name="nomeUsuarioAlterar" id="nomeUsuarioAlterar" type="text" class="INPUT01" size="80" maxlength="80" value="<?php echo $rowUsuario['NOME_PESSOA']; ?>" disabled="disabled"/></td>
+		                          <td width="338" align="left"><font class="FONT04"><b>Pessoa:</b></font></td>
+		                          <td align="left"><input title="Nome" name="nomeUsuarioAlterar" id="nomeUsuarioAlterar" type="text" class="INPUT01" size="60" maxlength="80" value="<?php echo $rowUsuario['NOME_PESSOA']; ?>" disabled="disabled"/></td>
 	                          </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Papel:</b></font></td>
@@ -84,7 +84,7 @@
 	                          </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Login:</b></font></td>
-		                          <td width="105" align="left"><input title="Login" name="loginUsuarioAlterar" id="loginUsuarioAlterar" type="text" class="INPUT01" size="20" maxlength="20" value="<?php echo $rowUsuario['LG_USUARIO']; ?>"/></td>
+		                          <td width="974" align="left"><input title="Login" name="loginUsuarioAlterar" id="loginUsuarioAlterar" type="text" class="INPUT01" size="20" maxlength="20" value="<?php echo $rowUsuario['LG_USUARIO']; ?>"/></td>
 	                          </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Status:</b></font></td>
