@@ -15,7 +15,7 @@ $("#boxEtiquetaPecaCasadeiStep1")
 				{
 					autoOpen : false,
 					height : 250,
-					width : 550,
+					width : 570,
 					modal : true,
 					resizable : false,
 					title : "Etiqueta Peca Casadei",
@@ -76,7 +76,7 @@ $("#boxEtiquetaPecaStep2")
 				{
 					autoOpen : false,
 					height : 250,
-					width : 550,
+					width : 570,
 					modal : true,
 					resizable : false,
 					title : "Etiqueta Peca (PI)",
@@ -116,7 +116,7 @@ $("#boxEtiquetaPecaStep3")
 				{
 					autoOpen : false,
 					height : 275,
-					width : 550,
+					width : 570,
 					modal : true,
 					resizable : false,
 					title : "Etiqueta de Pacote",
