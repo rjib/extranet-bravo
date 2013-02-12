@@ -138,7 +138,10 @@ if($acoes['NO_MODULO'] == PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE){
  </div>
   <div id="temp" style="display: none;"> <p align="center">
  </div>
- <div id="boxDivergencias" style="display: none;"></div>
+ 
+ <div id="boxDivergencias" style="display: none;"></div> 
+ <div id="boxConfirmaQuantidade" style="display: none;"></div>
+ 
  <div id="boxFinishi" style="text-align: center; display: none;"> <img src='img/tick-icon.gif'/> Operação realizada com sucesso.</div>
  
  <!-- BOX ERRO DE LOTE -->

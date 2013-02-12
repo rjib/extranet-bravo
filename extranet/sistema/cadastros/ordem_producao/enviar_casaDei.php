@@ -13,6 +13,7 @@ if(isset($_POST['co_pcp_ad'])){
 	
 	$co_pcp_ad  = $_POST['co_pcp_ad'];
 	$no_pcp_ad  = $_POST['no_pcp_ad'];
+	$co_pcp_op  = $_POST['co_pcp_op'];
 	$ano		= date("Y");
 	
 	$_helper 	 = new helper();
@@ -24,14 +25,34 @@ if(isset($_POST['co_pcp_ad'])){
 	$_adPeca     = new tb_pcp_ad($conexaoERP);
 	$co_pcp_ac = $_acModel->insertReturnId($co_pcp_ad);
 	
-	$ops    = $_pecaAd->getCodigoOP($co_pcp_ad);
-	while ($rows = mysql_fetch_array($ops)){ //lista de ordens de producao
+	$ops = array();
+	for($i=0; $i<count($co_pcp_op); $i++){
+		$a = explode("-", $co_pcp_op[$i]);
+		array_push($ops, $a);
+	}
+
+	
+	for($i=0; $i<count($ops); $i++){ //lista de ordens de producao
+		//$ops[indice][op][valor]
+		$result1   = $_opModel->getCoProduto($ops[$i][0]);
+	
+		$quantidade_final = $result1['QTD_PROCESSADA'] +$ops[$i][1];
+	
+		if($quantidade_final >$result1['QTD_PRODUTO']){ //interrompe execução caso alguma quantidade ultrapasse o limite
+			echo json_encode($data);
+			exit;
+		}
+	}
+	
+	for($i=0; $i<count($ops); $i++){ //lista de ordens de producao
+		//$ops[indice][op][valor]		
+		$result1   = $_opModel->getCoProduto($ops[$i][0]);
 		
-		$result1   = $_opModel->getCoProduto($rows['CO_PCP_OP']);
-		$result2   = $_opModel->getParametrosCasadei($rows['CO_PCP_OP'], $result1['CO_PRODUTO']);		
-		$_pecasModel->insert($rows['CO_PCP_OP'],$result2['CO_COR'], 1, $result2['NU_COMPRIMENTO'], $result2['NU_LARGURA'], $result2['NU_ESPESSURA'], $result1['QTD_PROCESSADA'], $result2['CO_INT_PRODUTO'], $co_pcp_ac);
-		$processada =  $result1['QTD_PROCESSADA']+$result1['QTD_PROCESSADA_ATUAL'];
-		$_opModel->atualizaProcessadoComQuantidade($rows['CO_PCP_OP'],$processada);
+		$quantidade_final = $result1['QTD_PROCESSADA'] +$ops[$i][1];
+		
+		$result2   = $_opModel->getParametrosCasadei($ops[$i][0], $result1['CO_PRODUTO']);		
+		$_pecasModel->insert($ops[$i][0],$result2['CO_COR'], 1, $result2['NU_COMPRIMENTO'], $result2['NU_LARGURA'], $result2['NU_ESPESSURA'], $quantidade_final, $result2['CO_INT_PRODUTO'], $co_pcp_ac);
+		$_opModel->atualizaProcessadoComQuantidade($ops[$i][0],$quantidade_final);
 		
 	}
 	

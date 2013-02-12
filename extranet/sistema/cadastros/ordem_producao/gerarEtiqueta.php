@@ -25,30 +25,47 @@ $data=false;
 if($gerouEtiqueta == 0){//se nao tiver gerado etiqueta
 	
 	while($PECA = mysql_fetch_array($row)){	
-		$comprimento_menor 					  = false;
+		$fator  = 1;
+		$fatorl = 1;
 		$ORDEM_PRODUCAO     				  = $_op->getProduto($PECA['CO_PCP_OP']);	
 		$qtd_peca_por_pilha 				  = floor(MAX_PILHA/$ORDEM_PRODUCAO['NU_ESPESSURA']);
 		$tmp_empilhamento_maximo_diferenciado = $qtd_peca_por_pilha;
 		$qtd_etiqueta 						  = 1;
-		if($ORDEM_PRODUCAO['NU_COMPRIMENTO']<=300){
-			$tmp_empilhamento_maximo_diferenciado = $qtd_peca_por_pilha*4;
-			$comprimento_menor = true;
+		if($ORDEM_PRODUCAO['NU_COMPRIMENTO']>=238){
+			$fator = 1;
 			
-		}elseif($ORDEM_PRODUCAO['NU_COMPRIMENTO']>300 && $ORDEM_PRODUCAO['NU_COMPRIMENTO']<=600){
-			$tmp_empilhamento_maximo_diferenciado = $qtd_peca_por_pilha*2;
-			$comprimento_menor = true;
+		}elseif($ORDEM_PRODUCAO['NU_COMPRIMENTO']>=100 && $ORDEM_PRODUCAO['NU_COMPRIMENTO']<238){
+			$fator = 2;			
+			
+		}elseif($ORDEM_PRODUCAO['NU_COMPRIMENTO']>=56 && $ORDEM_PRODUCAO['NU_COMPRIMENTO']<100){
+			$fator = 4;			
+			
+		}elseif($ORDEM_PRODUCAO['NU_COMPRIMENTO']<56){
+			$fator = 8;			
 			
 		}
 		
-		if($ORDEM_PRODUCAO['NU_LARGURA']<=300 && $comprimento_menor ==false){
-			$tmp_empilhamento_maximo_diferenciado = $qtd_peca_por_pilha*4;
-			$comprimento_menor = false;
+		//LARGURA
+		if($ORDEM_PRODUCAO['NU_LARGURA']>=238){
+			$fatorl = 1;
 				
-		}elseif($ORDEM_PRODUCAO['NU_LARGURA']>300 && $ORDEM_PRODUCAO['NU_LARGURA']<=600 && $comprimento_menor ==false){
-			$tmp_empilhamento_maximo_diferenciado = $qtd_peca_por_pilha*2;
-			$comprimento_menor = false;
+		}elseif($ORDEM_PRODUCAO['NU_LARGURA']>=100 && $ORDEM_PRODUCAO['NU_LARGURA']<238){
+			$fatorl = 2;
+				
+		}elseif($ORDEM_PRODUCAO['NU_LARGURA']>=56 && $ORDEM_PRODUCAO['NU_LARGURA']<100){
+			$fatorl = 4;
+				
+		}elseif($ORDEM_PRODUCAO['NU_LARGURA']<56){
+			$fatorl = 8;
 				
 		}
+		
+		//PEGAR MAIOR
+		if($fator<$fatorl){
+			$fator = $fatorl;
+		}
+		
+		$tmp_empilhamento_maximo_diferenciado = $qtd_peca_por_pilha*$fator;
 		
 		
 		if($PECA['QTD_PECAS'] <= $tmp_empilhamento_maximo_diferenciado){ // se a quantidade total de peças for inferior ao empilhamento maximo insere apenas uma etiqueta
@@ -64,9 +81,11 @@ if($gerouEtiqueta == 0){//se nao tiver gerado etiqueta
 						, $ORDEM_PRODUCAO['NU_COMPRIMENTO']
 						, $ORDEM_PRODUCAO['NU_LARGURA']
 						, $ORDEM_PRODUCAO['NU_ESPESSURA']
+						, $PECA['NU_ESPESSURA']
 						, $PECA['CO_PCP_AC']
 						, $ORDEM_PRODUCAO['TP_PRODUTO']
-						, $ORDEM_PRODUCAO['NO_COR']);
+						, $ORDEM_PRODUCAO['NO_COR']
+						,$fator);
 				
 			}catch (Exception $e){
 				$_etiqueta->delete($co_pcp_ac);
@@ -99,9 +118,10 @@ if($gerouEtiqueta == 0){//se nao tiver gerado etiqueta
 									, $ORDEM_PRODUCAO['NU_COMPRIMENTO']
 									, $ORDEM_PRODUCAO['NU_LARGURA']
 									, $ORDEM_PRODUCAO['NU_ESPESSURA']
+									, $PECA['NU_ESPESSURA']
 									, $PECA['CO_PCP_AC']
 									, $ORDEM_PRODUCAO['TP_PRODUTO']
-									, $ORDEM_PRODUCAO['NO_COR']);
+									, $ORDEM_PRODUCAO['NO_COR'],$fator);
 						}else{
 							$_etiqueta->insert(
 									$ORDEM_PRODUCAO['NUM_OP']
@@ -114,9 +134,10 @@ if($gerouEtiqueta == 0){//se nao tiver gerado etiqueta
 									, $ORDEM_PRODUCAO['NU_COMPRIMENTO']
 									, $ORDEM_PRODUCAO['NU_LARGURA']
 									, $ORDEM_PRODUCAO['NU_ESPESSURA']
+									, $PECA['NU_ESPESSURA']
 									, $PECA['CO_PCP_AC']
 									, $ORDEM_PRODUCAO['TP_PRODUTO']
-									, $ORDEM_PRODUCAO['NO_COR']);
+									, $ORDEM_PRODUCAO['NO_COR'],$fator);
 						}
 					}else{
 						$_etiqueta->insert(
@@ -130,9 +151,10 @@ if($gerouEtiqueta == 0){//se nao tiver gerado etiqueta
 								, $ORDEM_PRODUCAO['NU_COMPRIMENTO']
 								, $ORDEM_PRODUCAO['NU_LARGURA']
 								, $ORDEM_PRODUCAO['NU_ESPESSURA']
+								, $PECA['NU_ESPESSURA']
 								, $PECA['CO_PCP_AC']
 								, $ORDEM_PRODUCAO['TP_PRODUTO']
-								, $ORDEM_PRODUCAO['NO_COR']);
+								, $ORDEM_PRODUCAO['NO_COR'],$fator);
 					}
 					
 				}catch (Exception $e){

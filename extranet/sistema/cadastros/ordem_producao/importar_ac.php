@@ -196,14 +196,14 @@ if(isset($_POST['co_pcp_ad'])){
 						## FIM CONTABILIZAR
 
 						if($total >= $processadas){
-							$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $qtPeca, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+							$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $arrayDadosCorte[$i]['nu_comprimento'], $arrayDadosCorte[$i]['nu_largura'], $arrayDadosCorte[$i]['nu_espessura'], $qtPeca, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 							$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas);
 
 						}else{
 
 							$diferenca = $processadas-$total;
 
-							$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $dif2, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+							$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $arrayDadosCorte[$i]['nu_comprimento'], $arrayDadosCorte[$i]['nu_largura'], $arrayDadosCorte[$i]['nu_espessura'], $dif2, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 							$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $dif2+$co_pcp_op[2]);
 
 
@@ -215,7 +215,7 @@ if(isset($_POST['co_pcp_ad'])){
 								if($diferenca<=$co_pcp_op[1]){
 									array_push($divergencias, $co_pcp_op[0]);//lista os produtos divergentes
 									$divergencias = array_unique($divergencias);
-									$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $diferenca, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+									$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $arrayDadosCorte[$i]['nu_comprimento'], $arrayDadosCorte[$i]['nu_largura'], $arrayDadosCorte[$i]['nu_espessura'], $diferenca, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 									$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $diferenca);
 									$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 								}else{
@@ -317,21 +317,21 @@ if(isset($_POST['co_pcp_ad'])){
 
 										$temp = $processadas - ($co_pcp_op[1]-$co_pcp_op[3]);
 										$processadas = $processadas - $temp;
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $arrayDadosCorte[$i]['nu_comprimento'], $arrayDadosCorte[$i]['nu_largura'], $arrayDadosCorte[$i]['nu_espessura'], $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$continue = true;
 
 									}elseif (($processadas+$co_pcp_op[3]) <$co_pcp_op[1]){
 										$processadas = $processadas+$co_pcp_op[3];
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $arrayDadosCorte[$i]['nu_comprimento'], $arrayDadosCorte[$i]['nu_largura'], $arrayDadosCorte[$i]['nu_espessura'], $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$temp = 0;
 										$continue = false;
 									}elseif(($processadas+$co_pcp_op[3]) == $co_pcp_op[1]){
 										$processadas = $processadas+$co_pcp_op[3];
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $arrayDadosCorte[$i]['nu_comprimento'], $arrayDadosCorte[$i]['nu_largura'], $arrayDadosCorte[$i]['nu_espessura'], $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas);
 										$temp = 0;
@@ -404,20 +404,20 @@ if(isset($_POST['co_pcp_ad'])){
 										$temp = $processadas - ($co_pcp_op[1]-$co_pcp_op[3]);
 										$dif3 = $co_pcp_op[1]-$co_pcp_op[3];
 										$processadas = $processadas - $temp;
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $dif3, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $arrayDadosCorte[$i]['nu_comprimento'], $arrayDadosCorte[$i]['nu_largura'], $arrayDadosCorte[$i]['nu_espessura'], $dif3, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $dif3+$co_pcp_op[3]);
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$continue = true;
 											
 									}elseif (($processadas+$co_pcp_op[3]) <$co_pcp_op[1]){
 										//$processadas = $processadas+$co_pcp_op[3];
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $arrayDadosCorte[$i]['nu_comprimento'], $arrayDadosCorte[$i]['nu_largura'],$arrayDadosCorte[$i]['nu_espessura'], $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas+$co_pcp_op[3]);
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$temp = 0;
 										$continue = false;
 									}elseif(($processadas+$co_pcp_op[3]) == $co_pcp_op[1]){										
-										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $nu_comprimento, $nu_largura, $nu_espessura, $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
+										$_pecasModel->insert($co_pcp_op[0],$co_cor, $nu_schema, $arrayDadosCorte[$i]['nu_comprimento'], $arrayDadosCorte[$i]['nu_largura'], $arrayDadosCorte[$i]['nu_espessura'], $processadas, $arrayDadosCorte[$i]['co_int_produto'], $co_pcp_ac);
 										$processadas = $processadas+$co_pcp_op[3];
 										$_adPecaModel->insert($co_pcp_ad, $co_pcp_op[0]);
 										$_opModel->atualizaProcessadoComQuantidade($co_pcp_op[0], $processadas);

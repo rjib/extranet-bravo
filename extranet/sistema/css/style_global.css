@@ -327,6 +327,9 @@ INPUT.BOTAO{
 	cursor:auto !important;
 		
 }
+.bg_yellow{
+	background-color: #FFF8DC;
+}
 
 table.tablesorter thead tr .header {
 	background-image: url(../img/bg.gif);

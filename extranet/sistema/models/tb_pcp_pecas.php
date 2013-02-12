@@ -115,7 +115,8 @@ class tb_pcp_pecas{
 					sum(qtd_pecas) QTD_PECAS, 
 					PCP_PECA.CO_PCP_OP, 
 					PCP_PECA.CO_PCP_AC,
-					PCP_PECA.CO_INT_PRODUTO
+					PCP_PECA.CO_INT_PRODUTO,
+					PCP_PECA.NU_ESPESSURA
 				   from tb_pcp_ac PCP_AC inner join tb_pcp_ac_peca PCP_PECA
 				  on PCP_AC.co_pcp_ac = PCP_PECA.co_pcp_ac 
 				   where co_pcp_ad = ".$co_pcp_ad. " group by co_pcp_op order by PCP_PECA.co_int_produto asc";
