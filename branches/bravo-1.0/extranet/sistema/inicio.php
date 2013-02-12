@@ -194,6 +194,13 @@
 	}elseif($pg	== "apontamento_alt" && !$sub){
 	    $inicio	= "cadastros/pcp/apontamento_alt.php";
 	
+	}elseif($pg	== "apontamento_job" && !$sub){
+	    $inicio	= "cadastros/pcp/apontamento_job.php";
+	}elseif($pg	== "apontamento_job_ins" && !$sub){
+	    $inicio	= "cadastros/pcp/apontamento_job_ins.php";
+	}elseif($pg	== "apontamento_job_alt" && !$sub){
+	    $inicio	= "cadastros/pcp/apontamento_job_alt.php";
+	
 	}elseif($pg	== "motivo_parada" && !$sub){
 	    $inicio	= "cadastros/pcp/motivo_parada.php";
 	}elseif($pg	== "motivo_parada_ins" && !$sub){
