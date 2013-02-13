@@ -296,3 +296,11 @@ function gerarEtiquetaPecaPI(co_pcp_ad) {
 			"menubar=0,resizable=1,width=410,height=500,location=0");
 
 }
+//gerarLista PIs
+function gerarLista(co_pcp_ad,no_pcp_ad) {
+
+	window.open('ireport/pcp/pcp_lista_pi.php?ad='
+			+ co_pcp_ad+'&job='+no_pcp_ad, "Lista PIs",
+			"menubar=0,directories=0,titlebar=1,resizable=1,width=1000,height=700,location=0");
+
+}
