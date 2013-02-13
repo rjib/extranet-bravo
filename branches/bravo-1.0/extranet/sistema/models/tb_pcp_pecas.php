@@ -124,5 +124,42 @@ class tb_pcp_pecas{
 		return $result;
 		
 	}
+	
+	/**
+	 * Metodo para buscar dados para geração das listas de Pis
+	 * @param int $co_pcp_ad
+	 * @author Ricardo S. Alvarenga
+	 * @since 10/12/2012
+	 */
+	public function getListaPi($co_pcp_ad){
+		$query = "SELECT 
+					    PCP_PRODUTO.CO_INT_PRODUTO,
+					    PCP_PRODUTO.DS_PRODUTO,
+					    PCP_COR.NO_COR,
+					    PCP_PRODUTO.NU_COMPRIMENTO,
+					    PCP_PRODUTO.NU_LARGURA,
+					    PCP_PRODUTO.NU_ESPESSURA,
+					    PCP_PRODUTO.CO_COR,
+						PCP_OP.NU_LOTE,
+						PCP_COR.DS_COR,
+						PCP_PECA.QTD_PECAS
+					FROM
+					    tb_pcp_ac_peca AS PCP_PECA
+					        INNER JOIN
+					    TB_PCP_OP AS PCP_OP ON PCP_PECA.CO_PCP_OP = PCP_OP.CO_PCP_OP
+					        INNER JOIN
+					    TB_PCP_PRODUTO AS PCP_PRODUTO ON PCP_PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
+					        INNER JOIN
+					    TB_PCP_COR AS PCP_COR ON PCP_COR.CO_COR = PCP_PRODUTO.CO_COR
+					WHERE
+					    PCP_PECA.co_pcp_ac IN (SELECT 
+					            co_pcp_ac
+					        FROM
+					            tb_pcp_ac
+					        WHERE
+					            co_pcp_ad = ".$co_pcp_ad.")";
+		$result = mysql_query($query, $this->conexaoERP);
+		return $result;
+	}
 }
 ?>
