@@ -1,72 +1,72 @@
 <?php
-/**
- * Constantes do sistema
- * @author Ricardo S. Alvarenga
- **/
-define('URL', 'http://localhost/extranet-bravo/extranet/');
-define ('DS', DIRECTORY_SEPARATOR);
-define ('APP_PATH',realpath(dirname(__FILE__).DS.'..').DS);
-define('DIMENSAO_MINIMA', 240);
-define('MAX_PILHA',1350);
-define('DSN','localhost');
-define('USER','root');
-define('PASS','');
-define('PAINEL_900X600', 900);
-define('PAINEL_1600X600', 1600);
-define('PAINEL_2400X600', 2400);
 
-
-//MODULOS PRINCIPAIS
-define('CONTROLE_DE_ACESSO', 'Controle de Acesso');
-define('CADASTROS', 'Cadastros');
-define('PCP', 'PCP');
-define('TIPOS', 'Tipos');
-define('RELATORIOS', 'Relatórios');
-define('CONFIGURACOES', 'Configurações');
-
-
-//SUBMODULOS
-define('CONTROLE_DE_ACESSO_VISITANTE', 'Visitantes');
-define('CONTROLE_DE_ACESSO_CONSULTORES', 'Prestador de Serviço');
-
-define('CADASTROS_BAIRROS', 'Bairros');
-define('CADASTROS_CARGOS', 'Cargos');
-define('CADASTROS_CARTAO_IDENTIFICACAO', 'Cartão Identificação');
-define('CADASTROS_CEP', 'CEPs');
-define('CADASTROS_CIDADE', 'Cidades');
-define('CADASTROS_COLABORADORES', 'Colaboradores');
-define('CADASTROS_CONSULTORES', 'Prestador de Serviço');
-define('CADASTROS_ESTADOS', 'Estados');
-define('CADASTROS_ESTADO_CIVIL', 'Estado Civil');
-define('CADASTROS_NIVEL_DE_FORMACAO', 'Nível de Formação');
-define('CADASTROS_NACIONALIDADE', 'Nacionalidade');
-define('CADASTROS_PESSOAS', 'Pessoas');
-define('CADASTROS_SETORES', 'Setores');
-define('CADASTROS_USUARIOS', 'Usuários');
-
-define('PCP_GERAR_PLANO_DE_CORTE', 'Gerar Plano de Corte');
-define('PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE', 'Importar Plano de Corte Optisave');
-define('PCP_LISTA_DE_CORES', 'Lista de Cores');
-define('PCP_ORDEM_DE_PRODUCAO', 'Ordem de Produção');
-define('PCP_APONTAMENTO', 'Apontamento');
-define('PCP_APONTAMENTO_JOB', 'Apontamento Job');
-define('PCP_MOTIVO_PARADA', 'Motivo Parada');
-define('PCP_RECURSO', 'Recursos');
-
-define('RELATORIOS_ETIQUETAS', 'Etiquetas');
-define('RELATORIOS_ETIQUETA_CASADEI', 'Etiqueta de Peça (CasaDei)');
-
-define('TIPOS_SANGUINEO', 'Sanguineo');
-define('TIPOS_EMAIL', 'E-mail');
-define('TIPOS_TELEFONE', 'Telefone');
-define('TIPOS_VEICULO', 'Veiculo');
-
-define('CONFIGURACOES_MODULOS', 'Módulos');
-define('CONFIGURACOES_PAPEIS', 'Papel');
-define('CONFIGURACOES_TROCA_SENHA', 'Trocar Senha');
-
-
-//fim alteracao Ricardo S. Alvarenga
+	/**
+	 * Constantes do sistema
+	 * @author Ricardo S. Alvarenga
+	 **/
+	define('URL', 'http://localhost/extranet-bravo/extranet/');
+	define ('DS', DIRECTORY_SEPARATOR);
+	define ('APP_PATH',realpath(dirname(__FILE__).DS.'..').DS);
+	define('DIMENSAO_MINIMA', 240);
+	define('MAX_PILHA',1350);
+	define('DSN','localhost');
+	define('USER','root');
+	define('PASS','');
+	define('PAINEL_900X600', 900);
+	define('PAINEL_1600X600', 1600);
+	define('PAINEL_2400X600', 2400);
+	
+	//MODULOS PRINCIPAIS
+	define('CONTROLE_DE_ACESSO', 'Controle de Acesso');
+	define('CADASTROS', 'Cadastros');
+	define('PCP', 'PCP');
+	define('TIPOS', 'Tipos');
+	define('RELATORIOS', 'Relatórios');
+	define('CONFIGURACOES', 'Configurações');
+	
+	//SUBMODULOS
+	define('CONTROLE_DE_ACESSO_VISITANTE', 'Visitantes');
+	define('CONTROLE_DE_ACESSO_CONSULTORES', 'Prestador de Serviço');
+	
+	define('CADASTROS_BAIRROS', 'Bairros');
+	define('CADASTROS_CARGOS', 'Cargos');
+	define('CADASTROS_CARTAO_IDENTIFICACAO', 'Cartão Identificação');
+	define('CADASTROS_CEP', 'CEPs');
+	define('CADASTROS_CIDADE', 'Cidades');
+	define('CADASTROS_COLABORADORES', 'Colaboradores');
+	define('CADASTROS_CONSULTORES', 'Prestador de Serviço');
+	define('CADASTROS_ESTADOS', 'Estados');
+	define('CADASTROS_ESTADO_CIVIL', 'Estado Civil');
+	define('CADASTROS_NIVEL_DE_FORMACAO', 'Nível de Formação');
+	define('CADASTROS_NACIONALIDADE', 'Nacionalidade');
+	define('CADASTROS_PESSOAS', 'Pessoas');
+	define('CADASTROS_SETORES', 'Setores');
+	define('CADASTROS_USUARIOS', 'Usuários');
+	
+	define('PCP_GERAR_PLANO_DE_CORTE', 'Gerar Plano de Corte');
+	define('PCP_IMPORTAR_PLANO_DE_CORTE_OPTISAVE', 'Importar Plano de Corte Optisave');
+	define('PCP_LISTA_DE_CORES', 'Lista de Cores');
+	define('PCP_ORDEM_DE_PRODUCAO', 'Ordem de Produção');
+	define('PCP_APONTAMENTO', 'Apontamento');
+	define('PCP_APONTAMENTO_JOB', 'Apontamento Job');
+	define('PCP_MOTIVO_PARADA', 'Motivo Parada');
+	define('PCP_MOTIVO_PERDA', 'Motivo Perda');
+	define('PCP_RECURSO', 'Recursos');
+	
+	define('RELATORIOS_ETIQUETAS', 'Etiquetas');
+	define('RELATORIOS_ETIQUETA_CASADEI', 'Etiqueta de Peça (CasaDei)');
+	define('RELATORIOS_ETIQUETA_PI', 'Etiqueta de Peça (PI) por OP');
+	define('RELATORIOS_ETIQUETA_PACOTE', 'Etiqueta de Pacote por OP');
+	
+	define('TIPOS_SANGUINEO', 'Sanguineo');
+	define('TIPOS_EMAIL', 'E-mail');
+	define('TIPOS_TELEFONE', 'Telefone');
+	define('TIPOS_VEICULO', 'Veiculo');
+	
+	define('CONFIGURACOES_MODULOS', 'Módulos');
+	define('CONFIGURACOES_PAPEIS', 'Papel');
+	define('CONFIGURACOES_TROCA_SENHA', 'Trocar Senha');
+	//fim alteracao Ricardo S. Alvarenga
 	
 	
 	header('Content-Type: text/html; charset=utf-8');	

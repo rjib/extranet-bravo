@@ -18,7 +18,7 @@ $(function($) {
 			   
 	$("#formularioApontamento").dialog({
 		autoOpen: false,
-		height: 330,
+		height: 385,
 		width: 670,
 		modal: true,
 		resizable: false,
@@ -26,12 +26,15 @@ $(function($) {
 		buttons: {
 			'Salvar': function() {
 												
-				var dataApontamento   = $("#dataApontamento").val();
-				var codigoRecurso     = $("#codigoRecurso").val();
-				var horaInicioInserir = $("#horaInicioInserir").val();
-				var flagApontamento   = $("#flagApontamento").val();
-				var codigoMotivo      = $("#codigoMotivo").val();
-				var codigoPcpOp       = $("#codigoPcpOp").val();
+				var dataApontamento    = $("#dataApontamento").val();
+				var codigoRecurso      = $("#codigoRecurso").val();
+				var horaInicioInserir  = $("#horaInicioInserir").val();
+				var flagApontamento    = $("#flagApontamento").val();
+				var codigoMotivoParada = $("#codigoMotivoParada").val();
+				var codigoMotivoPerda  = $("#codigoMotivoPerda").val();
+				var codigoPcpOp        = $("#codigoPcpOp").val();
+				var codigoPcpOpPerda   = $("#codigoPcpOpPerda").val();
+				var quantidadePerda    = $("#quantidadePerda").val();
 				
 				if($("input[name='flagApontamentoParada']").is(':checked')){
 					flagApontamento = "1";
@@ -41,7 +44,11 @@ $(function($) {
 					flagApontamento = "2";
 				}
 				
-				$.post('inc/pcp/apontamento_ins.php', {dataApontamento: dataApontamento, codigoRecurso: codigoRecurso, horaInicioInserir: horaInicioInserir, flagApontamento: flagApontamento, codigoMotivo: codigoMotivo, codigoPcpOp: codigoPcpOp}, function(resposta) {
+				if($("input[name='flagApontamentoPerda']").is(':checked')){
+					flagApontamento = "3";
+				}
+				
+				$.post('inc/pcp/apontamento_ins.php', {dataApontamento: dataApontamento, codigoRecurso: codigoRecurso, horaInicioInserir: horaInicioInserir, flagApontamento: flagApontamento, codigoMotivoParada: codigoMotivoParada, codigoMotivoPerda: codigoMotivoPerda, codigoPcpOp: codigoPcpOp, codigoPcpOpPerda: codigoPcpOpPerda, quantidadePerda: quantidadePerda}, function(resposta) {
 																																																																																																				
 						if (resposta != false) {
 							$('<p>' + resposta + '</p>').dialog({
@@ -103,6 +110,54 @@ $(function($) {
 		    $("#grid").load("inc/pcp/apontamento_grid.php");
 			$(window.document.location).attr('href','inicio.php?pg=apontamento');
 		}
+	});
+	
+	$("#confirmaExcluirApontamento").dialog({
+		autoOpen: false,
+		height: 140,
+		modal: true,
+		resizable: false,
+		title: "Excluir Apontamento",
+		buttons: {
+			"Sim": function() {
+					
+				$.get("inc/pcp/apontamento_ex.php", {codigoApontamento: codigoApontamento}, function(resposta) {
+																																																																																																										
+					if(resposta != false){
+						$("<p>" + resposta + "</p>").dialog({
+						modal: true,
+						resizable: false,
+						title: "Aten&ccedil;&atilde;o",
+						buttons: {
+							Ok: function() {
+								$(this).dialog("close");
+								$("#confirmaExcluirApontamento").dialog("close");
+							}
+						}
+						});
+					}else{
+						$("<p>Apontamento excluido com sucesso!</p>").dialog({
+						modal: true,
+						resizable: false,
+						title: "Aten&ccedil;&atilde;o",
+						buttons: {
+							Ok: function() {
+								$(this).dialog("close");
+								$("#confirmaExcluirApontamento").dialog("close");
+							}
+						}
+						});
+					}
+												
+				});
+			},
+			"Nao": function() {
+				$(this).dialog("close");
+			}
+			},
+			close: function() {
+				$("#grid").load("inc/pcp/apontamento_grid.php");
+			}
 	});
 	
 	$("a[name=inserirHoraFimApontamento]").click(function (event){
@@ -172,7 +227,7 @@ $(function($) {
 		$("#formularioDetalhesApontamento").load("inc/pcp/apontamento_form_detalhe.php?codigoApontamento="+$(this).attr("id"));
 		$("#formularioDetalhesApontamento").dialog({
 			autoOpen: true,
-			height: 430,
+			height: 460,
 			width: 730,
 			modal: true,
 			resizable: false,
@@ -201,18 +256,39 @@ $(function($) {
 		.click(function() {
 		$(window.document.location).attr('href','inicio.php?pg=apontamento_job');	
 	});
+	
+	$("a[name=excluirApontamento]").click(function(e){
+		e.preventDefault();
+		codigoApontamento = $(this).attr("id");
+		$("#confirmaExcluirApontamento").dialog("open");
+	});		
 		
 });
 
 function getMotivoParada() {
-	if($.trim($("#nomeMotivo").val()) != ""){
-		if($("#nomeMotivo").val() != null && $("#nomeMotivo").val() != ""){
-		  $.get('inc/pcp/pesquisa_motivo_parada.php', {'nomeMotivo': $("#nomeMotivo").val()}, function(resposta){
+	if($.trim($("#nomeMotivoParada").val()) != ""){
+		if($("#nomeMotivoParada").val() != null && $("#nomeMotivoParada").val() != ""){
+		  $.get('inc/pcp/pesquisa_motivo_parada.php', {'nomeMotivoParada': $("#nomeMotivoParada").val()}, function(resposta){
 			if(resposta){			  			  
-			  $("#codigoMotivo").val(resposta.codigoPcpMotivoParada);
-			  $("#descricaoMotivo").val(resposta.descricaoMotivoParada);
+			  $("#codigoMotivoParada").val(resposta.codigoPcpMotivoParada);
+			  $("#descricaoMotivoParada").val(resposta.descricaoMotivoParada);
 			}else{
 				alert("Motivo Parada não encontrada!");		
+			}
+		  }, 'json');  
+		}
+	}			
+}
+
+function getMotivoPerda() {
+	if($.trim($("#nomeMotivoPerda").val()) != ""){
+		if($("#nomeMotivoPerda").val() != null && $("#nomeMotivoPerda").val() != ""){
+		  $.get('inc/pcp/pesquisa_motivo_perda.php', {'nomeMotivoPerda': $("#nomeMotivoPerda").val()}, function(resposta){
+			if(resposta){			  			  
+			  $("#codigoMotivoPerda").val(resposta.codigoMotivoPerda);
+			  $("#descricaoMotivoPerda").val(resposta.descricaoMotivoPerda);
+			}else{
+				alert("Motivo Perda não encontrada!");		
 			}
 		  }, 'json');  
 		}
@@ -224,12 +300,33 @@ function getOrdemProducao() {
 		if($("#ordemProducao").val() != null && $("#ordemProducao").val() != ""){
 		  $.get('inc/pcp/pesquisa_ordem_producao.php', {'ordemProducao': $("#ordemProducao").val()}, function(resposta){
 			if(resposta){			  			  
-			  $("#codigoPcpOp").val(resposta.codigoPcpOp);
-			  $("#descricaoProduto").val(resposta.descricaoProduto);
-			  $("#loteOp").val(resposta.loteOp);
-			  $("#dataEmissaoOp").val(resposta.dataEmissaoOP);
-				$("#codigoInternoProduto").val(resposta.codigoInterno); 
-				$("#codigoProduto").val(resposta.codigoProduto); 
+			    $("#codigoPcpOp").val(resposta.codigoPcpOp);
+			    $("#descricaoProduto").val(resposta.descricaoProduto);
+			    $("#loteOp").val(resposta.loteOp);
+			    $("#dataEmissaoOp").val(resposta.dataEmissaoOP); 
+				$("#codigoProduto").val(resposta.codigoProduto);
+				$("#codigoInternoProduto").val(resposta.codigoInterno);
+				$("#corProduto").val(resposta.corProduto); 
+			}else{
+				alert("OP não encontrada!");		
+			}
+		  }, 'json');  
+		}
+	}			
+}
+
+function getOrdemProducaoPerda() {
+	if($.trim($("#ordemProducaoPerda").val()) != ""){
+		if($("#ordemProducaoPerda").val() != null && $("#ordemProducaoPerda").val() != ""){
+		  $.get('inc/pcp/pesquisa_ordem_producao_perda.php', {'ordemProducaoPerda': $("#ordemProducaoPerda").val()}, function(resposta){
+			if(resposta){			  			  
+			    $("#codigoPcpOpPerda").val(resposta.codigoPcpOp);
+			    $("#descricaoProdutoPerda").val(resposta.descricaoProduto);
+			    $("#loteOpPerda").val(resposta.loteOp);
+			    $("#dataEmissaoOpPerda").val(resposta.dataEmissaoOP);
+			    $("#codigoProdutoPerda").val(resposta.codigoProduto); 
+				$("#codigoInternoProdutoPerda").val(resposta.codigoInterno); 
+				$("#corProdutoPerda").val(resposta.corProduto); 
 			}else{
 				alert("OP não encontrada!");		
 			}
@@ -245,12 +342,10 @@ function getValidaOrdemProducao(ordemProducao) {
 			if(ordemProducao != $("#ordemProducaoValida").val()){
 				$("#ordemProducaoValida").val("");
 				$("#flagOrdemProducao").val("1");
-				
 				$('#colunaQuantidade01').hide('fast');
 				$('#colunaQuantidade02').hide('fast');
 				$('#colunaHoraFim01').hide('fast');
 				$('#colunaHoraFim02').hide('fast');
-				
 				alert("OP diferente do Apontamento!");	
 			}else{
 				$("#flagOrdemProducao").val("2");
@@ -268,10 +363,17 @@ function getValidaOrdemProducao(ordemProducao) {
 function verificaApontamento(v){
    
    if(v=='1'){		
+        $('#horaInicioTitle').show('fast');
+		$('#horaInicioInserir').show('fast');
 		$('#apontamentoParada').show('fast');
 		$('#apontamentoProducao01').hide('fast');
 		$('#apontamentoProducao02').hide('fast');
 		$('#apontamentoProducao03').hide('fast');
+		$('#apontamentoPerda01').hide('fast');
+		$('#apontamentoPerda02').hide('fast');
+		$('#apontamentoPerda03').hide('fast');
+		$('#apontamentoPerda04').hide('fast');
+		$('#apontamentoPerda05').hide('fast');
 		$("#ordemProducao").val("");
 		$("#codigoPcpOp").val("");
 		$("#descricaoProduto").val("");
@@ -280,19 +382,60 @@ function verificaApontamento(v){
 		$("#codigoProduto").val(""); 
 		$("#loteOp").val("");
 		$("#dataEmissaoOp").val("");
+		$("#ordemProducaoPerda").val("");
+		$("#codigoPcpOpPerda").val("");
+		$("#descricaoProdutoPerda").val("");
+		$("#quantidadeProdutoPerda").val("");
+		$("#codigoInternoProdutoPerda").val(""); 
+		$("#codigoProdutoPerda").val(""); 
+		$("#loteOpPerda").val("");
+		$("#dataEmissaoOpPerda").val("");
 		$("input[name='flagApontamentoProducao']").attr('checked', false);
-		
+		$("input[name='flagApontamentoPerda']").attr('checked', false);
    }else if(v=='2'){
 		$('#apontamentoParada').hide('fast');
+		$('#apontamentoPerda01').hide('fast');
+		$('#apontamentoPerda02').hide('fast');
+		$('#apontamentoPerda03').hide('fast');
+		$('#apontamentoPerda04').hide('fast');
+		$('#apontamentoPerda05').hide('fast');
+		$('#horaInicioTitle').show('fast');
+		$('#horaInicioInserir').show('fast');
 		$('#apontamentoProducao01').show('fast');
 		$('#apontamentoProducao02').show('fast');
 		$('#apontamentoProducao03').show('fast');
 		$("#nomeMotivo").val(""); 
 		$("#codigoMotivo").val(""); 
 		$("#descricaoMotivo").val("")
-
+		$("#ordemProducaoPerda").val("");
+		$("#codigoPcpOpPerda").val("");
+		$("#descricaoProdutoPerda").val("");
+		$("#quantidadeProdutoPerda").val("");
+		$("#codigoInternoProdutoPerda").val(""); 
+		$("#codigoProdutoPerda").val(""); 
+		$("#loteOpPerda").val("");
+		$("#dataEmissaoOpPerda").val("");
 		$("input[name='flagApontamentoParada']").attr('checked', false);
+		$("input[name='flagApontamentoPerda']").attr('checked', false);
 		$("#ordemProducao").focus();
+   }else if(v=='3'){
+	    $('#horaInicioTitle').hide('fast');
+		$('#horaInicioInserir').hide('fast');
+		$('#apontamentoParada').hide('fast');	
+		$('#apontamentoProducao01').hide('fast');
+		$('#apontamentoProducao02').hide('fast');
+		$('#apontamentoProducao03').hide('fast');	
+		$('#apontamentoPerda01').show('fast');
+		$('#apontamentoPerda02').show('fast');
+		$('#apontamentoPerda03').show('fast');
+		$('#apontamentoPerda04').show('fast');
+		$('#apontamentoPerda05').show('fast');
+		$("#nomeMotivo").val(""); 
+		$("#codigoMotivo").val(""); 
+		$("#descricaoMotivo").val("")
+		$("input[name='flagApontamentoParada']").attr('checked', false);
+		$("input[name='flagApontamentoProducao']").attr('checked', false);
+		$("#ordemProducaoPerda").focus();
    }
    
 }
@@ -313,9 +456,5 @@ function verificaApontamento(v){
 	 var consolediv = '#console';					//Div respons�vel por mostrar as mensagens de erro, info etc
 	 var loadmsg = 'Carregando...aguarde';			//Mensagem ou anima��o durante a fase de carregamento
      var searchdiv = '#searching';					//Div utilizada para realizar o search
-     /***** FIM CONFIGURACAO SCRIPT TABLESORTER *****/
-     
-    
-
-     
+     /***** FIM CONFIGURACAO SCRIPT TABLESORTER *****/ 
  

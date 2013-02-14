@@ -1,17 +1,15 @@
 <?php
-	
-	session_start();
-	
+session_start();
     require("../../setup.php");
 
 	class Paging extends Connection{
-		
+	
 		public $s_table 		= ''; 		//String com o nome da tabela
 		public $s_fields		= ''; 		//String com os campos da tabela, separados por v�rgula. Ex: id,name
 		public $s_labels		= ''; 		//String com as labels que ficar�o no cabe�alho da tabela. Ex: ID,Nome
 		public $s_where			= '1'; 		//Claus�la where, se houver
-		public $s_orderby		= 'PCP_APONTAMENTO.CO_PCP_APONTAMENTO'; 	//Campo utilizado para ordena��o inicial
-		public $s_orientation	= 'DESC';	//ASC ou DESC
+		public $s_orderby		= 'NO_MOTIVO_PERDA'; 	//Campo utilizado para ordena��o inicial
+		public $s_orientation	= 'ASC';	//ASC ou DESC
 		public $i_rowsperpage	= 50;		//Limite de registros visualizados por p�gina
 		public $i_page			= 1;		//P�gina atual
 		public $i_link_limit	= 5;		//N�mero de links de p�ginas
@@ -67,36 +65,12 @@
 			$this->i_link_limit = $i_link_limit;
 		}
 		
-		public function getAcoes(){
-						//CONTROLE DE ACESSO ACOES
-			require_once '../../models/tb_modulos.php';
-			
-			$co_papel = $_SESSION['codigoPapel'];
-			$modulos = new tb_modulos(CONEXAOERP);
-			$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO);
-			//FIM CONTROLE DE ACESSO
-			return $acoes;
-				
-		}
-		
 		//Retorna o total de linhas encontradas, usado para montar o n�mero de p�ginas principalmente
 		public function total_rows(){
 			
-			$acoes = $this->getAcoes();
-			if($acoes['FL_EXCLUIR'] == 1 && $acoes['FL_EDITAR'] == 1 && $acoes['FL_ADICIONAR'] == 1){
-			    $sth = $this->dbh->prepare('SELECT COUNT(*) 
-				                            FROM tb_pcp_apontamento PCP_APONTAMENTO
-											AND PCP_APONTAMENTO.FL_DELET IS NULL');
-			}else{
-				$sth = $this->dbh->prepare('SELECT COUNT(*) 
-				                            FROM tb_pcp_apontamento PCP_APONTAMENTO
-				                            WHERE PCP_APONTAMENTO.CO_USUARIO_INICIO = '.$_SESSION['codigoUsuario'].'
-											AND PCP_APONTAMENTO.FL_DELET IS NULL');
-			}
-						
+			$sth = $this->dbh->prepare('SELECT COUNT(*) FROM '.$this->s_table.' WHERE '.$this->s_where);
 			$sth->execute();
 			$row = $sth->fetch(PDO::FETCH_NUM);
-			
 			return $row[0];
 			
 		}
@@ -204,27 +178,20 @@
 			
 		}
 		
-		public function getCodigoInterno($co_pcp_apontamento){
-			
-			$sql = "SELECT PRODUTO.CO_INT_PRODUTO 
-			        FROM TB_PCP_APONTAMENTO APONTAMENTO 
-			            INNER JOIN TB_PCP_OP PCP_OP
-					        ON PCP_OP.CO_PCP_OP = APONTAMENTO.CO_PCP_OP 
-						INNER JOIN TB_PCP_PRODUTO PRODUTO
-					        ON PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
-					WHERE PCP_APONTAMENTO.FL_DELET IS NULL AND APONTAMENTO.CO_PCP_APONTAMENTO = ".$co_pcp_apontamento;
-			
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
-			$row = $sth->fetch(PDO::FETCH_NUM);
-			return $row;
-		}
 		
 		//Imprime a tabela de resultados
 		public function show_table(){
 			
-			$acoes = $this->getAcoes();
-						
+			//CONTROLE DE ACESSO ACOES
+			require_once '../../models/tb_modulos.php';
+				
+			
+			$co_papel = $_SESSION['codigoPapel'];
+			$modulos = new tb_modulos(CONEXAOERP);
+			$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_MOTIVO_PERDA);
+			
+			//FIM CONTROLE DE ACESSO
+			
 			//Guarda o conte�do tempor�rio da tabela
 			$s_html = '';
 			
@@ -242,72 +209,19 @@
 			}
 			
 			//Formula a query
-			if($acoes['FL_EXCLUIR'] == 1 && $acoes['FL_EDITAR'] == 1 && $acoes['FL_ADICIONAR'] == 1){
-				$sql = 'SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
-							, DATE_FORMAT(PCP_APONTAMENTO.DT_APONTAMENTO, "%d/%m/%Y") AS DT_APONTAMENTO
-							, PCP_RECURSO.NO_RECURSO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
-								   ELSE PCP_APONTAMENTO.HR_INICIO
-							  END AS HR_INICIO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
-								   ELSE PCP_APONTAMENTO.HR_FIM
-							  END AS HR_FIM
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "Parada de Maquina"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN "Produção"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "Perda"
-							  END AS FL_APONTAMENTO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "-----"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
-							  END AS NU_OP
-						FROM tb_pcp_apontamento PCP_APONTAMENTO
-							INNER JOIN tb_pcp_recurso PCP_RECURSO
-								ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
-								AND PCP_RECURSO.FL_DELET IS NULL
-							LEFT JOIN tb_pcp_op PCP_OP
-								ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
-						WHERE '.$this->s_where.'
-						AND PCP_APONTAMENTO.FL_DELET IS NULL
-						ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
-						LIMIT '.$n.','.$this->i_rowsperpage;
-			}else{
-				$sql = 'SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
-							, DATE_FORMAT(PCP_APONTAMENTO.DT_APONTAMENTO, "%d/%m/%Y") AS DT_APONTAMENTO
-							, PCP_RECURSO.NO_RECURSO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
-								   ELSE PCP_APONTAMENTO.HR_INICIO
-							  END AS HR_INICIO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
-								   ELSE PCP_APONTAMENTO.HR_FIM
-							  END AS HR_FIM
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "Parada de Maquina"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN "Produção"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "Perda"
-							  END AS FL_APONTAMENTO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "-----"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
-							  END AS NU_OP
-						FROM tb_pcp_apontamento PCP_APONTAMENTO
-							INNER JOIN tb_pcp_recurso PCP_RECURSO
-								ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
-								AND PCP_RECURSO.FL_DELET IS NULL
-							LEFT JOIN tb_pcp_op PCP_OP
-								ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
-						WHERE '.$this->s_where.'
-						AND PCP_APONTAMENTO.CO_USUARIO_INICIO = '.$_SESSION['codigoUsuario'].'
-						AND PCP_APONTAMENTO.FL_DELET IS NULL
-						ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
-						LIMIT '.$n.','.$this->i_rowsperpage;
-			}
-			
+			$sql = '
+				SELECT '.$this->s_fields.' 
+				FROM '.$this->s_table.' 
+				WHERE '.$this->s_where.'
+				ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
+				LIMIT '.$n.','.$this->i_rowsperpage;
+				
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			
-			$s_html .= '<script type="text/javascript" src="js/pcp/apontamento.js"></script>
-			            <div id="confirmaExcluirApontamento"><p>Deseja realmente excluir esse registro?</p></div>
-						<div id="formularioInserirHoraFimApontamento"></div>
-						<div id="formularioDetalhesApontamento"></div>';
+			$s_html .= '<script type="text/javascript" src="js/pcp/motivo_perda.js"></script>
+						<div id="confirmaExcluirMotivoPerda"><p>Deseja realmente excluir esse registro?</p></div>
+						<div id="formularioAlterarMotivoPerda"></div>';
 			
 			//Cria o cabe�alho da tabela
 			$s_html .= '<table width="1003" border="0" cellpadding="3" cellspacing="2" class="LISTA"><thead><tr>';
@@ -322,7 +236,7 @@
 				
 			}
 			
-			$s_html .= '<th align="center" width="110">Ações</th>';
+			$s_html .= '<th align="center" width="60">Ações</th>';
 			
 			$s_html .= '</tr></thead><tbody>';
 			
@@ -335,37 +249,24 @@
 					$s_html .= '<tr>';
 					
 					for($i = 0; $i < $a_cells[0]; $i++){
-					    
-						$s_html .= '<td>'.$row[$i].'</td>';
-												
+						
+						if($i == 1){
+							list ($dia, $mes, $ano, $hora, $min, $seg) = split ('[-. .:]', utf8_encode($row[$i]));
+							$dataCadastro = $ano."-".$mes."-".$dia." ".$hora.":".$min.":".$seg;
+							$s_html .= '<td>'.$dataCadastro.'</td>';
+						}else{
+							$s_html .= '<td>'.utf8_encode($row[$i]).'</td>';
+						}
+						
 					}
 					
 					$s_html .= '<td align="center">';
-					
-					if($row[4] == ""){
-						if($acoes['FL_ADICIONAR']==1){
-					   		$s_html .= '<a title="Informar Hora Fim" href="#" name="inserirHoraFimApontamento" id="'.$row[0].'"><img src="img/btn/btn_clock.gif" width="25" height="19" border="0"/></a>';
-						}
-						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
-					}else{
-						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
-						if($row[5]=="Produção"){
-							
-							$s_html .= '<a title="Etiqueta de Peça (Casadei)" href="#" onClick="javascript:gerarEtiquetaPeca('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta1.gif" width="25" height="19" border="0"/></a>';
-							$s_html .= '<a title="Etiqueta de Peça (PI)" href="#" onClick="javascript:gerarEtiquetaPeca2('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta2.gif" width="25" height="19" border="0"/></a>';
-							$codigo_interno = $this->getCodigoInterno($row[0]);
-							$filename = APP_PATH.'sistema'.DS.'desenhos_producao'.DS.$codigo_interno[0].'.pdf';
-							if(file_exists($filename)){
-								$s_html .= '<a title="Desenho da Peça('.$codigo_interno[0].')" href="#" onClick="javascript:getDesenhoPeca(\'C1033\');" name="desenhoPeca" id="'.$row[0].'"><img src="img/pencil_ruler.png" width="25" height="19" border="0"/></a>';
-							}
-							
-						}
-					}
-					
 					if($acoes['FL_EXCLUIR']==1){
-					    $s_html .= '<a title="Excluir" href="#" name="excluirApontamento" id="'.$row[0].'"><img src="img/btn/btn_excluir.gif" width="25" height="19" border="0"/></a>';
+					$s_html .= '<a title="Excluir" href="#" name="excluirMotivoPerda" id="'.$row[0].'"><img src="img/btn/btn_excluir.gif" width="25" height="19" border="0"/></a>';
 					}
-					
+					if($acoes['FL_EDITAR']==1){
+					$s_html .= '<a title="Editar" href="#" name="alterarMotivoPerda" id="'.$row[0].'"><img src="img/btn/btn_editar.gif" width="25" height="19" border="0"/></a>';
+					}
 					$s_html .= '</td>';
 					
 					$s_html .= '</tr>';
