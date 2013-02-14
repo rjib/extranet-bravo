@@ -22,7 +22,7 @@
 	
         $sqlApontamento = mysql_query("SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO 
 		                                   , PCP_RECURSO.NO_RECURSO
-								           , PCP_APONTAMENTO.HR_INICIO
+										   , PCP_APONTAMENTO.HR_INICIO
 										   , CASE WHEN FL_APONTAMENTO = '1' THEN 'Parada de Maquina'
 												  WHEN FL_APONTAMENTO = '2' THEN 'Produção'
 											 END AS FL_APONTAMENTO
@@ -35,6 +35,8 @@
 										   LEFT JOIN tb_pcp_op PCP_OP
 											   ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
 									   WHERE PCP_APONTAMENTO.HR_FIM IS NULL
+									   AND PCP_APONTAMENTO.FL_APONTAMENTO IN('1','2')
+									   AND PCP_APONTAMENTO.FL_DELET IS NULL
 									   LIMIT 10")
 	    or die("<script>
 			        alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
@@ -59,6 +61,8 @@
 											   ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
 									   WHERE PCP_APONTAMENTO.HR_FIM IS NULL
 									   AND PCP_APONTAMENTO.CO_USUARIO_INICIO = '".$_SESSION['codigoUsuario']."'
+									   AND PCP_APONTAMENTO.FL_APONTAMENTO IN('1','2')
+									   AND PCP_APONTAMENTO.FL_DELET IS NULL
 									   LIMIT 10")
 	    or die("<script>
 			        alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');

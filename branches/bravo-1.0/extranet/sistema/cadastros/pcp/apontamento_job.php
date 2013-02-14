@@ -195,8 +195,8 @@ function getJob() {
 		                          <td width="61" align="left"><font class="FONT04"><b>Data:</b></font></td>
 		                          <td width="128" align="left"><input title="Data" name="dataApontamento02" id="dataApontamento02" type="text" class="INPUT03" size="8" maxlength="10" value="<?php echo date("d-m-Y"); ?>" disabled="disabled"/>
                                   <input type="hidden" id="dataApontamento" name="dataApontamento" value="<?php echo date("Y-m-d"); ?>"/></td>
-		                          <td width="110" align="left"><font class="FONT04"><b>Usuário:</b></font></td>
-		                          <td width="637" align="left"><input title="Usuário" type="text" name="usuario" id="usuario" class="INPUT01" size="50" value="<?php echo $_SESSION['codigoUsuario']." - ".$_SESSION['nomePessoa']." [".$_SESSION['loginUsuario']."]"; ?>" disabled="disabled" /></td>
+		                          <td width="57" align="left"><font class="FONT04"><b>Usuário:</b></font></td>
+		                          <td width="690" align="left"><input title="Usuário" type="text" name="usuario" id="usuario" class="INPUT01" size="50" value="<?php echo $_SESSION['codigoUsuario']." - ".$_SESSION['nomePessoa']." [".$_SESSION['loginUsuario']."]"; ?>" disabled="disabled" /></td>
 	                            </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Recurso:</b></font></td>
@@ -212,7 +212,7 @@ function getJob() {
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Hora Início:</b></font></td>
 		                          <td align="left"><input title="Hora Início" type="text" name="horaInicioInserir" id="horaInicioInserir" class="INPUT03" size="4" maxlength="4" /></td>
-		                          <td align="left"><font class="FONT04"><b>Tipo Apontamento:</b></font></td>
+		                          <td align="left"><font class="FONT04"><b>Tipo:</b></font></td>
 		                          <td align="left"><input title="Tipo Apontamento" type="radio" name="flagApontamentoParada" id="flagApontamento" value="1" disabled="disabled"/>
 Parada de Máquina
   <input title="Tipo Apontamento" type="radio" name="flagApontamentoProducao" id="flagApontamento" value="2" checked="checked"/>

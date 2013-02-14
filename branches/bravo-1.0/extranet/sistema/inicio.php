@@ -207,6 +207,13 @@
 	    $inicio	= "cadastros/pcp/motivo_parada_ins.php";
 	}elseif($pg	== "motivo_parada_alt" && !$sub){
 	    $inicio	= "cadastros/pcp/motivo_parada_alt.php";
+		
+	}elseif($pg	== "motivo_perda" && !$sub){
+	    $inicio	= "cadastros/pcp/motivo_perda.php";
+	}elseif($pg	== "motivo_perda_ins" && !$sub){
+	    $inicio	= "cadastros/pcp/motivo_perda_ins.php";
+	}elseif($pg	== "motivo_perda_alt" && !$sub){
+	    $inicio	= "cadastros/pcp/motivo_perda_alt.php";	
 	
 	}elseif($pg	== "recurso" && !$sub){
 	    $inicio	= "cadastros/pcp/recurso.php";
