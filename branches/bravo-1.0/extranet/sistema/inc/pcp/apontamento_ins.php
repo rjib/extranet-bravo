@@ -4,17 +4,18 @@
 	
     require("../../setup.php");
 	
-	$dataApontamento   = $_POST["dataApontamento"];
-	$codigoRecurso     = $_POST["codigoRecurso"];
-	$horaInicioInserir = $_POST["horaInicioInserir"];
-	$flagApontamento   = $_POST["flagApontamento"];
-	$codigoMotivo      = $_POST["codigoMotivo"];
-	$codigoPcpOp       = $_POST["codigoPcpOp"];
+	$dataApontamento    = $_POST["dataApontamento"];
+	$codigoRecurso      = $_POST["codigoRecurso"];
+	$horaInicioInserir  = $_POST["horaInicioInserir"];
+	$flagApontamento    = $_POST["flagApontamento"];
+	$codigoMotivoParada = $_POST["codigoMotivoParada"];
+	$codigoPcpOp        = $_POST["codigoPcpOp"];
+	$codigoPcpOpPerda   = $_POST["codigoPcpOpPerda"];
+	$codigoMotivoPerda  = $_POST["codigoMotivoPerda"];
+	$quantidadePerda    = $_POST["quantidadePerda"];
 			
 	if(empty($dataApontamento)){
 		echo "Informe a Data do Apontamento";
-	}elseif($horaInicioInserir == "0" or $horaInicioInserir == ""){
-		echo "Informe a Hora Inicio";
 	}elseif(empty($flagApontamento)){
 		echo "Informe o Tipo Apontamebto";
 	}else{	
@@ -25,13 +26,13 @@
 							                   , CO_RECURSO
 										       , HR_INICIO
 										       , FL_APONTAMENTO
-										       , CO_MOTIVO
+										       , CO_MOTIVO_PARADA
 										       , CO_USUARIO_INICIO) 
 									   	   VALUES ('".$dataApontamento."'
 										       , '".$codigoRecurso."'
 										       , '".$horaInicioInserir."'
 										       , '".$flagApontamento."'
-										       , '".$codigoMotivo."'
+										       , '".$codigoMotivoParada."'
 										       , '".$_SESSION['codigoUsuario']."')");
 								   
 		}elseif($flagApontamento == "2"){
@@ -75,6 +76,24 @@
 											       , '".$_SESSION['codigoUsuario']."')");
 									   
 			}
+								   
+		}elseif($flagApontamento == "3"){
+		    
+			$sqlApontamento = mysql_query("INSERT INTO tb_pcp_apontamento (DT_APONTAMENTO
+							           	       , CO_RECURSO
+										       , FL_APONTAMENTO
+											   , CO_PCP_OP
+											   , CO_MOTIVO_PERDA
+											   , QTD_PRODUTO
+										       , CO_USUARIO_INICIO) 
+										   VALUES ('".$dataApontamento."'
+										       , '".$codigoRecurso."'
+										       , '".$flagApontamento."'
+											   , '".$codigoPcpOpPerda."'
+											   , '".$codigoMotivoPerda."'
+											   , '".$quantidadePerda."'
+										       , '".$_SESSION['codigoUsuario']."')");
+									   
 								   
 		}else{
 			echo "[Erro 01] - Não foi possível inserir o Apontamento no momento";

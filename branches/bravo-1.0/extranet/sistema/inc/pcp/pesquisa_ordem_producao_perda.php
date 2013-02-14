@@ -4,7 +4,7 @@
 	
     require("../../setup.php");
 	
-	$ordemProducao = $_GET["ordemProducao"];
+	$ordemProducaoPerda = $_GET["ordemProducaoPerda"];
 	
 	$sqlOrdemProducao = mysql_query("SELECT PCP_OP.CO_PCP_OP
 									     , CONCAT(PCP_OP.CO_NUM,PCP_OP.CO_ITEM,PCP_OP.CO_SEQUENCIA) AS NU_OP
@@ -18,9 +18,10 @@
 									 FROM tb_pcp_op PCP_OP
 									     INNER JOIN tb_pcp_produto PCP_PRODUTO
 									         ON PCP_OP.CO_PRODUTO = PCP_PRODUTO.CO_PRODUTO
-										 INNER JOIN tb_pcp_cor PCP_COR
+									     INNER JOIN tb_pcp_cor PCP_COR
 										     ON PCP_PRODUTO.CO_COR = PCP_COR.CO_COR
-						   	         WHERE CONCAT(PCP_OP.CO_NUM,PCP_OP.CO_ITEM,PCP_OP.CO_SEQUENCIA) = '".$ordemProducao."'")
+						   	         WHERE CONCAT(PCP_OP.CO_NUM,PCP_OP.CO_ITEM,PCP_OP.CO_SEQUENCIA) = '".$ordemProducaoPerda."'
+									 AND PCP_APONTAMENTO.FL_DELET IS NULL")
 	or die(mysql_error());
 	
 	if(mysql_num_rows($sqlOrdemProducao) != 0){
