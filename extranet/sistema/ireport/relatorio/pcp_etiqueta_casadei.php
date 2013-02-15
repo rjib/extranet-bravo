@@ -10,11 +10,12 @@ require_once("../class/PHPJasperXML.inc.php");
 require_once('../../setup.php');
 require_once '../../models/tb_pcp_etiqueta.php';
 require_once APP_PATH.'sistema/models/tb_pcp_pecas.php';
+require_once APP_PATH.'sistema/models/tb_pcp_ad_peca.php';
 
 date_default_timezone_set('America/Sao_Paulo');
 
 $_peca 	           = new tb_pcp_pecas($conexaoERP);
-$nu_op			   = $_GET['nu_op'];
+$job			   = $_GET['job'];
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
@@ -30,13 +31,13 @@ $co_usuario = $_SESSION['codigoUsuario'];
 
 $_etiqueta = new tb_pcp_etiqueta($conexaoERP);
 
-$_etiqueta->proc_etiqueta_casadei_relatorio($nu_op,$co_usuario);
+$_etiqueta->proc_etiqueta_casadei_relatorio($job,$co_usuario);
 
 
 $xml =  simplexml_load_file("pcp_etiqueta_casadei.jrxml");
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-$PHPJasperXML->arrayParameter=array("nu_op"=>$nu_op, "co_usuario"=>$co_usuario, "PATH"=>APP_PATH.'barcodes'.DS);
+$PHPJasperXML->arrayParameter=array("co_usuario"=>$co_usuario, "PATH"=>APP_PATH.'barcodes'.DS);
 $PHPJasperXML->xml_dismantle($xml);
 
 //$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db); * use this line if you want to connect with mysql
@@ -49,7 +50,11 @@ $PHPJasperXML->outpage("I",date("dmYhis"));    //page output method I:standard o
 
 $_etiqueta->limparTemporaria($co_usuario);
 //APP_PATH.'barcodes'.DS.'casadei_'.$nu_op.'.gif'
-unlink(APP_PATH.'barcodes'.DS.$co_usuario.'_relatorio_casadei_'.$nu_op.'.gif');
+$_adPeca = new tb_pcp_ad_peca($conexaoERP);
+$result = $_adPeca->getOrdemProducaoPorJob($job);
+while($dados = mysql_fetch_array($result)){
+	unlink(APP_PATH.'barcodes'.DS.$co_usuario.'_relatorio_casadei_'.$dados[4].'.gif');
+}
 
 $data=true;
 

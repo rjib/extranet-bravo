@@ -77,5 +77,36 @@ class tb_pcp_ad_peca{
 		return $row;
 		
 	}
+	
+	/**
+	 * Metodo para retornar os codigos das ops adicionadas no apontamento pelo job
+	 */
+	public function getOrdemProducaoPorJob($job){
+		$query = "SELECT 
+				    AC_PECA.CO_INT_PRODUTO, PRODUTO.DS_PRODUTO, AC_PECA.QTD_PECAS, ORDEM_PRODUCAO.NU_LOTE, CONCAT(ORDEM_PRODUCAO.CO_NUM,ORDEM_PRODUCAO.CO_ITEM,ORDEM_PRODUCAO.CO_SEQUENCIA) NU_OP
+				FROM
+				    TB_PCP_APONTAMENTO APONTAMENTO
+				        INNER JOIN
+				    TB_PCP_AC_PECA AC_PECA ON APONTAMENTO.CO_PCP_OP = AC_PECA.CO_PCP_OP
+				        INNER JOIN
+				    TB_PCP_OP ORDEM_PRODUCAO ON ORDEM_PRODUCAO.CO_PCP_OP = APONTAMENTO.CO_PCP_OP
+				        INNER JOIN
+				    TB_PCP_PRODUTO PRODUTO ON PRODUTO.CO_PRODUTO = ORDEM_PRODUCAO.CO_PRODUTO
+				WHERE
+				    AC_PECA.CO_PCP_AC = (SELECT 
+				            AC.CO_PCP_AC
+				        FROM
+				            TB_PCP_AD AD
+				                INNER JOIN
+				            TB_PCP_AC AC ON AC.CO_PCP_AD = AD.CO_PCP_AD
+				        WHERE
+				            AD.NO_PCP_AD = ".$job.")
+				        AND APONTAMENTO.HR_FIM IS NULL
+				        AND APONTAMENTO.FL_APONTAMENTO = 2 
+				        AND APONTAMENTO.FL_DELET IS NULL";
+
+	$result = mysql_query($query, $this->conexaoERP);
+	return $result;
+	}
 }
 ?>

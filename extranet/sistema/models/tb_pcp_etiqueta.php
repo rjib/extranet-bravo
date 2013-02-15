@@ -161,9 +161,9 @@ class tb_pcp_etiqueta{
 	 * @author Ricardo S. Alvarenga
 	 * @since 15/01/2013
 	 */
-	public function proc_etiqueta_casadei_relatorio($nu_op,$co_usuario){
+	public function proc_etiqueta_casadei_relatorio($job,$co_usuario){
 		try{
-			$query = " CALL etiquetaRelatorioCasadei('".$nu_op."',".$co_usuario.")";
+			$query = " CALL etiquetaRelatorioCasadei('".$job."',".$co_usuario.")";
 			mysql_query($query, $this->conexaoERP);
 		}catch (Exception $e){
 			return false;

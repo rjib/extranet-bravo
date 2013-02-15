@@ -309,8 +309,9 @@ require_once APP_PATH.'sistema/helper.class.php';
 					if($abilita!=true){
 						
 						$s_html .= '&nbsp;<a title="Etiqueta de pilha" href="#" onClick="javascript:gerarEtiqueta('.$row[0].','.$row[1].');" name="gerarEtiqueta" id='.$row[0].'><img class="link02" src="img/btn/bt_etiqueta.png" border="0"/></a>&nbsp;';
+						$s_html .= '&nbsp;<a title="Gerar Lista de PIs" href="#" onClick="javascript:gerarLista('.$row[0].','.$row[1].');" name="gerarLista" id='.$row[0].'><img src="img/btn/pdf-icon.png" border="0"/></a>&nbsp;';
 						if($casadei[0]==1){
-							$s_html .= '&nbsp;<a title="Gerar Lista de PIs" href="#" onClick="javascript:gerarLista('.$row[0].','.$row[1].');" name="gerarLista" id='.$row[0].'><img src="img/btn/pdf-icon.png" border="0"/></a>&nbsp;';
+							
 							$s_html .= '<a title="Etiqueta de Peça (Casadei)" href="#" onClick="javascript:gerarEtiquetaPeca('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta4.png" width="25" height="19" border="0"/></a>&nbsp;';
 						}
 						$s_html .= '<a title="Etiqueta de Peça (PI)" href="#" onClick="javascript:gerarEtiquetaPecaPI('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta3.png" width="25" height="19" border="0"/></a>&nbsp;';

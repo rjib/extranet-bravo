@@ -20,8 +20,7 @@
 									         ON PCP_OP.CO_PRODUTO = PCP_PRODUTO.CO_PRODUTO
 									     INNER JOIN tb_pcp_cor PCP_COR
 										     ON PCP_PRODUTO.CO_COR = PCP_COR.CO_COR
-						   	         WHERE CONCAT(PCP_OP.CO_NUM,PCP_OP.CO_ITEM,PCP_OP.CO_SEQUENCIA) = '".$ordemProducaoPerda."'
-									 AND PCP_APONTAMENTO.FL_DELET IS NULL")
+						   	         WHERE CONCAT(PCP_OP.CO_NUM,PCP_OP.CO_ITEM,PCP_OP.CO_SEQUENCIA) = '".$ordemProducaoPerda."'")
 	or die(mysql_error());
 	
 	if(mysql_num_rows($sqlOrdemProducao) != 0){
