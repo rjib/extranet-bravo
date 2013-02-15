@@ -364,7 +364,7 @@ WHERE
 				<textElement verticalAlignment="Top">
 					<font size="17" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{QTD_PRODUTO}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{QTD_PRODUZIR}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="249ba914-e05c-43f0-a2b6-f3073865e9cc" x="456" y="321" width="117" height="30" forecolor="#000000"/>

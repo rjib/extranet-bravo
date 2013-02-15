@@ -165,7 +165,7 @@ $(function($) {
 		$("#formularioInserirHoraFimApontamento").load("inc/pcp/apontamento_form_hora_fim.php?codigoApontamento="+$(this).attr("id"));
 		$("#formularioInserirHoraFimApontamento").dialog({
 			autoOpen: true,
-			height: 480,
+			height: 520,
 			width: 730,
 			modal: true,
 			resizable: false,
