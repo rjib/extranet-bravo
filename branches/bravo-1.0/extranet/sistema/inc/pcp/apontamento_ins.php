@@ -16,8 +16,10 @@
 			
 	if(empty($dataApontamento)){
 		echo "Informe a Data do Apontamento";
+	}elseif(empty($horaInicioInserir)){
+		echo "Informe a hora inicial do Apontamento";
 	}elseif(empty($flagApontamento)){
-		echo "Informe o Tipo Apontamebto";
+			echo "Informe o Tipo Apontamento";
 	}else{	
 	    
 		if($flagApontamento == "1"){

@@ -48,11 +48,11 @@ if(isset($_POST['co_pcp_ad'])){
 		//$ops[indice][op][valor]		
 		$result1   = $_opModel->getCoProduto($ops[$i][0]);
 		
-		$quantidade_final = $result1['QTD_PROCESSADA'] +$ops[$i][1];
+		$quantidade_final = $ops[$i][1];
 		
 		$result2   = $_opModel->getParametrosCasadei($ops[$i][0], $result1['CO_PRODUTO']);		
 		$_pecasModel->insert($ops[$i][0],$result2['CO_COR'], 1, $result2['NU_COMPRIMENTO'], $result2['NU_LARGURA'], $result2['NU_ESPESSURA'], $quantidade_final, $result2['CO_INT_PRODUTO'], $co_pcp_ac);
-		$_opModel->atualizaProcessadoComQuantidade($ops[$i][0],$quantidade_final);
+		$_opModel->atualizaProcessadoComQuantidade($ops[$i][0],$quantidade_final+$result1['QTD_PROCESSADA']);
 		
 	}
 	

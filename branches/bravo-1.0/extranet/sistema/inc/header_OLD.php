@@ -8,6 +8,7 @@
 	$co_papel    = $_SESSION['codigoPapel'];
 
 ?>
+
 <table width="1003" height="92" border="0" align="center" cellpadding="0" cellspacing="0" background="img/header.jpg">
             <tr>
                 <td align="right"><table width="609" border="0" cellspacing="0" cellpadding="0">
@@ -16,6 +17,7 @@
                       <tr>
                         <td width="223">
 <?php
+
 
     echo "<ul class='menu' id='menu'>";
 	echo "<li>";
@@ -158,11 +160,6 @@
        if($pcpMotivoParada){
 	       echo "<li><a href='inicio.php?pg=motivo_parada'>Motivo Parada</a></li>";
        }
-	   
-	   $pcpMotivoPerda = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'PCP', 'Motivo Perda');
-       if($pcpMotivoPerda){
-	       echo "<li><a href='inicio.php?pg=motivo_perda'>Motivo Perda</a></li>";
-       }
 
        $pcpRecurso = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'PCP', 'Recursos');
        if($pcpRecurso){
@@ -290,8 +287,47 @@
                 </table></td>
             </tr>
         </table>
-		<!--  GERAR ETIQUETA CASADEI POR JOB -->	
-        <div id="boxEtiquetaPecaCasadeiStep1" style="display: none;"></div>
+		<!--  GERAR ETIQUETA CASADEI -->	
+        <div id="boxEtiquetaPecaCasadeiStep1" style="display: none;">
+				<table width="325" border="0" cellspacing="2" cellpadding="3">
+					<tr>
+						<td align="left" style="border: 2px solid rgb(255, 204, 0); padding: 7px;">
+							<table width="100%" border="0" cellspacing="2" cellpadding="3">
+								<tr>
+									<td width="4%"><font class="FONT05"><b>OP:</b></font></td>
+									<td id="colunaOrdemProducaoStep1" width="96%">
+										<input title="Ordem de Produção" type="text" name="numeroOrdemProducaoStep1" id="numeroOrdemProducaoStep1" class="INPUT03" style="text-align: left;" size="15" maxlength="15" onblur='getValidaOrdemProducaoPecaCasadei("")' /> 									
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div id="step1" style="display: none;">
+							<table width="325" border="0" cellspacing="2" cellpadding="3">
+								<tr>
+									<td width="5%"><font class="FONT04"><b>Produto:&nbsp;&nbsp;</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="descricaoProdutoStep1" id="descricaoProdutoStep1" class="INPUT03" style="text-align: left;" size="50" value="descricao do produto" disabled="disabled" />
+										</td>
+										<td width="5%"><font class="FONT04"><b>Quantidade:</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="quantidadeProdutoStep1" id="quantidadeProdutoStep1" class="INPUT03" size="4" style="text-align: left;" value="6" disabled="disabled" />
+										</td>
+								</tr>
+								<tr>
+										<td width="5%"><font class="FONT04"><b>Lote:</b></font></td>
+										<td>
+											<input title="Hora Fim" type="text" name="loteStep1" id="loteStep1" class="INPUT03" size="15" style="text-align: left;" value="T000S-13" disabled="disabled" />
+										</td>
+								</tr>
+								</table>
+							</div>						
+						</td>
+					</tr>
+				</table>
+		</div>
 		
 		<!--  GERAR ETIQUETA PECA PI -->		
 		<div id="boxEtiquetaPecaStep2" style="display: none;">

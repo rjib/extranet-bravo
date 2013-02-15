@@ -14,46 +14,26 @@ $("#boxEtiquetaPecaCasadeiStep1")
 		.dialog(
 				{
 					autoOpen : false,
-					height : 250,
-					width : 570,
+					height : 310,
+					width : 600,
 					modal : true,
 					resizable : false,
-					title : "Etiqueta Peca Casadei",
+					title : "Etiqueta Peca Casadei/Giben",
 					buttons : {
 						'Imprimir Etiquetas' : function() {
+							
 
-							if ($("#numeroOrdemProducaoStep1").val() != ''
-									&& $("#descricaoProdutoStep1").val() != '') {
+							if ($("#numeroJob").val() != '' && $("#numeroJob").val() != '') {
 								$("#boxLoadingEtiquetaHeader").dialog("open");
-								$
-										.post(
-												'ireport/relatorio/gerarCodeBarEtiquetaPecaCasaDeiPorOP.php',
-												{
-													'nu_op' : $(
-															"#numeroOrdemProducaoStep1")
-															.val()
-												},
-												function(data, status) {
-													if (status == "success") {
-														window
-																.open(
-																		"ireport/relatorio/pcp_etiqueta_casadei.php?nu_op="
-																				+ $(
-																						"#numeroOrdemProducaoStep1")
-																						.val(),
-																		"Etiqueta Peça (Casadei)",
-																		"menubar=0,resizable=1,width=410,height=500,location=0");
-														$(
-																"#boxLoadingEtiquetaHeader")
-																.dialog("close");
-														$(
-																"#boxEtiquetaPecaCasadeiStep1")
-																.dialog("close");
-														$(
-																"#numeroOrdemProducaoStep1")
-																.val('')
-													}
-												});
+								var no_pcp_ad = $("#numeroJob").val();
+								
+								$("#temp").load('ireport/relatorio/gerarCodeBarEtiquetaPecaCasadeiPorJob.php',{no_pcp_ad:no_pcp_ad}, function(data,status){
+									 if (status == "success") {
+										 $("#boxLoadingEtiquetaHeader").dialog("close");
+												window.open("ireport/relatorio/pcp_etiqueta_casadei.php?job="+no_pcp_ad,"Etiqueta de Pilha","menubar=0,resizable=1,width=410,height=500,location=0");
+											 }
+									 	$("#boxEtiquetaPecaCasadeiStep1").dialog("close");
+								});
 							} else {
 								alert("Nenhuma OP válida foi encontrada!");
 
@@ -205,7 +185,8 @@ $("#boxEtiquetaPecaStep3")
 
 function openBoxEtiquetaPecaCasadei() {
 	$("#boxEtiquetaPecaCasadeiStep1").dialog('open');
-	$("#numeroOrdemProducaoStep1").focus();
+	$("#boxEtiquetaPecaCasadeiStep1").load('inc/relatorios/etiquetas/etiqueta_casadei_por_job.php');
+	$("#numeroJobStep1").focus();
 	$("#step1").hide();
 }
 function openBoxEtiquetaPecaPI() {
@@ -218,30 +199,12 @@ function openBoxEtiquetaPacote() {
 	$("#numeroOrdemProducaoStep3").focus();
 	$("#step3").hide();
 }
-function getValidaOrdemProducaoPecaCasadei() {
-	if ($.trim($("#numeroOrdemProducaoStep1").val()) != "") {
-		if ($("#numeroOrdemProducaoStep1").val() != null
-				&& $("#numeroOrdemProducaoStep1").val() != "") {
-			$.get('inc/relatorios/etiquetas/etiqueta_casadei_pesquisa_op.php',
-					{
-						'numeroOrdemProducaoStep1' : $(
-								"#numeroOrdemProducaoStep1").val()
-					}, function(resposta) {
-						if (resposta) {
-							$("#descricaoProdutoStep1")
-									.val(resposta.ds_produto);
-							$("#quantidadeProdutoStep1").val(
-									resposta.qtd_produto);
-							$("#loteStep1").val(resposta.nu_lote);
-							$("#step1").show('fast');
-						} else {
-							alert("OP não encontrada!");
-							$("#descricaoProdutoStep1").val('');
-							$("#quantidadeProdutoStep1").val('');
-							$("#loteStep1").val('');
-							$("#step1").hide('fast');
-						}
-					}, 'json');
+function getValidaJobPecaCasadei() {
+	if ($.trim($("#numeroJobStep1").val()) != "") {
+		if ($("#numeroJobStep1").val() != null && $("#numeroJobStep1").val() != "") {
+			$("#step1").load('inc/relatorios/etiquetas/etiqueta_casadei_pesquisa_job.php',{'numeroJob' : $("#numeroJobStep1").val()});
+			//$('#step1').html('teste');
+			//alert('teste');
 		}
 	}
 }
