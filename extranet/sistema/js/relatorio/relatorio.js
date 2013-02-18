@@ -18,7 +18,7 @@ $("#boxEtiquetaPecaCasadeiStep1")
 					width : 600,
 					modal : true,
 					resizable : false,
-					title : "Etiqueta Peca Casadei/Giben",
+					title : "Etiqueta Peca Casadei",
 					buttons : {
 						'Imprimir Etiquetas' : function() {
 							
@@ -226,7 +226,7 @@ function getValidaOrdemProducaoPecaStep2() {
 							$("#loteStep2").val(resposta.nu_lote);
 							$("#step2").show('fast');
 						} else {
-							alert("OP não encontrada!");
+							alert("OP não encontrada2!");
 							$("#descricaoProdutoStep2").val('');
 							$("#quantidadeProdutoStep2").val('');
 							$("#loteStep2").val('');
@@ -243,7 +243,7 @@ function getValidaOrdemProducaoPecaStep3() {
 			
 			$.get('inc/relatorios/etiquetas/etiqueta_casadei_pesquisa_op.php',
 					{
-						'numeroOrdemProducaoStep3' : $(
+						'numeroOrdemProducaoStep1' : $(
 								"#numeroOrdemProducaoStep3").val()
 					}, function(resposta) {
 						if (resposta) {

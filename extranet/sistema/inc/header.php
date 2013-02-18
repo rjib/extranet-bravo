@@ -184,19 +184,19 @@
 			echo "<a href='#' class='sub'>Etiquetas</a>";
 			echo "<ul>";
 	
-			$subRelatorioEtiquetaPecaCasadei = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Peça (CasaDei) por OP');
+			$subRelatorioEtiquetaPecaCasadei = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Peça (CasaDei) por Apontamento');
 			if($subRelatorioEtiquetaPecaCasadei){
-				echo "<li class='topline' ><a onClick='openBoxEtiquetaPecaCasadei();' href='javascript:void(0);'>Etiqueta de Peça (CasaDei) por OP</a></li>";
+				echo "<li class='topline' ><a onClick='openBoxEtiquetaPecaCasadei();' href='javascript:void(0);'>Etiqueta de Peça (CasaDei) por Apontamento</a></li>";
 			}
 			
-			$subRelatorioEtiquetaPecaPI = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Peça (PI) por OP');
+			$subRelatorioEtiquetaPecaPI = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Peça (PI) por Apontamento');
 			if($subRelatorioEtiquetaPecaPI){
-				echo "<li><a onClick='openBoxEtiquetaPecaPI();' href='javascript:void(0);'>Etiqueta de Peça (PI) por OP</a></li>";
+				echo "<li><a onClick='openBoxEtiquetaPecaPI();' href='javascript:void(0);'>Etiqueta de Peça (PI) por Apontamento</a></li>";
 			}
 			
-			$subRelatorioEtiquetaPacote = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Pacote por OP');
+			$subRelatorioEtiquetaPacote = $moduloModel->PossuiPermissaoParaModuloPrincipal($co_papel, 'Etiquetas', 'Etiqueta de Pacote por Apontamento');
 			if($subRelatorioEtiquetaPacote){
-				echo "<li><a onClick='javascript:openBoxEtiquetaPacote();' href='javascript:void(0);'>Etiqueta de Pacote por OP</a></li>";
+				echo "<li><a onClick='javascript:openBoxEtiquetaPacote();' href='javascript:void(0);'>Etiqueta de Pacote por Apontamento</a></li>";
 			}
 				
 			

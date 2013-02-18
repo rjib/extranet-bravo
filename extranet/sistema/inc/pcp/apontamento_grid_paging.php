@@ -85,8 +85,8 @@
 			$acoes = $this->getAcoes();
 			if($acoes['FL_EXCLUIR'] == 1 && $acoes['FL_EDITAR'] == 1 && $acoes['FL_ADICIONAR'] == 1){
 			    $sth = $this->dbh->prepare('SELECT COUNT(*) 
-				                            FROM tb_pcp_apontamento PCP_APONTAMENTO
-											AND PCP_APONTAMENTO.FL_DELET IS NULL');
+				                            FROM tb_pcp_apontamento PCP_APONTAMENTO 
+			    							WHERE PCP_APONTAMENTO.FL_DELET IS NULL');
 			}else{
 				$sth = $this->dbh->prepare('SELECT COUNT(*) 
 				                            FROM tb_pcp_apontamento PCP_APONTAMENTO

@@ -1,6 +1,9 @@
 <?php
 	
 	session_start();
+	ini_set("max_execution_time",3600);
+	ini_set("memory_limit","50M");
+	set_time_limit(0);
 	
 	date_default_timezone_set('America/Sao_Paulo');
 	

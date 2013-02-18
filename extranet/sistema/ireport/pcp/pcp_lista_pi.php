@@ -55,7 +55,7 @@ class PDF extends FPDF
 			 
 			$this->Cell($w[0],6,$sec,'LR',0,'C',$fill);
 			$this->Cell($w[1],6,$row[0],'LR',0,'C',$fill);
-			$this->Cell($w[2],6,$row[2],'LR',0,'C',$fill);
+			$this->Cell($w[2],6,$row[2],'LR',0,'L',$fill);
 			$this->SetFont('Arial','',8);
 			$this->Cell($w[3],6,$row[1],'LR',0,'L',$fill);
 			$this->SetFont('Arial','',0);
