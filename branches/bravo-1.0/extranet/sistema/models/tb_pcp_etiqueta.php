@@ -5,6 +5,11 @@
 * @since 11/12/2012
 *
 */
+
+ini_set("max_execution_time",3600);
+ini_set("memory_limit","50M");
+set_time_limit(0);
+
 class tb_pcp_etiqueta{
 
 	private $conexaoERP;
