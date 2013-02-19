@@ -11,7 +11,7 @@
 	$paging->labels('C&oacute;digo,Data Apontamento,Recurso,Hora Inicio,Hora Fim,Tipo Apontamento,Numero. OP');
 	$paging->fields('PCP_APONTAMENTO.CO_PCP_APONTAMENTO,DT_APONTAMENTO,NO_RECURSO,HR_INICIO,HR_FIM,FL_APONTAMENTO,NU_OP');
 	$paging->cols_width('60,120,200,70,70,200,100');
-	$paging->rowsperpage(30);
+	$paging->rowsperpage(10);
 	$paging->page(isset($_GET['p']) ? $_GET['p'] : 1);
 	
 	if($_GET['load'] == 'controls'){
