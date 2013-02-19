@@ -12,7 +12,7 @@
 		public $s_where			= '1'; 		//Claus�la where, se houver
 		public $s_orderby		= 'PCP_APONTAMENTO.CO_PCP_APONTAMENTO'; 	//Campo utilizado para ordena��o inicial
 		public $s_orientation	= 'DESC';	//ASC ou DESC
-		public $i_rowsperpage	= 50;		//Limite de registros visualizados por p�gina
+		public $i_rowsperpage	= 10;		//Limite de registros visualizados por p�gina
 		public $i_page			= 1;		//P�gina atual
 		public $i_link_limit	= 5;		//N�mero de links de p�ginas
 		public $a_columns		= null; 	//Array com as colunas inseridas pela fun��o addColumn
@@ -242,8 +242,8 @@
 			}
 			
 			//Formula a query
-			if($acoes['FL_EXCLUIR'] == 1 && $acoes['FL_EDITAR'] == 1 && $acoes['FL_ADICIONAR'] == 1){
-				$sql = 'SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
+			//if($acoes['FL_EXCLUIR'] == 1 && $acoes['FL_EDITAR'] == 1 && $acoes['FL_ADICIONAR'] == 1){
+				/* $sql = 'SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
 							, DATE_FORMAT(PCP_APONTAMENTO.DT_APONTAMENTO, "%d/%m/%Y") AS DT_APONTAMENTO
 							, PCP_RECURSO.NO_RECURSO
 							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
@@ -269,8 +269,8 @@
 						WHERE '.$this->s_where.'
 						AND PCP_APONTAMENTO.FL_DELET IS NULL
 						ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
-						LIMIT '.$n.','.$this->i_rowsperpage;
-			}else{
+						LIMIT '.$n.','.$this->i_rowsperpage; */
+			//}else{
 				$sql = 'SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
 							, DATE_FORMAT(PCP_APONTAMENTO.DT_APONTAMENTO, "%d/%m/%Y") AS DT_APONTAMENTO
 							, PCP_RECURSO.NO_RECURSO
@@ -294,12 +294,13 @@
 								AND PCP_RECURSO.FL_DELET IS NULL
 							LEFT JOIN tb_pcp_op PCP_OP
 								ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
+							INNER JOIN tb_pcp_usuario_recurso PCP_USUARIO_RECURSO ON PCP_USUARIO_RECURSO.CO_PCP_RECURSO = PCP_APONTAMENTO.CO_RECURSO 
 						WHERE '.$this->s_where.'
-						AND PCP_APONTAMENTO.CO_USUARIO_INICIO = '.$_SESSION['codigoUsuario'].'
+						AND PCP_USUARIO_RECURSO.CO_USUARIO = '.$_SESSION['codigoUsuario'].'
 						AND PCP_APONTAMENTO.FL_DELET IS NULL
 						ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
 						LIMIT '.$n.','.$this->i_rowsperpage;
-			}
+			//}
 			
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
