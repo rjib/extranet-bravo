@@ -306,7 +306,7 @@
 				
 			}
 			
-			$s_html .= '<th align="center" width="150px">Ações</th>';
+			$s_html .= '<th align="center" width="110px">Ações</th>';
 			
 			$s_html .= '</tr></thead><tbody>';
 			

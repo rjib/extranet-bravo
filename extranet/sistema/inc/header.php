@@ -274,7 +274,7 @@
                         <td width="299" align="left" valign="middle"><table width="100%" border="0" cellspacing="2" cellpadding="3">
                           <tr>
                             <td width="19%"><b>Usu&aacute;rio:</b></td>
-                            <td width="81%"><?php echo $_SESSION['nomePessoa']; ?></td>
+                            <td width="81%"><?php echo $_SESSION['codigoUsuario']." - ".$_SESSION['nomePessoa']; ?></td>
                           </tr>
                           <tr>
                             <td><b>Login:</b></td>
