@@ -18,67 +18,51 @@
 			
 	//FIM CONTROLE DE ACESSO 
 	
-	//if($acoesApontamento['FL_EXCLUIR'] == 1 && $acoesApontamento['FL_EDITAR'] == 1 && $acoesApontamento['FL_ADICIONAR'] == 1){
-	
-        $sqlApontamento = mysql_query('SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
-							, DATE_FORMAT(PCP_APONTAMENTO.DT_APONTAMENTO, "%d/%m/%Y") AS DT_APONTAMENTO
-							, PCP_RECURSO.NO_RECURSO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
-								   ELSE PCP_APONTAMENTO.HR_INICIO
-							  END AS HR_INICIO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
-								   ELSE PCP_APONTAMENTO.HR_FIM
-							  END AS HR_FIM
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "Parada de Maquina"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN "Produção"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "Perda"
-							  END AS FL_APONTAMENTO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "-----"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
-							  END AS NU_OP
-						FROM tb_pcp_apontamento PCP_APONTAMENTO
-							INNER JOIN tb_pcp_recurso PCP_RECURSO
-								ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
-								AND PCP_RECURSO.FL_DELET IS NULL
-							LEFT JOIN tb_pcp_op PCP_OP
-								ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
-							INNER JOIN tb_pcp_usuario_recurso PCP_USUARIO_RECURSO ON PCP_USUARIO_RECURSO.CO_PCP_RECURSO = PCP_APONTAMENTO.CO_RECURSO 
-						WHERE PCP_USUARIO_RECURSO.CO_USUARIO = '.$_SESSION['codigoUsuario'].'
-						AND PCP_APONTAMENTO.FL_DELET IS NULL
-        				AND PCP_APONTAMENTO.FL_APONTAMENTO IN("1","2") AND PCP_APONTAMENTO.HR_FIM IS NULL LIMIT 10')
+	$sqlApontamento = mysql_query('SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
+							           , DATE_FORMAT(PCP_APONTAMENTO.DT_APONTAMENTO, "%d/%m/%Y") AS DT_APONTAMENTO
+									   , PCP_RECURSO.NO_RECURSO
+									   , CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
+										      ELSE PCP_APONTAMENTO.HR_INICIO
+									     END AS HR_INICIO
+									   , CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
+										      ELSE PCP_APONTAMENTO.HR_FIM
+									     END AS HR_FIM
+									   , CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "Parada de Maquina"
+										      WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN "Produção"
+										      WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "Perda"
+									     END AS FL_APONTAMENTO
+									   , CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "-----"
+										      WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
+										      WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
+									     END AS NU_OP
+									   , CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "-----"
+										      WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN PCP_PRODUTO.CO_INT_PRODUTO
+										      WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN PCP_PRODUTO.CO_INT_PRODUTO
+									     END AS CO_INT_PRODUTO
+								   FROM tb_pcp_apontamento PCP_APONTAMENTO
+								
+								   INNER JOIN tb_pcp_recurso PCP_RECURSO
+								       ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
+								       AND PCP_RECURSO.FL_DELET IS NULL
+										
+								   LEFT JOIN tb_pcp_op PCP_OP
+								       ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
+								   
+								   LEFT JOIN tb_pcp_produto PCP_PRODUTO 
+					                   ON PCP_PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
+										
+								   INNER JOIN tb_pcp_usuario_recurso PCP_USUARIO_RECURSO 
+								       ON PCP_USUARIO_RECURSO.CO_PCP_RECURSO = PCP_APONTAMENTO.CO_RECURSO 
+									   AND PCP_USUARIO_RECURSO.CO_USUARIO = '.$_SESSION['codigoUsuario'].'
+										
+								   WHERE PCP_APONTAMENTO.FL_DELET IS NULL
+								   AND PCP_APONTAMENTO.FL_APONTAMENTO IN("1","2") 
+								   AND PCP_APONTAMENTO.HR_FIM IS NULL 
+								   LIMIT 10')
 	    or die("<script>
 			        alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 			        history.back(-1);
 			    </script>");
-	
-	//}else{
-		
-/* 		$sqlApontamento = mysql_query("SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO 
-		                                   , PCP_RECURSO.NO_RECURSO
-								           , PCP_APONTAMENTO.HR_INICIO
-										   , CASE WHEN FL_APONTAMENTO = '1' THEN 'Parada de Maquina'
-												  WHEN FL_APONTAMENTO = '2' THEN 'Produção'
-											 END AS FL_APONTAMENTO
-										   , CASE WHEN FL_APONTAMENTO = '1' THEN '-----'
-												  WHEN FL_APONTAMENTO = '2' THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
-											 END AS NU_OP
-									   FROM tb_pcp_apontamento PCP_APONTAMENTO
-										   INNER JOIN tb_pcp_recurso PCP_RECURSO
-											   ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
-										   LEFT JOIN tb_pcp_op PCP_OP
-											   ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
-									   WHERE PCP_APONTAMENTO.HR_FIM IS NULL
-									   AND PCP_APONTAMENTO.CO_USUARIO_INICIO = '".$_SESSION['codigoUsuario']."'
-									   AND PCP_APONTAMENTO.FL_APONTAMENTO IN('1','2')
-									   AND PCP_APONTAMENTO.FL_DELET IS NULL
-									   LIMIT 10")
-	    or die("<script>
-			        alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
-			        history.back(-1);
-			    </script>"); */
-		
-	//}
 		 
 ?>
 <script type="text/javascript" src="js/pcp/apontamento.js"></script>
@@ -129,19 +113,21 @@
                             <td colspan="2" align="center"><table width="560" border="0" cellpadding="3" cellspacing="2" class="LISTA">
                               <tr>
                                 <th width="60" height="25" align="center"><font class="FONT05"><b>OP</b></font></td>
-                                <th width="244" align="center"><font class="FONT05"><b>Recurso</b></font></td>
-                                <th width="100" align="center"><font class="FONT05"><b>Hora de Início</b></font></td>
+                                <th width="70" height="25" align="center"><font class="FONT05"><b>Cód. Int.:</b></font></td>
+                                <th align="center"><font class="FONT05"><b>Recurso</b></font></td>
+                                <th width="90" align="center"><font class="FONT05"><b>Hora de Início</b></font></td>
                                 <th width="120" align="center"><font class="FONT05"><b>Tipo</b></font></td>
                               </tr>
                               <?php
 							      if(mysql_num_rows($sqlApontamento) == 0){
 								      echo "<tr>";
-									  echo "<td colspan='4' align='center'><font class='FONT06'><b>N&atilde;o h&aacute; apontamentos abertos no momento!</b></font></td>";
+									  echo "<td colspan='5' align='center'><font class='FONT06'><b>N&atilde;o h&aacute; apontamentos abertos no momento!</b></font></td>";
 									  echo "</tr>";
 								  }else{
 								      while($rowApontamento=mysql_fetch_array($sqlApontamento)){ 
 									      echo "<tr>";
 										  echo "<td align='center'>".$rowApontamento['NU_OP']."</td>";
+										  echo "<td align='center'>".$rowApontamento['CO_INT_PRODUTO']."</td>";
 										  echo "<td align='center'>".$rowApontamento['NO_RECURSO']."</td>";
 										  echo "<td align='center'>".$rowApontamento['HR_INICIO']."</td>";
 										  echo "<td align='center'>";
