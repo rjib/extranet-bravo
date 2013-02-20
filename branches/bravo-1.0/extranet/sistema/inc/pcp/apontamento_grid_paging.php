@@ -212,7 +212,7 @@
 					        ON PCP_OP.CO_PCP_OP = APONTAMENTO.CO_PCP_OP 
 						INNER JOIN TB_PCP_PRODUTO PRODUTO
 					        ON PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
-					WHERE PCP_APONTAMENTO.FL_DELET IS NULL AND APONTAMENTO.CO_PCP_APONTAMENTO = ".$co_pcp_apontamento;
+					WHERE APONTAMENTO.FL_DELET IS NULL AND APONTAMENTO.CO_PCP_APONTAMENTO = ".$co_pcp_apontamento;
 			
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
@@ -271,7 +271,7 @@
 						ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
 						LIMIT '.$n.','.$this->i_rowsperpage; */
 			//}else{
-				$sql = 'SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
+				$sql = 'SELECT PCP_PRODUTO.DS_PRODUTO,PCP_APONTAMENTO.CO_PCP_APONTAMENTO
 							, DATE_FORMAT(PCP_APONTAMENTO.DT_APONTAMENTO, "%d/%m/%Y") AS DT_APONTAMENTO
 							, PCP_RECURSO.NO_RECURSO
 							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
@@ -288,6 +288,8 @@
 								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
 								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
 							  END AS NU_OP
+							, PCP_PRODUTO.CO_INT_PRODUTO
+							
 						FROM tb_pcp_apontamento PCP_APONTAMENTO
 							INNER JOIN tb_pcp_recurso PCP_RECURSO
 								ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
@@ -295,6 +297,8 @@
 							LEFT JOIN tb_pcp_op PCP_OP
 								ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
 							INNER JOIN tb_pcp_usuario_recurso PCP_USUARIO_RECURSO ON PCP_USUARIO_RECURSO.CO_PCP_RECURSO = PCP_APONTAMENTO.CO_RECURSO 
+							INNER JOIN tb_pcp_produto PCP_PRODUTO ON PCP_PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
+						
 						WHERE '.$this->s_where.'
 						AND PCP_USUARIO_RECURSO.CO_USUARIO = '.$_SESSION['codigoUsuario'].'
 						AND PCP_APONTAMENTO.FL_DELET IS NULL
@@ -323,7 +327,7 @@
 				
 			}
 			
-			$s_html .= '<th align="center" width="110">Ações</th>';
+			$s_html .= '<th align="center" width="150px">Ações</th>';
 			
 			$s_html .= '</tr></thead><tbody>';
 			
@@ -335,29 +339,39 @@
 					
 					$s_html .= '<tr>';
 					
-					for($i = 0; $i < $a_cells[0]; $i++){
-					    
-						$s_html .= '<td>'.$row[$i].'</td>';
+					//for($i = 0; $i < $a_cells[0]; $i++){
+						//if($i!=0){
+						$s_html .= '<td>'.$row[0].'</td>';
+						$s_html .= '<td>'.$row[2].'</td>';
+						$s_html .= '<td>'.$row[3].'</td>';
+						$s_html .= '<td>'.$row[4].'</td>';
+						$s_html .= '<td>'.$row[5].'</td>';
+						$s_html .= '<td>'.$row[6].'</td>';
+						$s_html .= '<td>'.$row[7].'</td>';
+						$s_html .= '<td>'.$row[8].'</td>';
+					
+						//}					 
+						
 												
-					}
+					//}
 					
 					$s_html .= '<td align="center">';
 					
-					if($row[4] == ""){
+					if($row[5] == ""){
 						if($acoes['FL_ADICIONAR']==1){
-					   		$s_html .= '<a title="Informar Hora Fim" href="#" name="inserirHoraFimApontamento" id="'.$row[0].'"><img src="img/btn/btn_clock.gif" width="25" height="19" border="0"/></a>';
+					   		$s_html .= '<a title="Informar Hora Fim" href="#" name="inserirHoraFimApontamento" id="'.$row[1].'"><img src="img/btn/btn_clock.gif" width="25" height="19" border="0"/></a>';
 						}
-						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
+						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[1].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
 					}else{
-						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
-						if($row[5]=="Produção"){
+						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[1].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
+						if($row[6]=="Produção"){
 							
-							$s_html .= '<a title="Etiqueta de Peça (Casadei)" href="#" onClick="javascript:gerarEtiquetaPeca('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta1.gif" width="25" height="19" border="0"/></a>';
-							$s_html .= '<a title="Etiqueta de Peça (PI)" href="#" onClick="javascript:gerarEtiquetaPeca2('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta2.gif" width="25" height="19" border="0"/></a>';
-							$codigo_interno = $this->getCodigoInterno($row[0]);
-							$filename = APP_PATH.'sistema'.DS.'desenhos_producao'.DS.$codigo_interno[0].'.pdf';
+							$s_html .= '<a title="Etiqueta de Peça (Casadei)" href="#" onClick="javascript:gerarEtiquetaPeca('.$row[1].');" name="etiquetaPeca" id="'.$row[1].'"><img src="img/btn/etiqueta1.gif" width="25" height="19" border="0"/></a>';
+							$s_html .= '<a title="Etiqueta de Peça (PI)" href="#" onClick="javascript:gerarEtiquetaPeca2('.$row[1].');" name="etiquetaPeca" id="'.$row[1].'"><img src="img/btn/etiqueta2.gif" width="25" height="19" border="0"/></a>';
+							$codigo_interno = $this->getCodigoInterno($row[1]);
+							$filename = APP_PATH.'sistema'.DS.'desenhos_producao'.DS.trim($codigo_interno[0]).'.pdf';
 							if(file_exists($filename)){
-								$s_html .= '<a title="Desenho da Peça('.$codigo_interno[0].')" href="#" onClick="javascript:getDesenhoPeca(\'C1033\');" name="desenhoPeca" id="'.$row[0].'"><img src="img/pencil_ruler.png" width="25" height="19" border="0"/></a>';
+								$s_html .= '<a title="Desenho da Peça('.trim($codigo_interno[0]).')" href="#" onClick="javascript:getDesenhoPeca(\''.trim($codigo_interno[0]).'\');" name="desenhoPeca" id="'.$row[1].'"><img src="img/pencil_ruler.png" width="25" height="19" border="0"/></a>';
 							}
 							
 						}
