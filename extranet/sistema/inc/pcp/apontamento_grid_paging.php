@@ -242,69 +242,48 @@
 			}
 			
 			//Formula a query
-			//if($acoes['FL_EXCLUIR'] == 1 && $acoes['FL_EDITAR'] == 1 && $acoes['FL_ADICIONAR'] == 1){
-				/* $sql = 'SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
-							, DATE_FORMAT(PCP_APONTAMENTO.DT_APONTAMENTO, "%d/%m/%Y") AS DT_APONTAMENTO
-							, PCP_RECURSO.NO_RECURSO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
-								   ELSE PCP_APONTAMENTO.HR_INICIO
-							  END AS HR_INICIO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
-								   ELSE PCP_APONTAMENTO.HR_FIM
-							  END AS HR_FIM
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "Parada de Maquina"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN "Produção"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "Perda"
-							  END AS FL_APONTAMENTO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "-----"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
-							  END AS NU_OP
-						FROM tb_pcp_apontamento PCP_APONTAMENTO
-							INNER JOIN tb_pcp_recurso PCP_RECURSO
-								ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
-								AND PCP_RECURSO.FL_DELET IS NULL
-							LEFT JOIN tb_pcp_op PCP_OP
-								ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
-						WHERE '.$this->s_where.'
-						AND PCP_APONTAMENTO.FL_DELET IS NULL
-						ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
-						LIMIT '.$n.','.$this->i_rowsperpage; */
-			//}else{
-				$sql = 'SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
-							, DATE_FORMAT(PCP_APONTAMENTO.DT_APONTAMENTO, "%d/%m/%Y") AS DT_APONTAMENTO
-							, PCP_RECURSO.NO_RECURSO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
-								   ELSE PCP_APONTAMENTO.HR_INICIO
-							  END AS HR_INICIO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
-								   ELSE PCP_APONTAMENTO.HR_FIM
-							  END AS HR_FIM
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "Parada de Maquina"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN "Produção"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "Perda"
-							  END AS FL_APONTAMENTO
-							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "-----"
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
-								   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
-							  END AS NU_OP
-							, PCP_PRODUTO.CO_INT_PRODUTO
-							
-						FROM tb_pcp_apontamento PCP_APONTAMENTO
-							INNER JOIN tb_pcp_recurso PCP_RECURSO
-								ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
-								AND PCP_RECURSO.FL_DELET IS NULL
-							LEFT JOIN tb_pcp_op PCP_OP
-								ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
-							INNER JOIN tb_pcp_usuario_recurso PCP_USUARIO_RECURSO ON PCP_USUARIO_RECURSO.CO_PCP_RECURSO = PCP_APONTAMENTO.CO_RECURSO 
-							INNER JOIN tb_pcp_produto PCP_PRODUTO ON PCP_PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
+			$sql = 'SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
+					    , DATE_FORMAT(PCP_APONTAMENTO.DT_APONTAMENTO, "%d/%m/%Y") AS DT_APONTAMENTO
+					    , PCP_RECURSO.NO_RECURSO
+					    , CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
+							   ELSE PCP_APONTAMENTO.HR_INICIO
+						  END AS HR_INICIO
+					    , CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
+							   ELSE PCP_APONTAMENTO.HR_FIM
+						  END AS HR_FIM
+					    , CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "Parada de Maquina"
+							   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN "Produção"
+							   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "Perda"
+						  END AS FL_APONTAMENTO
+					    , CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "-----"
+							   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
+							   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN CONCAT(PCP_OP.CO_NUM, PCP_OP.CO_ITEM, PCP_OP.CO_SEQUENCIA)
+						   END AS NU_OP
+						, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "1" THEN "-----"
+							   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "2" THEN PCP_PRODUTO.CO_INT_PRODUTO
+							   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN PCP_PRODUTO.CO_INT_PRODUTO
+						   END AS CO_INT_PRODUTO						
+					FROM tb_pcp_apontamento PCP_APONTAMENTO
 						
-						WHERE '.$this->s_where.'
-						AND PCP_USUARIO_RECURSO.CO_USUARIO = '.$_SESSION['codigoUsuario'].'
-						AND PCP_APONTAMENTO.FL_DELET IS NULL
-						ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
-						LIMIT '.$n.','.$this->i_rowsperpage;
-			//}
+					    INNER JOIN tb_pcp_recurso PCP_RECURSO
+					        ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
+					        AND PCP_RECURSO.FL_DELET IS NULL
+							
+					    INNER JOIN tb_pcp_usuario_recurso PCP_USUARIO_RECURSO 
+					        ON PCP_APONTAMENTO.CO_RECURSO = PCP_USUARIO_RECURSO.CO_PCP_RECURSO  
+					        AND PCP_USUARIO_RECURSO.CO_USUARIO = '.$_SESSION['codigoUsuario'].'
+								
+					    LEFT JOIN tb_pcp_op PCP_OP
+					        ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
+																
+					    LEFT JOIN tb_pcp_produto PCP_PRODUTO 
+					        ON PCP_PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
+								
+					WHERE '.$this->s_where.'
+					AND PCP_APONTAMENTO.FL_DELET IS NULL
+					
+					ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
+					LIMIT '.$n.','.$this->i_rowsperpage;
 			
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
@@ -354,15 +333,17 @@
 					}else{
 						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
 						if($row[5]=="Produção"){
-							
 							$s_html .= '<a title="Etiqueta de Peça (Casadei)" href="#" onClick="javascript:gerarEtiquetaPeca('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta1.gif" width="25" height="19" border="0"/></a>';
 							$s_html .= '<a title="Etiqueta de Peça (PI)" href="#" onClick="javascript:gerarEtiquetaPeca2('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta2.gif" width="25" height="19" border="0"/></a>';
-							$codigo_interno = $this->getCodigoInterno($row[0]);
-							$filename = APP_PATH.'sistema'.DS.'desenhos_producao'.DS.trim($codigo_interno[0]).'.pdf';
-							if(file_exists($filename)){
-								$s_html .= '<a title="Desenho da Peça('.trim($codigo_interno[0]).')" href="#" onClick="javascript:getDesenhoPeca(\''.trim($codigo_interno[0]).'\');" name="desenhoPeca" id="'.$row[0].'"><img src="img/pencil_ruler.png" width="25" height="19" border="0"/></a>';
-							}
-							
+						}
+						
+					}
+					
+					if($row[5]=="Produção"){				
+					    $codigo_interno = $this->getCodigoInterno($row[0]);
+						$filename = APP_PATH.'sistema'.DS.'desenhos_producao'.DS.trim($codigo_interno[0]).'.pdf';
+						if(file_exists($filename)){
+						    $s_html .= '<a title="Desenho da Peça('.trim($codigo_interno[0]).')" href="#" onClick="javascript:getDesenhoPeca(\''.trim($codigo_interno[0]).'\');" name="desenhoPeca" id="'.$row[0].'"><img src="img/pencil_ruler.png" width="25" height="19" border="0"/></a>';
 						}
 					}
 					
