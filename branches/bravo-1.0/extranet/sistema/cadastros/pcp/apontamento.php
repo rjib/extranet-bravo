@@ -29,23 +29,16 @@
 								              FROM tb_pcp_usuario_recurso PCP_USUARIO_RECURSO
 											  WHERE PCP_USUARIO_RECURSO.CO_PCP_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
 											  AND PCP_USUARIO_RECURSO.CO_USUARIO = '".$_SESSION['codigoUsuario']."')
+								   AND NOT EXISTS(SELECT null
+												  FROM tb_pcp_apontamento PCP_APONTAMENTO
+												  WHERE PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
+												  AND PCP_APONTAMENTO.HR_FIM IS NULL
+												  AND PCP_APONTAMENTO.FL_DELET IS NULL)
 								   ORDER BY PCP_RECURSO.NO_RECURSO")
 		or die("<script>
 					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
 					history.back(-1);
 				</script>");
-				
-		$sqlVerificaApontamentoAberto = mysql_query("SELECT COUNT(*) QTD_APONTAMENTO_ABERTO
-													 FROM tb_pcp_apontamento
-													 WHERE HR_FIM IS NULL 
-													 AND CO_USUARIO_INICIO = ".$_SESSION['codigoUsuario']."
-													 AND FL_APONTAMENTO IN('1','2')
-													 AND FL_DELET IS NULL")
-		or die("<script>
-					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
-					history.back(-1);
-				</script>");
-		$rowVerificaApontamentoAberto=mysql_fetch_array($sqlVerificaApontamentoAberto);		
 		 
 ?>
 <script type="text/javascript" src="js/pcp/apontamento.js"> </script>
@@ -222,25 +215,12 @@
                   <?php 
 				  
 				      if($acoesApontamento['FL_ADICIONAR']==1){
-						  if($acoesApontamento['FL_EXCLUIR'] == 1 && $acoesApontamento['FL_EDITAR'] == 1 && $acoesApontamento['FL_ADICIONAR'] == 1){
-							  echo "<button type='button' id='adicionarApontamento' title='Adicionar Apontamento'>Adicionar Apontamento</button>";
-						  }else{
-						      if($rowVerificaApontamentoAberto['QTD_APONTAMENTO_ABERTO'] <= "0"){
-						          echo "<button type='button' id='adicionarApontamento' title='Adicionar Apontamento'>Adicionar Apontamento</button>";
-					          }
-						  }						  
+						  echo "<button type='button' id='adicionarApontamento' title='Adicionar Apontamento'>Adicionar Apontamento</button>";					  
 					  }
 										  
 					  if($acoesApontamentoJob['FL_ADICIONAR']==1){
-						  if($acoesApontamentoJob['FL_EXCLUIR'] == 1 && $acoesApontamentoJob['FL_EDITAR'] == 1 && $acoesApontamentoJob['FL_ADICIONAR'] == 1){
-							  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-						 	  echo "<button type='button' id='adicionarApontamentoJob' title='Adicionar Apontamento Job'>Adicionar Apontamento Job</button>";
-						  }else{
-						      if($rowVerificaApontamentoAberto['QTD_APONTAMENTO_ABERTO'] <= "0"){
-						          echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-						 		  echo "<button type='button' id='adicionarApontamentoJob' title='Adicionar Apontamento Job'>Adicionar Apontamento Job</button>";
-					          }
-						  }						  
+						  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+						  echo "<button type='button' id='adicionarApontamentoJob' title='Adicionar Apontamento Job'>Adicionar Apontamento Job</button>";			  
 					  }
 					  
 				  ?>

@@ -32,6 +32,11 @@
 								              FROM tb_pcp_usuario_recurso PCP_USUARIO_RECURSO
 											  WHERE PCP_USUARIO_RECURSO.CO_PCP_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
 											  AND PCP_USUARIO_RECURSO.CO_USUARIO = '".$_SESSION['codigoUsuario']."')
+								   AND NOT EXISTS(SELECT null
+												  FROM tb_pcp_apontamento PCP_APONTAMENTO
+												  WHERE PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
+												  AND PCP_APONTAMENTO.HR_FIM IS NULL
+												  AND PCP_APONTAMENTO.FL_DELET IS NULL)
 								   ORDER BY PCP_RECURSO.NO_RECURSO")
 		or die("<script>
 					alert('[Erro] - Ocorreu algum erro durante a consulta, favor entrar em contato com o suporte!');
