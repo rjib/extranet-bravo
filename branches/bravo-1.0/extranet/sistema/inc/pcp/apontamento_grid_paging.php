@@ -83,17 +83,20 @@
 		public function total_rows(){
 			
 			$acoes = $this->getAcoes();
-			if($acoes['FL_EXCLUIR'] == 1 && $acoes['FL_EDITAR'] == 1 && $acoes['FL_ADICIONAR'] == 1){
-			    $sth = $this->dbh->prepare('SELECT COUNT(*) 
-				                            FROM tb_pcp_apontamento PCP_APONTAMENTO 
-			    							WHERE PCP_APONTAMENTO.FL_DELET IS NULL');
-			}else{
-				$sth = $this->dbh->prepare('SELECT COUNT(*) 
-				                            FROM tb_pcp_apontamento PCP_APONTAMENTO
-				                            WHERE PCP_APONTAMENTO.CO_USUARIO_INICIO = '.$_SESSION['codigoUsuario'].'
-											AND PCP_APONTAMENTO.FL_DELET IS NULL');
-			}
-						
+			$sth = $this->dbh->prepare('SELECT COUNT(*) 
+				                        FROM tb_pcp_apontamento PCP_APONTAMENTO 
+										    INNER JOIN tb_pcp_recurso PCP_RECURSO
+											    ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
+											    AND PCP_RECURSO.FL_DELET IS NULL
+											INNER JOIN tb_pcp_usuario_recurso PCP_USUARIO_RECURSO 
+											    ON PCP_APONTAMENTO.CO_RECURSO = PCP_USUARIO_RECURSO.CO_PCP_RECURSO  
+											    AND PCP_USUARIO_RECURSO.CO_USUARIO = '.$_SESSION['codigoUsuario'].'
+											LEFT JOIN tb_pcp_op PCP_OP
+											    ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP	
+											LEFT JOIN tb_pcp_produto PCP_PRODUTO 
+											    ON PCP_PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
+			    						WHERE PCP_APONTAMENTO.FL_DELET IS NULL');
+									
 			$sth->execute();
 			$row = $sth->fetch(PDO::FETCH_NUM);
 			
@@ -264,24 +267,18 @@
 							   WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN PCP_PRODUTO.CO_INT_PRODUTO
 						   END AS CO_INT_PRODUTO						
 					FROM tb_pcp_apontamento PCP_APONTAMENTO
-						
 					    INNER JOIN tb_pcp_recurso PCP_RECURSO
 					        ON PCP_APONTAMENTO.CO_RECURSO = PCP_RECURSO.CO_PCP_RECURSO
 					        AND PCP_RECURSO.FL_DELET IS NULL
-							
 					    INNER JOIN tb_pcp_usuario_recurso PCP_USUARIO_RECURSO 
 					        ON PCP_APONTAMENTO.CO_RECURSO = PCP_USUARIO_RECURSO.CO_PCP_RECURSO  
 					        AND PCP_USUARIO_RECURSO.CO_USUARIO = '.$_SESSION['codigoUsuario'].'
-								
 					    LEFT JOIN tb_pcp_op PCP_OP
-					        ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP
-																
+					        ON PCP_APONTAMENTO.CO_PCP_OP = PCP_OP.CO_PCP_OP	
 					    LEFT JOIN tb_pcp_produto PCP_PRODUTO 
 					        ON PCP_PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
-								
 					WHERE '.$this->s_where.'
 					AND PCP_APONTAMENTO.FL_DELET IS NULL
-					
 					ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
 					LIMIT '.$n.','.$this->i_rowsperpage;
 			
@@ -306,7 +303,7 @@
 				
 			}
 			
-			$s_html .= '<th align="center" width="110px">Ações</th>';
+			$s_html .= '<th align="center" width="130px">Ações</th>';
 			
 			$s_html .= '</tr></thead><tbody>';
 			
