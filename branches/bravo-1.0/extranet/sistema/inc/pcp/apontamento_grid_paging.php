@@ -271,7 +271,7 @@
 						ORDER BY '.$this->s_orderby.' '.$this->s_orientation.'
 						LIMIT '.$n.','.$this->i_rowsperpage; */
 			//}else{
-				$sql = 'SELECT PCP_PRODUTO.DS_PRODUTO,PCP_APONTAMENTO.CO_PCP_APONTAMENTO
+				$sql = 'SELECT PCP_APONTAMENTO.CO_PCP_APONTAMENTO
 							, DATE_FORMAT(PCP_APONTAMENTO.DT_APONTAMENTO, "%d/%m/%Y") AS DT_APONTAMENTO
 							, PCP_RECURSO.NO_RECURSO
 							, CASE WHEN PCP_APONTAMENTO.FL_APONTAMENTO = "3" THEN "-----"
@@ -339,39 +339,28 @@
 					
 					$s_html .= '<tr>';
 					
-					//for($i = 0; $i < $a_cells[0]; $i++){
-						//if($i!=0){
-						$s_html .= '<td>'.$row[0].'</td>';
-						$s_html .= '<td>'.$row[2].'</td>';
-						$s_html .= '<td>'.$row[3].'</td>';
-						$s_html .= '<td>'.$row[4].'</td>';
-						$s_html .= '<td>'.$row[5].'</td>';
-						$s_html .= '<td>'.$row[6].'</td>';
-						$s_html .= '<td>'.$row[7].'</td>';
-						$s_html .= '<td>'.$row[8].'</td>';
-					
-						//}					 
+					for($i = 0; $i < $a_cells[0]; $i++){
+						$s_html .= '<td>'.$row[$i].'</td>';					
+						}					 
 						
-												
-					//}
 					
 					$s_html .= '<td align="center">';
 					
-					if($row[5] == ""){
+					if($row[4] == ""){
 						if($acoes['FL_ADICIONAR']==1){
-					   		$s_html .= '<a title="Informar Hora Fim" href="#" name="inserirHoraFimApontamento" id="'.$row[1].'"><img src="img/btn/btn_clock.gif" width="25" height="19" border="0"/></a>';
+					   		$s_html .= '<a title="Informar Hora Fim" href="#" name="inserirHoraFimApontamento" id="'.$row[0].'"><img src="img/btn/btn_clock.gif" width="25" height="19" border="0"/></a>';
 						}
-						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[1].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
+						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
 					}else{
-						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[1].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
-						if($row[6]=="Produção"){
+						$s_html .= '<a title="Detalhes" href="#" name="detalhesApontamento" id="'.$row[0].'"><img src="img/btn/btn_mais.gif" width="25" height="19" border="0"/></a>';
+						if($row[5]=="Produção"){
 							
-							$s_html .= '<a title="Etiqueta de Peça (Casadei)" href="#" onClick="javascript:gerarEtiquetaPeca('.$row[1].');" name="etiquetaPeca" id="'.$row[1].'"><img src="img/btn/etiqueta1.gif" width="25" height="19" border="0"/></a>';
-							$s_html .= '<a title="Etiqueta de Peça (PI)" href="#" onClick="javascript:gerarEtiquetaPeca2('.$row[1].');" name="etiquetaPeca" id="'.$row[1].'"><img src="img/btn/etiqueta2.gif" width="25" height="19" border="0"/></a>';
-							$codigo_interno = $this->getCodigoInterno($row[1]);
+							$s_html .= '<a title="Etiqueta de Peça (Casadei)" href="#" onClick="javascript:gerarEtiquetaPeca('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta1.gif" width="25" height="19" border="0"/></a>';
+							$s_html .= '<a title="Etiqueta de Peça (PI)" href="#" onClick="javascript:gerarEtiquetaPeca2('.$row[0].');" name="etiquetaPeca" id="'.$row[0].'"><img src="img/btn/etiqueta2.gif" width="25" height="19" border="0"/></a>';
+							$codigo_interno = $this->getCodigoInterno($row[0]);
 							$filename = APP_PATH.'sistema'.DS.'desenhos_producao'.DS.trim($codigo_interno[0]).'.pdf';
 							if(file_exists($filename)){
-								$s_html .= '<a title="Desenho da Peça('.trim($codigo_interno[0]).')" href="#" onClick="javascript:getDesenhoPeca(\''.trim($codigo_interno[0]).'\');" name="desenhoPeca" id="'.$row[1].'"><img src="img/pencil_ruler.png" width="25" height="19" border="0"/></a>';
+								$s_html .= '<a title="Desenho da Peça('.trim($codigo_interno[0]).')" href="#" onClick="javascript:getDesenhoPeca(\''.trim($codigo_interno[0]).'\');" name="desenhoPeca" id="'.$row[0].'"><img src="img/pencil_ruler.png" width="25" height="19" border="0"/></a>';
 							}
 							
 						}
