@@ -68,13 +68,15 @@
 		}
 		
 		public function getAcoes(){
-						//CONTROLE DE ACESSO ACOES
+			
+			//CONTROLE DE ACESSO ACOES
 			require_once '../../models/tb_modulos.php';
 			
 			$co_papel = $_SESSION['codigoPapel'];
 			$modulos = new tb_modulos(CONEXAOERP);
 			$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO);
 			//FIM CONTROLE DE ACESSO
+			
 			return $acoes;
 				
 		}
@@ -215,7 +217,8 @@
 					        ON PCP_OP.CO_PCP_OP = APONTAMENTO.CO_PCP_OP 
 						INNER JOIN TB_PCP_PRODUTO PRODUTO
 					        ON PRODUTO.CO_PRODUTO = PCP_OP.CO_PRODUTO
-					WHERE APONTAMENTO.FL_DELET IS NULL AND APONTAMENTO.CO_PCP_APONTAMENTO = ".$co_pcp_apontamento;
+					WHERE APONTAMENTO.FL_DELET IS NULL 
+					AND APONTAMENTO.CO_PCP_APONTAMENTO = ".$co_pcp_apontamento;
 			
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
