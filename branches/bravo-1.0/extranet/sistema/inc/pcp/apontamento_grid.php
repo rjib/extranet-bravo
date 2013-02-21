@@ -1,4 +1,5 @@
 <?php
+
 	session_start();
 	$codigo_usuario = $_SESSION['codigoUsuario'];
 	require('apontamento_grid_paging.php');
