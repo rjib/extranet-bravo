@@ -203,6 +203,13 @@
 	    $inicio	= "cadastros/pcp/apontamento_job_ins.php";
 	}elseif($pg	== "apontamento_job_alt" && !$sub){
 	    $inicio	= "cadastros/pcp/apontamento_job_alt.php";
+		
+	}elseif($pg	== "apontamento_perda" && !$sub){
+	    $inicio	= "cadastros/pcp/apontamento_perda.php";
+	}elseif($pg	== "apontamento_perda_ins" && !$sub){
+	    $inicio	= "cadastros/pcp/apontamento_perda_ins.php";
+	}elseif($pg	== "apontamento_perda_alt" && !$sub){
+	    $inicio	= "cadastros/pcp/apontamento_perda_alt.php";	
 	
 	}elseif($pg	== "motivo_parada" && !$sub){
 	    $inicio	= "cadastros/pcp/motivo_parada.php";

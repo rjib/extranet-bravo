@@ -3,10 +3,10 @@
 	session_start();
 	
 	/**
-	 * Script responsavel por inserir apontamentos com base no job.
+	 * Script responsavel por inserir apontamentos de perda.
 	 * 
 	 * @author Euripedes B. Silva Junior <ejunior@bravomoveis.com>
-	 * @version 1.0 - 11/02/2013 19:00
+	 * @version 1.0 - 04/03/2013 09:00
 	 * 
 	 */
 	 
@@ -15,14 +15,14 @@
 	
 	$co_papel = $_SESSION['codigoPapel'];
 	$modulos = new tb_modulos($conexaoERP);
-	$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO_JOB);
+	$acoes = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO_PERDA);
 
-	if($acoes['NO_MODULO'] == PCP_APONTAMENTO_JOB){
+	if($acoes['NO_MODULO'] == PCP_APONTAMENTO_PERDA){
 		
 		if($_GET['op'] == "excluir"){
 	    	$excluir = $_GET['check'];
 	    	$indice = $excluir;
-	    	unset($_SESSION['jobOrdemProducaoImporta'][$indice]);
+	    	unset($_SESSION['perdaOrdemProducaoImporta'][$indice]);
     	} 
 
 		$sqlRecurso = mysql_query("SELECT PCP_RECURSO.CO_PCP_RECURSO, PCP_RECURSO.NO_RECURSO 
@@ -50,17 +50,16 @@
 $(function($) {  
 	
 	$("#horaInicioInserir").mask("99:99");
-	$("#numeroJob").mask("999");
-		
-	$("#formularioApontamentoJob").submit(function() {
+			
+	$("#formularioApontamentoPerda").submit(function() {
 		
 		var dataApontamento   = $("#dataApontamento").val();
 		var codigoRecurso     = $("#codigoRecurso").val();
 		var horaInicioInserir = $("#horaInicioInserir").val();
 		var flagApontamento   = $("#flagApontamento").val();
 					
-		if($("input[name='flagApontamentoProducao']").is(':checked')){
-		    flagApontamento = "2";
+		if($("input[name='flagApontamentoPerda']").is(':checked')){
+		    flagApontamento = "3";
 		}		
 		
 		var codigoOperacao = new Array();
@@ -118,7 +117,7 @@ $(function($) {
 		});
 		
 		$("table").tablesorter();
-		$('#gridApontamento').load('inc/pcp/apontamento_grid_produtos.php');
+		$('#gridApontamento').load('inc/pcp/apontamento_perda_grid_produtos.php');
 		
 	});
 	
@@ -136,16 +135,16 @@ $(function($) {
 		
 });
 
-function getJob() {
-	if($.trim($("#numeroJob").val()) != ""){
-		if($("#numeroJob").val() != null && $("#numeroJob").val() != ""){
-		  $.get('inc/pcp/pesquisa_job.php', {'numeroJob': $("#numeroJob").val()}, function(resposta){
+function getOrdemProducao() {
+	if($.trim($("#ordemProducao").val()) != ""){
+		if($("#ordemProducao").val() != null && $("#ordemProducao").val() != ""){
+		  $.get('inc/pcp/pesquisa_ordem_producao_perda.php', {'ordemProducao': $("#ordemProducao").val()}, function(resposta){
 			if(resposta){			  			  
-			    $("#gridApontamento").load("inc/pcp/apontamento_grid_produtos.php");
-				$("#numeroJob").val();
+			    $("#gridApontamento").load("inc/pcp/apontamento_perda_grid_produtos.php");
+				$("#ordemProducao").val();
 				$("#adicionarApontamento").show('fast');				
 			}else{
-		        alert("Job não encontrado!");		
+		        alert("OP não encontrada!");		
 			}
 		  }, 'json');  
 		}
@@ -195,7 +194,7 @@ function getJob() {
 		                <td align="center" bgcolor="#F7F7F7"><table width="986" border="0" cellspacing="0" cellpadding="0">
 		                  <tr>
 		                    <td align="center" bgcolor="#FFFFFF">
-                            <form name="formularioApontamentoJob" id="formularioApontamentoJob" method="post" action="javascript:func()">
+                            <form name="formularioApontamentoPerda" id="formularioApontamentoPerda" method="post" action="javascript:func()">
 		                      <table width="970" border="0" cellspacing="2" cellpadding="3">
 		                        <tr>
 		                          <td height="40" colspan="4" align="left" valign="bottom"><font class="FONT03"><b>Dados Apontamento:</b></font></td>
@@ -225,16 +224,15 @@ function getJob() {
 		                          <td align="left"><font class="FONT04"><b>Hora Início:</b></font></td>
 		                          <td align="left"><input title="Hora Início" type="text" name="horaInicioInserir" id="horaInicioInserir" class="INPUT03" size="4" maxlength="4" /></td>
 		                          <td align="left"><font class="FONT04"><b>Tipo:</b></font></td>
-		                          <td align="left"><input title="Tipo Apontamento" type="radio" name="flagApontamentoParada" id="flagApontamento" value="1" disabled="disabled"/>
-Parada de Máquina
-  <input title="Tipo Apontamento" type="radio" name="flagApontamentoProducao" id="flagApontamento" value="2" checked="checked"/>
-Produção</td>
+		                          <td align="left"><input title="Tipo Apontamento" type="radio" name="flagApontamentoPerda" id="flagApontamento" value="3" checked="checked"/>
+Perda</td>
 	                            </tr>
 		                        <tr>
-		                          <td align="left"><font class="FONT04"><b>Job:</b></font></td>
+		                          <td align="left"><font class="FONT04"><b>OP:</b></font></td>
 		                          <td colspan="3" align="left">
-		                            <input title="Job" type="text" name="numeroJob" id="numeroJob" class="INPUT03" size="4" maxlength="4" onblur="getJob()" <?php if($_SESSION['numeroJob']){ echo "value='".$_SESSION['numeroJob']."'"; } ?>/>
-	                              </td>
+                                  <input title="OP" name="ordemProducao" id="ordemProducao" type="text" class="INPUT03" size="10" maxlength="11" onblur="getOrdemProducao()" <?php if($_SESSION['ordemProducao']){ echo "value='".$_SESSION['ordemProducao']."'"; } ?>/>
+                                  <input type="hidden" id="codigoPcpOp" name="codigoPcpOp"/>
+                                  </td>
 	                            </tr>
 	                          </table>
 		                      </form>
@@ -282,7 +280,7 @@ Produção</td>
 		                        <tr>
 		                          <td colspan="9" align="left">
                                   <?php 
-								      if($_SESSION['jobOrdemProducaoImporta']){
+								      if($_SESSION['perdaOrdemProducaoImporta']){
 									      echo "<button type='button' id='adicionarApontamento' title='Salvar'>Salvar</button>";
                                   	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 										  echo "<button type='button' id='voltarPagina' title='Cancelar'>Cancelar</button>";

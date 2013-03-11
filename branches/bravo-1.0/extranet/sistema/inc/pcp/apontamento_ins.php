@@ -13,6 +13,7 @@
 	$codigoPcpOpPerda   = $_POST["codigoPcpOpPerda"];
 	$codigoMotivoPerda  = $_POST["codigoMotivoPerda"];
 	$quantidadePerda    = $_POST["quantidadePerda"];
+	$codigoOperacao     = $_POST["codigoOperacao"];
 			
 	if(empty($dataApontamento)){
 		echo "Informe a Data do Apontamento";
@@ -43,23 +44,38 @@
 				
 			    $chave = @array_keys($_SESSION['jobOrdemProducaoImporta']);
 				
-				for($i = 0; $i < sizeof($chave); $i++){ 
-		
-					$indice = $chave[$i];	
-			
-				    $sqlApontamento = mysql_query("INSERT INTO tb_pcp_apontamento (DT_APONTAMENTO
-							               		       , CO_RECURSO
-								       	           	   , HR_INICIO
-												       , FL_APONTAMENTO
-												       , CO_PCP_OP
-												       , CO_USUARIO_INICIO) 
-											   	   VALUES ('".$dataApontamento."'
-												       , '".$codigoRecurso."'
-												       , '".$horaInicioInserir."'
-												       , '".$flagApontamento."'
-												       , '".$_SESSION['jobOrdemProducaoImporta'][$indice]['CO_PCP_OP']."'
-												       , '".$_SESSION['codigoUsuario']."')");
+				$totalProduto = sizeof($chave);
+				$totalOperacao = 0;
+				
+				for($i=0;$i<count($codigoOperacao);$i++){
 					
+					if($codigoOperacao[$i] <> "0"){
+					    $totalOperacao++;
+					}
+					
+				}
+				
+				if($totalOperacao == $totalProduto){
+				    for($i = 0; $i < sizeof($chave); $i++){ 
+		
+						$indice = $chave[$i];	
+				
+						$sqlApontamento = mysql_query("INSERT INTO tb_pcp_apontamento (DT_APONTAMENTO
+														   , CO_RECURSO
+														   , HR_INICIO
+														   , FL_APONTAMENTO
+														   , CO_PCP_OP
+														   , CO_USUARIO_INICIO
+														   , CO_PCP_OPERACAO) 
+													   VALUES ('".$dataApontamento."'
+														   , '".$codigoRecurso."'
+														   , '".$horaInicioInserir."'
+														   , '".$flagApontamento."'
+														   , '".$_SESSION['jobOrdemProducaoImporta'][$indice]['CO_PCP_OP']."'
+														   , '".$_SESSION['codigoUsuario']."'
+														   , '".$codigoOperacao[$i]."')");
+					
+					}
 				}
 								
 			}else{
@@ -69,12 +85,14 @@
 											       , HR_INICIO
 											       , FL_APONTAMENTO
 											       , CO_PCP_OP
+												   , CO_PCP_OPERACAO
 											       , CO_USUARIO_INICIO) 
 										       VALUES ('".$dataApontamento."'
 											       , '".$codigoRecurso."'
 											       , '".$horaInicioInserir."'
 											       , '".$flagApontamento."'
 											       , '".$codigoPcpOp."'
+												   , '".$codigoOperacao."'
 											       , '".$_SESSION['codigoUsuario']."')");
 									   
 			}
