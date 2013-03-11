@@ -49,6 +49,7 @@
 	define('PCP_ORDEM_DE_PRODUCAO', 'Ordem de Produção');
 	define('PCP_APONTAMENTO', 'Apontamento');
 	define('PCP_APONTAMENTO_JOB', 'Apontamento Job');
+	define('PCP_APONTAMENTO_PERDA', 'Apontamento Perda');
 	define('PCP_MOTIVO_PARADA', 'Motivo Parada');
 	define('PCP_MOTIVO_PERDA', 'Motivo Perda');
 	define('PCP_RECURSO', 'Recursos');

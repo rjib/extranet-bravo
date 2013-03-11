@@ -262,3 +262,89 @@ function validaTecla(campo, event){
 	  }
    }
 //FIM FUNCAO PARA CONTROLE DE ESTADO E CIDADES
+
+//INICIO FUNCAO PARA CONTROLE DE OPERACAO NO APONTAMENTO
+   function buscaOperacaoProduto(valor) {
+      //VERIFICA SE O BROWSER TEM SUPORTE A AJAX
+	  try {
+         ajax = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      catch(e) {
+         try {
+            ajax = new ActiveXObject("Msxml2.XMLHTTP");
+         }
+	     catch(ex) {
+            try {
+               ajax = new XMLHttpRequest();
+            }
+	        catch(exc) {
+               alert("Esse browser não tem recursos para uso do Ajax");
+               ajax = null;
+            }
+         }
+      }
+	  //SE TIVER SUPORTE AJAX
+	  if(ajax) {
+	     //DEIXA APENAS O ELEMENTO 1 NO OPTION, OS OUTROS SÃO EXCLUIDOS
+		 document.forms[0].codigoOperacao.options.length = 1;
+
+		 idOpcao  = document.getElementById("opcoes");
+
+	     ajax.open("POST", "inc/pcp/lista_operacao_produto.php", true);
+		 ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+		 ajax.onreadystatechange = function() {
+            //enquanto estiver processando...emite a msg de carregando
+			if(ajax.readyState == 1) {
+			   idOpcao.innerHTML = "Carregando...";
+	        }
+			//após ser processado - chama função processXMLOperacao que vai varrer os dados
+            if(ajax.readyState == 4 ) {
+			   if(ajax.responseXML) {
+			      processXMLOperacao(ajax.responseXML);
+			   }
+			   else {
+			       //caso não seja um arquivo XML emite a mensagem abaixo
+				   idOpcao.innerHTML = "--Primeiro informe a OP--";
+			   }
+            }
+         }
+		 //passa o código do produto escolhido
+	     var params = "codigoProduto="+valor;
+         ajax.send(params);
+      }
+   }
+
+   function processXMLOperacao(obj){
+     
+      var dataArray   = obj.getElementsByTagName("contato");
+
+	  if(dataArray.length > 0) {
+	     //percorre o arquivo XML paara extrair os dados
+         for(var i = 0 ; i < dataArray.length ; i++) {
+            var item = dataArray[i];
+			//contéudo dos campos no arquivo XML
+			var codigo =  item.getElementsByTagName("codigo")[0].firstChild.nodeValue;
+			var nome   =  item.getElementsByTagName("nome")[0].firstChild.nodeValue;
+
+	        idOpcao.innerHTML = "Selecione...";
+
+			//cria um novo option dinamicamente
+			var novo = document.createElement("option");
+			    //atribui um ID a esse elemento
+			    novo.setAttribute("id", "opcoes");
+				//atribui um valor
+			    novo.value = codigo;
+				//atribui um texto
+			    novo.text  = nome;
+				//finalmente adiciona o novo elemento
+				document.forms[0].codigoOperacao.options.add(novo);
+		 }
+	  }
+	  else {
+	    //caso o XML volte vazio, printa a mensagem abaixo
+		idOpcao.innerHTML = "--Primeiro informe a OP--";
+	  }
+   }
+   
+//FIM FUNCAO PARA CONTROLE DE OPERACAO NO APONTAMENTO

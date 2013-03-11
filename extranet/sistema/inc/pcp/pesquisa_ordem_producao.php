@@ -15,6 +15,7 @@
 										 , PCP_COR.NO_COR
 									     , PCP_OP.NU_LOTE
 										 , DATE_FORMAT(PCP_OP.DT_EMISSAO, '%d/%m/%Y') AS DT_EMISSAO
+										 , PCP_OP.QTD_PRODUTO AS OP_QTD_PRODUTO
 									 FROM tb_pcp_op PCP_OP
 									     INNER JOIN tb_pcp_produto PCP_PRODUTO
 									         ON PCP_OP.CO_PRODUTO = PCP_PRODUTO.CO_PRODUTO
@@ -31,6 +32,7 @@
 			'descricaoProduto' => $rowOrdemProducao['DS_PRODUTO'],
 			'loteOp' => $rowOrdemProducao['NU_LOTE'],
 			'dataEmissaoOP' => $rowOrdemProducao['DT_EMISSAO'], 
+			'quantidadeProdutoOP' => $rowOrdemProducao['OP_QTD_PRODUTO'], 
 			'codigoProduto'=>$rowOrdemProducao['CO_PRODUTO'], 
 			'codigoInterno'=>$rowOrdemProducao['CO_INT_PRODUTO'],
 			'corProduto'=>$rowOrdemProducao['NO_COR']

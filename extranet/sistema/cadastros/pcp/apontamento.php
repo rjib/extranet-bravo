@@ -12,15 +12,17 @@
 	require_once 'setup.php';
 	require_once 'models/tb_modulos.php';
 	
-	$co_papel = $_SESSION['codigoPapel'];
-	$modulos = new tb_modulos($conexaoERP);
-	$acoesApontamento = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO);
-	$acoesApontamentoJob = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO_JOB);
+	$co_papel              = $_SESSION['codigoPapel'];
+	$modulos               = new tb_modulos($conexaoERP);
+	$acoesApontamento      = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO);
+	$acoesApontamentoJob   = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO_JOB);
+	$acoesApontamentoPerda = $modulos->possuiPermissaoParaEstaArea($co_papel, PCP, PCP_APONTAMENTO_PERDA);
 
 	if($acoesApontamento['NO_MODULO'] == PCP_APONTAMENTO){
 		
 		unset($_SESSION['numeroJob']);
 		unset($_SESSION['jobOrdemProducaoImporta']);
+		unset($_SESSION['perdaOrdemProducaoImporta']);
 
 		$sqlRecurso = mysql_query("SELECT PCP_RECURSO.CO_PCP_RECURSO, PCP_RECURSO.NO_RECURSO 
 		                           FROM tb_pcp_recurso PCP_RECURSO
@@ -106,15 +108,15 @@
 		                    <table width="640" border="0" cellspacing="2" cellpadding="3">
 		                        <tr>
 		                          <td align="left"><font class="FONT04"><b>Data:</b></font></td>
-		                          <td width="93" align="left">
+		                          <td width="74" align="left">
                                   <input title="Data" name="dataApontamento02" id="dataApontamento02" type="text" class="INPUT03" size="8" maxlength="10" value="<?php echo date("d-m-Y"); ?>" disabled="disabled"/>
                                   <input type="hidden" id="dataApontamento" name="dataApontamento" value="<?php echo date("Y-m-d"); ?>"/>
                                   </td>
-		                          <td width="83" align="left"><font class="FONT04"><b>Usuário:</b></font></td>
+		                          <td width="95" align="left"><font class="FONT04"><b>Usuário:</b></font></td>
 		                          <td colspan="3" align="left"><input title="Usuário" type="text" name="usuario" id="usuario" class="INPUT01" size="50" value="<?php echo $_SESSION['codigoUsuario']." - ".$_SESSION['nomePessoa']." [".$_SESSION['loginUsuario']."]"; ?>" disabled="disabled" /></td>
                               </tr>
 		                        <tr>
-		                          <td width="88" align="left"><font class="FONT05"><b>Recurso:</b></font></td>
+		                          <td width="93" align="left"><font class="FONT05"><b>Recurso:</b></font></td>
 		                          <td colspan="5" align="left">
                                   <select title="Recurso" name="codigoRecurso" id="codigoRecurso" class="SELECT01" style="width:250px">
 		                            <option value="0">Selecione...</option>
@@ -128,9 +130,7 @@
 	                          </tr>
 		                        <tr>
 		                          <td align="left"><font class="FONT05"><b>Tipo:</b></font></td>
-		                          <td colspan="5" align="left"><input title="Tipo Apontamento" type="radio" name="flagApontamentoPerda" id="flagApontamento" value="3" onclick="verificaApontamento(3);"/>
-		                            Perda
-		                            <input title="Tipo Apontamento" type="radio" name="flagApontamentoParada" id="flagApontamento" value="1" onclick="verificaApontamento(1);"/>
+		                          <td colspan="5" align="left"><input title="Tipo Apontamento" type="radio" name="flagApontamentoParada" id="flagApontamento" value="1" onclick="verificaApontamento(1);"/>
 		                            Parada de Máquina
   <input title="Tipo Apontamento" type="radio" name="flagApontamentoProducao" id="flagApontamento" value="2" onclick="verificaApontamento(2);"/>
 	                              Produção
@@ -151,64 +151,32 @@
 							    <td align="left"><input title="OP" name="ordemProducao" id="ordemProducao" type="text" class="INPUT03" size="10" maxlength="11" onblur="getOrdemProducao()"/>
                                 <input type="hidden" id="codigoPcpOp" name="codigoPcpOp"/></td>
 							    <td align="left"><font class="FONT04"><b>Produto:</b></font></td>
-							    <td colspan="3" align="left"><input title="Produto" type="text" name="descricaoProduto" id="descricaoProduto" class="INPUT01" size="50" disabled="disabled" /></td>
+							    <td colspan="3" align="left"><input title="Produto" type="text" name="descricaoProduto" id="descricaoProduto" class="INPUT01" size="55" disabled="disabled" /></td>
 						      </tr>
 							  <tr id="apontamentoProducao02" style="display:none">
 							    <td align="left"><font class="FONT04"><b>Lote:</b></font></td>
 							    <td align="left"><input  style="text-align: left;" title="Lote" type="text" name="loteOp" id="loteOp" class="INPUT03" size="10" maxlength="10" disabled="disabled"/></td>
-							    <td align="left"><font class="FONT04"><b>Cód. Produto:</b></font></td>
-							    <td width="185" align="left"><input title="Data Emissão" style="text-align: left;" name="dataEmissaoOp" id="codigoProduto" type="text" class="INPUT03" size="20" maxlength="20" disabled="disabled"/></td>
-							    <td width="51" align="left"><font class="FONT04"><b>Cód. Int.:</b></font></td>
-							    <td width="90" align="left"><input title="Lote" type="text" name="codigoInternoProduto" id="codigoInternoProduto"  style="text-align: left;" class="INPUT03" size="8" maxlength="10" disabled="disabled"/></td>
+							    <td align="left"><font class="FONT04"><b>Código:</b></font></td>
+							    <td width="138" align="left"><input title="Data Emissão" style="text-align: left;" name="codigoProduto" id="codigoProduto" type="text" class="INPUT03" size="20" maxlength="20" disabled="disabled"/></td>
+							    <td width="104" align="left"><font class="FONT04"><b>Cód. Int.:</b></font></td>
+							    <td width="86" align="left"><input title="Lote" type="text" name="codigoInternoProduto" id="codigoInternoProduto"  style="text-align: left;" class="INPUT03" size="10" maxlength="10" disabled="disabled"/></td>
 							  </tr>
-							 <tr  id="apontamentoProducao03" style="display: none">
+							 <tr id="apontamentoProducao03" style="display: none">
 							    <td align="left"><font class="FONT04"><b>Data Emissão:</b></font></td>
 							    <td align="left"><input title="Data Emissão" name="dataEmissaoOp" id="dataEmissaoOp" type="text" class="INPUT03" size="10" maxlength="10" disabled="disabled"/></td>
 							    <td align="left"><font class="FONT04"><b>Cor:</b></font></td>
-							    <td colspan="3" align="left"><input title="Cor" style="text-align: left;" name="corProduto" id="corProduto" type="text" class="INPUT03" size="20" maxlength="20" disabled="disabled"/></td>
+							    <td align="left"><input title="Cor" style="text-align: left;" name="corProduto" id="corProduto" type="text" class="INPUT03" size="20" maxlength="20" disabled="disabled"/></td>
+							    <td align="left"><font class="FONT04"><b>Qtd. Necessária:</b></font></td>
+							    <td align="left"><input title="Qtd. Necessária" name="opQuantidadeNecessaria" id="opQuantidadeNecessaria" type="text" class="INPUT03" size="10" maxlength="10" disabled="disabled"/></td>
 						      </tr>
-                              
-                              <tr id="apontamentoPerda01" style="display:none">
-							    <td align="left"><font class="FONT05"><b>OP:</b></font></td>
-							    <td align="left"><input title="OP" name="ordemProducaoPerda" id="ordemProducaoPerda" type="text" class="INPUT03" size="10" maxlength="11" onblur="getOrdemProducaoPerda()"/>
-                                <input type="hidden" id="codigoPcpOpPerda" name="codigoPcpOpPerda"/></td>
-							    <td align="left"><font class="FONT04"><b>Produto:</b></font></td>
-							    <td colspan="3" align="left"><input title="Produto" type="text" name="descricaoProdutoPerda" id="descricaoProdutoPerda" class="INPUT01" size="50" disabled="disabled" /></td>
-						      </tr>
-							  <tr id="apontamentoPerda02" style="display:none">
-							    <td align="left"><font class="FONT04"><b>Lote:</b></font></td>
-							    <td align="left"><input  style="text-align: left;" title="Lote" type="text" name="loteOpPerda" id="loteOpPerda" class="INPUT03" size="10" maxlength="10" disabled="disabled"/></td>
-							    <td align="left"><font class="FONT04"><b>Cód. Produto:</b></font></td>
-							    <td width="185" align="left"><input title="Data Emissão" style="text-align: left;" name="dataEmissaoOpPerda" id="codigoProdutoPerda" type="text" class="INPUT03" size="20" maxlength="20" disabled="disabled"/></td>
-							    <td width="51" align="left"><font class="FONT04"><b>Cód. Int.:</b></font></td>
-							    <td width="90" align="left"><input title="Lote" type="text" name="codigoInternoProdutoPerda" id="codigoInternoProdutoPerda"  style="text-align: left;" class="INPUT03" size="8" maxlength="10" disabled="disabled"/></td>
-							  </tr>
-							 <tr id="apontamentoPerda03" style="display: none">
-							    <td align="left"><font class="FONT04"><b>Data Emissão:</b></font></td>
-							    <td align="left"><input title="Data Emissão" name="dataEmissaoOpPerda" id="dataEmissaoOpPerda" type="text" class="INPUT03" size="10" maxlength="10" disabled="disabled"/></td>
-							    <td align="left"><font class="FONT04"><b>Cor:</b></font></td>
-							    <td colspan="3" align="left"><input title="Cor" style="text-align: left;" name="corProdutoPerda" id="corProdutoPerda" type="text" class="INPUT03" size="20" maxlength="20" disabled="disabled"/></td>
-						      </tr>
-							 <tr id="apontamentoPerda04" style="display: none">
-							   <td align="left"><font class="FONT05"><b>Motivo:</b></font></td>
-							   <td align="left"><input title="Motivo" name="nomeMotivoPerda" id="nomeMotivoPerda" type="text" class="INPUT03" size="3" maxlength="5" onblur="getMotivoPerda()"/>
-                               <input type="hidden" id="codigoMotivoPerda" name="codigoMotivoPerda"/></td>
-							   <td align="left"><font class="FONT04"><b>Descrição:</b></font></td>
-							   <td colspan="3" align="left"><input title="Descrição" type="text" name="descricaoMotivoPerda" id="descricaoMotivoPerda" class="INPUT01" size="50" disabled="disabled" /></td>
-						      </tr>
-							 <tr id="apontamentoPerda05" style="display: none">
-							   <td colspan="6" align="left" style="border: 2px solid rgb(255, 204, 0); padding: 7px;">
-                               <table width="100%" border="0" cellspacing="2" cellpadding="3">
-		                              <tr>
-		                                <td width="21%"><font class="FONT05"><b>Quantidade da Perda:&nbsp;&nbsp;</b></font></td>
-		                                <td width="79%">
-                                        <input title='Quantidade Perda' type='text' name='quantidadePerda' id='quantidadePerda' class='INPUT03' size='5' maxlength='10'/>
-                                        </td>
-	                                  </tr>
-</table>
+							 <tr id="apontamentoProducao05" style="display: none">
+							   <td align="left"><font class="FONT05"><b>Operação:</b></font></td>
+							   <td colspan="5" align="left">
+                               <select title="Operação" name="codigoOperacao" id="codigoOperacao" class="SELECT01" style="width:250px">
+                                   <option id="opcoes" value="0">--Primeiro informe a OP--</option>
+                               </select>   
                                </td>
-						      </tr>
-                              
+						      </tr>  
 							  </table>
                     </form>
                   </div>
@@ -221,6 +189,11 @@
 					  if($acoesApontamentoJob['FL_ADICIONAR']==1){
 						  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 						  echo "<button type='button' id='adicionarApontamentoJob' title='Adicionar Apontamento Job'>Adicionar Apontamento Job</button>";			  
+					  }
+					  
+					  if($acoesApontamentoPerda['FL_ADICIONAR']==1){
+						  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+						  echo "<button type='button' id='adicionarApontamentoPerda' title='Adicionar Apontamento Perda'>Adicionar Apontamento Perda</button>";			  
 					  }
 					  
 				  ?>

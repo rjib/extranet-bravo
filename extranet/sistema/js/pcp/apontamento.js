@@ -15,10 +15,18 @@ $(function($) {
 
 	$("#horaInicioInserir").mask("99:99");
 	$("#horaFimInserir").mask("99:99");
+	
+	$("input[name='quantidadeProduto']").bind("keyup blur focus", function(e) {
+        e.preventDefault();
+        var expre = /[^0-9]/g;
+        //REMOVE OS CARACTERES DA EXPRESSAO ACIMA
+        if($(this).val().match(expre))
+            $(this).val($(this).val().replace(expre,''));
+    });
 			   
 	$("#formularioApontamento").dialog({
 		autoOpen: false,
-		height: 385,
+		height: 330,
 		width: 670,
 		modal: true,
 		resizable: false,
@@ -31,10 +39,8 @@ $(function($) {
 				var horaInicioInserir  = $("#horaInicioInserir").val();
 				var flagApontamento    = $("#flagApontamento").val();
 				var codigoMotivoParada = $("#codigoMotivoParada").val();
-				var codigoMotivoPerda  = $("#codigoMotivoPerda").val();
 				var codigoPcpOp        = $("#codigoPcpOp").val();
-				var codigoPcpOpPerda   = $("#codigoPcpOpPerda").val();
-				var quantidadePerda    = $("#quantidadePerda").val();
+				var codigoOperacao     = $("#codigoOperacao").val();
 				
 				if($("input[name='flagApontamentoParada']").is(':checked')){
 					flagApontamento = "1";
@@ -44,11 +50,7 @@ $(function($) {
 					flagApontamento = "2";
 				}
 				
-				if($("input[name='flagApontamentoPerda']").is(':checked')){
-					flagApontamento = "3";
-				}
-				
-				$.post('inc/pcp/apontamento_ins.php', {dataApontamento: dataApontamento, codigoRecurso: codigoRecurso, horaInicioInserir: horaInicioInserir, flagApontamento: flagApontamento, codigoMotivoParada: codigoMotivoParada, codigoMotivoPerda: codigoMotivoPerda, codigoPcpOp: codigoPcpOp, codigoPcpOpPerda: codigoPcpOpPerda, quantidadePerda: quantidadePerda}, function(resposta) {
+				$.post('inc/pcp/apontamento_ins.php', {dataApontamento: dataApontamento, codigoRecurso: codigoRecurso, horaInicioInserir: horaInicioInserir, flagApontamento: flagApontamento, codigoMotivoParada: codigoMotivoParada, codigoPcpOp: codigoPcpOp, codigoOperacao: codigoOperacao}, function(resposta) {
 																																																																																																				
 						if (resposta != false) {
 							$('<p>' + resposta + '</p>').dialog({
@@ -86,6 +88,7 @@ $(function($) {
 							$("#descricaoProduto").val(""); 
 							$("#loteOp").val(""); 
 							$("#dataEmissaoOp").val(""); 
+							$("#codigoOperacao").val(""); 
 						}
 				});
 								
@@ -104,6 +107,7 @@ $(function($) {
 				$("#descricaoProduto").val("");
 				$("#loteOp").val(""); 
 				$("#dataEmissaoOp").val("");  
+				$("#codigoOperacao").val("");  
 			}
 		},
 		close: function() {
@@ -165,8 +169,8 @@ $(function($) {
 		$("#formularioInserirHoraFimApontamento").load("inc/pcp/apontamento_form_hora_fim.php?codigoApontamento="+$(this).attr("id"));
 		$("#formularioInserirHoraFimApontamento").dialog({
 			autoOpen: true,
-			height: 520,
-			width: 730,
+			height: 490,
+			width: 690,
 			modal: true,
 			resizable: false,
 			title: "Inserir Hora Fim Apontamento",
@@ -227,8 +231,8 @@ $(function($) {
 		$("#formularioDetalhesApontamento").load("inc/pcp/apontamento_form_detalhe.php?codigoApontamento="+$(this).attr("id"));
 		$("#formularioDetalhesApontamento").dialog({
 			autoOpen: true,
-			height: 460,
-			width: 730,
+			height: 440,
+			width: 720,
 			modal: true,
 			resizable: false,
 			title: "Detalhes Apontamento",
@@ -244,6 +248,28 @@ $(function($) {
 			}
 			});
 	});
+	
+	$(document).ready(function(){
+	 
+		//Default Action
+		$(".tab_content").hide(); //Hide all content
+		$("ul.tabs li:first").addClass("active").show(); //Activate first tab
+		$(".tab_content:first").show(); //Show first tab content
+		
+		//On Click Event
+		$("ul.tabs li").click(function() {
+			$("ul.tabs li").removeClass("active"); //Remove any "active" class
+			$(this).addClass("active"); //Add "active" class to selected tab
+			$(".tab_content").hide(); //Hide all tab content
+			var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+			$(activeTab).fadeIn(); //Fade in the active content
+			return false;
+		});
+		
+		$("table").tablesorter();
+		$('#gridApontamento').load('inc/pcp/apontamento_grid_produtos.php');
+		
+	});
 		
 	$("#adicionarApontamento")
 	    .button()
@@ -255,6 +281,12 @@ $(function($) {
 	    .button()
 		.click(function() {
 		$(window.document.location).attr('href','inicio.php?pg=apontamento_job');	
+	});
+	
+	$("#adicionarApontamentoPerda")
+	    .button()
+		.click(function() {
+		$(window.document.location).attr('href','inicio.php?pg=apontamento_perda');	
 	});
 	
 	$("a[name=excluirApontamento]").click(function(e){
@@ -304,9 +336,15 @@ function getOrdemProducao() {
 			    $("#descricaoProduto").val(resposta.descricaoProduto);
 			    $("#loteOp").val(resposta.loteOp);
 			    $("#dataEmissaoOp").val(resposta.dataEmissaoOP); 
+				$("#opQuantidadeNecessaria").val(resposta.quantidadeProdutoOP); 
 				$("#codigoProduto").val(resposta.codigoProduto);
 				$("#codigoInternoProduto").val(resposta.codigoInterno);
 				$("#corProduto").val(resposta.corProduto); 
+				
+				$('#apontamentoProducao05').show('fast');
+				
+				buscaOperacaoProduto(resposta.codigoProduto);
+				
 			}else{
 				alert("OP não encontrada!");		
 			}
@@ -324,6 +362,7 @@ function getOrdemProducaoPerda() {
 			    $("#descricaoProdutoPerda").val(resposta.descricaoProduto);
 			    $("#loteOpPerda").val(resposta.loteOp);
 			    $("#dataEmissaoOpPerda").val(resposta.dataEmissaoOP);
+				$("#opPerdaQuantidadeNecessaria").val(resposta.quantidadeProdutoOP); 
 			    $("#codigoProdutoPerda").val(resposta.codigoProduto); 
 				$("#codigoInternoProdutoPerda").val(resposta.codigoInterno); 
 				$("#corProdutoPerda").val(resposta.corProduto); 
@@ -369,11 +408,7 @@ function verificaApontamento(v){
 		$('#apontamentoProducao01').hide('fast');
 		$('#apontamentoProducao02').hide('fast');
 		$('#apontamentoProducao03').hide('fast');
-		$('#apontamentoPerda01').hide('fast');
-		$('#apontamentoPerda02').hide('fast');
-		$('#apontamentoPerda03').hide('fast');
-		$('#apontamentoPerda04').hide('fast');
-		$('#apontamentoPerda05').hide('fast');
+		$('#apontamentoProducao05').hide('fast');
 		$("#ordemProducao").val("");
 		$("#codigoPcpOp").val("");
 		$("#descricaoProduto").val("");
@@ -382,41 +417,19 @@ function verificaApontamento(v){
 		$("#codigoProduto").val(""); 
 		$("#loteOp").val("");
 		$("#dataEmissaoOp").val("");
-		$("#ordemProducaoPerda").val("");
-		$("#codigoPcpOpPerda").val("");
-		$("#descricaoProdutoPerda").val("");
-		$("#quantidadeProdutoPerda").val("");
-		$("#codigoInternoProdutoPerda").val(""); 
-		$("#codigoProdutoPerda").val(""); 
-		$("#loteOpPerda").val("");
-		$("#dataEmissaoOpPerda").val("");
 		$("input[name='flagApontamentoProducao']").attr('checked', false);
-		$("input[name='flagApontamentoPerda']").attr('checked', false);
    }else if(v=='2'){
 		$('#apontamentoParada').hide('fast');
-		$('#apontamentoPerda01').hide('fast');
-		$('#apontamentoPerda02').hide('fast');
-		$('#apontamentoPerda03').hide('fast');
-		$('#apontamentoPerda04').hide('fast');
-		$('#apontamentoPerda05').hide('fast');
 		$('#horaInicioTitle').show('fast');
 		$('#horaInicioInserir').show('fast');
 		$('#apontamentoProducao01').show('fast');
 		$('#apontamentoProducao02').show('fast');
 		$('#apontamentoProducao03').show('fast');
+				
 		$("#nomeMotivo").val(""); 
 		$("#codigoMotivo").val(""); 
 		$("#descricaoMotivo").val("")
-		$("#ordemProducaoPerda").val("");
-		$("#codigoPcpOpPerda").val("");
-		$("#descricaoProdutoPerda").val("");
-		$("#quantidadeProdutoPerda").val("");
-		$("#codigoInternoProdutoPerda").val(""); 
-		$("#codigoProdutoPerda").val(""); 
-		$("#loteOpPerda").val("");
-		$("#dataEmissaoOpPerda").val("");
 		$("input[name='flagApontamentoParada']").attr('checked', false);
-		$("input[name='flagApontamentoPerda']").attr('checked', false);
 		$("#ordemProducao").focus();
    }else if(v=='3'){
 	    $('#horaInicioTitle').hide('fast');
@@ -424,18 +437,13 @@ function verificaApontamento(v){
 		$('#apontamentoParada').hide('fast');	
 		$('#apontamentoProducao01').hide('fast');
 		$('#apontamentoProducao02').hide('fast');
-		$('#apontamentoProducao03').hide('fast');	
-		$('#apontamentoPerda01').show('fast');
-		$('#apontamentoPerda02').show('fast');
-		$('#apontamentoPerda03').show('fast');
-		$('#apontamentoPerda04').show('fast');
-		$('#apontamentoPerda05').show('fast');
+		$('#apontamentoProducao03').hide('fast');
+		$('#apontamentoProducao05').hide('fast');	
 		$("#nomeMotivo").val(""); 
 		$("#codigoMotivo").val(""); 
 		$("#descricaoMotivo").val("")
 		$("input[name='flagApontamentoParada']").attr('checked', false);
 		$("input[name='flagApontamentoProducao']").attr('checked', false);
-		$("#ordemProducaoPerda").focus();
    }
    
 }
